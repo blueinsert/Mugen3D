@@ -1,0 +1,10 @@
+Library/
+obj/
+Assembly-CSharp.csproj
+Assembly-CSharp-vs.csproj
+Mugen3D.CSharp.csproj
+Mugen3D.sln
+Mugen3D.userprefs
+Mugen3D.v12.suo
+Mugen3D-csharp.sln
+Mugen3D-csharp.v12.suo
