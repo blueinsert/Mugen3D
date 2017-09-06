@@ -3,14 +3,14 @@ using System.Collections;
 
 namespace Mugen3D{
 public class Player : MonoBehaviour {
-    public Animation anim;
-    public string cmdFile = "";
-    AnimationController animCtr;
-    PhysicsSys physics;
-    CmdManager cmdMgr;
+    private PlayerView playerView;
+    private string cmdFile = "";
+
+    private PhysicsSys physics;
+    private CmdManager cmdMgr;
     
     public void Init() {
-        animCtr = new AnimationController(anim);
+        
         physics = new PhysicsSys(this.transform);
         cmdMgr = new CmdManager();
         cmdFile = Application.dataPath + "/" + "test.cmd";
@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 
     public void UpdatePlayer()
     {
-        animCtr.UpdateSample();
+        
         physics.UpdatePhysics();
         cmdMgr.Update(InputHandler.GetInputKeycode());
     }
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour {
 
     public void ChangeAnim(string animName)
     {
-        animCtr.SetPlayAnim(animName);
+        //animCtr.SetPlayAnim(animName);
     }
 
     public void SetPhysicsType(string type)
@@ -66,8 +66,8 @@ public class Player : MonoBehaviour {
     #endregion
 
     #region 触发器
-    public string AnimName { get { return animCtr.animName; } }
-    public int AnimTime { get { return animCtr.AnimTime; } }
+    //public string AnimName { get { return animCtr.animName; } }
+    //public int AnimTime { get { return animCtr.AnimTime; } }
     public Vector3 Vel { get { return physics.Velocity; } }
     public string Command {get {return cmdMgr.GetActiveCommandName();}}
     #endregion
