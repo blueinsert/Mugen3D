@@ -3,18 +3,23 @@ using System.Collections;
 
 namespace Mugen3D{
 public class Player : MonoBehaviour {
-    private PlayerView playerView;
-    private string cmdFile = "";
+    public PlayerSetting setting;
+    public Animation anim;
 
+    private string cmdFile = "";
     private PhysicsSys physics;
-    private CmdManager cmdMgr;
+    private CmdManager cmdMgr; 
+    private AnimationController animCtr;
+    private StateManager stateMgr;
+
     
-    public void Init() {
-        
+    public void Init(PlayerSetting setting) { 
         physics = new PhysicsSys(this.transform);
         cmdMgr = new CmdManager();
         cmdFile = Application.dataPath + "/" + "test.cmd";
         cmdMgr.LoadCmdFile(cmdFile);
+        animCtr = new AnimationController(anim);
+        stateMgr.ReadStateDefFile(setting.stateFiles.ToArray());
     }
 
     public void UpdatePlayer()
@@ -22,10 +27,7 @@ public class Player : MonoBehaviour {
         
         physics.UpdatePhysics();
         cmdMgr.Update(InputHandler.GetInputKeycode());
-    }
-
-    void Start() {
-        Init();
+        animCtr.UpdateSample();
     }
 
     void Update()
