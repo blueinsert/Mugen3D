@@ -8,8 +8,8 @@ public class Player : MonoBehaviour {
 
     private string cmdFile = "";
     private PhysicsSys physics;
-    private CmdManager cmdMgr; 
-    private AnimationController animCtr;
+    public CmdManager cmdMgr { public get; private set; }
+    public AnimationController animCtr { public get; private set; }
     private StateManager stateMgr;
 
     

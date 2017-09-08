@@ -7,6 +7,7 @@ namespace Mugen3D
     public class StateManager
     {
         public MyDictionary<int, PlayerStateDef> States { get; set; }
+        public int CurrentStateId { get; set; }
 
         public void ReadStateDefFile(TextAsset[] files)
         {
@@ -22,6 +23,14 @@ namespace Mugen3D
                     States.Add(kv.Key, kv.Value);
                 }
             }
+        }
+
+        public void ChangeState(int id) {
+            CurrentStateId = id;
+        }
+
+        public void Update() { 
+
         }
 
     }//class
