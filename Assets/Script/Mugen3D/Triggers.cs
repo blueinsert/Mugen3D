@@ -8,7 +8,7 @@ public class Triggers
     private Triggers() { }
 
     private static Triggers mInstance;
-    private static Triggers Instance
+    public static Triggers Instance
     {
         get
         {
@@ -23,6 +23,11 @@ public class Triggers
 
     private void Init() {
 
+    }
+
+    public void AddPlayer(PlayerId id, Player p)
+    {
+        mPlayers[id] = p;
     }
 
     #region trigger function

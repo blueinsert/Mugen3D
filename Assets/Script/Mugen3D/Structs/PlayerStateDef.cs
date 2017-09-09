@@ -7,19 +7,109 @@ namespace Mugen3D
 {
     public class PlayerStateDef
     {
+        public PlayerId ownerId;
         public int stateId;
+
         public PhysicsType physicsType;
+        public bool physicsIsSet = false;
         public MoveType moveType;
+        public bool moveTypeIsSet = false;
         public string anim;
+        public bool animIsSet = false;
         //optional param
-        public DVector3 vel;
+        public Vector3 vel;
+        public bool velIsSet = false;
         public bool ctrl;
+        public bool ctrlIsSet = false;
+        //public bool isEntered = false;
 
         public MyList<StateEvent> events;
 
         public PlayerStateDef()
         {
             events = new MyList<StateEvent>();
+        }
+
+        public void OnEnter() {
+            if (physicsIsSet)
+            {
+
+            }
+            if (moveTypeIsSet)
+            {
+
+            }
+            if (animIsSet)
+            {
+                Dictionary<string, string> param = new Dictionary<string, string> { {"value",anim}};
+                Controllers.Instance.ChangeAnim(ownerId, param);
+            }
+            if (velIsSet)
+            {
+                Dictionary<string, string> param = new Dictionary<string, string> { { "x", vel.z.ToString() },{"y",vel.y.ToString()} };
+                Controllers.Instance.VelSet(ownerId, param);
+            }
+            if (ctrlIsSet)
+            {
+                Dictionary<string, string> param = new Dictionary<string, string> { { "value", ctrl.ToString() } };
+                Controllers.Instance.CtrlSet(ownerId, param);
+            }
+ 
+
+        }
+
+        public void OnUpdate()
+        {
+            for (int i = 0; i < events.Count; i++)
+            {
+                StateEvent e = events[i];
+                bool checkRequired = true;
+                bool checkOptional = true;
+                //check requiredTriggerList
+                if (e.requiredTriggerList != null && e.requiredTriggerList.Count != 0)
+                {
+                    checkRequired = true;
+                }else{
+                    checkRequired = false;
+                }
+                if(e.optionalTriggerDic!=null && e.optionalTriggerDic.Count!=0){
+                    checkOptional = true;
+                }else{
+                    checkOptional = false;
+                }
+                bool passed = (checkRequired ? CheckTriggerList(e.requiredTriggerList) : true) 
+                    && (checkOptional?CheckOptionalTriggerLists(e.optionalTriggerDic):true);
+                if (!passed)
+                    continue;
+                Controllers.Instance.ExeController(ownerId, e.type, null);            
+            }
+        }
+
+        bool CheckOptionalTriggerLists(MyDictionary<int, MyList<Expression>> exDic)
+        {
+            foreach (var kv in exDic)
+            {
+                if (CheckTriggerList(kv.Value))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        bool CheckTriggerList(List<Expression> expressions) {
+            bool passed = true;
+            foreach (var e in expressions) {
+                VirtualMachine vm = new VirtualMachine();
+                double result = vm.Execute(e);
+                if (result == 0)
+                {
+                    passed = false;
+                    break;
+                }
+
+            }
+            return passed;
         }
 
         public override string ToString() {

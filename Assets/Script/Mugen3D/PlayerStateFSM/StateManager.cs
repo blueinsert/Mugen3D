@@ -6,8 +6,15 @@ namespace Mugen3D
 {
     public class StateManager
     {
-        public MyDictionary<int, PlayerStateDef> States { get; set; }
+        private MyDictionary<int, PlayerStateDef> States = new MyDictionary<int,PlayerStateDef>();
+        public List<PlayerStateDef> historyStates = new List<PlayerStateDef>();
+
+        private int MaxHistoryStateNum = 10;
+
+        public PlayerStateDef currentState;
         public int CurrentStateId { get; set; }
+
+        private int mStateTime;
 
         public void ReadStateDefFile(TextAsset[] files)
         {
@@ -27,10 +34,19 @@ namespace Mugen3D
 
         public void ChangeState(int id) {
             CurrentStateId = id;
+            currentState = States[id];
+            currentState.OnEnter();
+            mStateTime = 0;
+            historyStates.Add(currentState);
+            if (historyStates.Count > MaxHistoryStateNum)
+            {
+                historyStates.RemoveAt(0);
+            }
         }
 
-        public void Update() { 
-
+        public void Update() {
+            mStateTime++;
+            currentState.OnUpdate();
         }
 
     }//class

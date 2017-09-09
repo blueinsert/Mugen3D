@@ -110,7 +110,7 @@ namespace Mugen3D
                     Utility.Assert(float.TryParse(tokens[pos++].value, out vx), "velset vel_x should be float");
                     Utility.Assert(tokens[pos++].value == ",", "should be ',' between vel components");
                     Utility.Assert(float.TryParse(tokens[pos++].value, out vy), "velset vel_y should be float");
-                    curParseState.vel = new DVector3(0, vy, vx);
+                    curParseState.vel = new Vector3(0, vy, vx);
                 }
                 else if (t.value == "ctrl")
                 {

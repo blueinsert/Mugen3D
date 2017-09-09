@@ -8,8 +8,8 @@ public class Player : MonoBehaviour {
 
     private string cmdFile = "";
     private PhysicsSys physics;
-    public CmdManager cmdMgr { public get; private set; }
-    public AnimationController animCtr { public get; private set; }
+    public CmdManager cmdMgr {  get; private set; }
+    public AnimationController animCtr {  get; private set; }
     private StateManager stateMgr;
 
     
@@ -23,11 +23,11 @@ public class Player : MonoBehaviour {
     }
 
     public void UpdatePlayer()
-    {
-        
+    {  
         physics.UpdatePhysics();
         cmdMgr.Update(InputHandler.GetInputKeycode());
         animCtr.UpdateSample();
+        stateMgr.Update();
     }
 
     void Update()
