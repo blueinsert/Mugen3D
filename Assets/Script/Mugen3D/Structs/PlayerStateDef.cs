@@ -7,7 +7,7 @@ namespace Mugen3D
 {
     public class PlayerStateDef
     {
-        public PlayerId ownerId;
+        private Player owner;
         public int stateId;
 
         public PhysicsType physicsType;
@@ -30,6 +30,11 @@ namespace Mugen3D
             events = new MyList<StateEvent>();
         }
 
+        public void SetOwner(Player p)
+        {
+            owner = p;
+        }
+
         public void OnEnter() {
             if (physicsIsSet)
             {
@@ -42,17 +47,17 @@ namespace Mugen3D
             if (animIsSet)
             {
                 Dictionary<string, string> param = new Dictionary<string, string> { {"value",anim}};
-                Controllers.Instance.ChangeAnim(ownerId, param);
+                Controllers.Instance.ChangeAnim(owner.id, param);
             }
             if (velIsSet)
             {
                 Dictionary<string, string> param = new Dictionary<string, string> { { "x", vel.z.ToString() },{"y",vel.y.ToString()} };
-                Controllers.Instance.VelSet(ownerId, param);
+                Controllers.Instance.VelSet(owner.id, param);
             }
             if (ctrlIsSet)
             {
                 Dictionary<string, string> param = new Dictionary<string, string> { { "value", ctrl.ToString() } };
-                Controllers.Instance.CtrlSet(ownerId, param);
+                Controllers.Instance.CtrlSet(owner.id, param);
             }
  
 
@@ -81,7 +86,7 @@ namespace Mugen3D
                     && (checkOptional?CheckOptionalTriggerLists(e.optionalTriggerDic):true);
                 if (!passed)
                     continue;
-                Controllers.Instance.ExeController(ownerId, e.type, null);            
+                Controllers.Instance.ExeController(owner.id, e.type, null);            
             }
         }
 

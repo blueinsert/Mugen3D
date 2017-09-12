@@ -6,10 +6,6 @@ namespace Mugen3D
 {
     public class Controllers
     {
-
-        // Use this for initialization
-        private Dictionary<PlayerId, Player> mPlayers;
-
         private Controllers() { }
 
         private static Controllers mInstance;
@@ -29,11 +25,6 @@ namespace Mugen3D
         private void Init()
         {
 
-        }
-
-        public void AddPlayer(PlayerId id, Player p)
-        {
-            mPlayers[id] = p;
         }
 
         #region controller function

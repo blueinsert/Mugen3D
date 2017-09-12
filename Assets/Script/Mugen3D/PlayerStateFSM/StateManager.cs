@@ -6,6 +6,7 @@ namespace Mugen3D
 {
     public class StateManager
     {
+        private Player owner;
         private MyDictionary<int, PlayerStateDef> States = new MyDictionary<int,PlayerStateDef>();
         public List<PlayerStateDef> historyStates = new List<PlayerStateDef>();
 
@@ -15,6 +16,11 @@ namespace Mugen3D
         public int CurrentStateId { get; set; }
 
         private int mStateTime;
+
+        public StateManager(Player p)
+        {
+            owner = p;
+        }
 
         public void ReadStateDefFile(TextAsset[] files)
         {
@@ -27,6 +33,7 @@ namespace Mugen3D
                 MyDictionary<int, PlayerStateDef> tmp = p.States;
                 foreach (var kv in tmp)
                 {
+                    kv.Value.SetOwner(owner);
                     States.Add(kv.Key, kv.Value);
                 }
             }

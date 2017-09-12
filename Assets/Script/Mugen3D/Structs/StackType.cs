@@ -5,12 +5,10 @@ using UnityEngine;
 public struct StackType
 {
     public double value;
-    public string strValue;
 
-    public StackType(double v, string sv)
+    public StackType(double v)
     {
         value = v;
-        strValue = sv;
     }
 
 }

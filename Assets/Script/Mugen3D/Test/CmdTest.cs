@@ -7,7 +7,7 @@ public class CmdTest : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        m.LoadCmdFile(Application.dataPath + "/" + "test.cmd");
+        //m.LoadCmdFile(Application.dataPath + "/" + "test.cmd");
     }
 
     // Update is called once per frame

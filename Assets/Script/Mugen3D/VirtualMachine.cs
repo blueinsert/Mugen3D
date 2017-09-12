@@ -62,7 +62,7 @@ namespace Mugen3D
         #region op_functions
         void PushValue()
         {
-            mStack.Push(new StackType(mCurrIns.value, mCurrIns.strValue));
+            mStack.Push(new StackType(mCurrIns.value));
         }
 
         void PopValue()
@@ -77,7 +77,7 @@ namespace Mugen3D
             PopValue();
             double tmp1 = mPop.value;
             mPop.value = tmp1 + tmp2;
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         void SubOP()
@@ -87,7 +87,7 @@ namespace Mugen3D
             PopValue();
             double tmp1 = mPop.value;
             mPop.value = tmp1 - tmp2;
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         void MulOP()
@@ -98,7 +98,7 @@ namespace Mugen3D
             double tmp1 = mPop.value;
 
             mPop.value = tmp1 * tmp2;
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         void DivOP()
@@ -109,7 +109,7 @@ namespace Mugen3D
             double tmp1 = mPop.value;
 
             mPop.value = tmp1 / tmp2;
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x==y
@@ -127,7 +127,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x!=y
@@ -146,7 +146,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x<y
@@ -165,7 +165,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x>y
@@ -184,7 +184,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x<=y
@@ -203,7 +203,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x>=y
@@ -222,7 +222,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //!x
@@ -238,7 +238,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         //x && y
@@ -257,7 +257,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
 
         void LogOr()
@@ -275,7 +275,7 @@ namespace Mugen3D
             {
                 mPop.value = 0;
             }
-            mStack.Push(new StackType(mPop.value, "#"));
+            mStack.Push(new StackType(mPop.value));
         }
         #endregion
 

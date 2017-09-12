@@ -12,6 +12,6 @@ public class WordRunner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GameEngine.Instance.Update();
+        GameEngine.Update();
 	}
 }

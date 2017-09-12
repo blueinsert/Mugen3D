@@ -10,7 +10,8 @@ namespace Mugen3D
             player.name = playerName;
             Player script = player.GetComponent<Player>();
             script.Init(script.setting);
-            GameEngine.Instance.AddPlayer(id, script);
+            script.id = id;
+            World.Instance.AddPlayer(id, script);
             return player;
         }
     }

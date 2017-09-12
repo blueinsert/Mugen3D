@@ -33,8 +33,6 @@ namespace Mugen3D {
         Op,
         Num,
         NewLine,
-        ReservedWord,
-        Other
     }
 
     public enum OpCode

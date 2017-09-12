@@ -8,11 +8,11 @@ namespace Mugen3D
         List<Command> mCommands = new List<Command>();
         List<CommandState> mCommandState = new List<CommandState>();
 
-        public void LoadCmdFile(string cmdFile)
+        public void LoadCmdFile(TextAsset content)
         {
             List<Token> tokens;
             Tokenizer tokenizer = new Tokenizer();
-            tokens = tokenizer.GetTokens(cmdFile);
+            tokens = tokenizer.GetTokens(content);
 
             int defaultCommandTime = 15;
             int defaultBufferTime = 1;

@@ -130,28 +130,11 @@ namespace Mugen3D
                         }
                     }
                     string tokenStr = mBuffer.ToString();
-                    if (TokenConfig.ReservedWords.Exists((s) => { return s == tokenStr; }))
-                    {
-                        Token t = new Token();
-                        t.value = tokenStr;
-                        t.type = TokenType.ReservedWord;
-                        mTokenArray.Add(t);
-                    }
-                    else if (TokenConfig.GetOpCode(tokenStr) != OpCode.None)
-                    {
-                        Token t = new Token();
-                        t.value = tokenStr;
-                        t.type = TokenType.Op;
-                        mTokenArray.Add(t);
-                    }
-                    else
-                    {
-                        Token t = new Token();
-                        t.value = tokenStr;
-                        t.type = TokenType.Other;
-                        mTokenArray.Add(t);
-                    }
-
+                    
+                    Token t = new Token();
+                    t.value = tokenStr;
+                    t.type = TokenType.VarName;
+                    mTokenArray.Add(t);  
                 }
                 else if ('0' <= c && c <= '9')
                 {
@@ -241,7 +224,7 @@ namespace Mugen3D
                             else
                             {
                                 pos--;
-                                Token t = new Token("=", TokenType.Other);
+                                Token t = new Token("=", TokenType.Op);
                                 mTokenArray.Add(t);
                             }
                             break;
@@ -301,13 +284,13 @@ namespace Mugen3D
                             mTokenArray.Add(new Token(")", TokenType.Op));
                             break;
                         case '[':
-                            mTokenArray.Add(new Token("[", TokenType.Other));
+                            mTokenArray.Add(new Token("[", TokenType.Op));
                             break;
                         case ']':
-                            mTokenArray.Add(new Token("]", TokenType.Other));
+                            mTokenArray.Add(new Token("]", TokenType.Op));
                             break;
                         case ',':
-                            mTokenArray.Add(new Token(",", TokenType.Other));
+                           //skip
                             break;
                         case '\n':
                             if(mTokenArray[mTokenArray.Count-1].value!="\n")
