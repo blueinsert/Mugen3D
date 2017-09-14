@@ -8,14 +8,13 @@ namespace Mugen3D
     {
         private Player owner;
         private MyDictionary<int, PlayerStateDef> States = new MyDictionary<int,PlayerStateDef>();
-        public List<PlayerStateDef> historyStates = new List<PlayerStateDef>();
+        private List<PlayerStateDef> historyStates = new List<PlayerStateDef>();
 
         private int MaxHistoryStateNum = 10;
 
         public PlayerStateDef currentState;
-        public int CurrentStateId { get; set; }
 
-        private int mStateTime;
+        public int stateTime;
 
         public StateManager(Player p)
         {
@@ -40,10 +39,9 @@ namespace Mugen3D
         }
 
         public void ChangeState(int id) {
-            CurrentStateId = id;
             currentState = States[id];
             currentState.OnEnter();
-            mStateTime = 0;
+            stateTime = 0;
             historyStates.Add(currentState);
             if (historyStates.Count > MaxHistoryStateNum)
             {
@@ -52,8 +50,20 @@ namespace Mugen3D
         }
 
         public void Update() {
-            mStateTime++;
+            stateTime++;
             currentState.OnUpdate();
+        }
+
+        public int GetPrevStateNo()
+        {
+            if (historyStates.Count >= 2)
+            {
+                return historyStates[historyStates.Count - 1].stateId;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
     }//class

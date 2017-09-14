@@ -47,17 +47,17 @@ namespace Mugen3D
             if (animIsSet)
             {
                 Dictionary<string, string> param = new Dictionary<string, string> { {"value",anim}};
-                Controllers.Instance.ChangeAnim(owner.id, param);
+                Controllers.Instance.ChangeAnim(owner, param);
             }
             if (velIsSet)
             {
                 Dictionary<string, string> param = new Dictionary<string, string> { { "x", vel.z.ToString() },{"y",vel.y.ToString()} };
-                Controllers.Instance.VelSet(owner.id, param);
+                Controllers.Instance.VelSet(owner, param);
             }
             if (ctrlIsSet)
             {
                 Dictionary<string, string> param = new Dictionary<string, string> { { "value", ctrl.ToString() } };
-                Controllers.Instance.CtrlSet(owner.id, param);
+                Controllers.Instance.CtrlSet(owner, param);
             }
  
 
@@ -86,7 +86,7 @@ namespace Mugen3D
                     && (checkOptional?CheckOptionalTriggerLists(e.optionalTriggerDic):true);
                 if (!passed)
                     continue;
-                Controllers.Instance.ExeController(owner.id, e.type, null);            
+                Controllers.Instance.ExeController(owner, e.type, null);            
             }
         }
 

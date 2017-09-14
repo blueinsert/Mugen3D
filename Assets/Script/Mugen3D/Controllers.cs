@@ -29,52 +29,69 @@ namespace Mugen3D
 
         #region controller function
 
-        public void ExeController(PlayerId id, StateEventType type, Dictionary<string,string> param){
+        public void ExeController(Player p, StateEventType type, Dictionary<string,string> param){
             switch(type){
                 case StateEventType.VelSet:
-                    VelSet(id, param);
+                    VelSet(p, param);
                     break;
                 case StateEventType.ChangeAnim:
-                    ChangeAnim(id, param);
+                    ChangeAnim(p, param);
                     break;
                 case StateEventType.ChangeState:
-                    ChangeState(id, param);
+                    ChangeState(p, param);
                     break;
             }
         }
 
-        public void VelSet(PlayerId id, Dictionary<string,string> param){
+        public void VelSet(Player p, Dictionary<string,string> param){
+            float velx,vely;
+            velx = float.Parse(param["x"]);
+            vely = float.Parse(param["y"]);
+            p.moveCtr.VelSet(velx, vely);
 
         }
 
-        public void VelAdd(PlayerId id, Dictionary<string, string> param)
+        public void VelAdd(Player p, Dictionary<string, string> param)
         {
-
+            float x, y;
+            x = float.Parse(param["x"]);
+            y = float.Parse(param["y"]);
+            p.moveCtr.VelAdd(x, y);
         }
 
-        public void CtrlSet(PlayerId id, Dictionary<string, string> param)
+        public void CtrlSet(Player p, Dictionary<string, string> param)
         {
-
+            bool value = !(int.Parse(param["value"]) == 0);
+            p.canCtrl = value;
         }
 
-        public void ChangeState(PlayerId id, Dictionary<string, string> param)
+        public void ChangeState(Player p, Dictionary<string, string> param)
         {
-
+            int value = int.Parse(param["value"]);
+            p.stateMgr.ChangeState(value);
         }
 
-        public void ChangeAnim(PlayerId id, Dictionary<string, string> param)
+        public void ChangeAnim(Player p, Dictionary<string, string> param)
         {
-
+            string anim = param["value"];
+            p.animCtr.SetPlayAnim(anim);
         }
 
-        public void PosSet(PlayerId id, Dictionary<string, string> param)
+        public void PosSet(Player p, Dictionary<string, string> param)
         {
-
+            float x, y;
+            x = float.Parse(param["x"]);
+            y = float.Parse(param["y"]);
+            p.moveCtr.PosSet(x, y);
         }
 
-        public void PosAdd(PlayerId id, Dictionary<string, string> param)
-        {
 
+        public void PosAdd(Player p, Dictionary<string, string> param)
+        {
+            float x, y;
+            x = float.Parse(param["x"]);
+            y = float.Parse(param["y"]);
+            p.moveCtr.PosAdd(x, y);
         }
 
         public void PosFreeze(PlayerId id, Dictionary<string, string> param)

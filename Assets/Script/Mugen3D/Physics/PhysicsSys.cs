@@ -13,56 +13,48 @@ namespace Mugen3D
         Air,
     }
 
-    public class PhysicsSys
+    public class MoveCtr
     {
-        public PhysicsType mPhysicsType = PhysicsType.Stand;
-        public PhysicsType Physics { get { return mPhysicsType; } set { mPhysicsType = value; } }
-        Vector3 mGravity = new Vector3(0, -10f, 0);
-        public Vector3 Gravity { get { return mGravity; } }
-        public Vector3 mVelocity = Vector3.zero;
-        public Vector3 Velocity { get { return mVelocity; } set { mVelocity = value; } }
-        Vector3 mAcceleratedVelocity = Vector3.zero;
-        public Vector3 AcceleratedVelocity { get { return mAcceleratedVelocity; } }
-        float mGroundFrictionFactor = 0.75f;
-        public float GroundFrictionFactor { get { return mGroundFrictionFactor; } }
-        float mMass = 70f;
-        public float Mass { get { return mMass; } }
-        Vector3 mExternalForce = Vector3.zero;
-        public Vector3 ExternalForce { get { return mExternalForce; } }
+        public PhysicsType type = PhysicsType.Stand;
+        public Vector3 gravity = new Vector3(0, -10f, 0);
+        public Vector3 velocity = Vector3.zero;
+        public Vector3 acceleratedVelocity = Vector3.zero;
+        public float groundFrictionFactor = 0.75f;
+        public float mass = 70f;
+        public Vector3 mExternalForce = Vector3.zero;
         Transform target;
 
-        public PhysicsSys(Transform t) {
+        public MoveCtr(Transform t) {
             target = t;
         }
 
-        public void UpdatePhysics()
+        public void Update()
         {
-            if (mPhysicsType == PhysicsType.Stand || mPhysicsType == PhysicsType.Croch)
+            if (type == PhysicsType.Stand || type == PhysicsType.Croch)
             {
-                UpdateStand();
+                UpdateGround();
             }
-            else if (mPhysicsType == PhysicsType.Air)
+            else if (type == PhysicsType.Air)
             {
                 UpdateAir();
             }
         }
 
-        void UpdateStand()
+        void UpdateGround()
         {
-            if (mVelocity != Vector3.zero)
+            if (velocity != Vector3.zero)
             {
-                //Vector3 frictionForce = -mMass * mGravity.magnitude * mGroundFrictionFactor * mVelocity.normalized;
-                mAcceleratedVelocity = -mGravity.magnitude * mGroundFrictionFactor * mVelocity.normalized;
-                mVelocity += Time.deltaTime * mAcceleratedVelocity;
-                AddPos(mVelocity * Time.deltaTime);
+                acceleratedVelocity = -gravity.magnitude * groundFrictionFactor * velocity.normalized;
+                velocity += Time.deltaTime * acceleratedVelocity;
+                AddPos(velocity * Time.deltaTime);
             }
         }
 
         void UpdateAir()
         {
-            mAcceleratedVelocity = mGravity;
-            mVelocity += Time.deltaTime * mAcceleratedVelocity;
-            AddPos(mVelocity * Time.deltaTime);
+            acceleratedVelocity = gravity;
+            velocity += Time.deltaTime * acceleratedVelocity;
+            AddPos(velocity * Time.deltaTime);
         }
 
         void AddPos(Vector3 deltaPos)
@@ -72,5 +64,28 @@ namespace Mugen3D
             target.position = pos;
         }
 
+        public void VelSet(float velx, float vely)
+        {
+            this.velocity = new Vector3(0, vely, velx);
+        }
+
+        public void VelAdd(float deltaX, float deltaY)
+        {
+             this.velocity.y += deltaY;
+             this.velocity.z += deltaX;
+        }
+
+        public void PosSet(float x, float y)
+        {
+            this.target.transform.position = new Vector3(0, y, x);
+        }
+
+        public void PosAdd(float deltaX, float deltaY)
+        {
+            var pos = this.target.transform.position;
+            pos.y += deltaY;
+            pos.z += deltaX;
+            this.target.transform.position = pos;
+        }
     }
 }

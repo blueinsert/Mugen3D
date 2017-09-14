@@ -6,9 +6,9 @@ public class Player : MonoBehaviour {
     public PlayerId id;
     public PlayerSetting setting;
     public Animation anim;
-
+    public bool canCtrl = true;
     [HideInInspector]
-    public PhysicsSys physics;
+    public MoveCtr moveCtr;
     [HideInInspector]
     public CmdManager cmdMgr {  get; private set; }
     [HideInInspector]
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 
     
     public void Init(PlayerSetting setting) { 
-        physics = new PhysicsSys(this.transform);
+        moveCtr = new MoveCtr(this.transform);
         cmdMgr = new CmdManager();
         cmdMgr.LoadCmdFile(setting.commandFile);
         animCtr = new AnimationController(anim);
@@ -28,9 +28,9 @@ public class Player : MonoBehaviour {
 
     private void UpdatePlayer()
     {  
-        physics.UpdatePhysics();
+        moveCtr.Update();
         cmdMgr.Update(InputHandler.GetInputKeycode());
-        animCtr.UpdateSample();
+        animCtr.Update();
         stateMgr.Update();
     }
 

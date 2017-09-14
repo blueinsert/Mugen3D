@@ -11,11 +11,11 @@ public enum AnimPlayMode
 }
 
 public class AnimationController {
-    public AnimPlayMode playMode = AnimPlayMode.Loop;
-    public Animation anim;
+    private AnimPlayMode playMode = AnimPlayMode.Loop;
+    private Animation anim;
     public int AnimTime = 0;
     public int AnimElem = 0;
-    public float animLength;
+    public float animLength;//seconds
     public int totalFrame;
     public string animName;
     public int FrameRate = 50;
@@ -33,8 +33,13 @@ public class AnimationController {
         }
         SetPlayAnim(anim.clip.name);
     }
+
+    public void Update()
+    {
+        UpdateSample();
+    }
   
-    public void UpdateSample() {
+    private void UpdateSample() {
         AnimTime++;
         int sampleFrameIndex = 0;
         if (playMode == AnimPlayMode.Loop)
