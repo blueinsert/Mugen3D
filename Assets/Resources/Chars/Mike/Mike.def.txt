@@ -1,44 +1,55 @@
+//response to command
+[Statedef 9999]
+[Event 0]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command == "holdfwd" || Command == "holdback"
+value = 20
+
 //stand idle
 [Statedef 0]
-type = S
-physics = S
-sprpriority = 0
 
 [Event 0]
 type = ChangeAnim
-trigger1 = Time == 0
+trigger1 = Time == 1 
+//Anim != "stand"
 value = "stand"
-animPlayMode = loop
+//animPlayMode = loop
 
 [Event 1]
 type = VelSet
-trigger1 = Time == 0
+trigger1 = Time == 1 
+x = 0
 y = 0
 
 //walk
 [Statedef 20]
-type    = S
-physics = S
-sprpriority = 0
 
 [Event 0]
 type = VelSet
-trigger1 = command == "holdfwd"
+trigger1 = Command == "holdfwd"
 x = 4
+y = 0
 
 [Event 1]
 type = VelSet
-trigger1 = command == "holdback"
+trigger1 = Command == "holdback"
 x = -4
+y = 0
 
 [Event 2]
 type = ChangeAnim
-triggerall = velx > 0
-trigger1 = Anim != 20
-value = 20
+triggerall = VelX > 0
+trigger1 = Anim != "walk"
+value = "walk"
 
 [Event 3]
 type = ChangeAnim
-triggerall = velx < 0
-trigger1 = Anim != 21
-value = 21
+triggerall = VelX < 0
+trigger1 = Anim != "walk"
+value = "walk"
+
+[Event 4]
+type = ChangeState
+triggerall = Command != "holdback" && Command != "holdfwd"
+value = 0;

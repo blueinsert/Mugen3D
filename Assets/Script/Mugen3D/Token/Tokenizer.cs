@@ -253,7 +253,14 @@ namespace Mugen3D
                             }
                             break;
                         case '!':
-                            mTokenArray.Add(new Token("!", TokenType.Op));
+                            c = mCharStream[pos++];
+                            if (c == '=')
+                                mTokenArray.Add(new Token("!=", TokenType.Op));
+                            else
+                            {
+                                mTokenArray.Add(new Token("!", TokenType.Op));
+                                pos--;
+                            }
                             break;
                         case '&':
                             c = mCharStream[pos++];

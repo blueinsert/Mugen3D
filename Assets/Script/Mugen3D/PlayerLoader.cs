@@ -12,6 +12,7 @@ namespace Mugen3D
             script.Init(script.setting);
             script.id = id;
             World.Instance.AddPlayer(id, script);
+            GUIDebug.Instance.SetPlayer(script);
             return player;
         }
     }

@@ -16,6 +16,8 @@ namespace Mugen3D
 
         public int stateTime;
 
+        private bool isReady = false;
+
         public StateManager(Player p)
         {
             owner = p;
@@ -36,12 +38,14 @@ namespace Mugen3D
                     States.Add(kv.Key, kv.Value);
                 }
             }
+            currentState = States[0];
+            isReady = true;
         }
 
         public void ChangeState(int id) {
             currentState = States[id];
             currentState.OnEnter();
-            stateTime = 0;
+            stateTime = -1;
             historyStates.Add(currentState);
             if (historyStates.Count > MaxHistoryStateNum)
             {
@@ -50,7 +54,13 @@ namespace Mugen3D
         }
 
         public void Update() {
+            if (!isReady)
+                return;
             stateTime++;
+            if (States.ContainsKey(9999))
+            {
+                States[9999].OnUpdate();
+            }
             currentState.OnUpdate();
         }
 

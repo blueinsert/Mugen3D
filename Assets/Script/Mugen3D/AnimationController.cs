@@ -18,7 +18,7 @@ public class AnimationController {
     public float animLength;//seconds
     public int totalFrame;
     public string animName;
-    public int FrameRate = 50;
+    public int FrameRate = 60;
 
     public AnimationController(Animation anim)
     {

@@ -5,13 +5,8 @@ namespace Mugen3D
 {
     public class TokenConfig
     {
-        public static readonly List<string> ReservedWords = new List<string> { 
-            "State", 
-            "Statedef",
-            "Command"
-        };
 
-        public static readonly Dictionary<OpCode, int> OpcodePriority = new Dictionary<OpCode, int>() { 
+        private static readonly Dictionary<OpCode, int> OpcodePriority = new Dictionary<OpCode, int>() { 
             {OpCode.AddOP,4},
             {OpCode.SubOP,4},
             {OpCode.MulOP,3},
@@ -27,20 +22,28 @@ namespace Mugen3D
             {OpCode.LogOr,12},
             {OpCode.LeftBracket,1},
             {OpCode.RightBracket,1},
-            {OpCode.Trigger_StateTime,1},
+           
             {OpCode.Trigger_Anim,1},
-            {OpCode.Trigger_command,1},
-            {OpCode.Trigger_velx,1},
+            {OpCode.Trigger_AnimElem,1},
+            {OpCode.Trigger_AnimTime,1},
+            {OpCode.Trigger_Command,1},   
+            {OpCode.Trigger_VelX,1},
+            {OpCode.Trigger_VelY,1},
+            {OpCode.Trigger_PosX,1},
+            {OpCode.Trigger_PosY,1},
+            {OpCode.Trigger_StateNo,1},
+            {OpCode.Trigger_PrevStateNo,1},
+            {OpCode.Trigger_StateTime,1},
         };
 
-        public static readonly Dictionary<string, OpCode> OpcodeStrIdMap = new Dictionary<string, OpCode>(){
+        private static readonly Dictionary<string, OpCode> OpcodeStrIdMap = new Dictionary<string, OpCode>(){
             {"+",OpCode.AddOP},
             {"-",OpCode.SubOP},
             {"*",OpCode.MulOP},
             {"/",OpCode.DivOP},
             {"==",OpCode.EqualOP},
             {"!=",OpCode.NotEqual},
-            {">",OpCode.GreaterEqual},
+            {">",OpCode.Greater},
             {">=",OpCode.GreaterEqual},
             {"<",OpCode.Less},
             {"<=",OpCode.LessEqual},
@@ -50,10 +53,18 @@ namespace Mugen3D
             //{"-",OpCode.Op_Neg},
             {"(",OpCode.LeftBracket},
             {")",OpCode.RightBracket},
-            {"command",OpCode.Trigger_command},
             {"Anim",OpCode.Trigger_Anim},
-            {"velx",OpCode.Trigger_velx},
+            {"AnimElem",OpCode.Trigger_AnimElem},
+            {"AnimTime",OpCode.Trigger_AnimTime},
+            {"LeftAnimElem",OpCode.Trigger_LeftAnimElem},
+            {"Command",OpCode.Trigger_Command},
+            {"PosX",OpCode.Trigger_PosX},
+            {"PoxY",OpCode.Trigger_PosY},
+            {"VelX",OpCode.Trigger_VelX},
+            {"VelY",OpCode.Trigger_VelY},
+            {"StateNo",OpCode.Trigger_StateNo},
             {"Time",OpCode.Trigger_StateTime},
+            {"PrevStateNo",OpCode.Trigger_PrevStateNo},
             // to do
         };
 
@@ -64,7 +75,22 @@ namespace Mugen3D
             }
             else
             {
+                Debug.LogWarning("can not find opcode, value:" + value);
                 return OpCode.None;
+            }
+        }
+
+        public static int GetOpCodePriority(OpCode code)
+        {
+            if (OpcodePriority.ContainsKey(code))
+            {
+                return OpcodePriority[code];
+            }
+            else
+            {
+                Debug.LogError("can not find opcode priority, code:" + code.ToString());
+                Application.Quit();
+                return 0;
             }
         }
 

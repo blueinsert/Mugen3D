@@ -51,6 +51,11 @@ public class Triggers
         return p.cmdMgr.GetActiveCommandName();
     }
 
+    public bool Ctrl(Player p)
+    {
+        return p.canCtrl;
+    }
+
     public int StateNo(Player p)
     {
         return p.stateMgr.currentState.stateId;

@@ -33,7 +33,7 @@ namespace Mugen3D
             List<Token> result = new List<Token>();
             for (int i = 0; i < tokens.Count; i++)
             {
-                if (tokens[i].type == TokenType.Num || tokens[i].type == TokenType.Str)
+                if (tokens[i].type == TokenType.Num || tokens[i].type == TokenType.Str || tokens[i].type == TokenType.VarName)
                 {
                     result.Add(tokens[i]);
                 }
@@ -54,7 +54,7 @@ namespace Mugen3D
                     }
                     else
                     {
-                        while (opStack.Count != 0 && TokenConfig.GetOpCode(opStack.Peek().value) != OpCode.LeftBracket && TokenConfig.OpcodePriority[TokenConfig.GetOpCode(opStack.Peek().value)] < TokenConfig.OpcodePriority[opcode])
+                        while (opStack.Count != 0 && TokenConfig.GetOpCode(opStack.Peek().value) != OpCode.LeftBracket && TokenConfig.GetOpCodePriority(TokenConfig.GetOpCode(opStack.Peek().value)) < TokenConfig.GetOpCodePriority(opcode))
                         {
                             result.Add(opStack.Pop());
                         }

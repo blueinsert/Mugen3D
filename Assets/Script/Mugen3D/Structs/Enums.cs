@@ -57,20 +57,20 @@ namespace Mugen3D {
         RightBracket,
         //Mugen Sys Related
         //trigger vars
-        Trigger_command,
-        Trigger_StateTime,
         Trigger_Anim,
-        Trigger_velx,
-        //trigger function
+        Trigger_AnimElem,
+        Trigger_AnimTime,
+        Trigger_LeftAnimElem,
+        Trigger_Command,
+        Trigger_PosX,
+        Trigger_PosY,
+        Trigger_VelX,
+        Trigger_VelY,
+        Trigger_StateNo,
+        Trigger_PrevStateNo,
+        Trigger_StateTime,        
         //todo
 
     }
 
-    public enum MugenSysVar
-    {
-        command,
-        vel_x,
-        vel_y,
-        Anim
-    }
 }

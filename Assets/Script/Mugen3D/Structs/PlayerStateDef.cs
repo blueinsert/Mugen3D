@@ -86,7 +86,17 @@ namespace Mugen3D
                     && (checkOptional?CheckOptionalTriggerLists(e.optionalTriggerDic):true);
                 if (!passed)
                     continue;
-                Controllers.Instance.ExeController(owner, e.type, null);            
+                Dictionary<string, string> param = new Dictionary<string, string>();
+                foreach (var p in e.parameters)
+                {
+                    string v = "";
+                    for (int j = 0; j < p.Value.Count; j++)
+                    {
+                        v += p.Value[j].value;
+                    }
+                    param[p.Key] = v;
+                }
+                Controllers.Instance.ExeController(owner, e.type, param);
             }
         }
 
@@ -106,6 +116,7 @@ namespace Mugen3D
             bool passed = true;
             foreach (var e in expressions) {
                 VirtualMachine vm = new VirtualMachine();
+                vm.SetOwner(this.owner);
                 double result = vm.Execute(e);
                 if (result == 0)
                 {

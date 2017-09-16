@@ -51,12 +51,12 @@ namespace Mugen3D
                 }
                 else
                 {
-                    Utility.Assert(false, "token varname cannot be translated to Instruction");
+                    Utility.Assert(false, token.value +":token varname cannot be translated to Instruction");
                 }
             }
             else
             {
-                Utility.Assert(false, "token type cannot be translated to Instruction");
+                Utility.Assert(false, token.type + ":token type cannot be translated to Instruction");
             }
         }
     }

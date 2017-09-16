@@ -299,6 +299,7 @@ namespace Mugen3D
             while (tokens[pos].value != "\n")
             {
                 expressionTokens.Add(tokens[pos]);
+                Debug.Log(tokens[pos].type +":"+ tokens[pos].value);
                 pos++;
             }
             pos++;
