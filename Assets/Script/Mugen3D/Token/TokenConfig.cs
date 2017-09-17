@@ -34,6 +34,7 @@ namespace Mugen3D
             {OpCode.Trigger_StateNo,1},
             {OpCode.Trigger_PrevStateNo,1},
             {OpCode.Trigger_StateTime,1},
+            {OpCode.Trigger_DeltaTime,1},
         };
 
         private static readonly Dictionary<string, OpCode> OpcodeStrIdMap = new Dictionary<string, OpCode>(){
@@ -65,6 +66,7 @@ namespace Mugen3D
             {"StateNo",OpCode.Trigger_StateNo},
             {"Time",OpCode.Trigger_StateTime},
             {"PrevStateNo",OpCode.Trigger_PrevStateNo},
+            {"DeltaTime", OpCode.Trigger_DeltaTime},
             // to do
         };
 

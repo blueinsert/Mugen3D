@@ -55,7 +55,7 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_StateNo] = GetStateNo;
             pFuncTable[OpCode.Trigger_PrevStateNo] = GetPrevStateNo;
             pFuncTable[OpCode.Trigger_StateTime] = GetStateTime;
-
+            pFuncTable[OpCode.Trigger_DeltaTime] = GetDeltaTime;
             //todo
         }
 
@@ -375,7 +375,11 @@ namespace Mugen3D
             mStack.Push(new StackType(time));
         }
 
-
+        void GetDeltaTime()
+        {
+            float time = Triggers.Instance.DeltaTime();
+            mStack.Push(new StackType(time));
+        }
         #endregion
         #endregion
 

@@ -13,6 +13,8 @@ public class WordRunner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        GameEngine.Update(Time.deltaTime);
+        /*
         float period = 1.0f / frameRate;
         timer += Time.deltaTime;
         if (timer >= period)
@@ -20,6 +22,6 @@ public class WordRunner : MonoBehaviour {
             timer -= period;
             GameEngine.Update();
         }
-        
+        */
 	}
 }

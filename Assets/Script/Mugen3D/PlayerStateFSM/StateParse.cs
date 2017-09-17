@@ -57,78 +57,20 @@ namespace Mugen3D
             while (pos < tokenSize)
             {
                 Token t = tokens[pos++];
-                if (t.value == "physics")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after physics");
-                    t = tokens[pos++];
-                    switch (t.value)
-                    {
-                        case "S":
-                            curParseState.physicsType = PhysicsType.Stand;
-                            break;
-                        case "C":
-                            curParseState.physicsType = PhysicsType.Croch;
-                            break;
-                        case "A":
-                            curParseState.physicsType = PhysicsType.Air;
-                            break;
-                        default:
-                            curParseState.physicsType = PhysicsType.None;
-                            break;
-                    }
-                }
-                else if (t.value == "movetype")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after movetype");
-                    t = tokens[pos++];
-                    switch (t.value)
-                    {
-                        case "A":
-                            curParseState.moveType = MoveType.Attack;
-                            break;
-                        case "D":
-                            curParseState.moveType = MoveType.Defence;
-                            break;
-                        case "I":
-                            curParseState.moveType = MoveType.Idle;
-                            break;
-                        default:
-                            curParseState.moveType = MoveType.Idle;
-                            break;
-                    }
-                }
-                else if (t.value == "anim")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after anim");
-                    t = tokens[pos++];
-                    curParseState.anim = t.value;
-                }
-                else if (t.value == "velset")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after velset");
-                    float vx, vy;
-                    Utility.Assert(float.TryParse(tokens[pos++].value, out vx), "velset vel_x should be float");
-                    Utility.Assert(tokens[pos++].value == ",", "should be ',' between vel components");
-                    Utility.Assert(float.TryParse(tokens[pos++].value, out vy), "velset vel_y should be float");
-                    curParseState.vel = new Vector3(0, vy, vx);
-                }
-                else if (t.value == "ctrl")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after velset");
-                    t = tokens[pos++];
-                    if (t.value == "true")
-                    {
-                        curParseState.ctrl = true;
-                    }
-                    else
-                    {
-                        curParseState.ctrl = false;
-                    }
-                }
-                else if (t.value == "[")
+                if (t.value == "[")
                 {
                     pos--;
                     break;
+                }
+                else if (t.value == "=")
+                {
+                    Token tKey = tokens[pos - 2];
+                    MyList<Token> value = new MyList<Token>();
+                    while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
+                    {
+                        value.Add(t);
+                    }
+                    curParseState.AddInitParam(tKey.value, value.ToArray());
                 }
             }
         }
@@ -141,21 +83,23 @@ namespace Mugen3D
             {
                 Utility.Assert(tokens[pos++].value == "=", "should be = after event type");
                 t = tokens[pos++];
-                if (t.value == "ChangeState")
+                switch (t.value)
                 {
-                    curParseStateEvent.type = StateEventType.ChangeState;
-                    ParseEvent_ChangeState(tokens, ref pos);
+                    case "ChangeState":
+                        curParseStateEvent.type = StateEventType.ChangeState; break;
+                    case "VelSet":
+                        curParseStateEvent.type = StateEventType.VelSet; break;
+                    case "ChangeAnim":
+                        curParseStateEvent.type = StateEventType.ChangeAnim; break;
+                    case "PhysicsSet":
+                        curParseStateEvent.type = StateEventType.PhysicsSet; break;
+                    case "PosSet":
+                        curParseStateEvent.type = StateEventType.PosSet; break;
+                    default :
+                        Debug.LogError("event type can not be recognized :" + t.value); Application.Quit(); break;
                 }
-                else if (t.value == "VelSet")
-                {
-                    curParseStateEvent.type = StateEventType.VelSet;
-                    ParseEvent_VelSet(tokens, ref pos);
-                }
-                else if (t.value == "ChangeAnim")
-                {
-                    curParseStateEvent.type = StateEventType.ChangeAnim;
-                    ParseEvent_ChangeAnim(tokens, ref pos);
-                }
+                while ((t = tokens[pos++]).value != "\n") { }
+                OnParseEvent(tokens, ref pos); 
             }
         }
 
@@ -166,130 +110,39 @@ namespace Mugen3D
             curParseStateEvent = null;
         }
 
-        void ParseEvent_ChangeState(List<Token> tokens, ref int pos)
+        void OnParseEvent(List<Token> tokens, ref int pos)
         {
-            int tokenSize = tokens.Count;
-            while (pos < tokenSize)
-            {
-                Token t = tokens[pos++];
-                if (t.value == "value")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeState's value");
-                    curParseStateEvent.parameters["value"] = new MyList<Token>();
-                    while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
-                    {
-                        curParseStateEvent.parameters["value"].Add(t);
-                    }
-                }
-                else if (t.value == "triggerall")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's triggerall");
-                    curParseStateEvent.requiredTriggerList.Add(Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "trigger1")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's trigger1");
-                    curParseStateEvent.AddOptionalTrigger(0, Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "trigger2")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's trigger2");
-                    curParseStateEvent.AddOptionalTrigger(1, Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "[")
-                {
-                    pos--;
-                    break;
-                }
-            }
-            OnParseEventDone();
-        }
-
-        void ParseEvent_VelSet(List<Token> tokens, ref int pos)
-        {
-            int tokenSize = tokens.Count;
-            while (pos < tokenSize)
-            {
-                Token t = tokens[pos++];
-                if (t.value == "x")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after VelSet's x");
-                    curParseStateEvent.parameters["x"] = new MyList<Token>();
-                    while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
-                    {
-                        curParseStateEvent.parameters["x"].Add(t);
-                    }
-                }
-                else if (t.value == "y")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after VelSet's y");
-                    curParseStateEvent.parameters["y"] = new MyList<Token>();
-                    while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
-                    {
-                        curParseStateEvent.parameters["y"].Add(t);
-                    }
-                }
-                else if (t.value == "triggerall")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's triggerall");
-                    curParseStateEvent.requiredTriggerList.Add(Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "trigger1")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's trigger1");
-                    curParseStateEvent.AddOptionalTrigger(0, Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "trigger2")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's trigger2");
-                    curParseStateEvent.AddOptionalTrigger(1, Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "[")
-                {
-                    pos--;
-                    break;
-                }
-            }
-            OnParseEventDone();
-        }
-
-        void ParseEvent_ChangeAnim(List<Token> tokens, ref int pos)
-        {
-            int tokenSize = tokens.Count;
-            while (pos < tokenSize)
-            {
-                Token t = tokens[pos++];
-                if (t.value == "value")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's value");
-                    curParseStateEvent.parameters["value"] = new MyList<Token>();
-                    while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
-                    {
-                        curParseStateEvent.parameters["value"].Add(t);
-                    }
-                }
-                else if (t.value == "triggerall")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's triggerall");
-                    curParseStateEvent.requiredTriggerList.Add(Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "trigger1")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's trigger1");
-                    curParseStateEvent.AddOptionalTrigger(0, Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "trigger2")
-                {
-                    Utility.Assert(tokens[pos++].value == "=", "should be = after ChangeAnim's trigger2");
-                    curParseStateEvent.AddOptionalTrigger(1, Parse_Expression(tokens, ref pos));
-                }
-                else if (t.value == "[")
-                {
-                    pos--;
-                    break;
-                }
-            }
-            OnParseEventDone();
+             int tokenSize = tokens.Count;
+             while (pos < tokenSize)
+             {
+                 Token t = tokens[pos++];
+                 if (t.value == "[")
+                 {
+                     pos--;
+                     break;
+                 }
+                 else if (t.value == "=")
+                 {
+                     Token tKey = tokens[pos - 2];
+                     if (tKey.value == "triggerall")
+                     {
+                         curParseStateEvent.requiredTriggerList.Add(Parse_Expression(tokens, ref pos));
+                     }
+                     else if (tKey.value == "trigger1" || tKey.value == "trigger2")
+                     {
+                         curParseStateEvent.AddOptionalTrigger(0, Parse_Expression(tokens, ref pos));
+                     }
+                     else
+                     {
+                         curParseStateEvent.parameters[tKey.value] = new MyList<Token>();
+                         while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
+                         {
+                             curParseStateEvent.parameters[tKey.value].Add(t);
+                         }
+                     }
+                 }
+             }
+             OnParseEventDone();
         }
         #endregion
 

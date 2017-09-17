@@ -43,7 +43,7 @@ public class Triggers
 
     public int LeftAnimElem(Player p)
     {
-        return p.animCtr.totalFrame - p.animCtr.AnimElem;
+        return p.animCtr.totalFrame - p.animCtr.AnimElem-1;
     }
 
     public string Command(Player p)
@@ -92,6 +92,15 @@ public class Triggers
         return p.transform.position.y;
     }
 
+    public string PhysicsType(Player p)
+    {
+        return p.moveCtr.type.ToString();
+    }
+
+    public float DeltaTime()
+    {
+        return GameEngine.deltaTime;
+    }
 
     #endregion
 

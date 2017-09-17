@@ -10,24 +10,13 @@ namespace Mugen3D
         private Player owner;
         public int stateId;
 
-        public PhysicsType physicsType;
-        public bool physicsIsSet = false;
-        public MoveType moveType;
-        public bool moveTypeIsSet = false;
-        public string anim;
-        public bool animIsSet = false;
-        //optional param
-        public Vector3 vel;
-        public bool velIsSet = false;
-        public bool ctrl;
-        public bool ctrlIsSet = false;
-        //public bool isEntered = false;
-
+        private MyDictionary<string, string> InitParams;
         public MyList<StateEvent> events;
 
         public PlayerStateDef()
         {
             events = new MyList<StateEvent>();
+            InitParams = new MyDictionary<string, string>();
         }
 
         public void SetOwner(Player p)
@@ -35,32 +24,20 @@ namespace Mugen3D
             owner = p;
         }
 
+        public void AddInitParam(string key, Token[] tokens)
+        {
+            if (InitParams == null)
+                InitParams = new MyDictionary<string, string>();
+            string v = "";
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                v += tokens[i].value;
+            }
+            InitParams[key] = v;
+        }
+
         public void OnEnter() {
-            if (physicsIsSet)
-            {
-
-            }
-            if (moveTypeIsSet)
-            {
-
-            }
-            if (animIsSet)
-            {
-                Dictionary<string, string> param = new Dictionary<string, string> { {"value",anim}};
-                Controllers.Instance.ChangeAnim(owner, param);
-            }
-            if (velIsSet)
-            {
-                Dictionary<string, string> param = new Dictionary<string, string> { { "x", vel.z.ToString() },{"y",vel.y.ToString()} };
-                Controllers.Instance.VelSet(owner, param);
-            }
-            if (ctrlIsSet)
-            {
-                Dictionary<string, string> param = new Dictionary<string, string> { { "value", ctrl.ToString() } };
-                Controllers.Instance.CtrlSet(owner, param);
-            }
- 
-
+           
         }
 
         public void OnUpdate()
@@ -132,11 +109,7 @@ namespace Mugen3D
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
             sb.Append("id:").Append(stateId).Append(",");
-            sb.Append("physics:").Append(physicsType.ToString()).Append(",");
-            sb.Append("moveType:").Append(moveType.ToString()).Append(",");
-            sb.Append("anim:").Append(anim).Append(",");
-            //sb.Append("vel:").Append(vel.ToString()).Append(",");
-            sb.Append("ctrl:").Append(ctrl).Append(",");
+            sb.Append("initParams:").Append(InitParams.ToString()).Append(",");
             sb.Append("events:").Append(events.ToString()).Append(",");
             sb.Append("}");
             return sb.ToString();

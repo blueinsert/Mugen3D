@@ -87,5 +87,10 @@ namespace Mugen3D
             pos.z += deltaX;
             this.target.transform.position = pos;
         }
+
+        public void SetPhysicsType(PhysicsType type)
+        {
+            this.type = type;
+        }
     }
 }

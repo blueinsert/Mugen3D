@@ -7,14 +7,14 @@ namespace Mugen3D {
 public enum AnimPlayMode
 {
     Loop,
-    stopInEnd,
+    Once,
 }
 
 public class AnimationController {
     private AnimPlayMode playMode = AnimPlayMode.Loop;
     private Animation anim;
-    public int AnimTime = 0;
-    public int AnimElem = 0;
+    public int AnimTime = -1;// 0 to omega
+    public int AnimElem = 0;// 0 to (length-1)
     public float animLength;//seconds
     public int totalFrame;
     public string animName;
@@ -46,7 +46,7 @@ public class AnimationController {
         {
             sampleFrameIndex = AnimTime % totalFrame;
         }
-        else if(playMode == AnimPlayMode.stopInEnd) {
+        else if(playMode == AnimPlayMode.Once) {
             if (AnimTime >= totalFrame)
             {
                 sampleFrameIndex = totalFrame - 1;
@@ -70,13 +70,14 @@ public class AnimationController {
         anim[animName].enabled = false;
     }
 
-    public void SetPlayAnim(string animName)
+    public void SetPlayAnim(string animName, AnimPlayMode mode = AnimPlayMode.Loop)
     {
         this.animName = animName;
         animLength = anim[animName].length;
         totalFrame = (int)(FrameRate * animLength);
         AnimElem = 0;
-        AnimTime = 0;
+        AnimTime = -1;
+        this.playMode = mode;
     }
 }
 }

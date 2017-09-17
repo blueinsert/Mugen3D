@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
         stateMgr.Update();
     }
 
-    public void Update()
+    public void OnUpdate()
     {
         UpdatePlayer();
     }

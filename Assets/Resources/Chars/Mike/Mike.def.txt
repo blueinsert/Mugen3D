@@ -1,10 +1,29 @@
 //response to command
 [Statedef 9999]
+a = 1
+b = 2
+c = 3
+
 [Event 0]
 type = ChangeState
 trigger1 = StateNo == 0
 trigger1 = Command == "holdfwd" || Command == "holdback"
 value = 20
+
+[Event 1]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command == "holddown"
+value = 10
+
+[Event 2]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command == "holdup"
+value = 50
+
+
+
 
 //stand idle
 [Statedef 0]
@@ -21,6 +40,20 @@ type = VelSet
 trigger1 = Time == 1 
 x = 0
 y = 0
+
+; Crouching
+[Statedef 10]
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time == 1 
+value = "crouch"
+
+[Event 1]
+type = ChangeState
+triggerall = Command != "holddown"
+value = 0
+
 
 //walk
 [Statedef 20]
@@ -52,4 +85,77 @@ value = "walk"
 [Event 4]
 type = ChangeState
 triggerall = Command != "holdback" && Command != "holdfwd"
-value = 0;
+value = 0
+
+//jump up
+[Statedef 50]
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time == 1
+value = "jumping"
+mode = "once"
+
+
+[Event 1]
+type = VelSet
+trigger1 = AnimElem == 12
+x = 0
+y = 6
+
+[Event 2]
+type = PhysicsSet
+trigger1 = AnimElem == 12
+value = "A"
+
+[Event 3]
+type = ChangeState
+trigger1 = VelY < 0 && AnimElem > 12
+value = 51
+
+
+
+//falling
+[Statedef 51]
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time == 1
+value = "falling"
+mode = "once"
+
+[Event 1]
+type = ChangeState
+trigger1 = (PoxY + VelY * DeltaTime) < 0
+value = 52
+
+//landing
+[Statedef 52]
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = "landing"
+mode = "once"
+
+[Event 1]
+type = VelSet
+trigger1 = Time == 0
+x = 0
+y = 0
+
+[Event 2]
+type = PosSet
+trigger1 = Time == 0
+y = 0
+
+[Event 3]
+type = PhysicsSet
+trigger1 = Time == 0
+value = "S"
+
+[Event 4]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+

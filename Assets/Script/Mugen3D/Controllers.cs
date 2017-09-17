@@ -40,22 +40,56 @@ namespace Mugen3D
                 case StateEventType.ChangeState:
                     ChangeState(p, param);
                     break;
+                case StateEventType.PosSet:
+                    PosSet(p, param);
+                    break;
+                case StateEventType.PhysicsSet:
+                    PhysicsSet(p, param);
+                    break;
             }
         }
 
         public void VelSet(Player p, Dictionary<string,string> param){
-            float velx,vely;
-            velx = float.Parse(param["x"]);
-            vely = float.Parse(param["y"]);
-            p.moveCtr.VelSet(velx, vely);
+            float x,y;
+            if (param.ContainsKey("x"))
+            {
+                x = float.Parse(param["x"]);
+            }
+            else
+            {
+                x = Triggers.Instance.VelX(p);
+            }
+            if (param.ContainsKey("y"))
+            {
+                y = float.Parse(param["y"]);
+            }
+            else
+            {
+                y = Triggers.Instance.VelY(p);
+            }
+            p.moveCtr.VelSet(x, y);
 
         }
 
         public void VelAdd(Player p, Dictionary<string, string> param)
         {
             float x, y;
-            x = float.Parse(param["x"]);
-            y = float.Parse(param["y"]);
+            if (param.ContainsKey("x"))
+            {
+                x = float.Parse(param["x"]);
+            }
+            else
+            {
+                x = 0;
+            }
+            if (param.ContainsKey("y"))
+            {
+                y = float.Parse(param["y"]);
+            }
+            else
+            {
+                y = 0;
+            }
             p.moveCtr.VelAdd(x, y);
         }
 
@@ -74,14 +108,49 @@ namespace Mugen3D
         public void ChangeAnim(Player p, Dictionary<string, string> param)
         {
             string anim = param["value"];
-            p.animCtr.SetPlayAnim(anim);
+            
+            if (param.ContainsKey("mode"))
+            {
+                string mode = param["mode"];
+                if (mode == "loop")
+                {
+                    p.animCtr.SetPlayAnim(anim, AnimPlayMode.Loop);
+                }
+                else if (mode == "once")
+                {
+                    p.animCtr.SetPlayAnim(anim, AnimPlayMode.Once);
+                }
+                else
+                {
+                    Debug.LogError("anim mode can't be recognized:" + mode);
+                }
+            }
+            else
+            {
+                p.animCtr.SetPlayAnim(anim, AnimPlayMode.Loop);
+            }
+            
         }
 
         public void PosSet(Player p, Dictionary<string, string> param)
         {
             float x, y;
-            x = float.Parse(param["x"]);
-            y = float.Parse(param["y"]);
+            if (param.ContainsKey("x"))
+            {
+                x = float.Parse(param["x"]);
+            }
+            else
+            {
+                x = Triggers.Instance.PosX(p);
+            }
+            if (param.ContainsKey("y"))
+            {
+                y = float.Parse(param["y"]);
+            }
+            else
+            {
+                y = Triggers.Instance.PosY(p);
+            }
             p.moveCtr.PosSet(x, y);
         }
 
@@ -89,15 +158,50 @@ namespace Mugen3D
         public void PosAdd(Player p, Dictionary<string, string> param)
         {
             float x, y;
-            x = float.Parse(param["x"]);
-            y = float.Parse(param["y"]);
+            if (param.ContainsKey("x"))
+            {
+                x = float.Parse(param["x"]);
+            }
+            else
+            {
+                x = 0;
+            }
+            if (param.ContainsKey("y"))
+            {
+                y = float.Parse(param["y"]);
+            }
+            else
+            {
+                y = 0;
+            }
             p.moveCtr.PosAdd(x, y);
         }
 
-        public void PosFreeze(PlayerId id, Dictionary<string, string> param)
+        public void PosFreeze(Player p, Dictionary<string, string> param)
         {
 
         }
+
+        public void PhysicsSet(Player p, Dictionary<string, string> param)
+        {
+            string v = param["value"];
+            switch (v)
+            {
+                case "S":
+                    p.moveCtr.SetPhysicsType(PhysicsType.Stand);
+                    break;
+                case "C":
+                    p.moveCtr.SetPhysicsType(PhysicsType.Croch);
+                    break;
+                case "A":
+                    p.moveCtr.SetPhysicsType(PhysicsType.Air);
+                    break;
+                default:
+                    p.moveCtr.SetPhysicsType(PhysicsType.Stand);
+                    break;
+            }
+        }
+
         #endregion
     }
 }

@@ -22,8 +22,9 @@ namespace Mugen3D {
     {
         VelSet,
         ChangeAnim,
-        SetPhysicsType,
         ChangeState,
+        PhysicsSet,
+        PosSet,
     }
 
     public enum TokenType
@@ -68,7 +69,8 @@ namespace Mugen3D {
         Trigger_VelY,
         Trigger_StateNo,
         Trigger_PrevStateNo,
-        Trigger_StateTime,        
+        Trigger_StateTime,       
+        Trigger_DeltaTime,
         //todo
 
     }
