@@ -46,6 +46,9 @@ namespace Mugen3D
                 case StateEventType.PhysicsSet:
                     PhysicsSet(p, param);
                     break;
+                case StateEventType.VarSet:
+                    VarSet(p, param);
+                    break;
             }
         }
 
@@ -200,6 +203,13 @@ namespace Mugen3D
                     p.moveCtr.SetPhysicsType(PhysicsType.Stand);
                     break;
             }
+        }
+
+        public void VarSet(Player p, Dictionary<string, string> param)
+        {
+            int id = int.Parse(param["id"]);
+            int value = int.Parse(param["value"]);
+            p.SetVar(id, value);
         }
 
         #endregion

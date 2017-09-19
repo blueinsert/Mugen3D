@@ -38,11 +38,17 @@ namespace Mugen3D
                     }
                     else if (t.value == "Event")
                     {
+                        curParseStateEvent = new StateEvent();
                         t = tokens[pos++];
                         int eventNum;
-                        Utility.Assert(int.TryParse(t.value, out eventNum), "a event number must be int");
-                        curParseStateEvent = new StateEvent();
-                        curParseStateEvent.eventNumber = eventNum;
+                        if (int.TryParse(t.value, out eventNum))
+                        {
+                            curParseStateEvent.eventNumber = eventNum;
+                        }
+                        else
+                        {
+                            curParseStateEvent.eventNumber = -1;
+                        }                
                         //skip useless
                         while ((t = tokens[pos++]).value != "\n") { }
                         ParseStateEvent(tokens, ref pos);
@@ -95,6 +101,8 @@ namespace Mugen3D
                         curParseStateEvent.type = StateEventType.PhysicsSet; break;
                     case "PosSet":
                         curParseStateEvent.type = StateEventType.PosSet; break;
+                    case "VarSet":
+                        curParseStateEvent.type = StateEventType.VarSet; break;
                     default :
                         Debug.LogError("event type can not be recognized :" + t.value); Application.Quit(); break;
                 }

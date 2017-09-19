@@ -56,6 +56,8 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_PrevStateNo] = GetPrevStateNo;
             pFuncTable[OpCode.Trigger_StateTime] = GetStateTime;
             pFuncTable[OpCode.Trigger_DeltaTime] = GetDeltaTime;
+            pFuncTable[OpCode.Trigger_Var] = GetVar;
+            pFuncTable[OpCode.Trigger_Neg] = GetNeg;
             //todo
         }
 
@@ -380,6 +382,22 @@ namespace Mugen3D
             float time = Triggers.Instance.DeltaTime();
             mStack.Push(new StackType(time));
         }
+
+        void GetVar()
+        {
+            PopValue();
+            int id = (int) mPop.value;
+            int value = Triggers.Instance.Var(mOwner, id);
+            mStack.Push(new StackType(value));
+        }
+
+        void GetNeg()
+        {
+            PopValue();
+            var tmp = mPop.value;
+            mStack.Push(new StackType(-tmp));
+        }
+
         #endregion
         #endregion
 

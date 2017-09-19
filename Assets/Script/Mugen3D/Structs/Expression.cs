@@ -16,6 +16,7 @@ namespace Mugen3D
 
         public Expression(List<Token> tokens, bool isPostfix)
         {
+            PreTransact(tokens);
             if (isPostfix == false)
             {
                 tokens = Infix2PostFix(tokens);
@@ -27,7 +28,20 @@ namespace Mugen3D
             }
         }
 
-        public List<Token> Infix2PostFix(List<Token> tokens)
+        private void PreTransact(List<Token> tokens)
+        {  
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                Token t = tokens[i];
+                if (TokenConfig.IsTriggerFunc(t))
+                {
+                    t.type = TokenType.Op;
+                    tokens[i] = t;
+                }
+            }
+        }
+
+        private List<Token> Infix2PostFix(List<Token> tokens)
         {
             Stack<Token> opStack = new Stack<Token>();
             List<Token> result = new List<Token>();

@@ -29,6 +29,15 @@ name = "6a"
 command = /F,a
 time = 1
 
+[Command]
+name = "upfwd"
+command = /UF
+time = 1
+
+[Command]
+name = "upback"
+command = /UB
+time = 1
 
 [Command]
 name = "holdfwd"
@@ -49,4 +58,6 @@ time = 1
 name = "holddown"
 command = /D
 time = 1
+
+
 

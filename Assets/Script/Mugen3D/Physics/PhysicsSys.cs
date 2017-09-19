@@ -16,7 +16,7 @@ namespace Mugen3D
     public class MoveCtr
     {
         public PhysicsType type = PhysicsType.Stand;
-        public Vector3 gravity = new Vector3(0, -10f, 0);
+        public Vector3 gravity = new Vector3(0, -50f, 0);
         public Vector3 velocity = Vector3.zero;
         public Vector3 acceleratedVelocity = Vector3.zero;
         public float groundFrictionFactor = 0.75f;

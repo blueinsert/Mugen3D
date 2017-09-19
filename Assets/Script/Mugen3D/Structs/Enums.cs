@@ -25,6 +25,7 @@ namespace Mugen3D {
         ChangeState,
         PhysicsSet,
         PosSet,
+        VarSet,
     }
 
     public enum TokenType
@@ -71,6 +72,9 @@ namespace Mugen3D {
         Trigger_PrevStateNo,
         Trigger_StateTime,       
         Trigger_DeltaTime,
+        //trigger functions
+        Trigger_Var,
+        Trigger_Neg,
         //todo
 
     }

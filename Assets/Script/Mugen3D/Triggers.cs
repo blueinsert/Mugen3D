@@ -102,6 +102,11 @@ public class Triggers
         return GameEngine.deltaTime;
     }
 
+    public int Var(Player p, int id)
+    {
+        return p.GetVar(id);
+    }
+
     #endregion
 
 }

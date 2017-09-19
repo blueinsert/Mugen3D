@@ -19,7 +19,7 @@ value = 10
 [Event 2]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = Command == "holdup"
+trigger1 = (Command == "holdup" || Command == "upfwd") || Command == "upback"
 value = 50
 
 
@@ -96,21 +96,60 @@ trigger1 = Time == 1
 value = "jumping"
 mode = "once"
 
-
+//(Command == "holdup" || Command == "upfwd") || Command == "upback"
 [Event 1]
-type = VelSet
-trigger1 = AnimElem == 12
-x = 0
-y = 6
+type = VarSet
+trigger1 = Time == 0
+trigger1 = Command == "holdup"
+id = 13
+value = 0
 
 [Event 2]
-type = PhysicsSet
-trigger1 = AnimElem == 12
-value = "A"
+type = VarSet
+trigger1 = Time == 0
+trigger1 = Command == "upfwd"
+id = 13
+value = 1
 
 [Event 3]
+type = VarSet
+trigger1 = Time == 0
+trigger1 = Command == "upback"
+id = 13
+value = -1
+
+
+[Event 4]
+type = VelSet
+trigger1 = AnimElem == 9
+trigger1 = Var(13) == 0
+x = 0
+y = 20
+
+
+[Event 5]
+type = VelSet
+trigger1 = AnimElem == 9
+trigger1 = Var(13) == 1
+x = 8
+y = 20
+
+[Event 6]
+type = VelSet
+trigger1 = AnimElem == 9
+trigger1 = Var(13) == Neg(1)
+x = -8
+y = 20
+
+
+[Event 7]
+type = PhysicsSet
+trigger1 = AnimElem == 9
+value = "A"
+
+[Event 8]
 type = ChangeState
-trigger1 = VelY < 0 && AnimElem > 12
+trigger1 = VelY < 0 && AnimElem > 9
 value = 51
 
 
