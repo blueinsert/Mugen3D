@@ -6,7 +6,7 @@ namespace Mugen3D
     public class CmdManager
     {
         List<Command> mCommands = new List<Command>();
-        List<CommandState> mCommandState = new List<CommandState>();
+        Dictionary<int, List<CommandState>> mCommandState = new Dictionary<int, List<CommandState>>(); 
 
         public void LoadCmdFile(TextAsset content)
         {
@@ -60,6 +60,13 @@ namespace Mugen3D
                             Utility.Assert((t = tokens[pos++]).value == "=", "should be = after name");
                             c.mCommandName = (t = tokens[pos++]).value;
 
+                        }
+                        else if (t.value == "type")
+                        {
+                            Utility.Assert((t = tokens[pos++]).value == "=", "should be = after type");
+                            int type;
+                            Utility.Assert(int.TryParse((t = tokens[pos++]).value, out type), "time should be int");
+                            c.type = type;
                         }
                         else if (t.value == "time")
                         {
@@ -164,27 +171,43 @@ namespace Mugen3D
         {
             for (int i = 0; i < mCommands.Count; i++)
             {
-                mCommandState.Add(new CommandState(mCommands[i]));
+                var cmdState = new CommandState(mCommands[i]);
+                if (!mCommandState.ContainsKey(cmdState.type))
+                {
+                    mCommandState[cmdState.type] = new List<CommandState>();
+                }
+                mCommandState[cmdState.type].Add(cmdState);
             }
         }
 
         public void Update(uint keycode)
         {
-            for (int i = 0; i < mCommandState.Count; i++)
+            foreach (var s in mCommandState)
             {
-                mCommandState[i].Update(keycode);
+                for (int i = 0; i < s.Value.Count; i++)
+                {
+                    s.Value[i].Update(keycode);
+
+                }
             }
         }
 
-        public string GetActiveCommandName()
+        public string GetActiveCommandName(int type)
         {
             string commandName = "none";
-            for (int i = 0; i < mCommandState.Count; i++)
+            if (!mCommandState.ContainsKey(type))
             {
-                if (mCommandState[i].IsCommandComplete)
+                return "none";
+            }
+            else
+            {
+                for (int i = 0; i < mCommandState[type].Count; i++)
                 {
-                    commandName = mCommandState[i].name;
-                    break;
+                    if (mCommandState[type][i].IsCommandComplete)
+                    {
+                        commandName = mCommandState[type][i].name;
+                        break;
+                    }
                 }
             }
             return commandName;

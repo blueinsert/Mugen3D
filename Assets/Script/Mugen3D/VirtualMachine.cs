@@ -1,10 +1,29 @@
 ﻿using UnityEngine;
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Mugen3D
 {
+    public class DebugInfo
+    {
+        public int stateNo;
+        public int eventNo;
+        public string express;
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("{");
+            sb.Append("stateNo:"+stateNo).Append(",");
+            sb.Append("eventNo:" + eventNo).Append(",");
+            sb.Append("express:" + express);
+            sb.Append("}");
+            return sb.ToString();
+        }
+    }
+
     public class VirtualMachine
     {
         private Player mOwner;
@@ -12,12 +31,20 @@ namespace Mugen3D
         private StackType mPop;
         private Instruction mCurrIns;
         private Dictionary<OpCode, Action> pFuncTable = new Dictionary<OpCode, Action>();
+        private DebugInfo debugInfo;
 
         public void SetOwner(Player p){
             mOwner = p;
         }
+
         public VirtualMachine() {
+            debugInfo = new DebugInfo();
             InitFuncTable();
+        }
+
+        public void SetDebugInfo(DebugInfo info)
+        {
+            this.debugInfo = info;
         }
 
         public void InitFuncTable()
@@ -56,6 +83,7 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_PrevStateNo] = GetPrevStateNo;
             pFuncTable[OpCode.Trigger_StateTime] = GetStateTime;
             pFuncTable[OpCode.Trigger_DeltaTime] = GetDeltaTime;
+            pFuncTable[OpCode.Trigger_PhysicsType] = GetPhysicsType;
             pFuncTable[OpCode.Trigger_Var] = GetVar;
             pFuncTable[OpCode.Trigger_Neg] = GetNeg;
             //todo
@@ -63,17 +91,23 @@ namespace Mugen3D
 
         public double Execute(Instruction[] ins)
         {
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ins.Length; i++)
             {
-                mCurrIns = ins[i];
-                if (pFuncTable.ContainsKey(ins[i].opCode))
-                    pFuncTable[ins[i].opCode]();
-                else
-                {
-                    Debug.LogError("pFuncTable do not has key:" + ins[i].opCode);
-                    Application.Quit();
-                }
+                sb.Append(ins[i].opCode.ToString()).Append(",");
             }
+            debugInfo.express = sb.ToString();
+            for (int i = 0; i < ins.Length; i++)
+                {
+                    mCurrIns = ins[i];
+                    if (pFuncTable.ContainsKey(ins[i].opCode))
+                        pFuncTable[ins[i].opCode]();
+                    else
+                    {
+                        Debug.LogError("pFuncTable do not has key:" + ins[i].opCode);
+                        Application.Quit();
+                    }
+                }
             PopValue();
             mStack.Clear();
             return mPop.value;
@@ -92,7 +126,14 @@ namespace Mugen3D
 
         void PopValue()
         {
-            mPop = mStack.Pop();
+            try
+            {
+                mPop = mStack.Pop();
+            }
+            catch (Exception e)
+            {
+                Debug.Log("DebugInfo:" + debugInfo);
+            }
         }
 
         void AddOP()
@@ -332,7 +373,9 @@ namespace Mugen3D
 
         void GetActiveCommand()
         {
-            string command = Triggers.Instance.Command(this.mOwner);
+            PopValue();
+            int type = (int)mPop.value;
+            string command = Triggers.Instance.Command(this.mOwner, type);
             mStack.Push(new StackType(command.GetHashCode()));
         }
 
@@ -381,6 +424,12 @@ namespace Mugen3D
         {
             float time = Triggers.Instance.DeltaTime();
             mStack.Push(new StackType(time));
+        }
+
+        void GetPhysicsType()
+        {
+            string physics = Triggers.Instance.PhysicsType(mOwner);
+            mStack.Push(new StackType(physics.GetHashCode()));
         }
 
         void GetVar()

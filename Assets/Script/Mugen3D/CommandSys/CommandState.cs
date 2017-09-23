@@ -5,7 +5,7 @@ namespace Mugen3D
 {
     public class CommandState
     {
-
+        public int type;
         public Command command;
         public string name;
         int commandElementNum;
@@ -89,6 +89,7 @@ namespace Mugen3D
         public CommandState(Command command)
         {
             this.command = command;
+            this.type = command.type;
             commandElementNum = command.mCommand.Count;
             bufferTime = command.mBufferTime;
             commandTime = command.mCommandTime;

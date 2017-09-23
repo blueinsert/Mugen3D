@@ -55,5 +55,6 @@ namespace Mugen3D
         public List<CommandElement> mCommand;
         public int mCommandTime, mBufferTime;
         public string mCommandName;
+        public int type;
     }
 }

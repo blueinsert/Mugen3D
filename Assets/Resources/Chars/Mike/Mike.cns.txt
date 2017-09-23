@@ -7,20 +7,39 @@ c = 3
 [Event 0]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = Command == "holdfwd" || Command == "holdback"
+trigger1 = Command(1) == "F" || Command(1) == "B"
 value = 20
 
 [Event 1]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = Command == "holddown"
+trigger1 = Command(1) == "D"
 value = 10
 
 [Event 2]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = (Command == "holdup" || Command == "upfwd") || Command == "upback"
+trigger1 = (Command(1) == "U" || Command(1) == "UF") || Command(1) == "UB"
 value = 50
+
+[Event 3]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command(0) == "x"
+value = 210
+
+[Event 3]
+type = ChangeState
+trigger1 = StateNo == 10
+trigger1 = Command(1) == "D" && Command(0) == "x"
+value = 310
+
+[Event 3]
+type = ChangeState
+trigger1 = Physics == "Air"
+trigger1 = Command(0) == "x"
+value = 410
+
 
 
 
@@ -51,7 +70,7 @@ value = "crouch"
 
 [Event 1]
 type = ChangeState
-triggerall = Command != "holddown"
+triggerall = Command(1) != "D" && Command(1) != "DF" && Command(1) != "DB"
 value = 0
 
 
@@ -60,13 +79,13 @@ value = 0
 
 [Event 0]
 type = VelSet
-trigger1 = Command == "holdfwd"
+trigger1 = Command(1) == "F"
 x = 4
 y = 0
 
 [Event 1]
 type = VelSet
-trigger1 = Command == "holdback"
+trigger1 = Command(1) == "B"
 x = -4
 y = 0
 
@@ -84,7 +103,7 @@ value = "walk"
 
 [Event 4]
 type = ChangeState
-triggerall = Command != "holdback" && Command != "holdfwd"
+triggerall = Command(1) != "B" && Command(1) != "F"
 value = 0
 
 //jump up
@@ -96,25 +115,24 @@ trigger1 = Time == 1
 value = "jumping"
 mode = "once"
 
-//(Command == "holdup" || Command == "upfwd") || Command == "upback"
 [Event 1]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = Command == "holdup"
+trigger1 = Command(1) == "U"
 id = 13
 value = 0
 
 [Event 2]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = Command == "upfwd"
+trigger1 = Command(1) == "UF"
 id = 13
 value = 1
 
 [Event 3]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = Command == "upback"
+trigger1 = Command(1) == "UB"
 id = 13
 value = -1
 
@@ -197,4 +215,45 @@ value = "S"
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
+
+//Heavy Punch
+[Statedef 210]
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = "punch_heavy"
+
+[Event]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
+
+//Crouch Heavy Punch
+[Statedef 310]
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = "punch_crouching_heavy"
+
+[Event]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 10
+
+//Air Heavy Punch
+[Statedef 410]
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = "punch_jumping_heavy"
+mode = "once"
+
+[Event 1]
+type = ChangeState
+trigger1 = (PoxY + VelY * DeltaTime) < 0
+value = 52
 

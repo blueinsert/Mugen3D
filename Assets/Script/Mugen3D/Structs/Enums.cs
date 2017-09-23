@@ -72,6 +72,7 @@ namespace Mugen3D {
         Trigger_PrevStateNo,
         Trigger_StateTime,       
         Trigger_DeltaTime,
+        Trigger_PhysicsType,
         //trigger functions
         Trigger_Var,
         Trigger_Neg,

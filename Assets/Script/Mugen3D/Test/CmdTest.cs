@@ -16,7 +16,7 @@ public class CmdTest : MonoBehaviour
         uint keycode = GetInputKeycode();
 
         m.Update(keycode);
-        string commandName = m.GetActiveCommandName(); 
+        string commandName = m.GetActiveCommandName(0); 
         if(commandName!="none")
             Debug.Log("current active command:" + commandName);
     }

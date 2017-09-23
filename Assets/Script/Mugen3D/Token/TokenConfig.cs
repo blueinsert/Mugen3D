@@ -37,6 +37,7 @@ namespace Mugen3D
             {OpCode.Trigger_DeltaTime,1},
             {OpCode.Trigger_Var,1},
             {OpCode.Trigger_Neg,1},
+            {OpCode.Trigger_PhysicsType,1},
         };
 
         private static readonly Dictionary<string, OpCode> OpcodeStrIdMap = new Dictionary<string, OpCode>(){
@@ -69,6 +70,7 @@ namespace Mugen3D
             {"Time",OpCode.Trigger_StateTime},
             {"PrevStateNo",OpCode.Trigger_PrevStateNo},
             {"DeltaTime", OpCode.Trigger_DeltaTime},
+            {"Physics", OpCode.Trigger_PhysicsType},
             {"Var",OpCode.Trigger_Var},
             {"Neg",OpCode.Trigger_Neg},
             // to do
@@ -76,7 +78,7 @@ namespace Mugen3D
 
         public static bool IsTriggerFunc(Token t)
         {
-            if (t.value == "Var" || t.value == "Neg")
+            if (t.value == "Var" || t.value == "Neg" || t.value == "Command")
             {
                 return true;
             }

@@ -8,8 +8,9 @@ namespace Mugen3D
     public class PlayerStateDef
     {
         private Player owner;
-        public int stateId;
+        private StateEvent curEvent;
 
+        public int stateId;
         private MyDictionary<string, string> InitParams;
         public MyList<StateEvent> events;
 
@@ -45,6 +46,7 @@ namespace Mugen3D
             for (int i = 0; i < events.Count; i++)
             {
                 StateEvent e = events[i];
+                curEvent = e;
                 bool checkRequired = true;
                 bool checkOptional = true;
                 //check requiredTriggerList
@@ -94,6 +96,7 @@ namespace Mugen3D
             foreach (var e in expressions) {
                 VirtualMachine vm = new VirtualMachine();
                 vm.SetOwner(this.owner);
+                vm.SetDebugInfo(new DebugInfo { stateNo = this.stateId, eventNo = curEvent.eventNumber });
                 double result = vm.Execute(e);
                 if (result == 0)
                 {
