@@ -22,7 +22,7 @@ public class CollideSystemTest : MonoBehaviour {
         Gizmos.color = Color.blue;
         Vector3[] c1Points = cuboid1.GetVertexArray().ToArray();
         Vector3[] c2Points = cuboid2.GetVertexArray().ToArray();
-        if (CollideSystem.CuboidCuboidTest(c1Points, c2Points))
+        if (ColliderSystem.CuboidCuboidTest(c1Points, c2Points))
         {
             Gizmos.color = Color.red;
         }

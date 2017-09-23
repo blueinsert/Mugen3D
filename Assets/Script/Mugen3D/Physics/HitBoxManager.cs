@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Mugen3D{
 
 public class HitBoxManager : MonoBehaviour {
+
     public List<HitBox> attactBoxes = new List<HitBox>();
     public List<HitBox> defenceBoxes = new List<HitBox>();
     public List<HitBox> collideBoxes = new List<HitBox>();
@@ -18,31 +19,22 @@ public class HitBoxManager : MonoBehaviour {
     {
         foreach (var b in attactBoxes)
         {
-            DrawHitBox(b);
+            DrawHitBox(b, Color.red);
         }
         foreach (var b in defenceBoxes)
         {
-            DrawHitBox(b);
+            DrawHitBox(b, Color.blue);
         }
         foreach (var b in collideBoxes)
         {
-            DrawHitBox(b);
+            DrawHitBox(b, Color.black);
         }
     }
 
-    void DrawHitBox(HitBox box) {
-        switch (box.type)
-        {
-            case HitBoxType.Attack:
-                Gizmos.color = Color.red;
-                break;
-            case HitBoxType.Defence:
-                Gizmos.color = Color.blue;
-                break;
-            case HitBoxType.Collide:
-                Gizmos.color = Color.black;
-                break;
-        }
+    void DrawHitBox(HitBox box, Color c) {
+        if (!box.visualable)
+            return;
+        Gizmos.color = c;
         List<Vector3> points = box.cuboid.GetVertexArray();
         Gizmos.DrawLine(points[0], points[1]);
         Gizmos.DrawLine(points[1], points[2]);
@@ -58,4 +50,5 @@ public class HitBoxManager : MonoBehaviour {
         Gizmos.DrawLine(points[3], points[7]);
     }
 }
+
 }

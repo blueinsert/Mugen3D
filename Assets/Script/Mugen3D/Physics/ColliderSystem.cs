@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
-    public class CollideSystem
+    public class ColliderSystem
     {
         static Vector3 GetPlaneNormalVector(Vector3 p1, Vector3 p2, Vector3 p3)
         {
