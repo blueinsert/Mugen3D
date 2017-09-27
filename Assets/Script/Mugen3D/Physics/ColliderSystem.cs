@@ -63,7 +63,7 @@ namespace Mugen3D
                 if (c2Min > c1Max || c1Min > c2Max)
                 {
                     isIntersect = false;
-                    Debug.Log("c1Min:" + c1Min + " c1Max" + c1Max + " c2Min:" + c2Min + " c2Max" + c2Max);
+                    //Debug.Log("c1Min:" + c1Min + " c1Max" + c1Max + " c2Min:" + c2Min + " c2Max" + c2Max);
                     break;
                 }
                 

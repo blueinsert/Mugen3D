@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
     public PlayerId id;
     public PlayerSetting setting;
     public Animation anim;
+    public int facing = 1;
     public bool canCtrl = true;
     [HideInInspector]
     public MoveCtr moveCtr;
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour {
     private void UpdatePlayer()
     {  
         moveCtr.Update();
-        cmdMgr.Update(InputHandler.GetInputKeycode());
+        cmdMgr.Update(InputHandler.GetInputKeycode(this.id));
         animCtr.Update();
         stateMgr.Update();
     }

@@ -3,17 +3,17 @@ namespace Mugen3D
 {
     public class PlayerLoader
     {
-        public static GameObject LoadPlayer(PlayerId id, string playerName, Transform parent)
+        public static Player LoadPlayer(PlayerId id, string playerName, Vector3 initPos, Transform parent)
         {
             UnityEngine.Object o = Resources.Load<Object>("Chars/" + playerName + "/" + playerName);
-            GameObject player = GameObject.Instantiate(o, parent) as GameObject;
-            player.name = playerName;
-            Player script = player.GetComponent<Player>();
-            script.Init(script.setting);
-            script.id = id;
-            World.Instance.AddPlayer(id, script);
-            GUIDebug.Instance.SetPlayer(script);
-            return player;
+            GameObject go = GameObject.Instantiate(o, parent) as GameObject;
+            go.name = playerName;
+            Player p = go.GetComponent<Player>();
+            p.Init(p.setting);
+            p.id = id;
+            p.transform.localPosition = initPos;
+            World.Instance.AddPlayer(id, p);
+            return p;
         }
     }
 }

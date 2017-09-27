@@ -28,5 +28,10 @@ namespace Mugen3D
         public void AddPlayer(PlayerId id, Player p){
             mPlayers[id] = p;
         }
+
+        public Player GetPlayer(PlayerId id)
+        {
+            return mPlayers[id];
+        }
     }
 }

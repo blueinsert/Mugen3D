@@ -8,12 +8,18 @@ public class WordRunner : MonoBehaviour {
     float timer = 0;
 	// Use this for initialization
 	void Start () {
-        PlayerLoader.LoadPlayer(PlayerId.P1,"Mike", this.transform);
+        var p = PlayerLoader.LoadPlayer(PlayerId.P1,"Mike", this.transform.position, this.transform);
+        PlayerLoader.LoadPlayer(PlayerId.P2, "Mike", this.transform.position, this.transform);
+        CameraController.Instance.SetFollowTarget(p.transform);
+        GUIDebug.Instance.SetPlayer(p);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        float timeS = Time.time;
         GameEngine.Update(Time.deltaTime);
+        float timeE = Time.time;
+        //Debug.Log("take time:" + (timeE - timeS));
         /*
         float period = 1.0f / frameRate;
         timer += Time.deltaTime;
