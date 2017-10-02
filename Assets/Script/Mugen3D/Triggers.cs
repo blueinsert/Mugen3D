@@ -107,6 +107,11 @@ public class Triggers
         return p.GetVar(id);
     }
 
+    public int HitVar(Player p, int key)
+    {
+        return p.hitVars.GetHitVar(key);
+    }
+
     #endregion
 
 }

@@ -17,6 +17,7 @@ namespace Mugen3D
         public int stateTime;
 
         private bool isReady = false;
+        private bool isChangingState = false;
 
         public StateManager(Player p)
         {
@@ -35,7 +36,7 @@ namespace Mugen3D
                 foreach (var kv in tmp)
                 {
                     kv.Value.SetOwner(owner);
-                    States.Add(kv.Key, kv.Value);
+                    States[kv.Key] = kv.Value;
                 }
             }
             currentState = States[0];
@@ -43,7 +44,10 @@ namespace Mugen3D
         }
 
         public void ChangeState(int id) {
-            currentState = States[id];
+            isChangingState = true;
+            var tmp = States[id];
+            tmp.Init();
+            currentState = tmp;
             currentState.OnEnter();
             stateTime = -1;
             historyStates.Add(currentState);
@@ -51,11 +55,17 @@ namespace Mugen3D
             {
                 historyStates.RemoveAt(0);
             }
+            isChangingState = false;
         }
 
         public void Update() {
             if (!isReady)
                 return;
+            if (isChangingState)
+            {
+                Log.Info("changing state when update");
+                return;
+            }
             stateTime++;
             if (States.ContainsKey(9999))
             {

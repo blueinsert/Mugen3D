@@ -14,6 +14,13 @@ namespace Mugen3D
         private MyDictionary<string, string> InitParams;
         public MyList<StateEvent> events;
 
+        public void Init() {
+            foreach (var e in events)
+            {
+                e.Init();
+            }
+        }
+
         public PlayerStateDef()
         {
             events = new MyList<StateEvent>();
@@ -75,7 +82,10 @@ namespace Mugen3D
                     }
                     param[p.Key] = v;
                 }
-                Controllers.Instance.ExeController(owner, e.type, param);
+                if (e.triggerOnce == false || (e.triggerOnce && e.isTriggered == false))
+                {
+                    Controllers.Instance.ExeController(owner, e.type, param, () => { e.isTriggered = true; });
+                }
             }
         }
 

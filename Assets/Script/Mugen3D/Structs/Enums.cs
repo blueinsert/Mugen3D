@@ -26,6 +26,8 @@ namespace Mugen3D {
         PhysicsSet,
         PosSet,
         VarSet,
+        HitDef,
+        Pause,
     }
 
     public enum TokenType
@@ -76,6 +78,7 @@ namespace Mugen3D {
         //trigger functions
         Trigger_Var,
         Trigger_Neg,
+        Trigger_HitVar,
         //todo
 
     }

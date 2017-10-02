@@ -1,49 +1,3 @@
-//response to command
-[Statedef 9999]
-a = 1
-b = 2
-c = 3
-
-[Event 0]
-type = ChangeState
-trigger1 = StateNo == 0
-trigger1 = Command(1) == "F" || Command(1) == "B"
-value = 20
-
-[Event 1]
-type = ChangeState
-trigger1 = StateNo == 0
-trigger1 = Command(1) == "D"
-value = 10
-
-[Event 2]
-type = ChangeState
-trigger1 = StateNo == 0
-trigger1 = (Command(1) == "U" || Command(1) == "UF") || Command(1) == "UB"
-value = 50
-
-[Event 3]
-type = ChangeState
-trigger1 = StateNo == 0
-trigger1 = Command(0) == "x"
-value = 210
-
-[Event 3]
-type = ChangeState
-trigger1 = StateNo == 10
-trigger1 = Command(1) == "D" && Command(0) == "x"
-value = 310
-
-[Event 3]
-type = ChangeState
-trigger1 = Physics == "Air"
-trigger1 = Command(0) == "x"
-value = 410
-
-
-
-
-
 //stand idle
 [Statedef 0]
 
@@ -216,44 +170,23 @@ type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
 
-//Heavy Punch
-[Statedef 210]
+//Stand get hit(shaking)
+[Statedef 5000]
 
 [Event]
 type = ChangeAnim
-trigger1 = Time == 0
-value = "punch_heavy"
+trigger1 = Time > 0
+value = "hit_standing"
 
 [Event]
 type = ChangeState
-trigger1 = LeftAnimElem == 0
+trigger1 = Time >= HitVar("p2ShakeTime")
+value = 5001
+
+[Statedef 5001]
+
+[Event]
+type = ChangeState
+trigger1 = Time >= 13
 value = 0
-
-
-//Crouch Heavy Punch
-[Statedef 310]
-
-[Event]
-type = ChangeAnim
-trigger1 = Time == 0
-value = "punch_crouching_heavy"
-
-[Event]
-type = ChangeState
-trigger1 = LeftAnimElem == 0
-value = 10
-
-//Air Heavy Punch
-[Statedef 410]
-
-[Event]
-type = ChangeAnim
-trigger1 = Time == 0
-value = "punch_jumping_heavy"
-mode = "once"
-
-[Event 1]
-type = ChangeState
-trigger1 = (PoxY + VelY * DeltaTime) < 0
-value = 52
 

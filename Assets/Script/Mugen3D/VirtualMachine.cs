@@ -86,6 +86,8 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_PhysicsType] = GetPhysicsType;
             pFuncTable[OpCode.Trigger_Var] = GetVar;
             pFuncTable[OpCode.Trigger_Neg] = GetNeg;
+            pFuncTable[OpCode.Trigger_HitVar] = GetHitVar;
+
             //todo
         }
 
@@ -445,6 +447,14 @@ namespace Mugen3D
             PopValue();
             var tmp = mPop.value;
             mStack.Push(new StackType(-tmp));
+        }
+
+        void GetHitVar()
+        {
+            PopValue();
+            var tmp = mPop.value;
+            int r = Triggers.Instance.HitVar(mOwner, (int)tmp);
+            mStack.Push(new StackType(r));
         }
 
         #endregion

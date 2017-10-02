@@ -8,10 +8,11 @@ public class WordRunner : MonoBehaviour {
     float timer = 0;
 	// Use this for initialization
 	void Start () {
-        var p = PlayerLoader.LoadPlayer(PlayerId.P1,"Mike", this.transform.position, this.transform);
-        PlayerLoader.LoadPlayer(PlayerId.P2, "Mike", this.transform.position, this.transform);
-        CameraController.Instance.SetFollowTarget(p.transform);
-        GUIDebug.Instance.SetPlayer(p);
+        var p1 = PlayerLoader.LoadPlayer(PlayerId.P1,"Mike", this.transform.position, this.transform);
+        var p2 = PlayerLoader.LoadPlayer(PlayerId.P2, "Mike", this.transform.position, this.transform);
+        CameraController.Instance.SetFollowTarget(p1.transform);
+        GUIDebug.Instance.AddPlayer(PlayerId.P1,p1);
+        GUIDebug.Instance.AddPlayer(PlayerId.P2, p2);
 	}
 	
 	// Update is called once per frame

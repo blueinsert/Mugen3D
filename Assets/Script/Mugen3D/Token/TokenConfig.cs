@@ -38,6 +38,7 @@ namespace Mugen3D
             {OpCode.Trigger_Var,1},
             {OpCode.Trigger_Neg,1},
             {OpCode.Trigger_PhysicsType,1},
+            {OpCode.Trigger_HitVar,1},
         };
 
         private static readonly Dictionary<string, OpCode> OpcodeStrIdMap = new Dictionary<string, OpCode>(){
@@ -73,12 +74,13 @@ namespace Mugen3D
             {"Physics", OpCode.Trigger_PhysicsType},
             {"Var",OpCode.Trigger_Var},
             {"Neg",OpCode.Trigger_Neg},
+            {"HitVar", OpCode.Trigger_HitVar},
             // to do
         };
 
         public static bool IsTriggerFunc(Token t)
         {
-            if (t.value == "Var" || t.value == "Neg" || t.value == "Command")
+            if (t.value == "Var" || t.value == "Neg" || t.value == "Command" || t.value == "HitVar")
             {
                 return true;
             }

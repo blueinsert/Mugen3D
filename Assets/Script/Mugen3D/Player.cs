@@ -9,6 +9,9 @@ public class Player : MonoBehaviour {
     public Animation anim;
     public int facing = 1;
     public bool canCtrl = true;
+    private int pauseTime = 0;
+    [HideInInspector]
+    public HitVars hitVars;
     [HideInInspector]
     public MoveCtr moveCtr;
     [HideInInspector]
@@ -20,6 +23,23 @@ public class Player : MonoBehaviour {
 
     public MyDictionary<int, int> vars;
 
+    public bool IsPause()
+    {
+        return pauseTime > 0;
+    }
+
+    public void Pause(int duration)
+    {
+        pauseTime = duration;
+    }
+
+    public void BeHit(HitVars var)
+    {
+        hitVars = var;
+        hitVars.Prepare();
+        stateMgr.ChangeState(5000);
+    }
+
     public void Init(PlayerSetting setting) { 
         moveCtr = new MoveCtr(this.transform);
         cmdMgr = new CmdManager();
@@ -30,8 +50,17 @@ public class Player : MonoBehaviour {
         vars = new MyDictionary<int, int>();
     }
 
+    public void ChangeFacing(int facing)
+    {
+        if (this.facing != facing)
+        {
+            this.facing = facing;
+            this.transform.localScale = new Vector3(1, 1, facing);
+        }
+    }
+
     private void UpdatePlayer()
-    {  
+    {   
         moveCtr.Update();
         cmdMgr.Update(InputHandler.GetInputKeycode(this.id));
         animCtr.Update();
@@ -40,6 +69,11 @@ public class Player : MonoBehaviour {
 
     public void OnUpdate()
     {
+        if (pauseTime > 0)
+        {
+            pauseTime--;
+            return;
+        }
         UpdatePlayer();
     }
 

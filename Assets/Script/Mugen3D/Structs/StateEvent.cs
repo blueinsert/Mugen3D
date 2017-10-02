@@ -9,9 +9,32 @@ namespace Mugen3D
     {
         public int eventNumber;
         public StateEventType type;
+        public bool triggerOnce = false;
+        public bool isTriggered = false;
         public MyList<Expression> requiredTriggerList;
         public MyDictionary<int, MyList<Expression>> optionalTriggerDic;
         public MyDictionary<string, MyList<Token>> parameters;
+
+        public void Init()
+        {
+            if (parameters.ContainsKey("triggerOnce"))
+            {
+                Token t = parameters["triggerOnce"][0];
+                if (t.value == "true")
+                {
+                    triggerOnce = true;
+                }
+                else
+                {
+                    triggerOnce = false;
+                }
+            }
+            else
+            {
+                triggerOnce = false;
+            }
+            isTriggered = false;
+        }
 
         public StateEvent()
         {

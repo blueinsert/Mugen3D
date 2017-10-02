@@ -4,30 +4,32 @@ namespace Mugen3D
 {
     public class GameEngine
     {
+        public static int gameTime = -1;
         public static float deltaTime;
         public static void Update(float _deltaTime)
         {
+            gameTime++;
             deltaTime = _deltaTime;
             foreach (var p in World.Instance.Players)
             {
                 p.Value.OnUpdate();
             }
-            HitBoxManager p1Boxes = World.Instance.GetPlayer(PlayerId.P1).GetComponent<HitBoxManager>();
-            HitBoxManager p2Boxes = World.Instance.GetPlayer(PlayerId.P2).GetComponent<HitBoxManager>();
-            bool hit = false;
-            for (int i = 0; i < p1Boxes.attactBoxes.Count; i++)
+            UpdateFacing();
+        }
+
+        private static void UpdateFacing(){
+            var p1 = World.Instance.GetPlayer(PlayerId.P1);
+            var p2 = World.Instance.GetPlayer(PlayerId.P2);
+            if (p1.transform.position.z > p2.transform.position.z)
             {
-                for (int j = 0; j < p2Boxes.defenceBoxes.Count; j++)
-                {
-                    if(ColliderSystem.CuboidCuboidTest(p1Boxes.attactBoxes[i].cuboid.GetVertexArray().ToArray(), p2Boxes.defenceBoxes[j].cuboid.GetVertexArray().ToArray())){
-                        hit = true;
-                        break;
-                    }
-                    if (hit == true)
-                        break;
-                }
+                p1.ChangeFacing(-1);
+                p2.ChangeFacing(1);
             }
-            Debug.Log("hit:" + hit);
+            else
+            {
+                p1.ChangeFacing(1);
+                p2.ChangeFacing(-1);
+            }
         }
 
     }

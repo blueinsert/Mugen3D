@@ -5,10 +5,27 @@ using UnityEngine;
 namespace Mugen3D{
 
 public class HitBoxManager : MonoBehaviour {
-
+    private Dictionary<HitBoxType, HitBox> mAttackBoxDic = new Dictionary<HitBoxType, HitBox>();
     public List<HitBox> attactBoxes = new List<HitBox>();
     public List<HitBox> defenceBoxes = new List<HitBox>();
     public List<HitBox> collideBoxes = new List<HitBox>();
+
+    void Start()
+    {
+        foreach (var b in attactBoxes)
+        {
+            mAttackBoxDic[b.type] = b;
+        }
+    }
+
+    public HitBox GetHitBox(HitBoxType type)
+    {
+        if (mAttackBoxDic.ContainsKey(type))
+        {
+            return mAttackBoxDic[type];
+        }
+        return null;
+    }
 
     void Update()
     {

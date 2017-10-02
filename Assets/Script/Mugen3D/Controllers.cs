@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace Mugen3D
 
         #region controller function
 
-        public void ExeController(Player p, StateEventType type, Dictionary<string,string> param){
+        public void ExeController(Player p, StateEventType type, Dictionary<string,string> param, Action cb){
             switch(type){
                 case StateEventType.VelSet:
                     VelSet(p, param);
@@ -48,6 +49,12 @@ namespace Mugen3D
                     break;
                 case StateEventType.VarSet:
                     VarSet(p, param);
+                    break;
+                case StateEventType.HitDef:
+                    HitDef(p, param, cb);
+                    break;
+                case StateEventType.Pause:
+                    Pause(p,param);
                     break;
             }
         }
@@ -70,7 +77,7 @@ namespace Mugen3D
             {
                 y = Triggers.Instance.VelY(p);
             }
-            p.moveCtr.VelSet(x, y);
+            p.moveCtr.VelSet(x * p.facing, y);
 
         }
 
@@ -212,6 +219,68 @@ namespace Mugen3D
             p.SetVar(id, value);
         }
 
+        public void Pause(Player p, Dictionary<string, string> param)
+        {
+            int pauseTime;
+            pauseTime = int.Parse(param["time"]);
+            p.Pause(pauseTime);
+        }
+
+        private bool HitDetect(Player p, HitBoxType activePart, out Player target)
+        {
+            Player enemy = TeamMgr.GetEnemy(p);
+            target = enemy;
+            HitBox attackBox = p.GetComponent<HitBoxManager>().GetHitBox(activePart);
+            HitBox[] attackBoxes = new HitBox[] { attackBox};
+            HitBox[] defenceBoxes = enemy.GetComponent<HitBoxManager>().defenceBoxes.ToArray();
+            bool hit = false;
+            for (int i = 0; i < attackBoxes.Length; i++)
+            {
+                for (int j = 0; j < defenceBoxes.Length; j++)
+                {
+                    if (ColliderSystem.CuboidCuboidTest(attackBoxes[i].cuboid.GetVertexArray().ToArray(), defenceBoxes[j].cuboid.GetVertexArray().ToArray()))
+                    {
+                        hit = true;
+                        break;
+                    }
+                    if (hit == true)
+                        break;
+                }
+            }
+            Log.Info("hit:" + hit);
+            return hit;
+        }
+
+        public HitVars GetHitVars(Dictionary<string, string> param)
+        {
+            var hitvar =  new HitVars();
+            try
+            {
+                if (param.ContainsKey("p1PauseTime"))
+                    hitvar.p1PauseTime = int.Parse(param["p1PauseTime"]);
+                if (param.ContainsKey("p2ShakeTime"))
+                    hitvar.p2ShakeTime = int.Parse(param["p2ShakeTime"]);
+            }
+            catch (Exception e)
+            {
+                Log.Info(e.ToString());
+            }
+            return hitvar;
+        }
+
+        public void HitDef(Player p, Dictionary<string, string> param, Action cb)
+        {
+           Player enemy;
+           bool hit =  HitDetect(p, HitBoxType.Attack_Hand_R, out enemy);
+           if (!hit)
+               return;
+           cb();
+           HitVars hitvar = GetHitVars(param);
+           p.Pause(hitvar.p1PauseTime);
+           enemy.BeHit(hitvar);
+        }
+
         #endregion
     }
+
 }

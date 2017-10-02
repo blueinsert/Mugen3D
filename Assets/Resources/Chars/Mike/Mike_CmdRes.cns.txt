@@ -1,0 +1,41 @@
+//response to command
+[Statedef 9999]
+a = 1
+b = 2
+c = 3
+
+[Event 0]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command(1) == "F" || Command(1) == "B"
+value = 20
+
+[Event 1]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command(1) == "D"
+value = 10
+
+[Event 2]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = (Command(1) == "U" || Command(1) == "UF") || Command(1) == "UB"
+value = 50
+
+[Event 3]
+type = ChangeState
+trigger1 = StateNo == 0
+trigger1 = Command(0) == "x"
+value = 210
+
+[Event 3]
+type = ChangeState
+trigger1 = StateNo == 10
+trigger1 = Command(1) == "D" && Command(0) == "x"
+value = 310
+
+[Event 3]
+type = ChangeState
+trigger1 = Physics == "Air"
+trigger1 = Command(0) == "x"
+value = 410
