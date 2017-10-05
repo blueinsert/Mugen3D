@@ -27,6 +27,32 @@ public class HitBoxManager : MonoBehaviour {
         return null;
     }
 
+    public Box2D GetCollideBox()
+    {
+        List<Vector3> vertexes = new List<Vector3>();
+
+        float ymin = float.MaxValue;
+        float ymax = float.MinValue;
+        float zmin = float.MaxValue;
+        float zmax = float.MinValue;
+        foreach (var box in collideBoxes)
+        {
+            foreach (var v in box.cuboid.GetVertexArray())
+            {
+                if (v.y > ymax)
+                    ymax = v.y;
+                if (v.y < ymin)
+                    ymin = v.y;
+                if (v.z > zmax)
+                    zmax = v.z;
+                if (v.z < zmin)
+                    zmin = v.z;
+            }
+        }
+        Box2D r = new Box2D(new Vector2((zmin + zmax) / 2, (ymin + ymax) / 2), zmax - zmin, ymax - ymin);
+        return r;
+    }
+
     void Update()
     {
       
@@ -42,10 +68,17 @@ public class HitBoxManager : MonoBehaviour {
         {
             DrawHitBox(b, Color.blue);
         }
-        foreach (var b in collideBoxes)
+        DrawRect(GetCollideBox().GetVertex(), Color.black);
+    }
+
+    void DrawRect(Vector3[] points, Color c)
+    {
+        Gizmos.color = c;
+        for (int i = 0; i < points.Length - 1; i++)
         {
-            DrawHitBox(b, Color.black);
+            Gizmos.DrawLine(points[i], points[i+1]);
         }
+        Gizmos.DrawLine(points[points.Length-1], points[0]);
     }
 
     void DrawHitBox(HitBox box, Color c) {

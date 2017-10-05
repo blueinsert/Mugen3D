@@ -8,8 +8,8 @@ public class WordRunner : MonoBehaviour {
     float timer = 0;
 	// Use this for initialization
 	void Start () {
-        var p1 = PlayerLoader.LoadPlayer(PlayerId.P1,"Mike", this.transform.position, this.transform);
-        var p2 = PlayerLoader.LoadPlayer(PlayerId.P2, "Mike", this.transform.position, this.transform);
+        var p1 = PlayerLoader.LoadPlayer(PlayerId.P1,"Mike", this.transform.position + new Vector3(0,0,-10), this.transform);
+        var p2 = PlayerLoader.LoadPlayer(PlayerId.P2, "Mike", this.transform.position + new Vector3(0, 0, 10), this.transform);
         CameraController.Instance.SetFollowTarget(p1.transform);
         GUIDebug.Instance.AddPlayer(PlayerId.P1,p1);
         GUIDebug.Instance.AddPlayer(PlayerId.P2, p2);

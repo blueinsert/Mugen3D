@@ -14,7 +14,7 @@ namespace Mugen3D
                 case PlayerId.P1:
                     keycodeMap = KeycodeMapConfig.P1; break;
                 default:
-                    break;
+                    keycodeMap = KeycodeMapConfig.P2;break;
             }
             uint keycode = 0;
             //string keyInfo = "";

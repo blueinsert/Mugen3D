@@ -260,6 +260,8 @@ namespace Mugen3D
                     hitvar.p1PauseTime = int.Parse(param["p1PauseTime"]);
                 if (param.ContainsKey("p2ShakeTime"))
                     hitvar.p2ShakeTime = int.Parse(param["p2ShakeTime"]);
+                if(param.ContainsKey("slideTime"))
+                    hitvar.slideTime = int.Parse(param["slideTime"]);
             }
             catch (Exception e)
             {

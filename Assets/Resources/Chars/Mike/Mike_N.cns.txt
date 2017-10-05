@@ -26,6 +26,7 @@ trigger1 = AnimElem >= 10 && AnimElem <= 13
 p1PauseTime = 5
 p2ShakeTime = 10
 triggerOnce = true
+slideTime = 17
 
 [Event]
 type = ChangeState

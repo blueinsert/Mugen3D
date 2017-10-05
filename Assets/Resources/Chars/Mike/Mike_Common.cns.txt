@@ -177,6 +177,7 @@ value = 0
 type = ChangeAnim
 trigger1 = Time > 0
 value = "hit_standing"
+mode = "once"
 
 [Event]
 type = ChangeState
@@ -186,7 +187,13 @@ value = 5001
 [Statedef 5001]
 
 [Event]
+type = VelSet
+trigger1 = Time == 0
+x = -8
+y = 0
+
+[Event]
 type = ChangeState
-trigger1 = Time >= 13
+trigger1 = Time >= HitVar("slideTime")
 value = 0
 

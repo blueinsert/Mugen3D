@@ -22,6 +22,7 @@ namespace Mugen3D
         public float groundFrictionFactor = 0.75f;
         public float mass = 70f;
         public Vector3 mExternalForce = Vector3.zero;
+        public bool pushTestOn = true;
         Transform target;
 
         public MoveCtr(Transform t) {
@@ -46,7 +47,7 @@ namespace Mugen3D
             {
                 acceleratedVelocity = -gravity.magnitude * groundFrictionFactor * velocity.normalized;
                 velocity += Time.deltaTime * acceleratedVelocity;
-                AddPos(velocity * Time.deltaTime);
+                PushTest(velocity * Time.deltaTime);
             }
         }
 
@@ -54,11 +55,42 @@ namespace Mugen3D
         {
             acceleratedVelocity = gravity;
             velocity += Time.deltaTime * acceleratedVelocity;
-            AddPos(velocity * Time.deltaTime);
+            PushTest(velocity * Time.deltaTime);
         }
 
-        void AddPos(Vector3 deltaPos)
+        private void PushTest(Vector3 deltaPos)
         {
+            Vector3 realDeltaPos = deltaPos;
+            if (pushTestOn && target.GetComponent<Player>().facing * deltaPos.z >0)
+            {
+                Vector2 movment = new Vector2(deltaPos.z, deltaPos.y);
+                Box2D box = target.GetComponent<HitBoxManager>().GetCollideBox();
+                box.center += movment;
+                var enemy = TeamMgr.GetEnemy(target.GetComponent<Player>());
+                Box2D box2 = enemy.GetComponent<HitBoxManager>().GetCollideBox();
+                if (ColliderSystem.RectRectTest(box, box2))
+                {
+                    /*
+                    if (movment.x>0)
+                    {
+                        movment.x = box2.center.x - box.center.x - box.width / 2 - box2.width / 2;
+                    }
+                    else if(movment.x<0)
+                    {
+                        movment.x = box.center.x - box2.center.x - box.width / 2 - box2.width / 2;
+                        movment.x = -movment.x;
+                    }
+                     */
+                    movment.x = movment.x / 2;
+                    enemy.moveCtr.AddPos(new Vector3(0, 0, movment.x));
+                    realDeltaPos = new Vector3(0, movment.y, movment.x);
+                }
+            }
+            AddPos(realDeltaPos);
+        }
+
+        public void AddPos(Vector3 deltaPos)
+        {    
             Vector3 pos = target.position;
             pos += deltaPos;
             target.position = pos;

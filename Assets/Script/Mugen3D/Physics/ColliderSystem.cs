@@ -70,5 +70,28 @@ namespace Mugen3D
             }//for six separate axis
             return isIntersect;
         }
+
+        public static bool RectRectTest(Box2D rect1, Box2D rect2)
+        {
+            bool isIntersect = false;
+            float r1xmin = rect1.center.x - rect1.width / 2;
+            float r1xmax = rect1.center.x + rect1.width / 2;
+            float r1ymin = rect1.center.y - rect1.height / 2;
+            float r1ymax = rect1.center.y + rect1.height / 2;
+
+            float r2xmin = rect2.center.x - rect2.width / 2;
+            float r2xmax = rect2.center.x + rect2.width / 2;
+            float r2ymin = rect2.center.y - rect2.height / 2;
+            float r2ymax = rect2.center.y + rect2.height / 2;
+            if (r1xmax < r2xmin || r1xmin > r2xmax || r1ymax < r2ymin || r1ymin > r2ymax)
+            {
+                isIntersect = false;
+            }
+            else
+            {
+                isIntersect = true;
+            }
+            return isIntersect;
+        }
     }
 }

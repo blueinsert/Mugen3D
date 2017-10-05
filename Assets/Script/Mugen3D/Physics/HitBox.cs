@@ -18,6 +18,10 @@ namespace Mugen3D
         Defence_UpperArm_R,
         Defence_ForeArm_L,
         Defence_ForeArm_R,
+        Collide_Head,
+        Collide_Body,
+        Collide_Thigh_L,
+        Collide_Thigh_R,
     }
 
     [System.Serializable]
