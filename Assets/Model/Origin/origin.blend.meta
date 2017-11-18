@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: fa1f18e4299a501488140533da27939d
-timeCreated: 1508413151
+timeCreated: 1510760332
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -219,6 +219,67 @@ ModelImporter:
     100422: wrist_R
     100424: wrist_L_002
     100426: wrist_R_001
+    100428: handmaster_L
+    100430: handmaster_R
+    100432: legmast_L
+    100434: legmaster_R
+    100436: legmast_L_001
+    100438: legmast_L_002
+    100440: legmast_L_003
+    100442: calf_l
+    100444: calf_l_001
+    100446: calf_l_002
+    100448: calf_r
+    100450: clavicle_l
+    100452: clavicle_r
+    100454: foot_r_002
+    100456: foot_r_003
+    100458: hand_l
+    100460: hand_r
+    100462: index_01_l
+    100464: index_01_r
+    100466: index_02_l
+    100468: index_02_r
+    100470: index_03_l
+    100472: index_03_r
+    100474: lowerarm_l
+    100476: lowerarm_r
+    100478: middle_01_l
+    100480: middle_01_r
+    100482: middle_02_l
+    100484: middle_02_r
+    100486: middle_03_l
+    100488: middle_03_r
+    100490: neck_01
+    100492: pelvis
+    100494: pinky_01_l
+    100496: pinky_01_r
+    100498: pinky_02_l
+    100500: pinky_02_r
+    100502: pinky_03_l
+    100504: pinky_03_r
+    100506: ring_01_l
+    100508: ring_01_r
+    100510: ring_02_l
+    100512: ring_02_r
+    100514: ring_03_l
+    100516: ring_03_r
+    100518: Root
+    100520: Root_001
+    100522: Root_002
+    100524: spine_01
+    100526: spine_02
+    100528: spine_03
+    100530: thigh_l
+    100532: thigh_r
+    100534: thumb_01_l
+    100536: thumb_01_r
+    100538: thumb_02_l
+    100540: thumb_02_r
+    100542: thumb_03_l
+    100544: thumb_03_r
+    100546: upperarm_l
+    100548: upperarm_r
     400000: chest
     400002: clavicle_L
     400004: clavicle_R
@@ -433,6 +494,67 @@ ModelImporter:
     400422: wrist_R
     400424: wrist_L_002
     400426: wrist_R_001
+    400428: handmaster_L
+    400430: handmaster_R
+    400432: legmast_L
+    400434: legmaster_R
+    400436: legmast_L_001
+    400438: legmast_L_002
+    400440: legmast_L_003
+    400442: calf_l
+    400444: calf_l_001
+    400446: calf_l_002
+    400448: calf_r
+    400450: clavicle_l
+    400452: clavicle_r
+    400454: foot_r_002
+    400456: foot_r_003
+    400458: hand_l
+    400460: hand_r
+    400462: index_01_l
+    400464: index_01_r
+    400466: index_02_l
+    400468: index_02_r
+    400470: index_03_l
+    400472: index_03_r
+    400474: lowerarm_l
+    400476: lowerarm_r
+    400478: middle_01_l
+    400480: middle_01_r
+    400482: middle_02_l
+    400484: middle_02_r
+    400486: middle_03_l
+    400488: middle_03_r
+    400490: neck_01
+    400492: pelvis
+    400494: pinky_01_l
+    400496: pinky_01_r
+    400498: pinky_02_l
+    400500: pinky_02_r
+    400502: pinky_03_l
+    400504: pinky_03_r
+    400506: ring_01_l
+    400508: ring_01_r
+    400510: ring_02_l
+    400512: ring_02_r
+    400514: ring_03_l
+    400516: ring_03_r
+    400518: Root
+    400520: Root_001
+    400522: Root_002
+    400524: spine_01
+    400526: spine_02
+    400528: spine_03
+    400530: thigh_l
+    400532: thigh_r
+    400534: thumb_01_l
+    400536: thumb_01_r
+    400538: thumb_02_l
+    400540: thumb_02_r
+    400542: thumb_03_l
+    400544: thumb_03_r
+    400546: upperarm_l
+    400548: upperarm_r
     4300000: origin_HighPolyEyes
     4300002: origin_male1591
     4300004: origin_Body
@@ -447,7 +569,91 @@ ModelImporter:
     7400012: Hit_High_Little
     7400014: Hit_Low_Little
     7400016: Defence_Stand
+    7400018: Fall_BackLand
+    7400020: Hit_High_Heavy
+    7400022: Hit_High_Medium
+    7400024: Hit_Low_Heavy
+    7400026: Hit_Low_Medium
+    7400028: Hitfly
+    7400030: Land_BackLand
+    7400032: RaiseUp1
+    7400034: Test
+    7400036: PoseLib
+    7400038: Punch1
+    7400040: Punch2
+    7400042: t-pos
+    7400044: Crouch
+    7400046: Crouch2Stand
+    7400048: Stand2Crouch
+    7400050: Walk_fwd
+    7400052: Standing
+    7400054: AirFall
+    7400056: AirFall_Downing
+    7400058: AirFall_Uping
+    7400060: AirRecover
+    7400062: BounceIntoAir
+    7400064: CrouchHit_Hard
+    7400066: CrouchHit_Light
+    7400068: CrouchHit_Medium
+    7400070: Crouching
+    7400072: CrouchLightKick
+    7400074: CrouchLightPunch
+    7400076: CrouchRecover_Hard
+    7400078: CrouchRecover_Light
+    7400080: CrouchRecover_Medium
+    7400082: CrouchStrongKick
+    7400084: CrouchStrongPunch
+    7400086: CrouchToStand
+    7400088: Dizzy
+    7400090: FallRecoverNearGround
+    7400092: GetUpFromLieDown
+    7400094: GuardAir
+    7400096: GuardCrouch
+    7400098: GuardStand
+    7400100: HitGround
+    7400102: HitGroundUpType
+    7400104: HopBackwards
+    7400106: JumpBackwards
+    7400108: JumpingForwards
+    7400110: JumpingUp
+    7400112: JumpLand
+    7400114: JumpLightKick
+    7400116: JumpLightPunch
+    7400118: JumpStart
+    7400120: JumpStrongKick
+    7400122: JumpStrongPunch
+    7400124: LieDead
+    7400126: LieDown
+    7400128: LieDownHit
+    7400130: LieDownHitToAir
+    7400132: RunForwards
+    7400134: Stand_Air_Hit_High_Hard
+    7400136: Stand_Air_Hit_High_Light
+    7400138: Stand_Air_Hit_High_Medium
+    7400140: Stand_Air_Hit_Low_Hard
+    7400142: Stand_Air_Hit_Low_Light
+    7400144: Stand_Air_Hit_Low_Medium
+    7400146: StandAirHitBack
+    7400148: StandAirHitTransition
+    7400150: StandLightKick
+    7400152: StandLightPunch
+    7400154: StandRecover_High_Hard
+    7400156: StandRecover_High_Light
+    7400158: StandRecover_High_Medium
+    7400160: StandRecover_Low_Hard
+    7400162: StandRecover_Low_Light
+    7400164: StandRecover_Low_Medium
+    7400166: StandStrongKick
+    7400168: StandStrongPunch
+    7400170: StandToCrouch
+    7400172: Taunt
+    7400174: Tripped
+    7400176: Turning
+    7400178: WalkingBack
+    7400180: WalkingForward
+    7400182: T-Pos
     9500000: //RootNode
+    11100000: //RootNode
     13700000: origin_Body
     13700002: origin_HighPolyEyes
     13700004: origin_male1591
@@ -514,10 +720,10 @@ ModelImporter:
     rootMotionBoneName: 
     rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 1
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

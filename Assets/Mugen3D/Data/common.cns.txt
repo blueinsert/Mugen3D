@@ -1,0 +1,172 @@
+//Standing
+[Statedef 0]
+anim = 0
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Anim != 0
+value = 0
+mode = loop
+
+//Stand to Crouch
+[Statedef 10]
+anim = 10
+
+[Event 0]
+type = ChangeState
+triggerall = LeftAnimElem == 0
+value = 11
+
+//Crouching
+[Statedef 11]
+anim = 11
+
+[Event 0]
+type = ChangeState
+triggerall = Command(1) != "D" && Command(1) != "DB" && Command(1) != "DF"
+value = 12
+
+//Crouch to Stand
+[Statedef 12]
+anim = 12
+
+[Event 0]
+type = ChangeState
+triggerall = LeftAnimElem == 0
+value = 0
+
+//Walking
+[Statedef 20]
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Anim != 20 && Command(1) == "F"
+value = 20
+mode = loop
+
+[Event 1]
+type = VelSet
+trigger1 = Anim == 20 && Command(1) == "F"
+x = 8
+
+[Event 2]
+type = ChangeAnim
+trigger1 = Anim != 21 && Command(1) == "B"
+value = 21
+mode = loop
+
+[Event 3]
+type = VelSet
+trigger1 = Anim == 21 && Command(1) == "B"
+x = -8
+
+[Event 4]
+type = ChangeState
+trigger1 = Command(1) != "F" && Command(1) != "B"
+value = 0
+
+//Jump Start
+[Statedef 40]
+physics = S
+anim = 40
+
+[Event 0]
+type = VarSet
+trigger1 = Time == 0
+trigger1 = Command(1) == "U"
+id = 13
+value = 0
+
+[Event 1]
+type = VarSet
+trigger1 = Time == 0
+trigger1 = Command(1) == "UF"
+id = 13
+value = 1
+
+[Event 2]
+type = VarSet
+trigger1 = Time == 0
+trigger1 = Command(1) == "UB"
+id = 13
+value = -1
+
+[Event 3]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 50
+
+//Jump Up
+[Statedef 50]
+physics = A
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time == 0
+trigger1 = Var(13) == 0
+value = 41
+
+[Event 1]
+type = ChangeAnim
+trigger1 = Time == 0
+trigger1 = Var(13) == 1
+value = 42
+
+[Event 2]
+type = ChangeAnim
+trigger1 = Time == 0
+trigger1 = Var(13) == Neg(1)
+value = 43
+
+[Event 3]
+type = VelSet
+trigger1 = Time == 0
+trigger1 = Var(13) == 0
+x = 0
+y = 30
+
+[Event 4]
+type = VelSet
+trigger1 = Time == 0
+trigger1 = Var(13) == 1
+x = 8
+y = 30
+
+[Event 5]
+type = VelSet
+trigger1 = Time == 0
+trigger1 = Var(13) == Neg(1)
+x = -8
+y = 30
+
+[Event 6]
+type = ChangeState
+trigger1 = (PoxY + VelY * DeltaTime) < 0
+value = 52
+
+//Jump Land
+[Statedef 52]
+physics = S
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 47
+mode = "once"
+
+[Event 1]
+type = VelSet
+trigger1 = Time == 0
+x = 0
+y = 0
+
+[Event 2]
+type = PosSet
+trigger1 = Time == 0
+y = 0
+
+[Event 3]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
