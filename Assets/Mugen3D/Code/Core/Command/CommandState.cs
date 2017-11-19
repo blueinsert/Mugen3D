@@ -5,23 +5,19 @@ namespace Mugen3D
 {
     public class CommandState
     {
-        public int type;
-        public Command command;
         public string name;
-        int commandElementNum;
-        int lastStateIndex = 0;
-        int currentStateIndex = 0;
-        int bufferTime = 1;
-        int commandTime = 15;
 
-        int bufferTimer = 0;
-        int commandBeginTime = 0;
+        private  Command command; 
+        private int commandElementNum;
+        private int lastStateIndex = 0;
+        private int currentStateIndex = 0;
+        private int bufferTime = 1;
+        private int commandTime = 15;
+
+        private int bufferTimer = 0;
+        private int commandBeginTime = 0;
+
         public bool IsCommandComplete { get { return currentStateIndex == commandElementNum; } }
-
-        public string GetCommandName()
-        {
-            return "";
-        }
 
         void ChangeCommandState(uint keycode)
         {
@@ -89,7 +85,6 @@ namespace Mugen3D
         public CommandState(Command command)
         {
             this.command = command;
-            this.type = command.type;
             commandElementNum = command.mCommand.Count;
             bufferTime = command.mBufferTime;
             commandTime = command.mCommandTime;

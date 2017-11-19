@@ -23,7 +23,7 @@ anim = 11
 
 [Event 0]
 type = ChangeState
-triggerall = Command(1) != "D" && Command(1) != "DB" && Command(1) != "DF"
+triggerall = CommandTest("holddown") == 0
 value = 12
 
 //Crouch to Stand
@@ -40,29 +40,29 @@ value = 0
 
 [Event 0]
 type = ChangeAnim
-trigger1 = Anim != 20 && Command(1) == "F"
+trigger1 = Anim != 20 && CommandTest("F")
 value = 20
 mode = loop
 
 [Event 1]
 type = VelSet
-trigger1 = Anim == 20 && Command(1) == "F"
+trigger1 = Anim == 20 && CommandTest("F")
 x = 8
 
 [Event 2]
 type = ChangeAnim
-trigger1 = Anim != 21 && Command(1) == "B"
+trigger1 = Anim != 21 && CommandTest("B")
 value = 21
 mode = loop
 
 [Event 3]
 type = VelSet
-trigger1 = Anim == 21 && Command(1) == "B"
+trigger1 = Anim == 21 && CommandTest("B")
 x = -8
 
 [Event 4]
 type = ChangeState
-trigger1 = Command(1) != "F" && Command(1) != "B"
+trigger1 = CommandTest("F") == 0 && CommandTest("B") == 0
 value = 0
 
 //Jump Start
@@ -73,21 +73,21 @@ anim = 40
 [Event 0]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = Command(1) == "U"
+trigger1 = CommandTest("U")
 id = 13
 value = 0
 
 [Event 1]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = Command(1) == "UF"
+trigger1 = CommandTest("UF")
 id = 13
 value = 1
 
 [Event 2]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = Command(1) == "UB"
+trigger1 = CommandTest("UB")
 id = 13
 value = -1
 

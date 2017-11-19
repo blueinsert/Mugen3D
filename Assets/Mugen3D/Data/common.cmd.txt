@@ -1,77 +1,92 @@
 command.time = 15
 command.buffer.time = 1
 
+
+[Command]
+name = "FF"
+command = F, F
+time = 10
+buffer.time = 200
+
+[Command]
+name = "holdfwd"
+command = /$F
+time = 1
+
+[Command]
+name = "holdback"
+command = /$B
+time = 1
+
+[Command]
+name = "holdup" 
+command = /$U
+time = 1
+
+[Command]
+name = "holddown"
+command = D
+time = 1
+
 [Command]
 name = "UF"
 command = U + F
 time = 1
-type = 1
 
 [Command]
 name = "UB"
 command = U + B
 time = 1
-type = 1
 
 [Command]
 name = "DF"
 command = D + F
 time = 1
-type = 1
 
 [Command]
 name = "DB"
 command = D + B
 time = 1
-type = 1
 
 [Command]
 name = "F"
 command = F
 time = 1
-type = 1
 
 [Command]
 name = "B"
 command = B
 time = 1
-type = 1
 
 [Command]
 name = "U"
 command = U
 time = 1
-type = 1
 
 [Command]
 name = "D"
 command = D
 time = 1
-type = 1
 
 [Command]
 name = "x"
 command = x
 time = 1
-type = 0
 
 [Command]
 name = "y"
 command = y
 time = 1
-type = 0
 
 [Command]
 name = "a"
 command = a
 time = 1
-type = 0
 
 [Command]
 name = "b"
 command = b
 time = 1
-type = 0
 
 
 

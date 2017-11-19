@@ -66,7 +66,7 @@ namespace Mugen3D {
         Trigger_AnimElem,
         Trigger_AnimTime,
         Trigger_LeftAnimElem,
-        Trigger_Command,
+        Trigger_CommandTest,
         Trigger_PosX,
         Trigger_PosY,
         Trigger_VelX,

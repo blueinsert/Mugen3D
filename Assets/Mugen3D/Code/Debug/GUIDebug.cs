@@ -43,9 +43,7 @@ public class GUIDebug : MonoBehaviour
         GUILayout.Label(new GUIContent("animTime:" + Triggers.Instance.AnimTime(p)));
         GUILayout.Label(new GUIContent("pos:" + Triggers.Instance.PosX(p) + "," + Triggers.Instance.PosY(p)));
         GUILayout.Label(new GUIContent("vel:" + Triggers.Instance.VelX(p) + "," + Triggers.Instance.VelY(p)));
-        GUILayout.Label(new GUIContent("command(0):" + Triggers.Instance.Command(p, 0)));
-        GUILayout.Label(new GUIContent("command(1):" + Triggers.Instance.Command(p, 1)));
-        GUILayout.Label(new GUIContent("command(2):" + Triggers.Instance.Command(p, 2)));
+        GUILayout.Label(new GUIContent("commands:" + p.cmdMgr.GetActiveCommandName()));
         GUILayout.Label(new GUIContent("ctrl:" + Triggers.Instance.Ctrl(p)));
         GUILayout.Label(new GUIContent("physics:" + Triggers.Instance.PhysicsType(p)));
         GUILayout.Label(new GUIContent("vars:" + p.vars.ToString()));

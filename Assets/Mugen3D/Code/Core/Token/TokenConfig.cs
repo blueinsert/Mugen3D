@@ -27,7 +27,7 @@ namespace Mugen3D
             {OpCode.Trigger_AnimName,1},
             {OpCode.Trigger_AnimElem,1},
             {OpCode.Trigger_AnimTime,1},
-            {OpCode.Trigger_Command,1},   
+            {OpCode.Trigger_CommandTest,1},   
             {OpCode.Trigger_VelX,1},
             {OpCode.Trigger_VelY,1},
             {OpCode.Trigger_PosX,1},
@@ -64,7 +64,7 @@ namespace Mugen3D
             {"AnimElem",OpCode.Trigger_AnimElem},
             {"AnimTime",OpCode.Trigger_AnimTime},
             {"LeftAnimElem",OpCode.Trigger_LeftAnimElem},
-            {"Command",OpCode.Trigger_Command},
+            {"CommandTest",OpCode.Trigger_CommandTest},
             {"PosX",OpCode.Trigger_PosX},
             {"PoxY",OpCode.Trigger_PosY},
             {"VelX",OpCode.Trigger_VelX},
@@ -82,7 +82,7 @@ namespace Mugen3D
 
         public static bool IsTriggerFunc(Token t)
         {
-            if (t.value == "Var" || t.value == "Neg" || t.value == "Command" || t.value == "HitVar")
+            if (t.value == "Var" || t.value == "Neg" || t.value == "CommandTest" || t.value == "HitVar")
             {
                 return true;
             }

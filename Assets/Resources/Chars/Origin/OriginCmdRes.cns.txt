@@ -3,17 +3,17 @@
 [Event 0]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = Command(1) == "D" || Command(1) == "DB" || Command(1) == "DF"
+trigger1 = CommandTest("holddown")
 value = 10
 
 [Event 1]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = Command(1) == "F" || Command(1) == "B"
+trigger1 = (CommandTest("F") || CommandTest("B")) && CommandTest("holdup") == 0
 value = 20
 
 [Event 2]
 type = ChangeState
-trigger1 = StateNo == 0
-trigger1 = (Command(1) == "U" || Command(1) == "UF") || Command(1) == "UB"
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("holdup")
 value = 40

@@ -7,7 +7,7 @@ namespace Mugen3D
 
     public enum KeyNames
     {
-        KEY_UP,
+        KEY_UP = 0,
         KEY_DOWN,
         KEY_LEFT,
         KEY_RIGHT,
@@ -22,12 +22,6 @@ namespace Mugen3D
         KEY_COUNT
     };
 
-    public struct KeyElement
-    {
-        public bool isPressed;
-        public uint keyCode;
-    }
-
     public enum KeyMode
     {
         KeyMode_Must_Be_Held = 0,
@@ -40,13 +34,11 @@ namespace Mugen3D
     {
         public uint keyCode;
         public uint keyModifier;
-        public uint ticksForHold;
 
         public CommandElement(uint code)
         {
             keyCode = code;
             keyModifier = 0;
-            ticksForHold = 1;
         }
     }
 
@@ -55,6 +47,5 @@ namespace Mugen3D
         public List<CommandElement> mCommand;
         public int mCommandTime, mBufferTime;
         public string mCommandName;
-        public int type;
     }
 }

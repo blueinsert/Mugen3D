@@ -51,9 +51,9 @@ public class Triggers
         return p.animCtr.totalFrame - p.animCtr.AnimElem-1;
     }
 
-    public string Command(Player p, int type)
+    public int CommandTest(Player p, int commandNameHashCode)
     {
-        return p.cmdMgr.GetActiveCommandName(type);
+        return p.cmdMgr.CommandIsActive(commandNameHashCode);
     }
 
     public bool Ctrl(Player p)
