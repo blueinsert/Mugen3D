@@ -11,10 +11,13 @@ namespace Mugen3D
 
         public void LoadCmdFile(TextAsset content)
         {
+            Log.Info("cmd parse begin");
             CommandParse parser = new CommandParse();
             parser.Parse(content);
             var commands = parser.GetCommands();
             InitCommandStates(commands);
+            Utility.PrintCommandList(commands);
+            Log.Info("cmd parse end");
         }
 
         void InitCommandStates(List<Command> commands)
@@ -28,6 +31,7 @@ namespace Mugen3D
 
         public void Update(uint keycode)
         {
+            Log.Info("KEYCODE:" + keycode);
             foreach (var s in mCommandState)
             {  
                 s.Value.Update(keycode);

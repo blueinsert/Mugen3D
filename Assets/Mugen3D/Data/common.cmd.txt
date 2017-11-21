@@ -1,12 +1,41 @@
 command.time = 15
 command.buffer.time = 1
 
+[Command]
+name = "26A"
+command = $D, $F, $a
+time = 60
+buffer.time = 100
+
+[Command]
+name = "6A"
+command = F + a
+time = 1
+
+[Command]
+name = "A+X"
+command = a + x
+time = 1
+
+[Command]
+name = "B+Y"
+command = b + y
+time = 1
+
+[Command]
+name = "C+Z"
+command = c + z
+time = 1
 
 [Command]
 name = "FF"
 command = F, F
 time = 10
-buffer.time = 200
+
+[Command]
+name = "BB"
+command = B, B
+time = 10
 
 [Command]
 name = "holdfwd"
@@ -25,7 +54,7 @@ time = 1
 
 [Command]
 name = "holddown"
-command = D
+command = /$D
 time = 1
 
 [Command]
@@ -79,6 +108,11 @@ command = y
 time = 1
 
 [Command]
+name = "z"
+command = z
+time = 1
+
+[Command]
 name = "a"
 command = a
 time = 1
@@ -88,5 +122,7 @@ name = "b"
 command = b
 time = 1
 
-
-
+[Command]
+name = "c"
+command = c
+time = 1

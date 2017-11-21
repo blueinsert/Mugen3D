@@ -41,6 +41,18 @@ namespace Mugen3D
                 sb.Append("{" + value + "," + tokens[i].type.ToString() + "}" + "\n");
             }
             Debug.Log(sb.ToString());
-        }     
+        }
+
+        public static void PrintCommandList(List<Command> cmds)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("[");
+            for (int i = 0; i < cmds.Count; i++)
+            {
+                sb.Append(cmds[i].ToString()).Append(",");
+            }
+            sb.Append("]");
+            Log.Info(sb.ToString());
+        }
     }
 }

@@ -147,9 +147,17 @@ namespace Mugen3D
                                {
                                    currentCommandElement.keyCode += Utility.GetKeycode(KeyNames.KEY_BUTTON_Z);
                                }
+                               else if (t.value == "$")
+                               {
+                                   currentCommandElement.keyModifier += 1 << (int)KeyMode.KeyMode_Detect_As_4Way;
+                               }
                                else if (t.value == "/")
                                {
                                    currentCommandElement.keyModifier += 1 << (int)KeyMode.KeyMode_Must_Be_Held;
+                               }
+                               else if (t.value == "~")
+                               {
+                                   currentCommandElement.keyModifier += 1 << (int)KeyMode.KeyMode_On_Release;
                                }
                            }//while
                            c.mCommand.Add(currentCommandElement);

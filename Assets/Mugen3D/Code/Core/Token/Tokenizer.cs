@@ -297,7 +297,7 @@ namespace Mugen3D
                             mTokenArray.Add(new Token("]", TokenType.Op));
                             break;
                         case ',':
-                           //skip
+                            mTokenArray.Add(new Token(",", TokenType.Op));
                             break;
                         case '\n':
                             if (mTokenArray.Count >=1 && mTokenArray[mTokenArray.Count - 1].value != "\n")

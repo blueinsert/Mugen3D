@@ -3,84 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
+    /*
+     *              command[0]              command[1]          command[2]              command[n]            
+     * * state 0  --------------> state 1-------------->state 2 -------------->......-------------->state n
+     */
     public class CommandState
     {
         public string name;
 
-        private  Command command; 
+        private Command command;
         private int commandElementNum;
-        private int lastStateIndex = 0;
-        private int currentStateIndex = 0;
+        private int stateIndex = 0;
+
         private int bufferTime = 1;
         private int commandTime = 15;
 
         private int bufferTimer = 0;
         private int commandBeginTime = 0;
 
-        public bool IsCommandComplete { get { return currentStateIndex == commandElementNum; } }
+        private uint mLastInput = 0;
 
-        void ChangeCommandState(uint keycode)
-        {
-            lastStateIndex = currentStateIndex;
-            if (currentStateIndex == 0)
-            {
-                if ((keycode & command.mCommand[currentStateIndex].keyCode) == command.mCommand[currentStateIndex].keyCode)
-                {
-                    currentStateIndex++;
-                    if (currentStateIndex == 1)
-                    {
-                        commandBeginTime = Time.frameCount;
-                    }
-                }
-            }
-            else
-            {
-                CommandElement lastCommand = command.mCommand[currentStateIndex - 1];
-                if ((lastCommand.keyModifier & (1 << (int)KeyMode.KeyMode_Must_Be_Held)) != 0)
-                {
-                    if (IsCommandComplete)
-                    {
-                        if ((keycode & lastCommand.keyCode) == lastCommand.keyCode)
-                        {
-                            currentStateIndex = currentStateIndex;
-                            commandBeginTime = Time.frameCount;
-                            bufferTimer = bufferTime;
-                        }
-                    }
-                    else
-                    {
-                        if (((keycode & lastCommand.keyCode) == lastCommand.keyCode) && ((keycode & command.mCommand[currentStateIndex].keyCode) != command.mCommand[currentStateIndex].keyCode))
-                        {
-                            currentStateIndex = currentStateIndex;
-                            commandBeginTime = Time.frameCount;
-                        }
-                        else if (((keycode & lastCommand.keyCode) == lastCommand.keyCode) && ((keycode & command.mCommand[currentStateIndex].keyCode) == command.mCommand[currentStateIndex].keyCode))
-                        {
-                            currentStateIndex++;
-                        }
-                        else
-                        {
-                            //failed,
-                            currentStateIndex = 0;
-                        }
-                    }
-                    
-                }
-                else
-                {
-                    if ((keycode & command.mCommand[currentStateIndex].keyCode) == command.mCommand[currentStateIndex].keyCode)
-                    {
-                        currentStateIndex++;
-                    }
-                }
-
-            }
-            //init bufferTimer
-            if (lastStateIndex != commandElementNum && currentStateIndex == commandElementNum)
-            {
-                bufferTimer = bufferTime;
-            }
-        }
+        public bool IsCommandComplete { get { return stateIndex == commandElementNum; } }
 
         public CommandState(Command command)
         {
@@ -91,25 +34,128 @@ namespace Mugen3D
             name = command.mCommandName;
         }
 
-        public void Update(uint keycode)
+        private void AddStateIndex()
         {
+            stateIndex++;
+            if (stateIndex == 1)
+            {
+                commandBeginTime = Time.frameCount;
+            }
+            if (stateIndex == commandElementNum)
+            {
+                bufferTimer = bufferTime;
+            }
+        }
+
+        private void CommandFailed()
+        {
+            stateIndex = 0;
+        }
+  
+        private bool IsHolding(CommandElement expectInput, uint lastInput, uint curInput)
+        {
+            uint expect = expectInput.keyCode;
+            if ((expectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Detect_As_4Way)) != 0)
+            {
+                if ((lastInput & expect) == expect && (curInput & expect) == expect)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if ((lastInput == expect) && (curInput == expect))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        private bool IsPressed(CommandElement expectInput, uint lastInput, uint curInput)
+        {
+            uint expect = expectInput.keyCode;
+            if ((expectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Detect_As_4Way)) != 0)
+            {
+                if ((lastInput & expect) != expect && (curInput & expect) == expect)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if ((lastInput & expect) != expect && (curInput == expect))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        private void UpdateBufferTime()
+        {
+            bufferTimer--;
+            if (bufferTimer <= 0)
+            {
+                CommandFailed();
+            }
+        }
+
+        private void UpdateCommandTime()
+        {
+            if (Time.frameCount - commandBeginTime > commandTime)
+            {
+                CommandFailed();
+            }
+        }
+
+        public void Update(uint keycode)
+        {  
             if (IsCommandComplete)
             {
-                bufferTimer--;
-                if (bufferTimer <= 0)
+                var lastExpectInput = command.mCommand[stateIndex - 1];
+                if ((lastExpectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Must_Be_Held)) != 0)
                 {
-                    currentStateIndex = 0;
+                    if (IsHolding(lastExpectInput, mLastInput, keycode))
+                    {
+                        bufferTimer = bufferTime;
+                    }
+                    else
+                    {
+                        CommandFailed();
+                    }
+                    mLastInput = keycode;
+                }
+                else
+                {
+                    UpdateBufferTime();
                 }
             }
-            ChangeCommandState(keycode);
-            //check is over commandTime
-            if (currentStateIndex != 0)
+            else
             {
-                if (Time.frameCount - commandBeginTime > commandTime)
+                UpdateCommandTime();
+                var expectedInput = command.mCommand[stateIndex];
+                if (IsPressed(expectedInput, mLastInput, keycode))
                 {
-                    currentStateIndex = 0;
+                    AddStateIndex();
                 }
+                mLastInput = keycode;
             }
+           
         }
 
     }//class
