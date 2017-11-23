@@ -306,6 +306,12 @@ namespace Mugen3D
                         case ':':
                             mTokenArray.Add(new Token(":", TokenType.Op));
                             break;
+                        case '$':
+                            mTokenArray.Add(new Token("$", TokenType.Op));
+                            break;
+                        case '~':
+                            mTokenArray.Add(new Token("~", TokenType.Op));
+                            break;
                         default:
                             break;
                     }

@@ -9,3 +9,6 @@
 42 : "JumpingForwards"
 43 : "JumpBackwards"
 47 : "JumpLand"
+100 : "RunForwards"
+105 : "HopBackwards"
+106 : "JumpLand"

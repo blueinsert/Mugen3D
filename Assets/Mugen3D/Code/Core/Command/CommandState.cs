@@ -95,7 +95,34 @@ namespace Mugen3D
             }
             else
             {
-                if ((lastInput & expect) != expect && (curInput == expect))
+                if ((lastInput != expect) && (curInput == expect))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        private bool isRelease(CommandElement expectInput, uint lastInput, uint curInput)
+        {
+            uint expect = expectInput.keyCode;
+            if ((expectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Detect_As_4Way)) != 0)
+            {
+                if ((lastInput & expect) == expect && (curInput & expect) != expect)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if ((lastInput == expect) && (curInput != expect))
                 {
                     return true;
                 }
@@ -142,16 +169,28 @@ namespace Mugen3D
                 }
                 else
                 {
+                    mLastInput = keycode;
                     UpdateBufferTime();
                 }
             }
             else
             {
-                UpdateCommandTime();
+                if(stateIndex != 0)
+                    UpdateCommandTime();
                 var expectedInput = command.mCommand[stateIndex];
-                if (IsPressed(expectedInput, mLastInput, keycode))
+                if ((expectedInput.keyModifier & (1 << (int)KeyMode.KeyMode_On_Release)) != 0)
                 {
-                    AddStateIndex();
+                    if (isRelease(expectedInput, mLastInput, keycode))
+                    {
+                        AddStateIndex();
+                    }
+                }
+                else
+                {
+                    if (IsPressed(expectedInput, mLastInput, keycode))
+                    {
+                        AddStateIndex();
+                    }
                 }
                 mLastInput = keycode;
             }

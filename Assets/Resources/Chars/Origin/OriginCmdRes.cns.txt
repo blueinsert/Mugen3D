@@ -1,19 +1,36 @@
 [Statedef 9999]
 
+//crouch
 [Event 0]
 type = ChangeState
 trigger1 = StateNo == 0
 trigger1 = CommandTest("holddown")
 value = 10
 
+//walk
 [Event 1]
 type = ChangeState
 trigger1 = StateNo == 0
-trigger1 = (CommandTest("F") || CommandTest("B")) && CommandTest("holdup") == 0
+trigger1 = CommandTest("holdfwd") || CommandTest("holdback")
 value = 20
 
+//jump
 [Event 2]
 type = ChangeState
 trigger1 = StateNo == 0 || StateNo == 20
 trigger1 = CommandTest("holdup")
 value = 40
+
+//run
+[Event 3]
+type = ChangeState
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("FF")
+value = 100
+
+//hope backwards
+[Event 4]
+type = ChangeState
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("BB")
+value = 105

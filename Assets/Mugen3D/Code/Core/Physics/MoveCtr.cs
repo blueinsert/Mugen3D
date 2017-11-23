@@ -16,7 +16,7 @@ namespace Mugen3D
     public class MoveCtr
     {
         public PhysicsType type = PhysicsType.Stand;
-        public Vector3 gravity = new Vector3(0, -50f, 0);
+        public readonly Vector3 gravity = new Vector3(0, -50f, 0);
         public Vector3 velocity = Vector3.zero;
         public Vector3 acceleratedVelocity = Vector3.zero;
         public float groundFrictionFactor = 0.75f;
@@ -47,7 +47,7 @@ namespace Mugen3D
             {
                 acceleratedVelocity = -gravity.magnitude * groundFrictionFactor * velocity.normalized;
                 velocity += Time.deltaTime * acceleratedVelocity;
-                StabilizeVel(velocity);
+                velocity = StabilizeVel(velocity);
                 //PushTest(velocity * Time.deltaTime);
                 Vector3 deltaPos = velocity * Time.deltaTime;
                 AddPos(deltaPos);
@@ -58,26 +58,19 @@ namespace Mugen3D
         {
             acceleratedVelocity = gravity;
             velocity += Time.deltaTime * acceleratedVelocity;
-            StabilizeVel(velocity);
+            //velocity = StabilizeVel(velocity);
             //PushTest(velocity * Time.deltaTime);
             Vector3 deltaPos = velocity * Time.deltaTime;
             AddPos(deltaPos);
         }
 
-        private void StabilizeVel(Vector3 v)
+        private Vector3 StabilizeVel(Vector3 v)
         {
-            if (Mathf.Abs(v.x) < 0.5)
-            {
-                v.x = 0;
-            }
-            if (Mathf.Abs(v.y) < 0.5)
-            {
-                v.y = 0;
-            }
-            if (Mathf.Abs(v.z) <0.5)
-            {
-                v.z = 0;
-            }
+            float x, y, z;
+            x = Mathf.Abs(v.x) < 0.2 ? 0: v.x;
+            y = Mathf.Abs(v.y) < 0.2 ? 0 : v.y;
+            z = Mathf.Abs(v.z) < 0.2 ? 0 : v.z;
+            return new Vector3(x, y, z);
         }
 
         private void PushTest(Vector3 deltaPos)

@@ -19,7 +19,7 @@ namespace Mugen3D
            List<Token> tokens;
            Tokenizer tokenizer = new Tokenizer();
            tokens = tokenizer.GetTokens(content);
-
+           Utility.PrintTokens(tokens.ToArray());
            int defaultCommandTime = 15;
            int defaultBufferTime = 1;
 

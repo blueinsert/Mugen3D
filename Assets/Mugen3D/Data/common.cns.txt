@@ -40,29 +40,29 @@ value = 0
 
 [Event 0]
 type = ChangeAnim
-trigger1 = Anim != 20 && CommandTest("F")
+trigger1 = Anim != 20 && CommandTest("holdfwd")
 value = 20
 mode = loop
 
 [Event 1]
 type = VelSet
-trigger1 = Anim == 20 && CommandTest("F")
+trigger1 = Anim == 20 && CommandTest("holdfwd")
 x = 8
 
 [Event 2]
 type = ChangeAnim
-trigger1 = Anim != 21 && CommandTest("B")
+trigger1 = Anim != 21 && CommandTest("holdback")
 value = 21
 mode = loop
 
 [Event 3]
 type = VelSet
-trigger1 = Anim == 21 && CommandTest("B")
+trigger1 = Anim == 21 && CommandTest("holdback")
 x = -8
 
 [Event 4]
 type = ChangeState
-trigger1 = CommandTest("F") == 0 && CommandTest("B") == 0
+trigger1 = CommandTest("holdback") == 0 && CommandTest("holdfwd") == 0
 value = 0
 
 //Jump Start
@@ -73,21 +73,20 @@ anim = 40
 [Event 0]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = CommandTest("U")
 id = 13
 value = 0
 
 [Event 1]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = CommandTest("UF")
+trigger1 = CommandTest("holdfwd")
 id = 13
 value = 1
 
 [Event 2]
 type = VarSet
 trigger1 = Time == 0
-trigger1 = CommandTest("UB")
+trigger1 = CommandTest("holdback")
 id = 13
 value = -1
 
@@ -157,7 +156,57 @@ mode = "once"
 [Event 1]
 type = VelSet
 trigger1 = Time == 0
-x = 0
+y = 0
+
+[Event 2]
+type = PosSet
+trigger1 = Time == 0
+y = 0
+
+[Event 3]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
+//run
+[Statedef 100]
+anim = 100
+physics = S
+
+[Event 0]
+type = VelSet
+x = 16
+y = 0
+
+[Event 1]
+type = ChangeState
+trigger1 = CommandTest("holdfwd") == 0
+value = 0
+
+//hope backwards
+[Statedef 105]
+anim = 105
+physics = A
+
+[Event 0]
+type = VelSet
+trigger1 = Time == 0
+x = -16
+y = 17
+
+[Event 1]
+type = ChangeState
+trigger1 = (PoxY + VelY * DeltaTime) < 0
+value = 106
+
+//hope backwards (land)
+[Statedef 106]
+anim = 106
+physics = S
+
+[Event 1]
+type = VelSet
+trigger1 = Time == 0
 y = 0
 
 [Event 2]

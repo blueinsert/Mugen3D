@@ -2,10 +2,29 @@ command.time = 15
 command.buffer.time = 1
 
 [Command]
+name = "426A"
+command = B, DB, $D, DF, F, a
+time = 20    
+
+[Command]
+name = "426A"
+command = B, $D, F, a
+time = 20
+
+[Command]
+name = "426A"
+command = DB, F, a
+time = 20
+
+[Command]
+name = "63A"
+command = D, DF, a
+time = 20
+
+[Command]
 name = "26A"
-command = $D, $F, $a
-time = 60
-buffer.time = 100
+command = D, F, a
+time = 20
 
 [Command]
 name = "6A"

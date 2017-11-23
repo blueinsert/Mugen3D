@@ -40,7 +40,7 @@ namespace Mugen3D
                 }
                 sb.Append("{" + value + "," + tokens[i].type.ToString() + "}" + "\n");
             }
-            Debug.Log(sb.ToString());
+            Debug.Log("Command Tokens:" + sb.ToString());
         }
 
         public static void PrintCommandList(List<Command> cmds)
@@ -52,7 +52,7 @@ namespace Mugen3D
                 sb.Append(cmds[i].ToString()).Append(",");
             }
             sb.Append("]");
-            Log.Info(sb.ToString());
+            Log.Info("CommandList:" + sb.ToString());
         }
     }
 }

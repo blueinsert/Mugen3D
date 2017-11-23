@@ -7,7 +7,7 @@ namespace Mugen3D
 {
     public class CmdManager
     {
-        Dictionary<int, CommandState> mCommandState = new Dictionary<int, CommandState>(); 
+        Dictionary<int, List<CommandState>> mCommandState = new Dictionary<int, List<CommandState>>(); 
 
         public void LoadCmdFile(TextAsset content)
         {
@@ -25,16 +25,24 @@ namespace Mugen3D
             for (int i = 0; i < commands.Count; i++)
             {
                 var cmdState = new CommandState(commands[i]);
-                mCommandState[cmdState.name.GetHashCode()] = cmdState;
+                int nameHash = cmdState.name.GetHashCode();
+                if (!mCommandState.ContainsKey(nameHash))
+                {
+                    mCommandState[nameHash] = new List<CommandState>();
+                }
+                mCommandState[nameHash].Add(cmdState);
             }
         }
 
         public void Update(uint keycode)
         {
             Log.Info("KEYCODE:" + keycode);
-            foreach (var s in mCommandState)
-            {  
-                s.Value.Update(keycode);
+            foreach (var l in mCommandState)
+            {
+                foreach (var s in l.Value)
+                {
+                    s.Update(keycode);
+                }
             }
         }
 
@@ -48,7 +56,14 @@ namespace Mugen3D
             }
             else
             {
-                result = mCommandState[commandNameHashCode].IsCommandComplete ? 1 : 0;
+                foreach (var s in mCommandState[commandNameHashCode])
+                {
+                    if (s.IsCommandComplete)
+                    {
+                        result = 1;
+                        break;
+                    }
+                }
             }
             return result;
         }
@@ -56,11 +71,11 @@ namespace Mugen3D
         public string GetActiveCommandName( )
         {  
             StringBuilder sb = new StringBuilder();
-            foreach (var kv in mCommandState)
+            foreach (var k in mCommandState.Keys)
             {
-                if (kv.Value.IsCommandComplete)
+                if (CommandIsActive(k) == 1)
                 {
-                    sb.Append(kv.Value.name).Append(",");
+                    sb.Append(mCommandState[k][0].name).Append(",");
                 }
             }
             return sb.ToString();
