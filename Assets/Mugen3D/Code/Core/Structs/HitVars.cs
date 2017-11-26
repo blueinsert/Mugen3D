@@ -69,8 +69,10 @@ namespace Mugen3D
             if (param.ContainsKey(id))
             {
                 Type type = this.GetType();
-                System.Reflection.PropertyInfo propertyInfo = type.GetProperty(id);
-                if (propertyInfo.PropertyType == typeof(int))
+                System.Reflection.FieldInfo propertyInfo = type.GetField(id);
+                Log.Info(id);
+                Log.Info(propertyInfo.ToString() + ":" + id);
+                if (propertyInfo.FieldType == typeof(int))
                 {
                     int value;
                     if (!int.TryParse(param[id], out value))
@@ -78,13 +80,13 @@ namespace Mugen3D
                         Log.Error(id + " can't be recognized as int");
                         return;
                     }
-                    propertyInfo.SetValue(this, value, null);
+                    propertyInfo.SetValue(this, value);
                     dic[id.GetHashCode()] = value;
                 }
-                else if (propertyInfo.PropertyType == typeof(Enum))
+                else if (propertyInfo.FieldType == typeof(Enum))
                 {
-                    var value = Enum.Parse(propertyInfo.PropertyType, param[id]);
-                    propertyInfo.SetValue(this, value, null);
+                    var value = Enum.Parse(propertyInfo.FieldType, param[id]);
+                    propertyInfo.SetValue(this, value);
                 }
             }
             else
@@ -93,22 +95,8 @@ namespace Mugen3D
             }
         }
 
-        public HitVars(Dictionary<string, string> param)
+        private void SetAttr()
         {
-            this.param = param;
-            SetValue("attr");
-            SetValue("hitFlag");
-            SetValue("guardFlag");
-            SetValue("animType");
-            SetValue("hitDamage");
-            SetValue("guardDamage");
-            SetValue("p1HitPauseTime");
-            SetValue("p2HitShakeTime");
-            SetValue("p2HitSlideTime");
-            SetValue("p1GuardPauseTime");
-            SetValue("p2GuardShakeTime");
-            SetValue("p2GuardSlideTime");
-            /*
             if (param.ContainsKey("attr"))
             {
                 switch (param["attr"])
@@ -121,13 +109,16 @@ namespace Mugen3D
                         this.attr = HitAttr.P; break;
                     default:
                         Log.Error("hitdef's attr can't be recongnized"); break;
-                    
+
                 }
             }
             else
             {
                 Log.Error("hitdef's attr can't be null");
             }
+        }
+        private void SetHitFlag()
+        {
             if (param.ContainsKey("hitFlag"))
             {
                 switch (param["hitFlag"])
@@ -143,8 +134,8 @@ namespace Mugen3D
                     case "F":
                         this.hitFlag = HitFlag.F; break;
                     case "D":
-                        this.hitFlag = HitFlag.D;break;
-                    default :
+                        this.hitFlag = HitFlag.D; break;
+                    default:
                         Log.Error("hitdef's hitFlag can't be recongnized"); break;
                 }
             }
@@ -152,6 +143,9 @@ namespace Mugen3D
             {
                 Log.Error("hitdef's hitFlag can't be null");
             }
+        }
+        private void SetGuardFlag()
+        {
             if (param.ContainsKey("guardFlag"))
             {
                 switch (param["guardFlag"])
@@ -172,10 +166,13 @@ namespace Mugen3D
             {
                 Log.Error("hitdef's guardFlag can't be null");
             }
+        }
+        private void SetAnimType()
+        {
             if (param.ContainsKey("animType"))
             {
                 switch (param["animType"])
-                { 
+                {
                     case "light":
                         this.animType = HittedAnimType.light; break;
                     case "medium":
@@ -185,15 +182,18 @@ namespace Mugen3D
                     case "up":
                         this.animType = HittedAnimType.up; break;
                     case "diagup":
-                        this.animType = HittedAnimType.diagup;break;
+                        this.animType = HittedAnimType.diagup; break;
                     default:
-                         Log.Error("hitdef's animType can't be recongnized"); break;
+                        Log.Error("hitdef's animType can't be recongnized"); break;
                 }
             }
             else
             {
                 Log.Error("hitdef's animType can't be null");
             }
+        }
+        private void SetHitDamage()
+        {
             if (param.ContainsKey("hitDamage"))
             {
                 int value;
@@ -206,6 +206,9 @@ namespace Mugen3D
                     Log.Error("hitDamage can't be recognized as int");
                 }
             }
+        }
+        private void SetGuardDamage()
+        {
             if (param.ContainsKey("guardDamage"))
             {
                 int value;
@@ -218,43 +221,95 @@ namespace Mugen3D
                     Log.Error("guardDamage can't be recognized as int");
                 }
             }
-            if (param.ContainsKey("p1PauseTime"))
+        }
+        private void SetP1HitPauseTime()
+        {
+            if (param.ContainsKey("p1HitPauseTime"))
             {
                 int value;
-                if (int.TryParse(param["p1PauseTime"], out value))
+                if (int.TryParse(param["p1HitPauseTime"], out value))
                 {
                     this.p1HitPauseTime = value;
+                    dic["p1HitPauseTime".GetHashCode()] = value;
                 }
                 else
                 {
-                    Log.Error("p1PauseTime can't be recognized as int");
+                    Log.Error("p1HitPauseTime can't be recognized as int");
                 }
             }
-            if (param.ContainsKey("p2ShakeTime"))
+            else
+            {
+                Log.Error("p1HitPauseTime can't be null");
+            }
+        }
+        private void SetP2HitShakeTime()
+        {
+            if (param.ContainsKey("p2HitShakeTime"))
             {
                 int value;
-                if (int.TryParse(param["p2ShakeTime"], out value))
+                if (int.TryParse(param["p2HitShakeTime"], out value))
                 {
                     this.p2HitShakeTime = value;
+                    dic["p2HitShakeTime".GetHashCode()] = value;
                 }
                 else
                 {
-                    Log.Error("p2ShakeTime can't be recognized as int");
+                    Log.Error("p2HitShakeTime can't be recognized as int");
                 }
             }
-            if (param.ContainsKey("slideTime"))
+            else
+            {
+                Log.Error("p2HitShakeTime can't be null");
+            }
+        }
+        private void SetP2HitSlideTime()
+        {
+            if (param.ContainsKey("p2HitSlideTime"))
             {
                 int value;
-                if (int.TryParse(param["slideTime"], out value))
+                if (int.TryParse(param["p2HitSlideTime"], out value))
                 {
                     this.p2HitSlideTime = value;
+                    dic["p2HitSlideTime".GetHashCode()] = value;
                 }
                 else
                 {
-                    Log.Error("slideTime can't be recognized as int");
+                    Log.Error("p2HitSlideTime can't be recognized as int");
                 }
             }
-             */
+            else
+            {
+                Log.Error("p2HitSlideTime can't be null");
+            }
+        }
+
+        public HitVars(Dictionary<string, string> param)
+        {
+            this.param = param;
+            //use reflection
+            /*
+            SetValue("attr");
+            SetValue("hitFlag");
+            SetValue("guardFlag");
+            SetValue("animType");
+            SetValue("hitDamage");
+            SetValue("guardDamage");
+            SetValue("p1HitPauseTime");
+            SetValue("p2HitShakeTime");
+            SetValue("p2HitSlideTime");
+            SetValue("p1GuardPauseTime");
+            SetValue("p2GuardShakeTime");
+            SetValue("p2GuardSlideTime");
+           */
+            SetAttr();
+            SetHitFlag();
+            SetGuardFlag();
+            SetAnimType();
+            SetHitDamage();
+            SetGuardDamage();
+            SetP1HitPauseTime();
+            SetP2HitShakeTime();
+            SetP2HitSlideTime();
         }
 
         public int GetHitVar(int key)

@@ -15,6 +15,7 @@ public class WordRunner : MonoBehaviour {
 
         CameraController.Instance.SetFollowTarget(p1.transform);
         GUIDebug.Instance.AddPlayer(PlayerId.P1,p1);
+        GUIDebug.Instance.AddPlayer(PlayerId.P2, p2);
 	}
 	
 	// Update is called once per frame

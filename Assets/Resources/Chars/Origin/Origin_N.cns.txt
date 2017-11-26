@@ -10,11 +10,14 @@ attr = A
 hitFlag = M
 guardFlag = M
 animType = light
-
+hitDamage = 10
+guardDamage = 1
 p1HitPauseTime = 5
 p2HitShakeTime = 10
 p2HitSlideTime = 17
-
+p1GuardPauseTime = 5
+p2GuardShakeTime = 10
+p2GuardSlideTime = 17
 triggerOnce = true
 
 [Event 1]

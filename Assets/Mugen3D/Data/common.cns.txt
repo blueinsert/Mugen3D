@@ -236,6 +236,7 @@ value = 5001
 
 //stand get-hit(knocked back)
 [Statedef 5001]
+anim = 5005
 
 [Event]
 type = VelSet
@@ -245,5 +246,6 @@ y = 0
 
 [Event]
 type = ChangeState
-trigger1 = Time >= HitVar("p2HitSlideTime")
+trigger1 = Time >= HitVar("p2HitSlideTime") 
+trigger1 = LeftAnimElem == 0
 value = 0

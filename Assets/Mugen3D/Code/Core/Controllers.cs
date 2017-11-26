@@ -257,7 +257,7 @@ namespace Mugen3D
            if (enemy == null)
                return;
            HitVars hitvars = new HitVars(param);
-           bool hit = IsHit(p, HitBoxLocation.Hand_R, enemy);
+           bool hit = IsHit(p, HitBoxLocation.Hand_L, enemy);
            if (!hit)
                return;
            cb();
