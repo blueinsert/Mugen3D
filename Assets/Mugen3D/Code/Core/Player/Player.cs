@@ -41,13 +41,11 @@ public class Player : MonoBehaviour {
         pauseTime = duration;
     }
 
-    public void BeHit(HitVars var)
+    public void SetHitVars(HitVars hitvars)
     {
-        hitVars = var;
-        hitVars.Prepare();
-        stateMgr.ChangeState(5000);
+        this.hitVars = hitvars;
     }
-
+  
     public void Init(PlayerSetting setting) { 
         //
         moveCtr = new MoveCtr(this.transform);

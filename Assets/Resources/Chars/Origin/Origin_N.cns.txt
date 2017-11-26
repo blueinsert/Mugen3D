@@ -1,0 +1,53 @@
+//stand light punch
+[Statedef 200]
+anim = 200
+physics = S
+
+[Event 0]
+type = HitDef
+trigger1 = AnimElem >= 8 && AnimElem <= 12
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+
+p1HitPauseTime = 5
+p2HitShakeTime = 10
+p2HitSlideTime = 17
+
+triggerOnce = true
+
+[Event 1]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
+//stand strong punch
+[Statedef 220]
+anim = 220
+physics = S
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
+//stand light kick
+[Statedef 240]
+anim = 240
+physics = S
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
+//stand strong kick
+[Statedef 260]
+anim = 260
+physics = S
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0

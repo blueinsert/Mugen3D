@@ -219,3 +219,31 @@ type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
 
+//stand get-hit(shaking)
+[Statedef 5000]
+physics = S
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time > 0
+value = 5000
+mode = "once"
+
+[Event 1]
+type = ChangeState
+trigger1 = Time > HitVar("p2HitShakeTime")
+value = 5001
+
+//stand get-hit(knocked back)
+[Statedef 5001]
+
+[Event]
+type = VelSet
+trigger1 = Time == 0
+x = -8
+y = 0
+
+[Event]
+type = ChangeState
+trigger1 = Time >= HitVar("p2HitSlideTime")
+value = 0

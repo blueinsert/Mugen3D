@@ -227,16 +227,11 @@ namespace Mugen3D
             p.Pause(pauseTime);
         }
 
-        private bool HitDetect(Player p, HitBoxLocation activePart, out Player target)
+        private bool IsHit(Player p, HitBoxLocation activePart, Player enemy)
         {
-            target = null;
-            return false;
-            /*
-            Player enemy = TeamMgr.GetEnemy(p);
-            target = enemy;
             HitBox attackBox = p.GetComponent<DecisionBoxManager>().GetHitBox(activePart);
             HitBox[] attackBoxes = new HitBox[] { attackBox};
-            HitBox[] defenceBoxes = enemy.GetComponent<DecisionBoxManager>().defenceBoxes.ToArray();
+            DefenceBox[] defenceBoxes = enemy.GetComponent<DecisionBoxManager>().defenceBoxes.ToArray();
             bool hit = false;
             for (int i = 0; i < attackBoxes.Length; i++)
             {
@@ -253,40 +248,23 @@ namespace Mugen3D
             }
             Log.Info("hit:" + hit);
             return hit;
-             */
-        }
-
-        public HitVars GetHitVars(Dictionary<string, string> param)
-        {
-            var hitvar =  new HitVars();
-            try
-            {
-                if (param.ContainsKey("p1PauseTime"))
-                    hitvar.p1PauseTime = int.Parse(param["p1PauseTime"]);
-                if (param.ContainsKey("p2ShakeTime"))
-                    hitvar.p2ShakeTime = int.Parse(param["p2ShakeTime"]);
-                if(param.ContainsKey("slideTime"))
-                    hitvar.slideTime = int.Parse(param["slideTime"]);
-            }
-            catch (Exception e)
-            {
-                Log.Info(e.ToString());
-            }
-            return hitvar;
         }
 
         public void HitDef(Player p, Dictionary<string, string> param, Action cb)
         {
-            /*
-           Player enemy;
-           bool hit =  HitDetect(p, HitBoxType.Attack_Hand_R, out enemy);
+            
+           Player enemy = TeamMgr.GetEnemy(p);
+           if (enemy == null)
+               return;
+           HitVars hitvars = new HitVars(param);
+           bool hit = IsHit(p, HitBoxLocation.Hand_R, enemy);
            if (!hit)
                return;
            cb();
-           HitVars hitvar = GetHitVars(param);
-           p.Pause(hitvar.p1PauseTime);
-           enemy.BeHit(hitvar);
-           */
+           p.Pause(hitvars.p1HitPauseTime);
+           enemy.SetHitVars(hitvars);
+           //change state
+           enemy.stateMgr.ChangeState(5000);
         }
 
         #endregion

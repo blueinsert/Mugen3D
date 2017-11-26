@@ -48,8 +48,11 @@ namespace Mugen3D
                 acceleratedVelocity = -gravity.magnitude * groundFrictionFactor * velocity.normalized;
                 velocity += Time.deltaTime * acceleratedVelocity;
                 velocity = StabilizeVel(velocity);
-                //PushTest(velocity * Time.deltaTime);
                 Vector3 deltaPos = velocity * Time.deltaTime;
+                if (pushTestOn)
+                {
+                    deltaPos = PushTest(velocity * Time.deltaTime);
+                }
                 AddPos(deltaPos);
             }
         }
@@ -59,8 +62,11 @@ namespace Mugen3D
             acceleratedVelocity = gravity;
             velocity += Time.deltaTime * acceleratedVelocity;
             //velocity = StabilizeVel(velocity);
-            //PushTest(velocity * Time.deltaTime);
             Vector3 deltaPos = velocity * Time.deltaTime;
+            if (pushTestOn)
+            {
+                deltaPos = PushTest(velocity * Time.deltaTime);
+            } 
             AddPos(deltaPos);
         }
 
@@ -73,35 +79,27 @@ namespace Mugen3D
             return new Vector3(x, y, z);
         }
 
-        private void PushTest(Vector3 deltaPos)
+        private Vector3 PushTest(Vector3 deltaPos)
         {
             Vector3 realDeltaPos = deltaPos;
-            if (pushTestOn && target.GetComponent<Player>().facing * deltaPos.z >0)
+            if (target.GetComponent<Player>().facing * deltaPos.z >0)
             {
                 Vector2 movment = new Vector2(deltaPos.z, deltaPos.y);
                 Box2D box = target.GetComponent<DecisionBoxManager>().GetCollideBox();
                 box.center += movment;
                 var enemy = TeamMgr.GetEnemy(target.GetComponent<Player>());
-                Box2D box2 = enemy.GetComponent<DecisionBoxManager>().GetCollideBox();
-                if (ColliderSystem.RectRectTest(box, box2))
+                if (enemy != null)
                 {
-                    /*
-                    if (movment.x>0)
+                    Box2D box2 = enemy.GetComponent<DecisionBoxManager>().GetCollideBox();
+                    if (ColliderSystem.RectRectTest(box, box2))
                     {
-                        movment.x = box2.center.x - box.center.x - box.width / 2 - box2.width / 2;
+                        movment.x = movment.x / 2;
+                        enemy.moveCtr.AddPos(new Vector3(0, 0, movment.x));
+                        realDeltaPos = new Vector3(0, movment.y, movment.x);
                     }
-                    else if(movment.x<0)
-                    {
-                        movment.x = box.center.x - box2.center.x - box.width / 2 - box2.width / 2;
-                        movment.x = -movment.x;
-                    }
-                     */
-                    movment.x = movment.x / 2;
-                    enemy.moveCtr.AddPos(new Vector3(0, 0, movment.x));
-                    realDeltaPos = new Vector3(0, movment.y, movment.x);
                 }
             }
-            AddPos(realDeltaPos);
+            return realDeltaPos;
         }
 
         public void AddPos(Vector3 deltaPos)

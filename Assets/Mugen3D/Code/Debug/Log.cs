@@ -15,5 +15,10 @@ namespace Mugen3D
         {
             Debug.LogWarning(GameEngine.gameTime + ":" + info);
         }
+
+        public static void Error(string info)
+        {
+            Debug.LogError(GameEngine.gameTime + ":" + info);
+        }
     }
 }

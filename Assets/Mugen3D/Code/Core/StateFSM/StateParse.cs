@@ -105,6 +105,8 @@ namespace Mugen3D
                         curParseStateEvent.type = StateEventType.VarSet; break;
                     case "HitDef":
                         curParseStateEvent.type = StateEventType.HitDef; break;
+                    case "Null":
+                        curParseStateEvent.type = StateEventType.Null; break;
                     default :
                         Debug.LogError("event type can not be recognized :" + t.value); Application.Quit(); break;
                 }

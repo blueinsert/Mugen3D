@@ -20,6 +20,7 @@ namespace Mugen3D {
 
     public enum StateEventType
     {
+        Null,
         VelSet,
         ChangeAnim,
         ChangeState,

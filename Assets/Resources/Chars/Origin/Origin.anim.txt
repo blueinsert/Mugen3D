@@ -12,3 +12,10 @@
 100 : "RunForwards"
 105 : "HopBackwards"
 106 : "JumpLand"
+200 : "StandLightPunch"
+220 : "StandStrongPunch"
+240 : "StandLightKick"
+260 : "StandStrongKick"
+
+5000 : "Stand_Air_Hit_High_Light"
+5005 : "StandRecover_High_Light"

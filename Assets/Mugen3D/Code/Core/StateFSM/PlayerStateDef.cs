@@ -67,6 +67,8 @@ namespace Mugen3D
             {
                 StateEvent e = events[i];
                 curEvent = e;
+                if (curEvent.type == StateEventType.Null)
+                    continue;
                 bool checkRequired = true;
                 bool checkOptional = true;
                 //check requiredTriggerList

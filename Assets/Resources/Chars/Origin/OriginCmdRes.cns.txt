@@ -34,3 +34,31 @@ type = ChangeState
 trigger1 = StateNo == 0 || StateNo == 20
 trigger1 = CommandTest("BB")
 value = 105
+
+//stand light punch
+[Event 5]
+type = ChangeState
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("x")
+value = 200
+
+//stand strong punch
+[Event 6]
+type = ChangeState
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("y")
+value = 220
+
+//stand light kick
+[Event 7]
+type = ChangeState
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("a")
+value = 240
+
+//stand strong kick
+[Event 8]
+type = ChangeState
+trigger1 = StateNo == 0 || StateNo == 20
+trigger1 = CommandTest("b")
+value = 260
