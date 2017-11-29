@@ -30,7 +30,7 @@ namespace Mugen3D
 
         #region controller function
 
-        public void ExeController(Player p, StateEventType type, Dictionary<string,string> param, Action cb){
+        public void ExeController(Player p, StateEventType type, Dictionary<string, TokenList> param, Action cb){
             switch(type){
                 case StateEventType.VelSet:
                     VelSet(p, param);
@@ -54,17 +54,19 @@ namespace Mugen3D
                     HitDef(p, param, cb);
                     break;
                 case StateEventType.Pause:
-                    Pause(p,param);
+                    Pause(p, param);
                     break;
             }
         }
 
-        public void VelSet(Player p, Dictionary<string,string> param){
+        public void VelSet(Player p, Dictionary<string, TokenList> param)
+        {
             Log.Info("velSet");
             float x,y;
             if (param.ContainsKey("x"))
             {
-                x = float.Parse(param["x"]);
+                Expression ex = param["x"].asExpression;
+                x = (float)ex.CalcValueInRunTime();
             }
             else
             {
@@ -72,7 +74,8 @@ namespace Mugen3D
             }
             if (param.ContainsKey("y"))
             {
-                y = float.Parse(param["y"]);
+                Expression ex = param["y"].asExpression;
+                y = (float)ex.CalcValueInRunTime();
             }
             else
             {
@@ -82,12 +85,12 @@ namespace Mugen3D
 
         }
 
-        public void VelAdd(Player p, Dictionary<string, string> param)
+        public void VelAdd(Player p, Dictionary<string, TokenList> param)
         {
             float x, y;
             if (param.ContainsKey("x"))
             {
-                x = float.Parse(param["x"]);
+                x = float.Parse(param["x"].asStr);
             }
             else
             {
@@ -95,7 +98,7 @@ namespace Mugen3D
             }
             if (param.ContainsKey("y"))
             {
-                y = float.Parse(param["y"]);
+                y = float.Parse(param["y"].asStr);
             }
             else
             {
@@ -104,25 +107,25 @@ namespace Mugen3D
             p.moveCtr.VelAdd(x, y);
         }
 
-        public void CtrlSet(Player p, Dictionary<string, string> param)
+        public void CtrlSet(Player p, Dictionary<string, TokenList> param)
         {
-            bool value = !(int.Parse(param["value"]) == 0);
+            bool value = !(int.Parse(param["value"].asStr) == 0);
             p.canCtrl = value;
         }
 
-        public void ChangeState(Player p, Dictionary<string, string> param)
+        public void ChangeState(Player p, Dictionary<string, TokenList> param)
         {
-            int value = int.Parse(param["value"]);
+            int value = int.Parse(param["value"].asStr);
             p.stateMgr.ChangeState(value);
         }
 
-        public void ChangeAnim(Player p, Dictionary<string, string> param)
+        public void ChangeAnim(Player p, Dictionary<string, TokenList> param)
         {
-            int animNo = int.Parse(param["value"]);
+            int animNo = int.Parse(param["value"].asStr);
             
             if (param.ContainsKey("mode"))
             {
-                string mode = param["mode"];
+                string mode = param["mode"].asStr;
                 if (mode == "loop")
                 {
                     p.animCtr.PlayAnim(animNo, AnimPlayMode.Loop);
@@ -143,12 +146,12 @@ namespace Mugen3D
             
         }
 
-        public void PosSet(Player p, Dictionary<string, string> param)
+        public void PosSet(Player p, Dictionary<string, TokenList> param)
         {
             float x, y;
             if (param.ContainsKey("x"))
             {
-                x = float.Parse(param["x"]);
+                x = float.Parse(param["x"].asStr);
             }
             else
             {
@@ -156,7 +159,7 @@ namespace Mugen3D
             }
             if (param.ContainsKey("y"))
             {
-                y = float.Parse(param["y"]);
+                y = float.Parse(param["y"].asStr);
             }
             else
             {
@@ -166,12 +169,12 @@ namespace Mugen3D
         }
 
 
-        public void PosAdd(Player p, Dictionary<string, string> param)
+        public void PosAdd(Player p, Dictionary<string, TokenList> param)
         {
             float x, y;
             if (param.ContainsKey("x"))
             {
-                x = float.Parse(param["x"]);
+                x = float.Parse(param["x"].asStr);
             }
             else
             {
@@ -179,7 +182,7 @@ namespace Mugen3D
             }
             if (param.ContainsKey("y"))
             {
-                y = float.Parse(param["y"]);
+                y = float.Parse(param["y"].asStr);
             }
             else
             {
@@ -188,14 +191,14 @@ namespace Mugen3D
             p.moveCtr.PosAdd(x, y);
         }
 
-        public void PosFreeze(Player p, Dictionary<string, string> param)
+        public void PosFreeze(Player p, Dictionary<string, TokenList> param)
         {
 
         }
 
-        public void PhysicsSet(Player p, Dictionary<string, string> param)
+        public void PhysicsSet(Player p, Dictionary<string, TokenList> param)
         {
-            string v = param["value"];
+            string v = param["value"].asStr;
             switch (v)
             {
                 case "S":
@@ -213,17 +216,17 @@ namespace Mugen3D
             }
         }
 
-        public void VarSet(Player p, Dictionary<string, string> param)
+        public void VarSet(Player p, Dictionary<string, TokenList> param)
         {
-            int id = int.Parse(param["id"]);
-            int value = int.Parse(param["value"]);
+            int id = int.Parse(param["id"].asStr);
+            int value = int.Parse(param["value"].asStr);
             p.SetVar(id, value);
         }
 
-        public void Pause(Player p, Dictionary<string, string> param)
+        public void Pause(Player p, Dictionary<string, TokenList> param)
         {
             int pauseTime;
-            pauseTime = int.Parse(param["time"]);
+            pauseTime = int.Parse(param["time"].asStr);
             p.Pause(pauseTime);
         }
 
@@ -246,11 +249,11 @@ namespace Mugen3D
                         break;
                 }
             }
-            Log.Info("hit:" + hit);
+            //Log.Info("hit:" + hit);
             return hit;
         }
 
-        public void HitDef(Player p, Dictionary<string, string> param, Action cb)
+        public void HitDef(Player p, Dictionary<string, TokenList> param, Action cb)
         {
             
            Player enemy = TeamMgr.GetEnemy(p);

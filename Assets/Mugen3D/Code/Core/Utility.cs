@@ -54,5 +54,16 @@ namespace Mugen3D
             sb.Append("]");
             Log.Info("CommandList:" + sb.ToString());
         }
+
+        public static string TokensToString(List<Token> tokens)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                sb.Append(tokens[i].value);
+            }
+            return sb.ToString();
+        }
+
     }
 }

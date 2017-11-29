@@ -140,7 +140,7 @@ y = 30
 
 [Event 6]
 type = ChangeState
-trigger1 = (PoxY + VelY * DeltaTime) < 0
+trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
 
 //Jump Land
@@ -196,7 +196,7 @@ y = 17
 
 [Event 1]
 type = ChangeState
-trigger1 = (PoxY + VelY * DeltaTime) < 0
+trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 106
 
 //hope backwards (land)
@@ -226,7 +226,22 @@ physics = S
 [Event 0]
 type = ChangeAnim
 trigger1 = Time > 0
+trigger1 = HitVar("animType") == "light"
 value = 5000
+mode = "once"
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time > 0
+trigger1 = HitVar("animType") == "medium"
+value = 5010
+mode = "once"
+
+[Event 0]
+type = ChangeAnim
+trigger1 = Time > 0
+trigger1 = HitVar("animType") == "hard"
+value = 5020
 mode = "once"
 
 [Event 1]
@@ -236,16 +251,35 @@ value = 5001
 
 //stand get-hit(knocked back)
 [Statedef 5001]
-anim = 5005
 
 [Event]
 type = VelSet
 trigger1 = Time == 0
-x = -8
+x = Neg(8)
 y = 0
+
+[Event]
+type = ChangeAnim
+trigger1 = LeftAnimElem == 0 && Anim == 5000
+trigger1 = HitVar("animType") == "light"
+value = 5005
+mode = once
+
+[Event]
+type = ChangeAnim
+trigger1 = LeftAnimElem == 0 && Anim == 5010
+trigger1 = HitVar("animType") == "medium"
+value = 5015
+mode = once
+
+[Event]
+type = ChangeAnim
+trigger1 = LeftAnimElem == 0 && Anim == 5020
+trigger1 = HitVar("animType") == "hard"
+value = 5025
+mode = once
 
 [Event]
 type = ChangeState
 trigger1 = Time >= HitVar("p2HitSlideTime") 
-trigger1 = LeftAnimElem == 0
 value = 0

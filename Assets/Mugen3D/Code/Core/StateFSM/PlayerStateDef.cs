@@ -11,8 +11,8 @@ namespace Mugen3D
         private StateEvent curEvent;
 
         public int stateId;
-        private MyDictionary<string, string> InitParams;
-        public MyList<StateEvent> events;
+        private Dictionary<string, TokenList> InitParams;
+        public List<StateEvent> events;
 
         public void Init() {
             foreach (var e in events)
@@ -23,8 +23,8 @@ namespace Mugen3D
 
         public PlayerStateDef()
         {
-            events = new MyList<StateEvent>();
-            InitParams = new MyDictionary<string, string>();
+            events = new List<StateEvent>();
+            InitParams = new Dictionary<string, TokenList>();
         }
 
         public void SetOwner(Player p)
@@ -32,29 +32,24 @@ namespace Mugen3D
             owner = p;
         }
 
-        public void AddInitParam(string key, Token[] tokens)
+        public void AddInitParam(string key, TokenList tokens)
         {
             if (InitParams == null)
-                InitParams = new MyDictionary<string, string>();
-            string v = "";
-            for (int i = 0; i < tokens.Length; i++)
-            {
-                v += tokens[i].value;
-            }
-            InitParams[key] = v;
+                InitParams = new Dictionary<string, TokenList>();    
+            InitParams[key] = tokens;
         }
 
         public void OnEnter() {
             if (InitParams.ContainsKey("anim"))
             {
-                Dictionary<string, string> param = new Dictionary<string,string> {
+                Dictionary<string, TokenList> param = new Dictionary<string, TokenList> {
                     {"value", InitParams["anim"]}
                 };
                 Controllers.Instance.ChangeAnim(this.owner, param);
             }
             if (InitParams.ContainsKey("physics"))
             {
-                Dictionary<string, string> param = new Dictionary<string, string> {
+                Dictionary<string, TokenList> param = new Dictionary<string, TokenList> {
                     {"value", InitParams["physics"]}
                 };
                 Controllers.Instance.PhysicsSet(this.owner, param);
@@ -86,25 +81,15 @@ namespace Mugen3D
                 bool passed = (checkRequired ? CheckTriggerList(e.requiredTriggerList) : true) 
                     && (checkOptional?CheckOptionalTriggerLists(e.optionalTriggerDic):true);
                 if (!passed)
-                    continue;
-                Dictionary<string, string> param = new Dictionary<string, string>();
-                foreach (var p in e.parameters)
-                {
-                    string v = "";
-                    for (int j = 0; j < p.Value.Count; j++)
-                    {
-                        v += p.Value[j].value;
-                    }
-                    param[p.Key] = v;
-                }
+                    continue;               
                 if (e.triggerOnce == false || (e.triggerOnce && e.isTriggered == false))
                 {
-                    Controllers.Instance.ExeController(owner, e.type, param, () => { e.isTriggered = true; });
+                    Controllers.Instance.ExeController(owner, e.type, e.parameters, () => { e.isTriggered = true; });
                 }
             }
         }
 
-        bool CheckOptionalTriggerLists(MyDictionary<int, MyList<Expression>> exDic)
+        bool CheckOptionalTriggerLists(Dictionary<int, List<Expression>> exDic)
         {
             foreach (var kv in exDic)
             {
@@ -121,7 +106,7 @@ namespace Mugen3D
             foreach (var e in expressions) {
                 VirtualMachine vm = new VirtualMachine();
                 vm.SetOwner(this.owner);
-                vm.SetDebugInfo(new DebugInfo { stateNo = this.stateId, eventNo = curEvent.eventNumber });
+                vm.SetDebugInfo(new DebugInfo { stateNo = this.stateId, eventNo = curEvent.eventNo });
                 double result = vm.Execute(e);
                 if (result == 0)
                 {

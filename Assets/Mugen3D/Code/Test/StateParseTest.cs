@@ -11,7 +11,7 @@ public class StateParseTest : MonoBehaviour {
         List<Token> tokens = t.GetTokens(testTest);
         StateParse p = new StateParse();
         p.Parse(tokens);
-        MyDictionary<int, PlayerStateDef> states = p.States;
+        Dictionary<int, PlayerStateDef> states = p.States;
         Debug.Log(states.ToString());
 	}
 	

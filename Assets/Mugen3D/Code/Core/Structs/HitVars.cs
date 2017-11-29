@@ -5,50 +5,15 @@ using UnityEngine;
 
 namespace Mugen3D
 {
-    public enum HitAttr
-    {
-        A,//普通攻击
-        T,//抓投
-        P,//飞行道具
-    }
-
-    //此参数说明如果p1要集中p2,p2必须处于的状态类型
-    public enum HitFlag{
-        H,
-        L,
-        A,
-        M,
-        F,
-        D,
-    }
-
-    //此参数决定p2要如何防御住这次攻击
-    public enum GrardFlag
-    {
-        H,
-        L,
-        A,
-        M,
-    }
-
-    public enum HittedAnimType
-    {
-        light,
-        medium,
-        hard,
-        back,
-        up,
-        diagup,
-    }
 
     public class HitVars
     {
-        public HitAttr attr;
+        public string attr;
         //This determines what type of state P2 must be in for P1 to hit. 
-        public HitFlag hitFlag;
+        public string hitFlag;
         //This determines how P2 may guard the attack. 
-        public GrardFlag guardFlag;
-        public HittedAnimType animType;
+        public string guardFlag;
+        public string animType;
 
         public int hitDamage;
         public int guardDamage;
@@ -56,12 +21,14 @@ namespace Mugen3D
         public int p1HitPauseTime;
         public int p2HitShakeTime;
         public int p2HitSlideTime;
+        public int groundVelocityX;
+        public int groundVelocityY;
 
         public int p1GuardPauseTime;
         public int p2GuardShakeTime;
         public int p2GuardSlideTime;
 
-        private Dictionary<string, string> param;
+        private Dictionary<string, TokenList> param;
         private Dictionary<int, int> dic = new Dictionary<int,int>();
 
         private void SetValue(string id)
@@ -75,7 +42,7 @@ namespace Mugen3D
                 if (propertyInfo.FieldType == typeof(int))
                 {
                     int value;
-                    if (!int.TryParse(param[id], out value))
+                    if (!int.TryParse(param[id].asStr, out value))
                     {
                         Log.Error(id + " can't be recognized as int");
                         return;
@@ -85,7 +52,7 @@ namespace Mugen3D
                 }
                 else if (propertyInfo.FieldType == typeof(Enum))
                 {
-                    var value = Enum.Parse(propertyInfo.FieldType, param[id]);
+                    var value = Enum.Parse(propertyInfo.FieldType, param[id].asStr);
                     propertyInfo.SetValue(this, value);
                 }
             }
@@ -99,18 +66,10 @@ namespace Mugen3D
         {
             if (param.ContainsKey("attr"))
             {
-                switch (param["attr"])
-                {
-                    case "A":
-                        this.attr = HitAttr.A; break;
-                    case "T":
-                        this.attr = HitAttr.T; break;
-                    case "P":
-                        this.attr = HitAttr.P; break;
-                    default:
-                        Log.Error("hitdef's attr can't be recongnized"); break;
-
-                }
+                
+                this.attr = param["attr"].asStr;
+                dic["attr".GetHashCode()] = this.attr.GetHashCode();
+                
             }
             else
             {
@@ -121,23 +80,8 @@ namespace Mugen3D
         {
             if (param.ContainsKey("hitFlag"))
             {
-                switch (param["hitFlag"])
-                {
-                    case "H":
-                        this.hitFlag = HitFlag.H; break;
-                    case "L":
-                        this.hitFlag = HitFlag.L; break;
-                    case "A":
-                        this.hitFlag = HitFlag.A; break;
-                    case "M":
-                        this.hitFlag = HitFlag.M; break;
-                    case "F":
-                        this.hitFlag = HitFlag.F; break;
-                    case "D":
-                        this.hitFlag = HitFlag.D; break;
-                    default:
-                        Log.Error("hitdef's hitFlag can't be recongnized"); break;
-                }
+                this.hitFlag = param["hitFlag"].asStr;
+                dic["hitFlag".GetHashCode()] = this.hitFlag.GetHashCode();
             }
             else
             {
@@ -148,19 +92,8 @@ namespace Mugen3D
         {
             if (param.ContainsKey("guardFlag"))
             {
-                switch (param["guardFlag"])
-                {
-                    case "H":
-                        this.guardFlag = GrardFlag.H; break;
-                    case "L":
-                        this.guardFlag = GrardFlag.L; break;
-                    case "A":
-                        this.guardFlag = GrardFlag.A; break;
-                    case "M":
-                        this.guardFlag = GrardFlag.M; break;
-                    default:
-                        Log.Error("hitdef's guardFlag can't be recongnized"); break;
-                }
+                this.guardFlag = param["guardFlag"].asStr;
+                dic["guardFlag".GetHashCode()] = this.guardFlag.GetHashCode();
             }
             else
             {
@@ -171,21 +104,8 @@ namespace Mugen3D
         {
             if (param.ContainsKey("animType"))
             {
-                switch (param["animType"])
-                {
-                    case "light":
-                        this.animType = HittedAnimType.light; break;
-                    case "medium":
-                        this.animType = HittedAnimType.medium; break;
-                    case "hard":
-                        this.animType = HittedAnimType.hard; break;
-                    case "up":
-                        this.animType = HittedAnimType.up; break;
-                    case "diagup":
-                        this.animType = HittedAnimType.diagup; break;
-                    default:
-                        Log.Error("hitdef's animType can't be recongnized"); break;
-                }
+                this.animType = param["animType"].asStr;
+                dic["animType".GetHashCode()] = this.animType.GetHashCode();
             }
             else
             {
@@ -197,7 +117,7 @@ namespace Mugen3D
             if (param.ContainsKey("hitDamage"))
             {
                 int value;
-                if (int.TryParse(param["hitDamage"], out value))
+                if (int.TryParse(param["hitDamage"].asStr, out value))
                 {
                     this.hitDamage = value;
                 }
@@ -212,7 +132,7 @@ namespace Mugen3D
             if (param.ContainsKey("guardDamage"))
             {
                 int value;
-                if (int.TryParse(param["guardDamage"], out value))
+                if (int.TryParse(param["guardDamage"].asStr, out value))
                 {
                     this.guardDamage = value;
                 }
@@ -227,7 +147,7 @@ namespace Mugen3D
             if (param.ContainsKey("p1HitPauseTime"))
             {
                 int value;
-                if (int.TryParse(param["p1HitPauseTime"], out value))
+                if (int.TryParse(param["p1HitPauseTime"].asStr, out value))
                 {
                     this.p1HitPauseTime = value;
                     dic["p1HitPauseTime".GetHashCode()] = value;
@@ -247,7 +167,7 @@ namespace Mugen3D
             if (param.ContainsKey("p2HitShakeTime"))
             {
                 int value;
-                if (int.TryParse(param["p2HitShakeTime"], out value))
+                if (int.TryParse(param["p2HitShakeTime"].asStr, out value))
                 {
                     this.p2HitShakeTime = value;
                     dic["p2HitShakeTime".GetHashCode()] = value;
@@ -267,7 +187,7 @@ namespace Mugen3D
             if (param.ContainsKey("p2HitSlideTime"))
             {
                 int value;
-                if (int.TryParse(param["p2HitSlideTime"], out value))
+                if (int.TryParse(param["p2HitSlideTime"].asStr, out value))
                 {
                     this.p2HitSlideTime = value;
                     dic["p2HitSlideTime".GetHashCode()] = value;
@@ -282,8 +202,48 @@ namespace Mugen3D
                 Log.Error("p2HitSlideTime can't be null");
             }
         }
+        private void SetGroundVelocityX()
+        {
+            if (param.ContainsKey("groundVelocityX"))
+            {
+                int value;
+                if (int.TryParse(param["groundVelocityX"].asStr, out value))
+                {
+                    this.groundVelocityX = value;
+                    dic["groundVelocityX".GetHashCode()] = value;
+                }
+                else
+                {
+                    Log.Error("groundVelocityX can't be recognized as int");
+                }
+            }
+            else
+            {
+                Log.Error("groundVelocityX can't be null");
+            }
+        }
+        private void SetGroundVelocityY()
+        {
+            if (param.ContainsKey("groundVelocityY"))
+            {
+                int value;
+                if (int.TryParse(param["groundVelocityY"].asStr, out value))
+                {
+                    this.groundVelocityY = value;
+                    dic["groundVelocityY".GetHashCode()] = value;
+                }
+                else
+                {
+                    Log.Error("groundVelocityY can't be recognized as int");
+                }
+            }
+            else
+            {
+                Log.Error("groundVelocityY can't be null");
+            }
+        }
 
-        public HitVars(Dictionary<string, string> param)
+        public HitVars(Dictionary<string, TokenList> param)
         {
             this.param = param;
             //use reflection

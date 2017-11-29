@@ -8,6 +8,7 @@ public class WordRunner : MonoBehaviour {
     float timer = 0;
 	// Use this for initialization
 	void Start () {
+        OpcodeConfig.Init();
         var p1 = PlayerLoader.LoadPlayer(PlayerId.P1,"Origin", this.transform.position + new Vector3(0,0,-10), this.transform);
         World.Instance.AddPlayer(PlayerId.P1, p1);
         var p2 = PlayerLoader.LoadPlayer(PlayerId.P2, "Origin", this.transform.position + new Vector3(0, 0, +10), this.transform);

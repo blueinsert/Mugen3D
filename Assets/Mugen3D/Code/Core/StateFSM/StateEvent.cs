@@ -7,20 +7,21 @@ namespace Mugen3D
 {
     public class StateEvent
     {
-        public int eventNumber;
+        public int eventNo;
+        public int stateNo;
         public StateEventType type;
         public bool triggerOnce = false;
         public bool isTriggered = false;
-        public MyList<Expression> requiredTriggerList;
-        public MyDictionary<int, MyList<Expression>> optionalTriggerDic;
-        public MyDictionary<string, MyList<Token>> parameters;
+        public List<Expression> requiredTriggerList;
+        public Dictionary<int, List<Expression>> optionalTriggerDic;
+        public Dictionary<string, TokenList> parameters;
 
         public void Init()
         {
             if (parameters.ContainsKey("triggerOnce"))
             {
-                Token t = parameters["triggerOnce"][0];
-                if (t.value == "true")
+                var value = parameters["triggerOnce"].asStr;
+                if (value == "true")
                 {
                     triggerOnce = true;
                 }
@@ -38,16 +39,16 @@ namespace Mugen3D
 
         public StateEvent()
         {
-            requiredTriggerList = new MyList<Expression>();
-            optionalTriggerDic = new MyDictionary<int, MyList<Expression>>();
-            parameters = new MyDictionary<string, MyList<Token>>();
+            requiredTriggerList = new List<Expression>();
+            optionalTriggerDic = new Dictionary<int, List<Expression>>();
+            parameters = new Dictionary<string, TokenList>();
         }
 
         public void AddOptionalTrigger(int group,Expression e)
         {
             if (!optionalTriggerDic.ContainsKey(group))
             {
-                optionalTriggerDic[group] = new MyList<Expression>();
+                optionalTriggerDic[group] = new List<Expression>();
                 optionalTriggerDic[group].Add(e);
             }
             else
@@ -60,7 +61,7 @@ namespace Mugen3D
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("{");
-            sb.Append("eventNum:").Append(eventNumber).Append(",");
+            sb.Append("eventNum:").Append(eventNo).Append(",");
             sb.Append("type:").Append(type.ToString()).Append(",");
             sb.Append("requiredTriggerList:").Append(requiredTriggerList.ToString()).Append(",");
             sb.Append("optionalTriggerDic").Append(optionalTriggerDic.ToString()).Append(",");

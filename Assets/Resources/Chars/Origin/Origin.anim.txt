@@ -18,4 +18,8 @@
 260 : "StandStrongKick"
 
 5000 : "Stand_Air_Hit_High_Light"
+5010 : "Stand_Air_Hit_High_Medium"
+5020 : "Stand_Air_Hit_High_Hard"
 5005 : "StandRecover_High_Light"
+5015 : "StandRecover_High_Medium"
+5025 : "StandRecover_High_Medium"

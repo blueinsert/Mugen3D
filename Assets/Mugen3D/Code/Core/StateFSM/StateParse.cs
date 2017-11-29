@@ -5,8 +5,8 @@ namespace Mugen3D
 {
     public class StateParse
     {
-        public MyDictionary<int, PlayerStateDef> mStates = new MyDictionary<int, PlayerStateDef>();
-        public MyDictionary<int, PlayerStateDef> States { get { return mStates; } }
+        public Dictionary<int, PlayerStateDef> mStates = new Dictionary<int, PlayerStateDef>();
+        public Dictionary<int, PlayerStateDef> States { get { return mStates; } }
         private PlayerStateDef curParseState;
         private int curParseStateId;
         private StateEvent curParseStateEvent;
@@ -39,16 +39,18 @@ namespace Mugen3D
                     else if (t.value == "Event")
                     {
                         curParseStateEvent = new StateEvent();
+                        /*
                         t = tokens[pos++];
                         int eventNum;
                         if (int.TryParse(t.value, out eventNum))
                         {
-                            curParseStateEvent.eventNumber = eventNum;
+                            curParseStateEvent.eventNo = eventNum;
                         }
                         else
                         {
-                            curParseStateEvent.eventNumber = -1;
-                        }                
+                            curParseStateEvent.eventNo = -1;
+                        }               
+                         */
                         //skip useless
                         while ((t = tokens[pos++]).value != "\n") { }
                         ParseStateEvent(tokens, ref pos);
@@ -71,12 +73,12 @@ namespace Mugen3D
                 else if (t.value == "=")
                 {
                     Token tKey = tokens[pos - 2];
-                    MyList<Token> value = new MyList<Token>();
+                    TokenList value = new TokenList();
                     while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
                     {
-                        value.Add(t);
+                        value.AddToken(t);
                     }
-                    curParseState.AddInitParam(tKey.value, value.ToArray());
+                    curParseState.AddInitParam(tKey.value, value);
                 }
             }
         }
@@ -146,10 +148,10 @@ namespace Mugen3D
                      }
                      else
                      {
-                         curParseStateEvent.parameters[tKey.value] = new MyList<Token>();
+                         curParseStateEvent.parameters[tKey.value] = new TokenList();
                          while (pos < tokenSize && (t = tokens[pos++]).value != "\n")
                          {
-                             curParseStateEvent.parameters[tKey.value].Add(t);
+                             curParseStateEvent.parameters[tKey.value].AddToken(t);
                          }
                      }
                  }
@@ -164,7 +166,6 @@ namespace Mugen3D
             while (tokens[pos].value != "\n")
             {
                 expressionTokens.Add(tokens[pos]);
-                Debug.Log(tokens[pos].type +":"+ tokens[pos].value);
                 pos++;
             }
             pos++;

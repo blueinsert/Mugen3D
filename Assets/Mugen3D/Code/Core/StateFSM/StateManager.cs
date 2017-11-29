@@ -7,7 +7,7 @@ namespace Mugen3D
     public class StateManager
     {
         private Player owner;
-        private MyDictionary<int, PlayerStateDef> States = new MyDictionary<int,PlayerStateDef>();
+        private Dictionary<int, PlayerStateDef> States = new Dictionary<int,PlayerStateDef>();
 
         private List<int> historyStates = new List<int>();
         private int MaxHistoryStateNum = 10;
@@ -33,7 +33,7 @@ namespace Mugen3D
                 List<Token> tokens = t.GetTokens(f);
                 StateParse p = new StateParse();
                 p.Parse(tokens);
-                MyDictionary<int, PlayerStateDef> tmp = p.States;
+                Dictionary<int, PlayerStateDef> tmp = p.States;
                 foreach (var kv in tmp)
                 {
                     kv.Value.SetOwner(owner);

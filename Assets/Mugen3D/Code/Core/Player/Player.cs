@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
     [HideInInspector]
     public StateManager stateMgr;
 
-    public MyDictionary<int, int> vars;
+    public Dictionary<int, int> vars;
 
     public bool IsPause()
     {
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour {
         stateMgr = new StateManager(this);
         stateMgr.ReadStateDefFile(setting.stateFiles.ToArray());
         //
-        vars = new MyDictionary<int, int>();
+        vars = new Dictionary<int, int>();
         
     }
 
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
     {
         if (vars == null)
         {
-            vars = new MyDictionary<int, int>();
+            vars = new Dictionary<int, int>();
         }
         vars[id] = value;
     }
