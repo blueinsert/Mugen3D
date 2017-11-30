@@ -66,7 +66,8 @@ namespace Mugen3D
             if (param.ContainsKey("x"))
             {
                 Expression ex = param["x"].asExpression;
-                x = (float)ex.CalcValueInRunTime();
+                Log.Info(param["x"].asStr);
+                x = (float)p.CalcExpressionInRuntime(ex);
             }
             else
             {
@@ -75,7 +76,7 @@ namespace Mugen3D
             if (param.ContainsKey("y"))
             {
                 Expression ex = param["y"].asExpression;
-                y = (float)ex.CalcValueInRunTime();
+                y = (float)p.CalcExpressionInRuntime(ex);
             }
             else
             {

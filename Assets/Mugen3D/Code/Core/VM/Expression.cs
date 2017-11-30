@@ -71,11 +71,6 @@ namespace Mugen3D
             }
             return result;
         }
-
-        public double CalcValueInRunTime()
-        {
-            VirtualMachine vm = new VirtualMachine();
-            return vm.Execute(this);
-        }
+ 
     }
 }

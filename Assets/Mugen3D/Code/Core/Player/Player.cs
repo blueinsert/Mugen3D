@@ -108,5 +108,11 @@ public class Player : MonoBehaviour {
         vars[id] = value;
     }
 
+    public double CalcExpressionInRuntime(Expression ex)
+    {
+        VirtualMachine vm = new VirtualMachine();
+        vm.SetOwner(this);
+        return vm.Execute(ex);
+    }
 }
 }

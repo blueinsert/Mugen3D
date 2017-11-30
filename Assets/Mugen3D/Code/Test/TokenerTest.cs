@@ -16,10 +16,6 @@ public class TokenerTest : MonoBehaviour
         for (int i = 0; i < tokens.Count; i++)
         {
             string value = tokens[i].value;
-            if (value == "\n")
-            {
-                value = "nextline";
-            }
             sb.Append("{" + value + "," + tokens[i].type.ToString() + "}" + "\n");
         }
         Debug.Log(sb.ToString());

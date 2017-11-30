@@ -18,7 +18,7 @@ public class AnimationController {
     private List<string> mAnimNames = new List<string>();
 
     const int FrameRate = 60;
-
+    public float speed = 2;
     public int AnimTime = -1;// 0 to omega
     public int AnimElem = 0;// 0 to (length-1)
     public float animLength;//seconds
@@ -100,7 +100,7 @@ public class AnimationController {
     private void SetPlayAnim(string animName, AnimPlayMode mode = AnimPlayMode.Loop){
         this.animName = animName;
         Debug.Log("play anim:" + animNo + " " + animName);
-        animLength = anim[animName].length;
+        animLength = anim[animName].length/speed;
         totalFrame = (int)(FrameRate * animLength);
         AnimElem = 0;
         AnimTime = -1;

@@ -7,10 +7,11 @@ namespace Mugen3D
     public class OpcodeConfig
     {
         private static List<OpcodeDetail> opcodeDetails = new List<OpcodeDetail> { 
-            new OpcodeDetail{opcode = OpCode.PushValue,               strValue = "push",                priority = 1,     inputNum = 1,    isMugenBuildIn = false},
-            new OpcodeDetail{opcode = OpCode.PopValue,                strValue = "pop",                priority = 1,     inputNum = 1,    isMugenBuildIn = false},
+            new OpcodeDetail{opcode = OpCode.PushValue,               strValue = "push",            priority = 1,     inputNum = 1,    isMugenBuildIn = false},
+            new OpcodeDetail{opcode = OpCode.PopValue,                strValue = "pop",             priority = 1,     inputNum = 1,    isMugenBuildIn = false},
             new OpcodeDetail{opcode = OpCode.AddOP,                   strValue = "+",               priority = 4,     inputNum = 2,    isMugenBuildIn = false},
             new OpcodeDetail{opcode = OpCode.SubOP,                   strValue = "-",               priority = 4,     inputNum = 2,    isMugenBuildIn = false},
+            new OpcodeDetail{opcode = OpCode.Neg,                     strValue = "-",               priority = 1,     inputNum = 1,    isMugenBuildIn = false},
             new OpcodeDetail{opcode = OpCode.MulOP,                   strValue = "*",               priority = 3,     inputNum = 2,    isMugenBuildIn = false},
             new OpcodeDetail{opcode = OpCode.DivOP,                   strValue = "/",               priority = 3,     inputNum = 2,    isMugenBuildIn = false},
             new OpcodeDetail{opcode = OpCode.EqualOP,                 strValue = "==",              priority = 7,     inputNum = 2,    isMugenBuildIn = false},
@@ -40,8 +41,7 @@ namespace Mugen3D
             new OpcodeDetail{opcode = OpCode.Trigger_StateTime,       strValue = "Time",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_DeltaTime,       strValue = "DeltaTime",       priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_PhysicsType,     strValue = "Physics",         priority = 1,     inputNum = 0,    isMugenBuildIn = true},
-            new OpcodeDetail{opcode = OpCode.Trigger_Var,             strValue = "Var",             priority = 1,     inputNum = 1,    isMugenBuildIn = true},
-            new OpcodeDetail{opcode = OpCode.Trigger_Neg,             strValue = "Neg",             priority = 1,     inputNum = 1,    isMugenBuildIn = true},
+            new OpcodeDetail{opcode = OpCode.Trigger_Var,             strValue = "Var",             priority = 1,     inputNum = 1,    isMugenBuildIn = true},   
             new OpcodeDetail{opcode = OpCode.Trigger_HitVar,          strValue = "HitVar",          priority = 1,     inputNum = 1,    isMugenBuildIn = true},
         };
 

@@ -38,6 +38,14 @@ namespace Mugen3D
                     opCode = OpCode.PushValue;
                     value = token.value.GetHashCode();
                     break;
+                case TokenType.Op_Sub:
+                    opCode = OpCode.SubOP;
+                    value = 0;
+                    break;
+                case TokenType.Op_Neg:
+                    opCode = OpCode.Neg;
+                    value = 0;
+                    break;
                 default:
                     opCode = OpcodeConfig.GetOpcodeByStr(token.value);
                     value = 0;

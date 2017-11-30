@@ -7,8 +7,6 @@ namespace Mugen3D
 {
     public class Tokenizer
     {
-        private char[] mCharStream;
-        private List<Token> mTokenArray = new List<Token>();
 
         public List<Token> GetTokens(TextAsset textAssert)
         {
@@ -31,69 +29,39 @@ namespace Mugen3D
             return GetTokens(content.ToCharArray());
         }
 
-        public List<Token> GetTokens(char[] charStream)
+        private List<Token> GetTokens(char[] charStream)
         {
-            mCharStream = charStream;
-            RemoveComments();
-            ParseToTokens();
-            return mTokenArray;
+            charStream = RemoveComments(charStream);
+            charStream = RemoveRepeatSpaceNewline(charStream);
+            return ParseToTokens(charStream);
         }
 
-        private void RemoveComments()
+        private char[] RemoveComments(char[] charStream)
         {
             List<char> newCharArray = new List<char>();
+            int length = charStream.Length;
             int pos = 0;
-            bool isInEndOfFile = false;
-            while (!isInEndOfFile)
+            while (pos < length)
             {
-                char c = mCharStream[pos++];
-                if (pos >= mCharStream.Length)
-                    isInEndOfFile = true;
+                char c = charStream[pos++];
                 if (c == '/')
                 {
-                    c = mCharStream[pos++];
-                    if (pos >= mCharStream.Length)
-                        isInEndOfFile = true;
+                    c = charStream[pos++];
                     if (c == '/')
                     {
-                        while (!isInEndOfFile)
+                        while (pos < length)
                         {
-                            c = mCharStream[pos++];
-                            if (pos >= mCharStream.Length)
-                                isInEndOfFile = true;
+                            c = charStream[pos++];
                             if (c == '\n')
                             {
                                 break;
                             }
                         }
                     }
-                    else if (c == '*')
-                    {
-                        while (!isInEndOfFile)
-                        {
-                            c = mCharStream[pos++];
-                            if (pos >= mCharStream.Length)
-                                isInEndOfFile = true;
-                            if (c == '*')
-                            {
-                                c = mCharStream[pos++];
-                                if (pos >= mCharStream.Length)
-                                    isInEndOfFile = true;
-                                if (c == '/')
-                                {
-                                    break;
-                                }
-                                else
-                                {
-                                    pos--;
-                                }
-                            }
-                        }
-                    }
                     else
                     {
-                        newCharArray.Add(mCharStream[pos - 2]);
-                        newCharArray.Add(mCharStream[pos - 1]);
+                        newCharArray.Add(charStream[pos - 2]);
+                        newCharArray.Add(charStream[pos - 1]);
                     }
                 }
                 else
@@ -101,27 +69,82 @@ namespace Mugen3D
                     newCharArray.Add(c);
                 }
             }
-            mCharStream = newCharArray.ToArray();
+           return newCharArray.ToArray();
         }
 
-        private void ParseToTokens()
+        private char[] RemoveRepeatSpaceNewline(char[] charStream)
         {
-            mTokenArray.Clear();
-            bool isInEndOfFile = false;
+             List<char> newCharArray = new List<char>();
+            int length = charStream.Length;
             int pos = 0;
-            while (pos < mCharStream.Length)
+            while (pos < length)
             {
-                char c = mCharStream[pos++];
-                if ('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z')
-                {//a var begin
-                    StringBuilder mBuffer = new StringBuilder();
-                    mBuffer.Append(c);
-                    while (pos < mCharStream.Length)
+                char c = charStream[pos++];
+                if (c == ' ')
+                {
+                    if (!(newCharArray.Count > 0 && newCharArray[newCharArray.Count - 1] == ' '))
                     {
-                        c = mCharStream[pos++];
-                        if ('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '.')
+                        newCharArray.Add(c);
+                    }
+                }
+                else if (c == '\n')
+                {
+                    if (!(newCharArray.Count > 0 && newCharArray[newCharArray.Count - 1] == '\n'))
+                    {
+                        newCharArray.Add(c);
+                    }
+                }
+                else
+                {
+                    newCharArray.Add(c);
+                }
+            }
+            return newCharArray.ToArray();
+        }
+
+
+        private string ParseVarName(char[] charStream, ref int pos)
+        {
+            int length = charStream.Length;
+            StringBuilder mBuffer = new StringBuilder();
+            while (pos < length)
+            {
+                char c = charStream[pos++];
+                if ('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '.')
+                {
+                    mBuffer.Append(c);
+                }
+                else
+                {
+                    pos--;
+                    break;
+                }
+            }
+            return mBuffer.ToString();
+        }
+
+        private float ParseNum(char[] charStream, ref int pos)
+        {
+            int length = charStream.Length;
+            float num = 0;
+            float numDecimal = 0;
+            while (pos < length)
+            {
+                char c = charStream[pos++];
+                if ('0' <= c && c <= '9')
+                {
+                    num = num * 10 + (c - '0');
+                }
+                else if (c == '.')
+                {
+                    float denominator = 0.1f;
+                    while (pos < length)
+                    {
+                        c = charStream[pos++];
+                        if ('0' <= c && c <= '9')
                         {
-                            mBuffer.Append(c);
+                            numDecimal += (c - '0') * denominator;
+                            denominator *= 0.1F;
                         }
                         else
                         {
@@ -129,61 +152,45 @@ namespace Mugen3D
                             break;
                         }
                     }
-                    string tokenStr = mBuffer.ToString();
-                    
-                    Token t = new Token();
-                    t.value = tokenStr;
-                    t.type = TokenType.VarName;
-                    mTokenArray.Add(t);  
+
+                }
+                else
+                {
+                    pos--;
+                    break;
+                }
+            }
+            float result = num + numDecimal;
+            return result;
+        }
+
+        private List<Token> ParseToTokens(char[] charStream)
+        {
+            List<Token> tokens = new List<Token>();
+            int length = charStream.Length;
+            int pos = 0;
+
+            while (pos < length)
+            {
+                char c = charStream[pos++];
+                if ('a' <= c && c <= 'z' || 'A' <= c && c <= 'Z')
+                {//a var begin
+                    pos--;
+                    string tokenStr = ParseVarName(charStream, ref pos);
+                    tokens.Add(new Token(tokenStr, TokenType.VarName));  
                 }
                 else if ('0' <= c && c <= '9')
                 {
-                    float num = 0;
-                    float numDecimal = 0;
-                    num = c - '0';
-                    while (pos < mCharStream.Length)
-                    {
-                        c = mCharStream[pos++];
-                        if ('0' <= c && c <= '9')
-                        {
-                            num = num * 10 + (c - '0');
-                        }
-                        else if (c == '.')
-                        {
-                            float denominator = 0.1f;
-                            while (pos < mCharStream.Length)
-                            {
-                                c = mCharStream[pos++];
-                                if ('0' <= c && c <= '9')
-                                {
-                                    numDecimal += (c - '0') * denominator;
-                                    denominator *= 0.1F;
-                                }
-                                else
-                                {
-                                    pos--;
-                                    break;
-                                }
-                            }
-                            
-                        }
-                        else
-                        {
-                            pos--;
-                            break;
-                        }
-                    }
-                    Token t = new Token();
-                    t.value = (num + numDecimal).ToString();
-                    t.type = TokenType.Num;
-                    mTokenArray.Add(t);
+                    pos--;
+                    float num = ParseNum(charStream, ref pos);
+                    tokens.Add(new Token(num.ToString(), TokenType.Num));
                 }
                 else if (c == '"')
                 {
                     StringBuilder mBuffer = new StringBuilder();
-                    while (pos < mCharStream.Length)
+                    while (pos < length)
                     {
-                        c = mCharStream[pos++];
+                        c = charStream[pos++];
                         if (c != '"')
                         {
                             mBuffer.Append(c);
@@ -193,80 +200,90 @@ namespace Mugen3D
                             break;
                         }
                     }
-                    Token t = new Token();
-                    t.value = mBuffer.ToString();
-                    t.type = TokenType.Str;
-                    mTokenArray.Add(t);
+                    tokens.Add(new Token(mBuffer.ToString(), TokenType.Str));
+                }
+                else if (c == '-')
+                {
+                    if (charStream[pos] == ' ' && charStream[pos - 2] == ' ')
+                    {
+                        tokens.Add(new Token("-", TokenType.Op_Sub));
+                    }
+                    else if ('0' <= charStream[pos] && charStream[pos] <= '9')
+                    {
+                        float num = -ParseNum(charStream, ref pos);
+                        tokens.Add(new Token(num.ToString(), TokenType.Num));
+                    }
+                    else
+                    {
+                        tokens.Add(new Token("-", TokenType.Op_Neg));
+                    }
                 }
                 else
                 {
                     switch (c)
                     {
                         case '+':
-                            mTokenArray.Add(new Token("+", TokenType.Op));
-                            break;
-                        case '-':
-                            mTokenArray.Add(new Token("-", TokenType.Op));
+                            tokens.Add(new Token("+", TokenType.Op));
                             break;
                         case '*':
-                            mTokenArray.Add(new Token("*", TokenType.Op));
+                            tokens.Add(new Token("*", TokenType.Op));
                             break;
                         case '/':
-                            mTokenArray.Add(new Token("/", TokenType.Op));
+                            tokens.Add(new Token("/", TokenType.Op));
                             break;
                         case '=':
-                            c = mCharStream[pos++];
+                            c = charStream[pos++];
                             if (c == '=')
                             {
                                 Token t = new Token("==", TokenType.Op);
-                                mTokenArray.Add(t);
+                                tokens.Add(t);
                             }
                             else
                             {
                                 pos--;
                                 Token t = new Token("=", TokenType.Op);
-                                mTokenArray.Add(t);
+                                tokens.Add(t);
                             }
                             break;
                         case '>':
-                            c = mCharStream[pos++];
+                            c = charStream[pos++];
                             if (c == '=')
                             {
-                                mTokenArray.Add(new Token(">=", TokenType.Op));
+                                tokens.Add(new Token(">=", TokenType.Op));
                             }
                             else
                             {
                                 pos--;
-                                mTokenArray.Add(new Token(">", TokenType.Op));
+                                tokens.Add(new Token(">", TokenType.Op));
                             }
                             break;
                         case '<':
-                            c = mCharStream[pos++];
+                            c = charStream[pos++];
                             if (c == '=')
                             {
-                                mTokenArray.Add(new Token("<=", TokenType.Op));
+                                tokens.Add(new Token("<=", TokenType.Op));
                             }
                             else
                             {
                                 pos--;
-                                mTokenArray.Add(new Token("<", TokenType.Op));
+                                tokens.Add(new Token("<", TokenType.Op));
                             }
                             break;
                         case '!':
-                            c = mCharStream[pos++];
+                            c = charStream[pos++];
                             if (c == '=')
-                                mTokenArray.Add(new Token("!=", TokenType.Op));
+                                tokens.Add(new Token("!=", TokenType.Op));
                             else
                             {
-                                mTokenArray.Add(new Token("!", TokenType.Op));
+                                tokens.Add(new Token("!", TokenType.Op));
                                 pos--;
                             }
                             break;
                         case '&':
-                            c = mCharStream[pos++];
+                            c = charStream[pos++];
                             if (c == '&')
                             {
-                                mTokenArray.Add(new Token("&&", TokenType.Op));
+                                tokens.Add(new Token("&&", TokenType.Op));
                             }
                             else
                             {
@@ -274,10 +291,10 @@ namespace Mugen3D
                             }
                             break;
                         case '|':
-                            c = mCharStream[pos++];
+                            c = charStream[pos++];
                             if (c == '|')
                             {
-                                mTokenArray.Add(new Token("||", TokenType.Op));
+                                tokens.Add(new Token("||", TokenType.Op));
                             }
                             else
                             {
@@ -285,40 +302,40 @@ namespace Mugen3D
                             }
                             break;
                         case '(':
-                            mTokenArray.Add(new Token("(", TokenType.Op));
+                            tokens.Add(new Token("(", TokenType.Op));
                             break;
                         case ')':
-                            mTokenArray.Add(new Token(")", TokenType.Op));
+                            tokens.Add(new Token(")", TokenType.Op));
                             break;
                         case '[':
-                            mTokenArray.Add(new Token("[", TokenType.Op));
+                            tokens.Add(new Token("[", TokenType.Op));
                             break;
                         case ']':
-                            mTokenArray.Add(new Token("]", TokenType.Op));
+                            tokens.Add(new Token("]", TokenType.Op));
                             break;
                         case ',':
-                            mTokenArray.Add(new Token(",", TokenType.Op));
+                            tokens.Add(new Token(",", TokenType.Op));
                             break;
-                        case '\n':
-                            if (mTokenArray.Count >=1 && mTokenArray[mTokenArray.Count - 1].value != "\n")
-                                mTokenArray.Add(new Token("\n", TokenType.NewLine));
+                        case '\n':  
+                            tokens.Add(new Token("\n", TokenType.NewLine));
                             break;
                         case ':':
-                            mTokenArray.Add(new Token(":", TokenType.Op));
+                            tokens.Add(new Token(":", TokenType.Op));
                             break;
                         case '$':
-                            mTokenArray.Add(new Token("$", TokenType.Op));
+                            tokens.Add(new Token("$", TokenType.Op));
                             break;
                         case '~':
-                            mTokenArray.Add(new Token("~", TokenType.Op));
+                            tokens.Add(new Token("~", TokenType.Op));
                             break;
                         default:
                             break;
                     }
                 }
             }
+            return tokens;
         }
     
-    }
+    }//class
 
-}
+}//namespace

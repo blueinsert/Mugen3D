@@ -8,6 +8,8 @@ namespace Mugen3D
         Str,
         VarName,
         Op,
+        Op_Neg,
+        Op_Sub,
         Num,
         NewLine,
     }

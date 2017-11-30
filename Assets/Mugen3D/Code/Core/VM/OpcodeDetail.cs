@@ -11,6 +11,7 @@ namespace Mugen3D
         PopValue,
         AddOP,
         SubOP,
+        Neg,
         MulOP,
         DivOP,
         EqualOP,
@@ -43,7 +44,6 @@ namespace Mugen3D
         Trigger_PhysicsType,
         //trigger functions
         Trigger_Var,
-        Trigger_Neg,
         Trigger_HitVar,
         //todo
 

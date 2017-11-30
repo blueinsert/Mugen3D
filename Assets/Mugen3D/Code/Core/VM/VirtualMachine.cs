@@ -86,7 +86,7 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_DeltaTime] = GetDeltaTime;
             pFuncTable[OpCode.Trigger_PhysicsType] = GetPhysicsType;
             pFuncTable[OpCode.Trigger_Var] = GetVar;
-            pFuncTable[OpCode.Trigger_Neg] = GetNeg;
+            pFuncTable[OpCode.Neg] = GetNeg;
             pFuncTable[OpCode.Trigger_HitVar] = GetHitVar;
 
             //todo

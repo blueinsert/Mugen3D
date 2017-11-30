@@ -103,11 +103,8 @@ namespace Mugen3D
 
         bool CheckTriggerList(List<Expression> expressions) {
             bool passed = true;
-            foreach (var e in expressions) {
-                VirtualMachine vm = new VirtualMachine();
-                vm.SetOwner(this.owner);
-                vm.SetDebugInfo(new DebugInfo { stateNo = this.stateId, eventNo = curEvent.eventNo });
-                double result = vm.Execute(e);
+            foreach (var e in expressions) {   
+                double result = owner.CalcExpressionInRuntime(e); 
                 if (result == 0)
                 {
                     passed = false;

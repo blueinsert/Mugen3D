@@ -5,7 +5,7 @@ physics = S
 
 [Event 200,0]
 type = HitDef
-trigger1 = AnimElem >= 8 && AnimElem <= 12
+trigger1 = AnimElem >= 4 && AnimElem <= 6
 attr = A
 hitFlag = M
 guardFlag = M
@@ -15,7 +15,7 @@ guardDamage = 1
 p1HitPauseTime = 11
 p2HitShakeTime = 13
 p2HitSlideTime = 9
-groundVelocityX = -6
+groundVelocityX = -10
 groundVelocityY = 0
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13

@@ -114,7 +114,7 @@ value = 42
 [Event 2]
 type = ChangeAnim
 trigger1 = Time == 0
-trigger1 = Var(13) == Neg(1)
+trigger1 = Var(13) == -1
 value = 43
 
 [Event 3]
@@ -134,7 +134,7 @@ y = 30
 [Event 5]
 type = VelSet
 trigger1 = Time == 0
-trigger1 = Var(13) == Neg(1)
+trigger1 = Var(13) == -1
 x = -8
 y = 30
 
@@ -255,7 +255,7 @@ value = 5001
 [Event]
 type = VelSet
 trigger1 = Time == 0
-x = Neg(8)
+x = HitVar("groundVelocityX")
 y = 0
 
 [Event]

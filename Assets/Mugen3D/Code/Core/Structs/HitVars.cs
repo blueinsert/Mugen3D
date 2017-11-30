@@ -270,6 +270,8 @@ namespace Mugen3D
             SetP1HitPauseTime();
             SetP2HitShakeTime();
             SetP2HitSlideTime();
+            SetGroundVelocityX();
+            SetGroundVelocityY();
         }
 
         public int GetHitVar(int key)
