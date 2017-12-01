@@ -223,25 +223,16 @@ value = 0
 [Statedef 5000]
 physics = S
 
-[Event 0]
+[Event]
 type = ChangeAnim
-trigger1 = Time > 0
-trigger1 = HitVar("animType") == "light"
-value = 5000
+trigger1 = Time == 0
+value = 5000 + HitVar("groundType") + 10 * HitVar("animType")
 mode = "once"
 
 [Event 0]
 type = ChangeAnim
 trigger1 = Time > 0
-trigger1 = HitVar("animType") == "medium"
-value = 5010
-mode = "once"
-
-[Event 0]
-type = ChangeAnim
-trigger1 = Time > 0
-trigger1 = HitVar("animType") == "hard"
-value = 5020
+value = Anim
 mode = "once"
 
 [Event 1]
@@ -260,24 +251,10 @@ y = 0
 
 [Event]
 type = ChangeAnim
-trigger1 = LeftAnimElem == 0 && Anim == 5000
-trigger1 = HitVar("animType") == "light"
-value = 5005
+trigger1 = LeftAnimElem == 0
+value = Anim + 5
 mode = once
-
-[Event]
-type = ChangeAnim
-trigger1 = LeftAnimElem == 0 && Anim == 5010
-trigger1 = HitVar("animType") == "medium"
-value = 5015
-mode = once
-
-[Event]
-type = ChangeAnim
-trigger1 = LeftAnimElem == 0 && Anim == 5020
-trigger1 = HitVar("animType") == "hard"
-value = 5025
-mode = once
+triggerOnce = true
 
 [Event]
 type = ChangeState

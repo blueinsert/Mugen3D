@@ -6,10 +6,12 @@ physics = S
 [Event 200,0]
 type = HitDef
 trigger1 = AnimElem >= 4 && AnimElem <= 6
+activeAttackBodyPart = "Hand_L"
 attr = A
 hitFlag = M
 guardFlag = M
 animType = light
+groundType = high
 hitDamage = 10
 guardDamage = 1
 p1HitPauseTime = 11
@@ -34,16 +36,20 @@ physics = S
 
 [Event 0]
 type = HitDef
-trigger1 = AnimElem >= 8 && AnimElem <= 12
+trigger1 = AnimElem >= 10 && AnimElem <= 11
+activeAttackBodyPart = "Hand_L"
 attr = A
 hitFlag = M
 guardFlag = M
-animType = light
+animType = medium
+groundType = high
 hitDamage = 10
 guardDamage = 1
-p1HitPauseTime = 5
-p2HitShakeTime = 10
+p1HitPauseTime = 11
+p2HitShakeTime = 13
 p2HitSlideTime = 17
+groundVelocityX = -12
+groundVelocityY = 0
 p1GuardPauseTime = 5
 p2GuardShakeTime = 10
 p2GuardSlideTime = 17
@@ -61,16 +67,20 @@ physics = S
 
 [Event 0]
 type = HitDef
-trigger1 = AnimElem >= 8 && AnimElem <= 12
+trigger1 = AnimElem >= 4 && AnimElem <= 6
+activeAttackBodyPart = "Foot_R"
 attr = A
 hitFlag = M
 guardFlag = M
 animType = light
+groundType = low
 hitDamage = 10
 guardDamage = 1
-p1HitPauseTime = 5
-p2HitShakeTime = 10
-p2HitSlideTime = 17
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 9
+groundVelocityX = -10
+groundVelocityY = 0
 p1GuardPauseTime = 5
 p2GuardShakeTime = 10
 p2GuardSlideTime = 17
@@ -88,16 +98,20 @@ physics = S
 
 [Event 0]
 type = HitDef
-trigger1 = AnimElem >= 8 && AnimElem <= 12
+trigger1 = AnimElem >= 8 && AnimElem <= 15
+activeAttackBodyPart = "Foot_L"
 attr = A
 hitFlag = M
 guardFlag = M
-animType = light
+animType = medium
+groundType = low
 hitDamage = 10
 guardDamage = 1
-p1HitPauseTime = 5
-p2HitShakeTime = 10
+p1HitPauseTime = 11
+p2HitShakeTime = 13
 p2HitSlideTime = 17
+groundVelocityX = -14
+groundVelocityY = 0
 p1GuardPauseTime = 5
 p2GuardShakeTime = 10
 p2GuardSlideTime = 17

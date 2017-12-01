@@ -8,13 +8,32 @@ namespace Mugen3D
 
     public class HitVars
     {
+        private enum AnimType
+        {
+            light = 0,
+            medium,
+            hard,
+            back,
+            up,
+            diagup,
+        }
+
+        private enum GroundType
+        {
+            high = 0,
+            low,
+            trip,
+        }
+
         public string attr;
         //This determines what type of state P2 must be in for P1 to hit. 
         public string hitFlag;
         //This determines how P2 may guard the attack. 
         public string guardFlag;
-        public string animType;
 
+        public HitBoxLocation activeAttackBodyPart;
+        private AnimType animType;
+        private GroundType groundType;
         public int hitDamage;
         public int guardDamage;
 
@@ -104,8 +123,8 @@ namespace Mugen3D
         {
             if (param.ContainsKey("animType"))
             {
-                this.animType = param["animType"].asStr;
-                dic["animType".GetHashCode()] = this.animType.GetHashCode();
+                this.animType = (AnimType)Enum.Parse(typeof(AnimType), param["animType"].asStr);
+                dic["animType".GetHashCode()] = (int)this.animType;
             }
             else
             {
@@ -243,6 +262,32 @@ namespace Mugen3D
             }
         }
 
+        private void setActiveAttackBodyPart()
+        {
+            if (param.ContainsKey("activeAttackBodyPart"))
+            {
+                this.activeAttackBodyPart = (HitBoxLocation)Enum.Parse(typeof(HitBoxLocation), param["activeAttackBodyPart"].asStr);
+            }
+            else
+            {
+                Log.Error("hitdef's activeAttackBodyPart can't be null");
+            }
+        }
+
+        private void SetGroundType()
+        {
+            if (param.ContainsKey("groundType"))
+            {
+                this.groundType = (GroundType)Enum.Parse(typeof(GroundType), param["groundType"].asStr);
+                this.dic["groundType".GetHashCode()] = (int)this.groundType;
+            }
+            else
+            {
+                this.groundType = GroundType.high;
+                this.dic["groundType".GetHashCode()] = (int)this.groundType;
+            }
+        }
+
         public HitVars(Dictionary<string, TokenList> param)
         {
             this.param = param;
@@ -272,6 +317,8 @@ namespace Mugen3D
             SetP2HitSlideTime();
             SetGroundVelocityX();
             SetGroundVelocityY();
+            setActiveAttackBodyPart();
+            SetGroundType();
         }
 
         public int GetHitVar(int key)

@@ -51,12 +51,14 @@ namespace Mugen3D
                     VarSet(p, param);
                     break;
                 case StateEventType.HitDef:
-                    HitDef(p, param, cb);
+                    HitDef(p, param);
                     break;
                 case StateEventType.Pause:
                     Pause(p, param);
                     break;
             }
+            if (cb != null)
+                cb();
         }
 
         public void VelSet(Player p, Dictionary<string, TokenList> param)
@@ -122,7 +124,7 @@ namespace Mugen3D
 
         public void ChangeAnim(Player p, Dictionary<string, TokenList> param)
         {
-            int animNo = int.Parse(param["value"].asStr);
+            int animNo = (int)p.CalcExpressionInRuntime(param["value"].asExpression);
             
             if (param.ContainsKey("mode"))
             {
@@ -250,21 +252,20 @@ namespace Mugen3D
                         break;
                 }
             }
-            //Log.Info("hit:" + hit);
+            Log.Info("hit:" + hit);
             return hit;
         }
 
-        public void HitDef(Player p, Dictionary<string, TokenList> param, Action cb)
+        public void HitDef(Player p, Dictionary<string, TokenList> param)
         {
             
            Player enemy = TeamMgr.GetEnemy(p);
            if (enemy == null)
                return;
            HitVars hitvars = new HitVars(param);
-           bool hit = IsHit(p, HitBoxLocation.Hand_L, enemy);
+           bool hit = IsHit(p, hitvars.activeAttackBodyPart, enemy);
            if (!hit)
                return;
-           cb();
            p.Pause(hitvars.p1HitPauseTime);
            enemy.SetHitVars(hitvars);
            //change state
