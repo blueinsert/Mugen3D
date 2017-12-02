@@ -121,3 +121,271 @@ triggerOnce = true
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
+
+//crouch light punch
+[Statedef 300]
+anim = 300
+physics = C
+
+[Event 300,0]
+type = HitDef
+trigger1 = AnimElem >= 6 && AnimElem <= 7
+activeAttackBodyPart = "Hand_L"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 9
+groundVelocityX = -10
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 11
+
+//crouch light kick
+[Statedef 320]
+anim = 320
+physics = C
+
+[Event 320,0]
+type = HitDef
+trigger1 = AnimElem >= 6 && AnimElem <= 10
+activeAttackBodyPart = "Foot_L"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 9
+groundVelocityX = -10
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 11
+
+//crouch strong punch
+[Statedef 340]
+anim = 340
+physics = S
+
+[Event 340,0]
+type = HitDef
+trigger1 = AnimElem >= 8 && AnimElem <= 9
+activeAttackBodyPart = "Hand_R"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 17
+groundVelocityX = -12
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 12
+triggerOnce = true
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 11
+
+//crouch strong kick
+[Statedef 360]
+anim = 360
+physics = C
+
+[Event 200,0]
+type = HitDef
+trigger1 = AnimElem >= 11 && AnimElem <= 19
+activeAttackBodyPart = "Foot_R"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 17
+groundVelocityX = -12
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 11
+
+//jump light punch
+[Statedef 400]
+physics = A
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 400
+mode = once
+
+[Event 200,0]
+type = HitDef
+trigger1 = AnimElem >= 4 && AnimElem <= 10
+activeAttackBodyPart = "Hand_L"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 9
+groundVelocityX = -10
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 6]
+type = ChangeState
+trigger1 = (PosY + VelY * DeltaTime) < 0
+value = 52
+
+//jump light kick
+[Statedef 420]
+physics = A
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 420
+mode = once
+
+[Event 200,0]
+type = HitDef
+trigger1 = AnimElem >= 2
+activeAttackBodyPart = "Foot_L"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 9
+groundVelocityX = -10
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 6]
+type = ChangeState
+trigger1 = (PosY + VelY * DeltaTime) < 0
+value = 52
+
+//jump strong punch
+[Statedef 440]
+physics = A
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 440
+mode = once
+
+[Event 200,0]
+type = HitDef
+trigger1 = AnimElem >= 6
+activeAttackBodyPart = "Hand_R"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 17
+groundVelocityX = -12
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 6]
+type = ChangeState
+trigger1 = (PosY + VelY * DeltaTime) < 0
+value = 52
+
+//jump strong kick
+[Statedef 460]
+physics = A
+
+[Event]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 460
+mode = once
+
+[Event 200,0]
+type = HitDef
+trigger1 = AnimElem >= 4 && AnimElem <= 15
+activeAttackBodyPart = "Foot_L"
+attr = A
+hitFlag = M
+guardFlag = M
+animType = light
+groundType = high
+hitDamage = 10
+guardDamage = 1
+p1HitPauseTime = 11
+p2HitShakeTime = 13
+p2HitSlideTime = 17
+groundVelocityX = -12
+groundVelocityY = 0
+p1GuardPauseTime = 11
+p2GuardShakeTime = 13
+p2GuardSlideTime = 9
+triggerOnce = true
+
+[Event 6]
+type = ChangeState
+trigger1 = (PosY + VelY * DeltaTime) < 0
+value = 52

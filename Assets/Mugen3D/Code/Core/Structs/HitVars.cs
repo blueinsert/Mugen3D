@@ -48,277 +48,77 @@ namespace Mugen3D
         public int p2GuardSlideTime;
 
         private Dictionary<string, TokenList> param;
-        private Dictionary<int, int> dic = new Dictionary<int,int>();
+        private Dictionary<int, int> dic = new Dictionary<int,int>(); 
 
-        private void SetValue(string id)
+        public void SetInt(string id, ref int field, bool isRequired = true, int defaultValue = 0)
+        {   
+            if (param.ContainsKey(id))
+            {
+                int value;
+                if (int.TryParse(param[id].asStr, out value))
+                {
+                    field = value;
+                    dic[id.GetHashCode()] = value;
+                }
+                else
+                {
+                    Log.Error(id + " can't be recognized as int");
+                }
+            }
+            else
+            {
+                if (isRequired)
+                {
+                    Log.Error(id + " can't be null");
+                }
+            }
+        }
+
+        public void SetString(string id, ref string field, bool isRequired = true, string defaultValue = "")
         {
             if (param.ContainsKey(id))
             {
-                Type type = this.GetType();
-                System.Reflection.FieldInfo propertyInfo = type.GetField(id);
-                Log.Info(id);
-                Log.Info(propertyInfo.ToString() + ":" + id);
-                if (propertyInfo.FieldType == typeof(int))
-                {
-                    int value;
-                    if (!int.TryParse(param[id].asStr, out value))
-                    {
-                        Log.Error(id + " can't be recognized as int");
-                        return;
-                    }
-                    propertyInfo.SetValue(this, value);
-                    dic[id.GetHashCode()] = value;
-                }
-                else if (propertyInfo.FieldType == typeof(Enum))
-                {
-                    var value = Enum.Parse(propertyInfo.FieldType, param[id].asStr);
-                    propertyInfo.SetValue(this, value);
-                }
+                field = param[id].asStr; 
             }
             else
             {
-                Log.Error("hitdef's " + id +" can't be null");
+                if (isRequired)
+                {
+                    Log.Error(id + " can't be null");
+                }
             }
         }
+        
 
-        private void SetAttr()
+        public HitVars(Dictionary<string, TokenList> param)
         {
-            if (param.ContainsKey("attr"))
-            {
-                
-                this.attr = param["attr"].asStr;
-                dic["attr".GetHashCode()] = this.attr.GetHashCode();
-                
-            }
-            else
-            {
-                Log.Error("hitdef's attr can't be null");
-            }
-        }
-        private void SetHitFlag()
-        {
-            if (param.ContainsKey("hitFlag"))
-            {
-                this.hitFlag = param["hitFlag"].asStr;
-                dic["hitFlag".GetHashCode()] = this.hitFlag.GetHashCode();
-            }
-            else
-            {
-                Log.Error("hitdef's hitFlag can't be null");
-            }
-        }
-        private void SetGuardFlag()
-        {
-            if (param.ContainsKey("guardFlag"))
-            {
-                this.guardFlag = param["guardFlag"].asStr;
-                dic["guardFlag".GetHashCode()] = this.guardFlag.GetHashCode();
-            }
-            else
-            {
-                Log.Error("hitdef's guardFlag can't be null");
-            }
-        }
-        private void SetAnimType()
-        {
+            this.param = param;  
+            SetString("attr", ref this.attr);
+            SetString("hitFlag", ref this.hitFlag);
+            SetString("guardFlag", ref this.guardFlag);
             if (param.ContainsKey("animType"))
             {
                 this.animType = (AnimType)Enum.Parse(typeof(AnimType), param["animType"].asStr);
-                dic["animType".GetHashCode()] = (int)this.animType;
+                this.dic["animType".GetHashCode()] = (int)this.animType;
             }
-            else
-            {
-                Log.Error("hitdef's animType can't be null");
-            }
-        }
-        private void SetHitDamage()
-        {
-            if (param.ContainsKey("hitDamage"))
-            {
-                int value;
-                if (int.TryParse(param["hitDamage"].asStr, out value))
-                {
-                    this.hitDamage = value;
-                }
-                else
-                {
-                    Log.Error("hitDamage can't be recognized as int");
-                }
-            }
-        }
-        private void SetGuardDamage()
-        {
-            if (param.ContainsKey("guardDamage"))
-            {
-                int value;
-                if (int.TryParse(param["guardDamage"].asStr, out value))
-                {
-                    this.guardDamage = value;
-                }
-                else
-                {
-                    Log.Error("guardDamage can't be recognized as int");
-                }
-            }
-        }
-        private void SetP1HitPauseTime()
-        {
-            if (param.ContainsKey("p1HitPauseTime"))
-            {
-                int value;
-                if (int.TryParse(param["p1HitPauseTime"].asStr, out value))
-                {
-                    this.p1HitPauseTime = value;
-                    dic["p1HitPauseTime".GetHashCode()] = value;
-                }
-                else
-                {
-                    Log.Error("p1HitPauseTime can't be recognized as int");
-                }
-            }
-            else
-            {
-                Log.Error("p1HitPauseTime can't be null");
-            }
-        }
-        private void SetP2HitShakeTime()
-        {
-            if (param.ContainsKey("p2HitShakeTime"))
-            {
-                int value;
-                if (int.TryParse(param["p2HitShakeTime"].asStr, out value))
-                {
-                    this.p2HitShakeTime = value;
-                    dic["p2HitShakeTime".GetHashCode()] = value;
-                }
-                else
-                {
-                    Log.Error("p2HitShakeTime can't be recognized as int");
-                }
-            }
-            else
-            {
-                Log.Error("p2HitShakeTime can't be null");
-            }
-        }
-        private void SetP2HitSlideTime()
-        {
-            if (param.ContainsKey("p2HitSlideTime"))
-            {
-                int value;
-                if (int.TryParse(param["p2HitSlideTime"].asStr, out value))
-                {
-                    this.p2HitSlideTime = value;
-                    dic["p2HitSlideTime".GetHashCode()] = value;
-                }
-                else
-                {
-                    Log.Error("p2HitSlideTime can't be recognized as int");
-                }
-            }
-            else
-            {
-                Log.Error("p2HitSlideTime can't be null");
-            }
-        }
-        private void SetGroundVelocityX()
-        {
-            if (param.ContainsKey("groundVelocityX"))
-            {
-                int value;
-                if (int.TryParse(param["groundVelocityX"].asStr, out value))
-                {
-                    this.groundVelocityX = value;
-                    dic["groundVelocityX".GetHashCode()] = value;
-                }
-                else
-                {
-                    Log.Error("groundVelocityX can't be recognized as int");
-                }
-            }
-            else
-            {
-                Log.Error("groundVelocityX can't be null");
-            }
-        }
-        private void SetGroundVelocityY()
-        {
-            if (param.ContainsKey("groundVelocityY"))
-            {
-                int value;
-                if (int.TryParse(param["groundVelocityY"].asStr, out value))
-                {
-                    this.groundVelocityY = value;
-                    dic["groundVelocityY".GetHashCode()] = value;
-                }
-                else
-                {
-                    Log.Error("groundVelocityY can't be recognized as int");
-                }
-            }
-            else
-            {
-                Log.Error("groundVelocityY can't be null");
-            }
-        }
-
-        private void setActiveAttackBodyPart()
-        {
             if (param.ContainsKey("activeAttackBodyPart"))
             {
                 this.activeAttackBodyPart = (HitBoxLocation)Enum.Parse(typeof(HitBoxLocation), param["activeAttackBodyPart"].asStr);
+                this.dic["activeAttackBodyPart".GetHashCode()] = (int)this.activeAttackBodyPart;
             }
-            else
-            {
-                Log.Error("hitdef's activeAttackBodyPart can't be null");
-            }
-        }
-
-        private void SetGroundType()
-        {
             if (param.ContainsKey("groundType"))
             {
                 this.groundType = (GroundType)Enum.Parse(typeof(GroundType), param["groundType"].asStr);
                 this.dic["groundType".GetHashCode()] = (int)this.groundType;
             }
-            else
-            {
-                this.groundType = GroundType.high;
-                this.dic["groundType".GetHashCode()] = (int)this.groundType;
-            }
-        }
-
-        public HitVars(Dictionary<string, TokenList> param)
-        {
-            this.param = param;
-            //use reflection
-            /*
-            SetValue("attr");
-            SetValue("hitFlag");
-            SetValue("guardFlag");
-            SetValue("animType");
-            SetValue("hitDamage");
-            SetValue("guardDamage");
-            SetValue("p1HitPauseTime");
-            SetValue("p2HitShakeTime");
-            SetValue("p2HitSlideTime");
-            SetValue("p1GuardPauseTime");
-            SetValue("p2GuardShakeTime");
-            SetValue("p2GuardSlideTime");
-           */
-            SetAttr();
-            SetHitFlag();
-            SetGuardFlag();
-            SetAnimType();
-            SetHitDamage();
-            SetGuardDamage();
-            SetP1HitPauseTime();
-            SetP2HitShakeTime();
-            SetP2HitSlideTime();
-            SetGroundVelocityX();
-            SetGroundVelocityY();
-            setActiveAttackBodyPart();
-            SetGroundType();
+            SetInt("hitDamage", ref this.hitDamage, false);
+            SetInt("guardDamage", ref this.guardDamage, false);
+            SetInt("p1HitPauseTime", ref this.p1HitPauseTime, true, 7);
+            SetInt("p2HitShakeTime", ref this.p2HitShakeTime, true, 10);
+            SetInt("p2HitSlideTime", ref this.p2HitSlideTime, true, 9);
+            SetInt("groundVelocityX", ref this.groundVelocityX, true, -5);
+            SetInt("groundVelocityY", ref this.groundVelocityY, true, 0);
+           
         }
 
         public int GetHitVar(int key)

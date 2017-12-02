@@ -104,18 +104,21 @@ type = ChangeAnim
 trigger1 = Time == 0
 trigger1 = Var(13) == 0
 value = 41
+mode = once
 
 [Event 1]
 type = ChangeAnim
 trigger1 = Time == 0
 trigger1 = Var(13) == 1
 value = 42
+mode = once
 
 [Event 2]
 type = ChangeAnim
 trigger1 = Time == 0
 trigger1 = Var(13) == -1
 value = 43
+mode = once
 
 [Event 3]
 type = VelSet

@@ -62,3 +62,59 @@ type = ChangeState
 trigger1 = StateNo == 0 || StateNo == 20
 trigger1 = CommandTest("b")
 value = 260
+
+//crouch light punch
+[Event 9]
+type = ChangeState
+trigger1 = StateNo == 11
+trigger1 = CommandTest("x") && CommandTest("holddown")
+value = 300
+
+//crouch light kick
+[Event 9]
+type = ChangeState
+trigger1 = StateNo == 11
+trigger1 = CommandTest("y") && CommandTest("holddown")
+value = 320
+
+//crouch light punch
+[Event 9]
+type = ChangeState
+trigger1 = StateNo == 11
+trigger1 = CommandTest("a") && CommandTest("holddown")
+value = 340
+
+//crouch light punch
+[Event 9]
+type = ChangeState
+trigger1 = StateNo == 11
+trigger1 = CommandTest("b") && CommandTest("holddown")
+value = 360
+
+//jump light punch
+[Event 9]
+type = ChangeState
+trigger1 = Physics == "Air"
+trigger1 = CommandTest("x")
+value = 400
+
+//jump light kick
+[Event 9]
+type = ChangeState
+trigger1 = Physics == "Air"
+trigger1 = CommandTest("y")
+value = 420
+
+//jump strong punch
+[Event 9]
+type = ChangeState
+trigger1 = Physics == "Air"
+trigger1 = CommandTest("a")
+value = 440
+
+//jump strong kick
+[Event 9]
+type = ChangeState
+trigger1 = Physics == "Air"
+trigger1 = CommandTest("b")
+value = 460
