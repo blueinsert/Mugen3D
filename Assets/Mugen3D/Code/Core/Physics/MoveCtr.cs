@@ -7,10 +7,10 @@ namespace Mugen3D
 
     public enum PhysicsType
     {
-        None,
+        None = -1,
         Stand,
         Croch,
-        Air,
+        Air,    
     }
 
     public class MoveCtr

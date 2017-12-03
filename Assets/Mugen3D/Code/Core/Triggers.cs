@@ -56,9 +56,9 @@ public class Triggers
         return p.cmdMgr.CommandIsActive(commandNameHashCode);
     }
 
-    public bool Ctrl(Player p)
+    public int Ctrl(Player p)
     {
-        return p.canCtrl;
+        return p.canCtrl?1:0;
     }
 
     public int StateNo(Player p)

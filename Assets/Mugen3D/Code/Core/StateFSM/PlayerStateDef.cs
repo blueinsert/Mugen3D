@@ -54,6 +54,13 @@ namespace Mugen3D
                 };
                 Controllers.Instance.PhysicsSet(this.owner, param);
             }
+            if (InitParams.ContainsKey("ctrl"))
+            {
+                Dictionary<string, TokenList> param = new Dictionary<string, TokenList> {
+                    {"value", InitParams["ctrl"]}
+                };
+                Controllers.Instance.CtrlSet(this.owner, param);
+            }
         }
 
         public void OnUpdate()

@@ -2,6 +2,7 @@
 [Statedef 200]
 anim = 200
 physics = S
+ctrl = 0
 
 [Event 200,0]
 type = HitDef
@@ -19,12 +20,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 9
 groundVelocityX = -10
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 1]
+[Event 200, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
@@ -33,8 +36,9 @@ value = 0
 [Statedef 220]
 anim = 220
 physics = S
+ctrl = 0
 
-[Event 0]
+[Event 220, 0]
 type = HitDef
 trigger1 = AnimElem >= 10 && AnimElem <= 11
 activeAttackBodyPart = "Hand_L"
@@ -50,12 +54,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 17
 groundVelocityX = -12
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 5
 p2GuardShakeTime = 10
 p2GuardSlideTime = 17
 triggerOnce = true
 
-[Event 0]
+[Event 220, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
@@ -64,8 +70,9 @@ value = 0
 [Statedef 240]
 anim = 240
 physics = S
+ctrl = 0
 
-[Event 0]
+[Event 240, 0]
 type = HitDef
 trigger1 = AnimElem >= 4 && AnimElem <= 6
 activeAttackBodyPart = "Foot_R"
@@ -81,12 +88,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 9
 groundVelocityX = -10
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 5
 p2GuardShakeTime = 10
 p2GuardSlideTime = 17
 triggerOnce = true
 
-[Event 0]
+[Event 240, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
@@ -95,8 +104,9 @@ value = 0
 [Statedef 260]
 anim = 260
 physics = S
+ctrl = 0
 
-[Event 0]
+[Event 260, 0]
 type = HitDef
 trigger1 = AnimElem >= 8 && AnimElem <= 15
 activeAttackBodyPart = "Foot_L"
@@ -112,12 +122,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 17
 groundVelocityX = -14
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 5
 p2GuardShakeTime = 10
 p2GuardSlideTime = 17
 triggerOnce = true
 
-[Event 0]
+[Event 260, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
@@ -126,6 +138,7 @@ value = 0
 [Statedef 300]
 anim = 300
 physics = C
+ctrl = 0
 
 [Event 300,0]
 type = HitDef
@@ -143,12 +156,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 9
 groundVelocityX = -10
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 0]
+[Event 300, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 11
@@ -157,6 +172,7 @@ value = 11
 [Statedef 320]
 anim = 320
 physics = C
+ctrl = 0
 
 [Event 320,0]
 type = HitDef
@@ -174,12 +190,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 9
 groundVelocityX = -10
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 0]
+[Event 320, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 11
@@ -188,6 +206,7 @@ value = 11
 [Statedef 340]
 anim = 340
 physics = S
+ctrl = 0
 
 [Event 340,0]
 type = HitDef
@@ -205,12 +224,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 17
 groundVelocityX = -12
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 12
 triggerOnce = true
 
-[Event 0]
+[Event 340, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 11
@@ -219,8 +240,9 @@ value = 11
 [Statedef 360]
 anim = 360
 physics = C
+ctrl = 0
 
-[Event 200,0]
+[Event 360, 0]
 type = HitDef
 trigger1 = AnimElem >= 11 && AnimElem <= 19
 activeAttackBodyPart = "Foot_R"
@@ -236,12 +258,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 17
 groundVelocityX = -12
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 0]
+[Event 360, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 11
@@ -249,14 +273,15 @@ value = 11
 //jump light punch
 [Statedef 400]
 physics = A
+ctrl = 0
 
-[Event]
+[Event 400, 0]
 type = ChangeAnim
 trigger1 = Time == 0
 value = 400
 mode = once
 
-[Event 200,0]
+[Event 400, 1]
 type = HitDef
 trigger1 = AnimElem >= 4 && AnimElem <= 10
 activeAttackBodyPart = "Hand_L"
@@ -272,12 +297,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 9
 groundVelocityX = -10
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 6]
+[Event 400, 2]
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
@@ -285,14 +312,15 @@ value = 52
 //jump light kick
 [Statedef 420]
 physics = A
+ctrl = 0
 
-[Event]
+[Event 420, 0]
 type = ChangeAnim
 trigger1 = Time == 0
 value = 420
 mode = once
 
-[Event 200,0]
+[Event 420, 1]
 type = HitDef
 trigger1 = AnimElem >= 2
 activeAttackBodyPart = "Foot_L"
@@ -308,12 +336,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 9
 groundVelocityX = -10
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 6]
+[Event 420, 2]
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
@@ -321,14 +351,15 @@ value = 52
 //jump strong punch
 [Statedef 440]
 physics = A
+ctrl = 0
 
-[Event]
+[Event 440, 0]
 type = ChangeAnim
 trigger1 = Time == 0
 value = 440
 mode = once
 
-[Event 200,0]
+[Event 440, 1]
 type = HitDef
 trigger1 = AnimElem >= 6
 activeAttackBodyPart = "Hand_R"
@@ -344,12 +375,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 17
 groundVelocityX = -12
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 6]
+[Event 440, 2]
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
@@ -357,14 +390,15 @@ value = 52
 //jump strong kick
 [Statedef 460]
 physics = A
+ctrl = 0
 
-[Event]
+[Event 460, 0]
 type = ChangeAnim
 trigger1 = Time == 0
 value = 460
 mode = once
 
-[Event 200,0]
+[Event 460, 1]
 type = HitDef
 trigger1 = AnimElem >= 4 && AnimElem <= 15
 activeAttackBodyPart = "Foot_L"
@@ -380,12 +414,14 @@ p2HitShakeTime = 13
 p2HitSlideTime = 17
 groundVelocityX = -12
 groundVelocityY = 0
+airVelocityX = -10
+airVelocityY = 8
 p1GuardPauseTime = 11
 p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
-[Event 6]
+[Event 460, 2]
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52

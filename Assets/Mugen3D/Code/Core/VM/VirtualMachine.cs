@@ -74,6 +74,7 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_AnimName] = GetAnimName;
             pFuncTable[OpCode.Trigger_AnimElem] = GetAnimElem;
             pFuncTable[OpCode.Trigger_AnimTime] = GetAnimTime;
+            pFuncTable[OpCode.Trigger_Ctrl] = CanCtrl;
             pFuncTable[OpCode.Trigger_LeftAnimElem] = GetLeftAnimTime;
             pFuncTable[OpCode.Trigger_CommandTest] = CommandTest;
             pFuncTable[OpCode.Trigger_VelX] = GetVelX;
@@ -371,6 +372,12 @@ namespace Mugen3D
         {
             int animTime = Triggers.Instance.AnimTime(this.mOwner);
             mStack.Push(new StackType(animTime));
+        }
+
+        void CanCtrl()
+        {
+            int ctrl = Triggers.Instance.Ctrl(this.mOwner);
+            mStack.Push(new StackType(ctrl));
         }
 
         void GetLeftAnimTime()

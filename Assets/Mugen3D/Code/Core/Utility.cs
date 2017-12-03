@@ -55,13 +55,20 @@ namespace Mugen3D
             Log.Info("CommandList:" + sb.ToString());
         }
 
-        public static string TokensToString(List<Token> tokens)
+        public static string DicToString<T1, T2>(Dictionary<T1, T2> dic)
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < tokens.Count; i++)
+            sb.Append("{");
+            foreach (var kv in dic)
             {
-                sb.Append(tokens[i].value);
+                T1 k = kv.Key;
+                sb.Append(k.ToString());
+                sb.Append(":");
+                T2 v = kv.Value;
+                sb.Append(v.ToString());
+                sb.Append(","); 
             }
+            sb.Append("}");
             return sb.ToString();
         }
 

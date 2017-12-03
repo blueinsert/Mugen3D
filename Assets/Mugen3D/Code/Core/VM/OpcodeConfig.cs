@@ -30,6 +30,7 @@ namespace Mugen3D
             new OpcodeDetail{opcode = OpCode.Trigger_AnimName,        strValue = "AnimName",        priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_AnimElem,        strValue = "AnimElem",        priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_AnimTime,        strValue = "AnimTime",        priority = 1,     inputNum = 0,    isMugenBuildIn = true},
+            new OpcodeDetail{opcode = OpCode.Trigger_Ctrl,            strValue = "Ctrl",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_LeftAnimElem,    strValue = "LeftAnimElem",    priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_CommandTest,     strValue = "CommandTest",     priority = 1,     inputNum = 1,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_PosX,            strValue = "PosX",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},

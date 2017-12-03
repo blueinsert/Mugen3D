@@ -1,8 +1,10 @@
 //Standing
 [Statedef 0]
 anim = 0
+physics = S
+ctrl = 1
 
-[Event 0]
+[Event 0, 0]
 type = ChangeAnim
 trigger1 = Anim != 0
 value = 0
@@ -11,8 +13,9 @@ mode = loop
 //Stand to Crouch
 [Statedef 10]
 anim = 10
+ctrl = 1
 
-[Event 0]
+[Event 10, 0]
 type = ChangeState
 triggerall = LeftAnimElem == 0
 value = 11
@@ -20,8 +23,10 @@ value = 11
 //Crouching
 [Statedef 11]
 anim = 11
+physics = C
+ctrl = 1
 
-[Event 0]
+[Event 11, 0]
 type = ChangeState
 triggerall = CommandTest("holddown") == 0
 value = 12
@@ -29,38 +34,40 @@ value = 12
 //Crouch to Stand
 [Statedef 12]
 anim = 12
+ctrl = 1
 
-[Event 0]
+[Event 12, 0]
 type = ChangeState
 triggerall = LeftAnimElem == 0
 value = 0
 
 //Walking
 [Statedef 20]
+ctrl = 1
 
-[Event 0]
+[Event 20, 0]
 type = ChangeAnim
 trigger1 = Anim != 20 && CommandTest("holdfwd")
 value = 20
 mode = loop
 
-[Event 1]
+[Event 20, 1]
 type = VelSet
 trigger1 = Anim == 20 && CommandTest("holdfwd")
 x = 8
 
-[Event 2]
+[Event 20, 2]
 type = ChangeAnim
 trigger1 = Anim != 21 && CommandTest("holdback")
 value = 21
 mode = loop
 
-[Event 3]
+[Event 20, 3]
 type = VelSet
 trigger1 = Anim == 21 && CommandTest("holdback")
 x = -8
 
-[Event 4]
+[Event 20, 4]
 type = ChangeState
 trigger1 = CommandTest("holdback") == 0 && CommandTest("holdfwd") == 0
 value = 0
@@ -69,28 +76,29 @@ value = 0
 [Statedef 40]
 physics = S
 anim = 40
+ctrl = 0
 
-[Event 0]
+[Event 40, 0]
 type = VarSet
 trigger1 = Time == 0
 id = 13
 value = 0
 
-[Event 1]
+[Event 40, 1]
 type = VarSet
 trigger1 = Time == 0
 trigger1 = CommandTest("holdfwd")
 id = 13
 value = 1
 
-[Event 2]
+[Event 40, 2]
 type = VarSet
 trigger1 = Time == 0
 trigger1 = CommandTest("holdback")
 id = 13
 value = -1
 
-[Event 3]
+[Event 40, 3]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 50
@@ -98,50 +106,51 @@ value = 50
 //Jump Up
 [Statedef 50]
 physics = A
+ctrl = 1
 
-[Event 0]
+[Event 50, 0]
 type = ChangeAnim
 trigger1 = Time == 0
 trigger1 = Var(13) == 0
 value = 41
 mode = once
 
-[Event 1]
+[Event 50, 1]
 type = ChangeAnim
 trigger1 = Time == 0
 trigger1 = Var(13) == 1
 value = 42
 mode = once
 
-[Event 2]
+[Event 50, 2]
 type = ChangeAnim
 trigger1 = Time == 0
 trigger1 = Var(13) == -1
 value = 43
 mode = once
 
-[Event 3]
+[Event 50, 3]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == 0
 x = 0
 y = 30
 
-[Event 4]
+[Event 50, 4]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == 1
 x = 8
 y = 30
 
-[Event 5]
+[Event 50, 5]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == -1
 x = -8
 y = 30
 
-[Event 6]
+[Event 50, 6]
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
@@ -149,24 +158,25 @@ value = 52
 //Jump Land
 [Statedef 52]
 physics = S
+ctrl = 1
 
-[Event 0]
+[Event 52, 0]
 type = ChangeAnim
 trigger1 = Time == 0
 value = 47
 mode = "once"
 
-[Event 1]
+[Event 52, 1]
 type = VelSet
 trigger1 = Time == 0
 y = 0
 
-[Event 2]
+[Event 52, 2]
 type = PosSet
 trigger1 = Time == 0
 y = 0
 
-[Event 3]
+[Event 52, 3]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
@@ -175,13 +185,14 @@ value = 0
 [Statedef 100]
 anim = 100
 physics = S
+ctrl = 1
 
-[Event 0]
+[Event 100, 0]
 type = VelSet
 x = 16
 y = 0
 
-[Event 1]
+[Event 100, 1]
 type = ChangeState
 trigger1 = CommandTest("holdfwd") == 0
 value = 0
@@ -190,14 +201,15 @@ value = 0
 [Statedef 105]
 anim = 105
 physics = A
+ctrl = 1
 
-[Event 0]
+[Event 105, 0]
 type = VelSet
 trigger1 = Time == 0
 x = -16
 y = 17
 
-[Event 1]
+[Event 105, 1]
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 106
@@ -206,60 +218,168 @@ value = 106
 [Statedef 106]
 anim = 106
 physics = S
+ctrl = 0
 
-[Event 1]
+[Event 106, 1]
 type = VelSet
 trigger1 = Time == 0
 y = 0
 
-[Event 2]
+[Event 106, 2]
 type = PosSet
 trigger1 = Time == 0
 y = 0
 
-[Event 3]
+[Event 106, 3]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
 
 //stand get-hit(shaking)
 [Statedef 5000]
-physics = S
+physics = N
+ctrl = 0
 
-[Event]
+[Event 5000, 0]
 type = ChangeAnim
 trigger1 = Time == 0
-value = 5000 + HitVar("groundType") + 10 * HitVar("animType")
+value = 5000 + HitVar("groundType") * 10 + HitVar("animType")
 mode = "once"
 
-[Event 0]
+[Event 5000, 1]
 type = ChangeAnim
 trigger1 = Time > 0
 value = Anim
 mode = "once"
 
-[Event 1]
+[Event 5000, 2]
 type = ChangeState
 trigger1 = Time > HitVar("p2HitShakeTime")
 value = 5001
 
 //stand get-hit(knocked back)
 [Statedef 5001]
+physics = S
+ctrl = 0
 
-[Event]
+[Event 5001, 0]
 type = VelSet
 trigger1 = Time == 0
 x = HitVar("groundVelocityX")
 y = 0
 
-[Event]
+[Event 5001, 1]
 type = ChangeAnim
 trigger1 = LeftAnimElem == 0
 value = Anim + 5
 mode = once
 triggerOnce = true
 
-[Event]
+[Event 5001, 2]
 type = ChangeState
 trigger1 = Time >= HitVar("p2HitSlideTime") 
 value = 0
+
+//crouch get-hit (shaking)
+[Statedef 5010]
+physics = N
+ctrl = 0
+
+[Event 5010, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 5020 + HitVar("animType")
+mode = "once"
+
+[Event 5010, 1]
+type = ChangeAnim
+trigger1 = Time > 0
+value = Anim
+mode = "once"
+
+[Event 5010, 2]
+type = ChangeState
+trigger1 = Time > HitVar("p2HitShakeTime")
+value = 5011
+
+//stand get-hit(knocked back)
+[Statedef 5011]
+physics = C
+ctrl = 0
+
+[Event 5011, 0]
+type = VelSet
+trigger1 = Time == 0
+x = HitVar("groundVelocityX")
+y = 0
+
+[Event 5011, 1]
+type = ChangeAnim
+trigger1 = LeftAnimElem == 0
+value = Anim + 5
+mode = once
+triggerOnce = true
+
+[Event 5011, 2]
+type = ChangeState
+trigger1 = Time >= HitVar("p2HitSlideTime") 
+value = 11
+
+//air get-hit (shaking)
+[Statedef 5020]
+physics = N
+ctrl = 0
+
+[Event 5020, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 5000 + HitVar("animType")
+mode = "once"
+
+[Event 5020, 1]
+type = ChangeAnim
+trigger1 = Time > 0
+value = Anim
+mode = "once"
+
+[Event 5020, 2]
+type = ChangeState
+trigger1 = Time > HitVar("p2HitShakeTime")
+value = 5035
+
+[Statedef 5035]
+physics = A
+ctrl = 0
+
+[Event 5035, 0]
+type = VelSet
+trigger1 = Time == 0
+x = HitVar("airVelocityX")
+y = HitVar("airVelocityY")
+
+[Event 5035, 1]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 5035
+mode = once
+
+[Event 5035, 2]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 5040
+
+//air recover
+[Statedef 5040]
+physics = A
+ctrl = 0
+
+[Event 5040, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 5040
+mode = once
+
+[Event 5040, 1]
+type = ChangeState
+trigger1 = (PosY + VelY * DeltaTime) < 0
+value = 52

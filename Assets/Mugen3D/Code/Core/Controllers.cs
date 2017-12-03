@@ -56,6 +56,9 @@ namespace Mugen3D
                 case StateEventType.Pause:
                     Pause(p, param);
                     break;
+                case StateEventType.CtrlSet:
+                    CtrlSet(p, param);
+                    break;
             }
             if (cb != null)
                 cb();
@@ -213,6 +216,9 @@ namespace Mugen3D
                 case "A":
                     p.moveCtr.SetPhysicsType(PhysicsType.Air);
                     break;
+                case "N":
+                    p.moveCtr.SetPhysicsType(PhysicsType.None);
+                    break;
                 default:
                     p.moveCtr.SetPhysicsType(PhysicsType.Stand);
                     break;
@@ -269,7 +275,10 @@ namespace Mugen3D
            p.Pause(hitvars.p1HitPauseTime);
            enemy.SetHitVars(hitvars);
            //change state
-           enemy.stateMgr.ChangeState(5000);
+         
+           enemy.stateMgr.ChangeState(5000 + ((int)enemy.moveCtr.type) * 10);
+          
+           
         }
 
         #endregion

@@ -42,6 +42,8 @@ namespace Mugen3D
         public int p2HitSlideTime;
         public int groundVelocityX;
         public int groundVelocityY;
+        public int airVelocityX;
+        public int airVelocityY;
 
         public int p1GuardPauseTime;
         public int p2GuardShakeTime;
@@ -118,7 +120,8 @@ namespace Mugen3D
             SetInt("p2HitSlideTime", ref this.p2HitSlideTime, true, 9);
             SetInt("groundVelocityX", ref this.groundVelocityX, true, -5);
             SetInt("groundVelocityY", ref this.groundVelocityY, true, 0);
-           
+            SetInt("airVelocityX", ref this.airVelocityX);
+            SetInt("airVelocityY", ref this.airVelocityY);
         }
 
         public int GetHitVar(int key)

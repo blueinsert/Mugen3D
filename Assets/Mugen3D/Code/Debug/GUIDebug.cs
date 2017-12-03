@@ -46,7 +46,7 @@ public class GUIDebug : MonoBehaviour
         GUILayout.Label(new GUIContent("commands:" + p.cmdMgr.GetActiveCommandName()));
         GUILayout.Label(new GUIContent("ctrl:" + Triggers.Instance.Ctrl(p)));
         GUILayout.Label(new GUIContent("physics:" + Triggers.Instance.PhysicsType(p)));
-        GUILayout.Label(new GUIContent("vars:" + p.vars.ToString()));
+        GUILayout.Label(new GUIContent("vars:" + Utility.DicToString<int,int>(p.vars)));
 
         GUILayout.EndArea();
     }

@@ -5,6 +5,20 @@ using System.Text;
 
 namespace Mugen3D
 {
+    public enum StateEventType
+    {
+        Null,
+        VelSet,
+        CtrlSet,
+        ChangeAnim,
+        ChangeState,
+        PhysicsSet,
+        PosSet,
+        VarSet,
+        HitDef,
+        Pause,
+    }
+
     public class StateEvent
     {
         public int eventNo;

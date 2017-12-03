@@ -18,18 +18,7 @@ namespace Mugen3D {
         Defence,
     }
 
-    public enum StateEventType
-    {
-        Null,
-        VelSet,
-        ChangeAnim,
-        ChangeState,
-        PhysicsSet,
-        PosSet,
-        VarSet,
-        HitDef,
-        Pause,
-    }
+   
 
    
 

@@ -94,27 +94,27 @@ value = 360
 //jump light punch
 [Event 9]
 type = ChangeState
-trigger1 = Physics == "Air"
+trigger1 = Physics == "Air" && Ctrl
 trigger1 = CommandTest("x")
 value = 400
 
 //jump light kick
 [Event 9]
 type = ChangeState
-trigger1 = Physics == "Air"
+trigger1 = Physics == "Air" && Ctrl
 trigger1 = CommandTest("y")
 value = 420
 
 //jump strong punch
 [Event 9]
 type = ChangeState
-trigger1 = Physics == "Air"
+trigger1 = Physics == "Air" && Ctrl
 trigger1 = CommandTest("a")
 value = 440
 
 //jump strong kick
 [Event 9]
 type = ChangeState
-trigger1 = Physics == "Air"
+trigger1 = Physics == "Air" && Ctrl
 trigger1 = CommandTest("b")
 value = 460

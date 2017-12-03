@@ -97,6 +97,8 @@ namespace Mugen3D
                         curParseStateEvent.type = StateEventType.ChangeState; break;
                     case "VelSet":
                         curParseStateEvent.type = StateEventType.VelSet; break;
+                    case "CtrlSet":
+                        curParseStateEvent.type = StateEventType.CtrlSet; break;
                     case "ChangeAnim":
                         curParseStateEvent.type = StateEventType.ChangeAnim; break;
                     case "PhysicsSet":
