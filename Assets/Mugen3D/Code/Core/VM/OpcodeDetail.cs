@@ -32,8 +32,7 @@ namespace Mugen3D
         Trigger_AnimElem,
         Trigger_AnimTime,
         Trigger_Ctrl,
-        Trigger_LeftAnimElem,
-        Trigger_CommandTest,
+        Trigger_LeftAnimElem,       
         Trigger_PosX,
         Trigger_PosY,
         Trigger_VelX,
@@ -44,8 +43,10 @@ namespace Mugen3D
         Trigger_DeltaTime,
         Trigger_PhysicsType,
         //trigger functions
+        Trigger_CommandTest,
         Trigger_Var,
         Trigger_HitVar,
+        Trigger_Config,
         //todo
 
     }

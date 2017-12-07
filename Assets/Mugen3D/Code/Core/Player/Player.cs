@@ -4,9 +4,20 @@ using System.Collections.Generic;
 
 namespace Mugen3D{
 
+    public enum MoveType
+    {
+        Attack,
+        Idle,
+        Defence,
+        BeingHitted,
+    }
+
 [RequireComponent(typeof(Animation))]
 [RequireComponent(typeof(DecisionBoxManager))]
 public class Player : MonoBehaviour {
+    public PlayerConfig config;
+    [HideInInspector]
+    public MoveType moveType = MoveType.Idle;
     [HideInInspector]
     public PlayerId id;
     public PlayerSetting setting;
@@ -59,6 +70,7 @@ public class Player : MonoBehaviour {
         stateMgr = new StateManager(this);
         stateMgr.ReadStateDefFile(setting.stateFiles.ToArray());
         //
+        config = new PlayerConfig(setting.playerConfig);
         vars = new Dictionary<int, int>();
         
     }

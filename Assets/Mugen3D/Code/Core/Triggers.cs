@@ -117,6 +117,16 @@ public class Triggers
         return p.hitVars.GetHitVar(key);
     }
 
+    public MoveType MoveType(Player p)
+    {
+        return p.moveType;
+    }
+
+    public int GetConfig(Player p, int key)
+    {
+        return p.config.GetConfig(key);
+    }
+
     #endregion
 
 }

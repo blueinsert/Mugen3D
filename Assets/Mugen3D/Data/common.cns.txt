@@ -1,5 +1,6 @@
 //Standing
 [Statedef 0]
+moveType = I
 anim = 0
 physics = S
 ctrl = 1
@@ -12,6 +13,7 @@ mode = loop
 
 //Stand to Crouch
 [Statedef 10]
+moveType = I
 anim = 10
 ctrl = 1
 
@@ -22,6 +24,7 @@ value = 11
 
 //Crouching
 [Statedef 11]
+moveType = I
 anim = 11
 physics = C
 ctrl = 1
@@ -33,6 +36,7 @@ value = 12
 
 //Crouch to Stand
 [Statedef 12]
+moveType = I
 anim = 12
 ctrl = 1
 
@@ -43,6 +47,7 @@ value = 0
 
 //Walking
 [Statedef 20]
+moveType = I
 ctrl = 1
 
 [Event 20, 0]
@@ -54,7 +59,7 @@ mode = loop
 [Event 20, 1]
 type = VelSet
 trigger1 = Anim == 20 && CommandTest("holdfwd")
-x = 8
+x = Config("WalkSpeed")
 
 [Event 20, 2]
 type = ChangeAnim
@@ -65,7 +70,7 @@ mode = loop
 [Event 20, 3]
 type = VelSet
 trigger1 = Anim == 21 && CommandTest("holdback")
-x = -8
+x = -Config("WalkSpeed")
 
 [Event 20, 4]
 type = ChangeState
@@ -74,6 +79,7 @@ value = 0
 
 //Jump Start
 [Statedef 40]
+moveType = I
 physics = S
 anim = 40
 ctrl = 0
@@ -105,6 +111,7 @@ value = 50
 
 //Jump Up
 [Statedef 50]
+moveType = I
 physics = A
 ctrl = 1
 
@@ -134,21 +141,21 @@ type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == 0
 x = 0
-y = 30
+y = 60
 
 [Event 50, 4]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == 1
 x = 8
-y = 30
+y = 60
 
 [Event 50, 5]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == -1
 x = -8
-y = 30
+y = 60
 
 [Event 50, 6]
 type = ChangeState
@@ -157,6 +164,7 @@ value = 52
 
 //Jump Land
 [Statedef 52]
+moveType = I
 physics = S
 ctrl = 1
 
@@ -183,6 +191,7 @@ value = 0
 
 //run
 [Statedef 100]
+moveType = I
 anim = 100
 physics = S
 ctrl = 1
@@ -199,6 +208,7 @@ value = 0
 
 //hope backwards
 [Statedef 105]
+moveType = I
 anim = 105
 physics = A
 ctrl = 1
@@ -207,7 +217,7 @@ ctrl = 1
 type = VelSet
 trigger1 = Time == 0
 x = -16
-y = 17
+y = 30
 
 [Event 105, 1]
 type = ChangeState
@@ -216,6 +226,7 @@ value = 106
 
 //hope backwards (land)
 [Statedef 106]
+moveType = I
 anim = 106
 physics = S
 ctrl = 0
@@ -237,6 +248,7 @@ value = 0
 
 //stand get-hit(shaking)
 [Statedef 5000]
+moveType = I
 physics = N
 ctrl = 0
 
@@ -259,6 +271,7 @@ value = 5001
 
 //stand get-hit(knocked back)
 [Statedef 5001]
+moveType = I
 physics = S
 ctrl = 0
 
@@ -282,6 +295,7 @@ value = 0
 
 //crouch get-hit (shaking)
 [Statedef 5010]
+moveType = I
 physics = N
 ctrl = 0
 
@@ -304,6 +318,7 @@ value = 5011
 
 //stand get-hit(knocked back)
 [Statedef 5011]
+moveType = I
 physics = C
 ctrl = 0
 
@@ -327,6 +342,7 @@ value = 11
 
 //air get-hit (shaking)
 [Statedef 5020]
+moveType = I
 physics = N
 ctrl = 0
 
@@ -348,6 +364,7 @@ trigger1 = Time > HitVar("p2HitShakeTime")
 value = 5035
 
 [Statedef 5035]
+moveType = I
 physics = A
 ctrl = 0
 
@@ -370,6 +387,7 @@ value = 5040
 
 //air recover
 [Statedef 5040]
+moveType = I
 physics = A
 ctrl = 0
 

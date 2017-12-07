@@ -34,6 +34,8 @@ public class GUIDebug : MonoBehaviour
         GUI.color = Color.red;
         GUILayout.Label(new GUIContent("playerId:" + id.ToString()));
         GUI.color = Color.black;
+        GUILayout.Label(new GUIContent("moveType:" + Triggers.Instance.MoveType(p).ToString()));
+        GUILayout.Label(new GUIContent("physics:" + Triggers.Instance.PhysicsType(p)));
         GUILayout.Label(new GUIContent("stateNo:" + Triggers.Instance.StateNo(p)));
         GUILayout.Label(new GUIContent("stateTime:" + Triggers.Instance.Time(p)));
         GUILayout.Label(new GUIContent("anim:" + Triggers.Instance.Anim(p)));
@@ -45,7 +47,7 @@ public class GUIDebug : MonoBehaviour
         GUILayout.Label(new GUIContent("vel:" + Triggers.Instance.VelX(p) + "," + Triggers.Instance.VelY(p)));
         GUILayout.Label(new GUIContent("commands:" + p.cmdMgr.GetActiveCommandName()));
         GUILayout.Label(new GUIContent("ctrl:" + Triggers.Instance.Ctrl(p)));
-        GUILayout.Label(new GUIContent("physics:" + Triggers.Instance.PhysicsType(p)));
+        
         GUILayout.Label(new GUIContent("vars:" + Utility.DicToString<int,int>(p.vars)));
 
         GUILayout.EndArea();

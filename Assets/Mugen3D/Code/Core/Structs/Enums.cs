@@ -11,17 +11,4 @@ namespace Mugen3D {
         P4,
     }
 
-    public enum MoveType
-    {
-        Idle,
-        Attack,
-        Defence,
-    }
-
-   
-
-   
-
-   
-
 }

@@ -281,6 +281,24 @@ namespace Mugen3D
            
         }
 
+        public void SetMoveType(Player p, Dictionary<string, TokenList> param)
+        {
+            string v = param["value"].asStr;
+            switch (v)
+            {
+                case "A":
+                    p.moveType = MoveType.Attack; break;
+                case "I":
+                    p.moveType = MoveType.Idle; break;
+                case "D":
+                    p.moveType = MoveType.Defence; break;
+                case "H":
+                    p.moveType = MoveType.BeingHitted; break;
+                default:
+                    Log.Error("MoveType define can't be recongized"); break;
+            }
+        }
+
         #endregion
     }
 

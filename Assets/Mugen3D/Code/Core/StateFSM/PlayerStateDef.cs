@@ -61,6 +61,13 @@ namespace Mugen3D
                 };
                 Controllers.Instance.CtrlSet(this.owner, param);
             }
+            if (InitParams.ContainsKey("moveType"))
+            {
+                Dictionary<string, TokenList> param = new Dictionary<string, TokenList> {
+                    {"value", InitParams["moveType"]}
+                };
+                Controllers.Instance.SetMoveType(this.owner, param);
+            }
         }
 
         public void OnUpdate()
