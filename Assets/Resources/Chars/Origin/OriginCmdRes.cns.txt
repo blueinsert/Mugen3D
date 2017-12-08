@@ -1,4 +1,4 @@
-[Statedef 9999]
+[Statedef -1]
 
 //crouch
 [Event 0]

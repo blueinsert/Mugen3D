@@ -121,7 +121,7 @@ namespace Mugen3D
 
         public void ChangeState(Player p, Dictionary<string, TokenList> param)
         {
-            int value = int.Parse(param["value"].asStr);
+            int value = (int)p.CalcExpressionInRuntime(param["value"].asExpression);
             p.stateMgr.ChangeState(value);
         }
 

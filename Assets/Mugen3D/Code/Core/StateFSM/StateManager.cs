@@ -45,6 +45,10 @@ namespace Mugen3D
         }
 
         public void ChangeState(int id) {
+            if (!States.ContainsKey(id))
+            {
+                Log.Error("states con't contain id:" + id);
+            }
             isChangingState = true;
             var tmp = States[id];
             tmp.Init();
@@ -71,9 +75,13 @@ namespace Mugen3D
                 return;
             }
             stateTime++;
-            if (States.ContainsKey(9999))
+            if (States.ContainsKey(-3))
             {
-                States[9999].OnUpdate();
+                States[-3].OnUpdate();
+            }
+            if (States.ContainsKey(-1))
+            {
+                States[-1].OnUpdate();
             }
             currentState.OnUpdate();
         }

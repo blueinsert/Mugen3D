@@ -117,14 +117,19 @@ public class Triggers
         return p.hitVars.GetHitVar(key);
     }
 
-    public MoveType MoveType(Player p)
+    public string MoveType(Player p)
     {
-        return p.moveType;
+        return p.moveType.ToString();
     }
 
     public int GetConfig(Player p, int key)
     {
         return p.config.GetConfig(key);
+    }
+
+    public string EnemyMoveType(Player p)
+    {
+        return TeamMgr.GetEnemy(p).moveType.ToString();
     }
 
     #endregion

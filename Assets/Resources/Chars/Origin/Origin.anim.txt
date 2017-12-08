@@ -12,6 +12,16 @@
 100 : "RunForwards"
 105 : "HopBackwards"
 106 : "JumpLand"
+120 : "GuardStand" //guard start
+121 : "GuardCrouch"
+122 : "GuardAir"
+130 : "GuardStand" guarding
+131 : "GuardCrouch"
+132 : "GuardAir"
+140 : "GuardStand" //guard end
+141 : "GuardCrouch"
+142 : "GuardAir"
+
 200 : "StandLightPunch"
 220 : "StandStrongPunch"
 240 : "StandLightKick"

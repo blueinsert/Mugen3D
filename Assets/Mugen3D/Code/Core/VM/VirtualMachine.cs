@@ -78,6 +78,8 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_LeftAnimElem] = GetLeftAnimTime;
             pFuncTable[OpCode.Trigger_CommandTest] = CommandTest;
             pFuncTable[OpCode.Trigger_Config] = GetConfig;
+            pFuncTable[OpCode.Trigger_EnemyMoveType] = GetEnemyMoveType;
+            pFuncTable[OpCode.Trigger_MoveType] = GetMoveType;
             pFuncTable[OpCode.Trigger_VelX] = GetVelX;
             pFuncTable[OpCode.Trigger_VelY] = GetVelY;
             pFuncTable[OpCode.Trigger_PosX] = GetPosX;
@@ -401,6 +403,18 @@ namespace Mugen3D
             int key = (int)mPop.value;
             int value = Triggers.Instance.GetConfig(this.mOwner, key);
             mStack.Push(new StackType(value));
+        }
+
+        void GetEnemyMoveType()
+        {
+            string type = Triggers.Instance.EnemyMoveType(this.mOwner);
+            mStack.Push(new StackType(type.GetHashCode()));
+        }
+
+        void GetMoveType()
+        {
+            string type = Triggers.Instance.MoveType(this.mOwner);
+            mStack.Push(new StackType(type.GetHashCode()));
         }
 
         void GetPosX()

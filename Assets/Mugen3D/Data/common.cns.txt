@@ -141,21 +141,21 @@ type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == 0
 x = 0
-y = 60
+y = Config("MediumJumpSpeedY")
 
 [Event 50, 4]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == 1
-x = 8
-y = 60
+x = Config("MediumJumpSpeedX")
+y = Config("MediumJumpSpeedY")
 
 [Event 50, 5]
 type = VelSet
 trigger1 = Time == 0
 trigger1 = Var(13) == -1
-x = -8
-y = 60
+x = -Config("MediumJumpSpeedX")
+y = Config("MediumJumpSpeedY")
 
 [Event 50, 6]
 type = ChangeState
@@ -198,7 +198,7 @@ ctrl = 1
 
 [Event 100, 0]
 type = VelSet
-x = 16
+x = Config("RunSpeed")
 y = 0
 
 [Event 100, 1]
@@ -216,8 +216,8 @@ ctrl = 1
 [Event 105, 0]
 type = VelSet
 trigger1 = Time == 0
-x = -16
-y = 30
+x = Config("HopebackSpeedX")
+y = Config("HopebackSpeedY")
 
 [Event 105, 1]
 type = ChangeState
@@ -245,6 +245,68 @@ y = 0
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 0
+
+//guard start
+[Statedef 120]
+moveType = D
+
+[Event 120, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 120 + (Physics == "Crouch") + (Physics == "Air") * 2
+
+[Event 120, 1]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 130 + (Physics == "Crouch") + (Physics == "Air") * 2
+
+[Event 120, 2]
+type = ChangeState
+trigger1 = CommandTest("holdback") == 0
+value = 140
+
+//stand guarding
+[Statedef 130]
+anim = 130
+moveType = D
+
+[Event 130, 0]
+type = ChangeState
+trigger1 = CommandTest("holdback") == 0
+value = 140
+
+//crouch guarding
+[Statedef 131]
+anim = 131
+moveType = D
+
+[Event 131, 0]
+type = ChangeState
+trigger1 = CommandTest("holdback") == 0
+value = 140
+
+//air guarding
+[Statedef 132]
+anim = 132
+moveType = D
+
+[Event 132, 0]
+type = ChangeState
+trigger1 = CommandTest("holdback") == 0
+value = 140
+
+[Statedef 140]
+moveType = D
+
+[Event 140, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 140 + (Physics == "Crouch") + (Physics == "Air") * 2
+
+[Event 140, 1]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = (Physics == "Crouch") * 11 + (Physics == "Air") * 51
 
 //stand get-hit(shaking)
 [Statedef 5000]
@@ -401,3 +463,10 @@ mode = once
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
+
+[Statedef -3]
+
+[Event -3, 0]
+type = ChangeState
+trigger1 = CommandTest("holdback") && EnemyMoveType == "Attack" && MoveType != "Defence"
+value = 120

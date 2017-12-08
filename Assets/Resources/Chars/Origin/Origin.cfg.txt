@@ -1,1 +1,10 @@
 "WalkSpeed" : 11
+"RunSpeed" : 50
+"LightJumpSpeedX" : 8
+"LightJumpSpeedY" : 60
+"MediumJumpSpeedX" : 8
+"MediumJumpSpeedY" : 60
+"HardJumpSpeedX" : 8
+"HardJumpSpeedY" : 60
+"HopebackSpeedX" : -16
+"HopebackSpeedY" : 30
