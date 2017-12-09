@@ -122,6 +122,9 @@ namespace Mugen3D
             SetInt("groundVelocityY", ref this.groundVelocityY, true, 0);
             SetInt("airVelocityX", ref this.airVelocityX);
             SetInt("airVelocityY", ref this.airVelocityY);
+            SetInt("p2GuardShakeTime", ref this.p2GuardShakeTime);
+            SetInt("p1GuardPauseTime", ref this.p1GuardPauseTime);
+            SetInt("p2GuardSlideTime", ref this.p2GuardSlideTime);
         }
 
         public int GetHitVar(int key)

@@ -211,7 +211,7 @@ namespace Mugen3D
                     p.moveCtr.SetPhysicsType(PhysicsType.Stand);
                     break;
                 case "C":
-                    p.moveCtr.SetPhysicsType(PhysicsType.Croch);
+                    p.moveCtr.SetPhysicsType(PhysicsType.Crouch);
                     break;
                 case "A":
                     p.moveCtr.SetPhysicsType(PhysicsType.Air);
@@ -263,8 +263,7 @@ namespace Mugen3D
         }
 
         public void HitDef(Player p, Dictionary<string, TokenList> param)
-        {
-            
+        {   
            Player enemy = TeamMgr.GetEnemy(p);
            if (enemy == null)
                return;
@@ -272,13 +271,22 @@ namespace Mugen3D
            bool hit = IsHit(p, hitvars.activeAttackBodyPart, enemy);
            if (!hit)
                return;
-           p.Pause(hitvars.p1HitPauseTime);
-           enemy.SetHitVars(hitvars);
-           //change state
-         
-           enemy.stateMgr.ChangeState(5000 + ((int)enemy.moveCtr.type) * 10);
-          
-           
+           if (Triggers.Instance.EnemyMoveType(p) != "Defence")
+           {
+               p.Pause(hitvars.p1HitPauseTime);
+               enemy.SetHitVars(hitvars);
+               //change state
+               enemy.stateMgr.ChangeState(5000 + ((int)enemy.moveCtr.type) * 10);
+           }
+           else
+           {
+               p.Pause(hitvars.p1GuardPauseTime);
+               enemy.SetHitVars(hitvars);
+               //change state
+               int stateNo = 150 + ((int)enemy.moveCtr.type) * 2;
+               Debug.Log("stateNo:" + stateNo);
+               enemy.stateMgr.ChangeState(stateNo);
+           }   
         }
 
         public void SetMoveType(Player p, Dictionary<string, TokenList> param)

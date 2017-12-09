@@ -70,6 +70,7 @@ namespace Mugen3D
             pFuncTable[OpCode.LogAnd] = LogAnd;
 
             //trigger vars
+            pFuncTable[OpCode.Trigger_AiLevel] = GetAiLevel;
             pFuncTable[OpCode.Trigger_Anim] = GetAnim;
             pFuncTable[OpCode.Trigger_AnimName] = GetAnimName;
             pFuncTable[OpCode.Trigger_AnimElem] = GetAnimElem;
@@ -355,10 +356,15 @@ namespace Mugen3D
         #region Mugen sys interface
         #region solve trigger vars
 
+        void GetAiLevel()
+        {
+            int aiLevel = Triggers.Instance.AiLevel(this.mOwner);
+            mStack.Push(new StackType(aiLevel));
+        }
+
         void GetAnim() {
             int anim = Triggers.Instance.Anim(this.mOwner);
             mStack.Push(new StackType(anim));
-
         }
 
         void GetAnimName() {

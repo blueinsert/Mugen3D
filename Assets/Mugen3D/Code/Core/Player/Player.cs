@@ -15,6 +15,7 @@ namespace Mugen3D{
 [RequireComponent(typeof(Animation))]
 [RequireComponent(typeof(DecisionBoxManager))]
 public class Player : MonoBehaviour {
+    public int AiLevel;
     public PlayerConfig config;
     [HideInInspector]
     public MoveType moveType = MoveType.Idle;

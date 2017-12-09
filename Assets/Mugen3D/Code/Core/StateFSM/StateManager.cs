@@ -6,6 +6,9 @@ namespace Mugen3D
 {
     public class StateManager
     {
+        const int AI_STATE_NO = -4;
+        const int CMD_STATE_NO = -3;
+
         private Player owner;
         private Dictionary<int, PlayerStateDef> States = new Dictionary<int,PlayerStateDef>();
 
@@ -56,14 +59,14 @@ namespace Mugen3D
             historyStates.Add(currentState.stateId);
             currentState = tmp;
             currentState.OnEnter();
-
             stateTime = -1;
-            
             if (historyStates.Count > MaxHistoryStateNum)
             {
                 historyStates.RemoveAt(0);
             }
             isChangingState = false;
+
+            Update();
         }
 
         public void Update() {
@@ -75,14 +78,25 @@ namespace Mugen3D
                 return;
             }
             stateTime++;
-            if (States.ContainsKey(-3))
+            if (this.owner.AiLevel == -1)
             {
-                States[-3].OnUpdate();
+                if (States.ContainsKey(CMD_STATE_NO))
+                {
+                    States[CMD_STATE_NO].OnUpdate();
+                }
+                if (States.ContainsKey(-1))
+                {
+                    States[-1].OnUpdate();
+                }
             }
-            if (States.ContainsKey(-1))
+            else
             {
-                States[-1].OnUpdate();
+                if (States.ContainsKey(AI_STATE_NO))
+                {
+                    States[AI_STATE_NO].OnUpdate();
+                }
             }
+            
             currentState.OnUpdate();
         }
 

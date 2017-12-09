@@ -26,6 +26,7 @@ namespace Mugen3D
             new OpcodeDetail{opcode = OpCode.LeftBracket,             strValue = "(",               priority = 1,     inputNum = 0,    isMugenBuildIn = false},
             new OpcodeDetail{opcode = OpCode.RightBracket,            strValue = ")",               priority = 1,     inputNum = 0,    isMugenBuildIn = false},
             //Mugen3D runtime
+            new OpcodeDetail{opcode = OpCode.Trigger_AiLevel,         strValue = "AiLevel",         priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_Anim,            strValue = "Anim",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_AnimName,        strValue = "AnimName",        priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_AnimElem,        strValue = "AnimElem",        priority = 1,     inputNum = 0,    isMugenBuildIn = true},

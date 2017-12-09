@@ -18,7 +18,7 @@ public class AnimationController {
     private List<string> mAnimNames = new List<string>();
 
     const int FrameRate = 60;
-    public float speed = 2;
+    public float speed = 1;
     public int AnimTime = -1;// 0 to omega
     public int AnimElem = 0;// 0 to (length-1)
     public float animLength;//seconds

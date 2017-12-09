@@ -27,6 +27,7 @@ namespace Mugen3D
         RightBracket,
         //Mugen Sys Related
         //trigger vars
+        Trigger_AiLevel,
         Trigger_Anim,
         Trigger_AnimName,
         Trigger_AnimElem,

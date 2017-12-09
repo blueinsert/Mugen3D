@@ -9,7 +9,7 @@ namespace Mugen3D
     {
         None = -1,
         Stand,
-        Croch,
+        Crouch,
         Air,    
     }
 
@@ -31,7 +31,7 @@ namespace Mugen3D
 
         public void Update()
         {
-            if (type == PhysicsType.Stand || type == PhysicsType.Croch)
+            if (type == PhysicsType.Stand || type == PhysicsType.Crouch)
             {
                 UpdateGround();
             }

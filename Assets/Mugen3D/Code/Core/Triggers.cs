@@ -132,6 +132,10 @@ public class Triggers
         return TeamMgr.GetEnemy(p).moveType.ToString();
     }
 
+    public int AiLevel(Player p)
+    {
+        return p.AiLevel;
+    }
     #endregion
 
 }

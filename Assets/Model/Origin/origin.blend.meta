@@ -652,6 +652,10 @@ ModelImporter:
     7400178: WalkingBack
     7400180: WalkingForward
     7400182: T-Pos
+    7400184: GuardCrouchEnd
+    7400186: GuardCrouchStart
+    7400188: GuardStandEnd
+    7400190: GuardStandStart
     9500000: //RootNode
     11100000: //RootNode
     13700000: origin_Body
