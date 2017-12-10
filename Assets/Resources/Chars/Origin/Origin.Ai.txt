@@ -2,7 +2,7 @@
 
 //light punch
 [Event 0]
-type = ChangeState
+type = Null
 trigger1 = StateNo != 200 && Ctrl && Physics == "Stand"
 value = 200
 

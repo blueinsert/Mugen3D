@@ -61,6 +61,10 @@
 5025 : "CrouchRecover_Light"
 5026 : "CrouchRecover_Medium"
 5027 : "CrouchRecover_Hard"
-
+5030 : "StandAirHitBack"
 5035 : "StandAirHitTransition"
 5040 : "AirRecover"
+5050 : "AirFall"
+5100 : "HitGround"
+5110 : "LieDown"
+5120 : "GetUpFromLieDown"

@@ -6,6 +6,9 @@ using Mugen3D;
 public class WordRunner : MonoBehaviour {
     int frameRate = 60;
     float timer = 0;
+
+    bool isPause = false;
+    bool goNext = false;
 	// Use this for initialization
 	void Start () {
         OpcodeConfig.Init();
@@ -22,18 +25,21 @@ public class WordRunner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float timeS = Time.time;
-        GameEngine.Update(Time.deltaTime);
-        float timeE = Time.time;
-        //Debug.Log("take time:" + (timeE - timeS));
-        /*
-        float period = 1.0f / frameRate;
-        timer += Time.deltaTime;
-        if (timer >= period)
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            timer -= period;
-            GameEngine.Update();
+            isPause = !isPause;
         }
-        */
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            goNext = true;
+        }
+        if(!isPause)
+            GameEngine.Update(Time.deltaTime);
+        else
+        {
+            if(goNext)
+                GameEngine.Update(Time.deltaTime);
+            goNext = false;
+        }
 	}
 }

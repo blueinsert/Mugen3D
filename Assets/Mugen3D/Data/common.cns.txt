@@ -373,6 +373,71 @@ type = ChangeState
 trigger1 = Time >= HitVar("p2GuardSlideTime") 
 value = 0
 
+//crouch guard hit(shaking)
+[Statedef 152]
+
+[Event 152, 0]
+type = ChangeAnim
+trigger1 = Time > 0
+value = 152
+
+[Event 152, 1]
+type = ChangeState
+trigger1 = Time > HitVar("p2GuardShakeTime")
+value = 153
+
+[Statedef 153]
+moveType = D
+ctrl = 0
+
+[Event 153, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 153
+mode = once
+
+[Event 153, 1]
+type = VelSet
+trigger1 = Time == 0
+x = HitVar("groundVelocityX")
+y = 0
+
+[Event 153, 2]
+type = ChangeState
+trigger1 = Time >= HitVar("p2GuardSlideTime") 
+value = 11
+
+//air guard hit(shaking)
+[Statedef 154]
+physics = N
+
+[Event 154, 0]
+type = ChangeAnim
+trigger1 = 1
+value = 154
+
+[Event 154, 1]
+type = ChangeState
+trigger1 = Time > HitVar("p2GuardShakeTime")
+value = 155
+
+[Statedef 155]
+anim = 155
+physics = A
+
+[Event 155, 0]
+type = VelSet
+trigger1 = Time == 0
+x = -8
+y = 30
+
+[Event 155, 1]
+type = ChangeState
+trigger1 = Time > 5
+value = 51
+
+
+
 //stand get-hit(shaking)
 [Statedef 5000]
 moveType = I
@@ -394,7 +459,14 @@ mode = "once"
 [Event 5000, 2]
 type = ChangeState
 trigger1 = Time > HitVar("p2HitShakeTime")
+trigger1 = HitVar("animType") <=2
 value = 5001
+
+[Event 5000, 2]
+type = ChangeState
+trigger1 = Time > HitVar("p2HitShakeTime")
+trigger1 = HitVar("animType") >= 3
+value = 5030
 
 //stand get-hit(knocked back)
 [Statedef 5001]
@@ -490,16 +562,26 @@ type = ChangeState
 trigger1 = Time > HitVar("p2HitShakeTime")
 value = 5035
 
-[Statedef 5035]
-moveType = I
+[Statedef 5030]
 physics = A
-ctrl = 0
+anim = 5030
+moveType = H
 
-[Event 5035, 0]
+[Event 5030, 0]
 type = VelSet
 trigger1 = Time == 0
 x = HitVar("airVelocityX")
 y = HitVar("airVelocityY")
+
+[Event 5030, 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 5035
+
+[Statedef 5035]
+moveType = I
+physics = A
+ctrl = 0
 
 [Event 5035, 1]
 type = ChangeAnim
@@ -510,7 +592,14 @@ mode = once
 [Event 5035, 2]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
+trigger1 = HitVar("animType") < 3
 value = 5040
+
+[Event 5035, 3]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+trigger1 = HitVar("animType") >= 3
+value = 5050
 
 //air recover
 [Statedef 5040]
@@ -528,6 +617,68 @@ mode = once
 type = ChangeState
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
+
+//air get-hit (falling)
+[Statedef 5050]
+physics = A
+moveType = H
+
+[Event 5050, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 5050
+mode = once
+
+[Event 5050, 1]
+type = ChangeState
+trigger1 = (PosY + VelY * DeltaTime) < 0
+value = 5100
+
+//hit ground
+[Statedef 5100]
+physics = S
+moveType = H
+anim = 5100
+
+[Event 5100, 1]
+type = VelSet
+trigger1 = Time == 0
+y = 0
+
+[Event 5100, 2]
+type = PosSet
+trigger1 = Time == 0
+y = 0
+
+[Event 5100, 3]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 5110
+
+[Statedef 5110]
+physics = C
+
+[Event 5110, 0]
+type = ChangeAnim
+trigger1 = Time == 0
+value = 5110
+mode = once
+
+[Event 5110, 1]
+type = ChangeState
+trigger1 = Time >= 45
+value = 5120
+
+//get up
+[Statedef 5120]
+physics = S
+anim = 5120
+
+[Event 5120, 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
+
 
 [Statedef -1]
 
