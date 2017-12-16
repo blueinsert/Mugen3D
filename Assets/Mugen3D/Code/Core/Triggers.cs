@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
 namespace Mugen3D{
 public class Triggers
 {
@@ -136,6 +139,14 @@ public class Triggers
     {
         return p.AiLevel;
     }
+
+    public float Random(Player p)
+    {
+        float r = p.randomGenerater.Next(100);
+        //Log.Info("random:" + r);
+        return r;
+    }
+
     #endregion
 
 }

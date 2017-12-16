@@ -2,8 +2,9 @@
 
 //light punch
 [Event 0]
-type = Null
+type = ChangeState
 trigger1 = StateNo != 200 && Ctrl && Physics == "Stand"
+trigger1 = Random < 5
 value = 200
 
 //guard just time

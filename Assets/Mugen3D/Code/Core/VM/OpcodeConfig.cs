@@ -39,6 +39,7 @@ namespace Mugen3D
             new OpcodeDetail{opcode = OpCode.Trigger_CommandTest,     strValue = "CommandTest",     priority = 1,     inputNum = 1,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_PosX,            strValue = "PosX",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_PosY,            strValue = "PosY",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
+            new OpcodeDetail{opcode = OpCode.Trigger_Random,          strValue = "Random",          priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_VelX,            strValue = "VelX",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_VelY,            strValue = "VelY",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_StateNo,         strValue = "StateNo",         priority = 1,     inputNum = 0,    isMugenBuildIn = true},

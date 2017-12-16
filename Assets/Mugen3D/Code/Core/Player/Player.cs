@@ -15,6 +15,8 @@ namespace Mugen3D{
 [RequireComponent(typeof(Animation))]
 [RequireComponent(typeof(DecisionBoxManager))]
 public class Player : MonoBehaviour {
+    const int randomSeed = 123456789;
+    public System.Random randomGenerater = new System.Random(randomSeed);
     public int AiLevel;
     public PlayerConfig config;
     [HideInInspector]

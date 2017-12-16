@@ -1,0 +1,11 @@
+local M = {}
+
+function M.AddView(prefabName, parentTransform)
+    return CS.FSoul.UI.UIManager.Instance:AddView(prefabName, parentTransform)
+end
+
+function M.GetUIGroup(name)
+    return CS.FSoul.UI.UIManager.Instance:GetUIGroup(name)
+end
+
+return M

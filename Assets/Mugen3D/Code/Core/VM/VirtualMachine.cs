@@ -54,6 +54,7 @@ namespace Mugen3D
             //+,-,*,/
             pFuncTable[OpCode.AddOP] = AddOP;
             pFuncTable[OpCode.SubOP] = SubOP;
+            pFuncTable[OpCode.Neg] = GetNeg;
             pFuncTable[OpCode.MulOP] = MulOP;
             pFuncTable[OpCode.DivOP] = DivOP;
             //==,!=
@@ -85,13 +86,13 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_VelY] = GetVelY;
             pFuncTable[OpCode.Trigger_PosX] = GetPosX;
             pFuncTable[OpCode.Trigger_PosY] = GetPosY;
+            pFuncTable[OpCode.Trigger_Random] = GetRandom;
             pFuncTable[OpCode.Trigger_StateNo] = GetStateNo;
             pFuncTable[OpCode.Trigger_PrevStateNo] = GetPrevStateNo;
             pFuncTable[OpCode.Trigger_StateTime] = GetStateTime;
             pFuncTable[OpCode.Trigger_DeltaTime] = GetDeltaTime;
             pFuncTable[OpCode.Trigger_PhysicsType] = GetPhysicsType;
             pFuncTable[OpCode.Trigger_Var] = GetVar;
-            pFuncTable[OpCode.Neg] = GetNeg;
             pFuncTable[OpCode.Trigger_HitVar] = GetHitVar;
 
             //todo
@@ -427,6 +428,12 @@ namespace Mugen3D
         {
             float posX = Triggers.Instance.PosX(this.mOwner);
             mStack.Push(new StackType(posX));
+        }
+
+        void GetRandom()
+        {
+            float v = Triggers.Instance.Random(this.mOwner);
+            mStack.Push(new StackType(v));
         }
 
         void GetPosY()

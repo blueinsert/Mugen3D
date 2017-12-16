@@ -1,0 +1,27 @@
+
+local M = {}
+
+function M.serialize(obj)
+    local result = ""  
+    local t = type(obj)  
+    if t == "number" then  
+        result = result .. obj  
+    elseif t == "boolean" then  
+        result = result .. tostring(obj)  
+    elseif t == "string" then
+        result = result .. string.format("%q", obj)
+    elseif t == "table" then
+        result = result .. "{\n"
+        for k, v in pairs(obj) do  
+            result = result .. "[" .. M.serialize(k) .. "]=" .. M.serialize(v) .. ",\n"  
+        end  
+        result = result .. "}"  
+    elseif t == "nil" then
+        return "nil"
+    else
+        return "nil", "unknown value : " .. t
+    end
+    return result
+end
+
+return M

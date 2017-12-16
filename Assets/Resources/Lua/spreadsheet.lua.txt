@@ -1,0 +1,617 @@
+--local fp   = require"Common.Math.FixedPoint"
+local utils = require "utils"
+
+local function str_split(str, sep)
+   local fields = {}
+   local pattern = string.format("([^%s]+)", sep)
+   string.gsub(str, pattern, function(c) fields[#fields+1] = c end)
+   return fields
+end
+
+local function parse_bool(v)
+    if not v or #v == 0 then return false end
+    local content = ""
+    if type(v) == "table" and #v == 1 then
+        content = v[1]
+    elseif type(v) == "string" then
+        content = v
+    else
+        error("can not convert to bool")
+    end
+
+    if string.lower(content) == "false" then 
+        return false
+    elseif string.lower(content) == "true" then 
+        return true
+    else 
+        error("can not convert to bool") 
+    end
+end
+
+local function parse_bool_array(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_bool(k))
+        end
+    else 
+        error("parameter type must be a table")
+    end
+    return result
+end
+
+local function parse_bool_array_flat(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    local content = ""
+    if type(v) == "string" then
+        content = v
+    elseif type(v) == "table" and #v == 1 then
+        content = v[1]
+    else
+        error("parameter type must be a table or string")
+    end
+    for _, k in ipairs(str_split(content, "|#")) do
+        table.insert(result, parse_bool(k))
+    end  
+    return result
+end
+
+local function parse_bool_array2d(v)
+    local result = {}
+    for _, k in ipairs(v) do
+        table.insert(result, parse_bool_array(k))
+    end
+    return result
+end
+
+
+local function parse_int(v)
+    if not v or #v == 0 then return 0 end
+    if type(v) == "table" then
+        return tonumber(v[1])
+    elseif type(v) == "string" then
+        return tonumber(v)
+    else
+        error("can not parse int")
+    end
+end 
+
+local function parse_int_array(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_int(k))
+        end
+    else 
+        error("parameter type must be a table")
+    end
+    return result
+end 
+
+local function parse_int_array_flat(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    local content = ""
+    if type(v) == "string" then
+        content = v
+    elseif type(v) == "table" and #v == 1 then
+        content = v[1]
+    else
+        error("parameter type must be a table or string")
+    end
+    for _, k in ipairs(str_split(content, "|#")) do
+        table.insert(result, parse_int(k))
+    end  
+    return result
+end
+
+local function parse_int_array2d(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_int_array_flat(k))
+        end
+    else
+        error("parameter type must be table")
+    end
+    return result
+end
+
+local function parse_fixed_num(v)
+   if not v or #v == 0 then return 0 end
+    if type(v) == "table" then
+        return parse_fixed_num(v[1])
+    elseif type(v) == "string" then
+        local s1, s2 = string.match(v, "(-?%d+).?(%d*)")
+        if s2 == "" then
+            return tonumber(s1)
+        else
+            return tonumber(s1) + tonumber(s2)/(10^(#s2))
+        end
+    else
+        error("can not parse int")
+    end
+end
+
+local function parse_fixed_num_array(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_fixed_num(k))
+        end
+    else 
+        error("parameter type must be a table")
+    end
+    return result
+end
+
+local function parse_fixed_num_array_flat(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    local content = ""
+    if type(v) == "string" then
+        content = v
+    elseif type(v) == "table" and #v == 1 then
+        content = v[1]
+    else
+        error("parameter type must be a table or string")
+    end
+    for _, k in ipairs(str_split(content, "|#")) do
+        table.insert(result, parse_fixed_num(k))
+    end  
+    return result
+end
+
+local function parse_fixed_num_array2d(v)
+    local result = {}
+    for _, k in ipairs(v) do
+        table.insert(result, parse_fixed_num_array_flat(k))
+    end
+    return result
+end
+
+local function parse_number(v)
+    if not v or #v == 0 then return 0 end
+    if type(v) == "table" then
+        return tonumber(v[1])
+    elseif type(v) == "string" then
+        return tonumber(v)
+    else
+        error("can not parse int")
+    end
+end
+
+local function parse_number_array(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_number(k))
+        end
+    else 
+        error("parameter type must be a table")
+    end
+    return result
+end
+
+local function parse_number_array_flat(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    local content = ""
+    if type(v) == "string" then
+        content = v
+    elseif type(v) == "table" and #v == 1 then
+        content = v[1]
+    else
+        error("parameter type must be a table or string")
+    end
+    for _, k in ipairs(str_split(content, "|#")) do
+        table.insert(result, parse_number(k))
+    end  
+    return result
+end
+
+local function parse_number_array2d(v)
+    local result = {}
+    for _, k in ipairs(v) do
+        table.insert(result, parse_number_array_flat(k))
+    end
+    return result
+end
+
+local function parse_string(v)
+    if not v or #v == 0 then return "" end
+    if type(v) == "table" then
+        return v[1]
+    elseif type(v) == "string" then
+        return v
+    else
+        error("can not parse string")
+    end
+end
+
+local function parse_string_array(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_string(k))
+        end
+    else 
+        error("parameter type must be a table")
+    end
+    return result
+end
+
+local function parse_string_array_flat(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    local content = ""
+    if type(v) == "string" then
+        content = v
+    elseif type(v) == "table" and #v == 1 then
+        content = v[1]
+    else
+        error("parameter type must be a table or string")
+    end
+    for _, k in ipairs(str_split(content, "|#")) do
+        table.insert(result, parse_string(k))
+    end  
+    return result
+end
+
+local function parse_string_array2d(v)
+    local result = {}
+    for _, k in ipairs(v) do
+        table.insert(result, parse_string_array_flat(k))
+    end
+    return result
+end
+
+
+local function parse_id(v)
+    if not v or #v == 0 then return nil end
+    if type(v) == "table" and #v == 1 then
+        return v[1]
+    elseif type(v) == "string" then
+        return v
+    else
+        error("parameter type must be string or table")
+    end
+end
+
+local function parse_id_array(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    if type(v) == "table" then
+        for _, k in ipairs(v) do
+            table.insert(result, parse_id(k))
+        end
+    else 
+        error("parameter type must be a table")
+    end
+    return result
+end
+
+local function parse_id_array_flat(v)
+    local result = {}
+    if not v or #v == 0 then return result end
+    local content = ""
+    if type(v) == "string" then
+        content = v
+    elseif type(v) == "table" and #v == 1 then
+        content = v[1]
+    else
+        error("parameter type must be a table or string")
+    end
+    for _, k in ipairs(str_split(content, "|#")) do
+        table.insert(result, parse_id(k))
+    end  
+    return result
+end 
+
+local function parse_id_array2d(v)
+    local result = {}
+    for _, k in ipairs(v) do
+        table.insert(result, parse_id_array_flat(k))
+    end
+    return result
+end
+
+local type_converter = {}
+type_converter["int"]          = parse_int
+type_converter["int[]"]        = parse_int_array
+type_converter["int{}"]        = parse_int_array_flat
+type_converter["int[][]"]      = parse_int_array2d
+type_converter["num"]          = parse_number
+type_converter["num[]"]        = parse_number_array
+type_converter["num{}"]        = parse_number_array_flat
+type_converter["num[][]"]      = parse_number_array2d
+type_converter["string"]       = parse_string
+type_converter["string[]"]     = parse_string_array
+type_converter["string{}"]     = parse_string_array_flat
+type_converter["string[][]"]   = parse_string_array2d  
+type_converter["id"]           = parse_id
+type_converter["id[]"]         = parse_id_array
+type_converter["id{}"]         = parse_id_array_flat
+type_converter["id[][]"]       = parse_id_array2d
+type_converter["float"]        = parse_number
+type_converter["float[]"]      = parse_number_array
+type_converter["float{}"]      = parse_number_array_flat
+type_converter["float[][]"]    = parse_number_array2d
+type_converter["decimal"]      = parse_fixed_num
+type_converter["decimal[]"]    = parse_fixed_num_array
+type_converter["decimal{}"]    = parse_fixed_num_array_flat
+type_converter["decimal[][]"]  = parse_fixed_num_array2d
+type_converter["loc"]          = parse_string
+type_converter["loc[]"]        = parse_string_array
+type_converter["loc{}"]        = parse_string_array_flat
+type_converter["loc[][]"]      = parse_string_array2d  
+type_converter["obsint"]       = parse_number
+type_converter["obsint[]"]     = parse_number_array
+type_converter["obsint{}"]     = parse_number_array_flat
+type_converter["obsint[][]"]   = parse_number_array2d
+type_converter["bool"]         = parse_bool
+type_converter["bool[]"]       = parse_bool_array
+type_converter["bool{}"]       = parse_bool_array_flat
+type_converter["bool[][]"]     = parse_bool_array2d
+type_converter["double"]       = parse_number
+type_converter["double[]"]     = parse_number_array
+type_converter["double{}"]     = parse_number_array_flat
+type_converter["double[][]"]   = parse_number_array2d
+
+local header = {}
+local headerIdNameLiteral      = "_ID";
+local headerValueLiteral       = "_VALUE";
+local headerIndexLiteral       = "_INDEX";
+
+local function is_valid_variable_column_name(name)
+    return name:match("[%w_]+") == name and name:match("%D[%w_]*") == name
+end
+
+local function is_valid_variable_column_type(name)
+    return name:match("%w+%p*") == name and name:match("%D%w*%p*") == name
+end
+
+function header.new(name, type_literal, type, column)
+    local o = setmetatable({name=name, type_literal=type_literal, type=type, column=column}, {__index = header})
+    return o
+end
+
+local record = {}
+
+function record.new(key_name, key_value, start_row, height, index)
+    local o = setmetatable({key_name=key_name,key_value=key_value,start_row=start_row,height=height,index=index,content_lenght={}}, {__index = record})
+    return o
+end
+
+local spreadsheet = {}
+function spreadsheet.new(csv)
+    local o = setmetatable({csv=csv, header={}, records={}, width=0, height=0 }, {__index = spreadsheet})
+    o:read_header(csv)
+    o:read_body(csv)
+    return o:generate_table(csv)
+end
+
+function spreadsheet:read_header(csv)
+    local header_line = csv[1]
+    if #header_line < 1 then
+        error("csv is empty")
+    end
+    self.height = #csv
+    self.width = #header_line
+    for i, v in ipairs(header_line) do
+        local column_content = header_line[i]
+        if column_content == headerIdNameLiteral then
+            table.insert(self.header, header.new(column_content, "id", "string", i))
+        elseif column_content == headerValueLiteral then
+            table.insert(self.header, header.new(column_content, "int", "int", i))            
+        elseif column_content == headerIndexLiteral then
+            table.insert(self.header, header.new(column_content, "int", "int", i))
+        elseif column_content:match("#?_*[%w_]+:[%w_]+%p*") == column_content then
+            if column_content:sub(1,1) ~= "#" then
+                local column_name, column_type = header_line[i]:match("([%w_]+):([%w_]+%p*)")
+                if not is_valid_variable_column_name(column_name) then
+                    error(column_content .. " is a illegal name")
+                elseif not is_valid_variable_column_type(column_type) then
+                    error(column_content .. " is a illegal type")
+                else
+                    table.insert(self.header, header.new(column_name, column_type, column_type, i))
+                end
+            end
+        else
+            error("read header " .. column_content .. " error at column" .. i)
+        end
+    end
+
+    -- check duplicated column name
+    for i = 1, #self.header do
+        for j = i+1, #self.header do 
+            if(self.header[i].name == self.header[j].name) then
+                error("duplicated column " .. self.header[j].name)
+            end
+        end
+    end 
+
+    local id_pos = nil
+    local value_pos = nil
+    local index_pos = nil
+
+    for i, _ in ipairs(self.header) do
+        if self.header[i].name == headerIdNameLiteral then
+            id_pos = i
+        elseif self.header[i].name == headerValueLiteral then
+            value_pos = i
+        elseif self.header[i].name == headerIndexLiteral then
+            index_pos =i
+        end
+    end
+
+    if not id_pos and value_pos ~= nil and index_pos ~= nil then
+        error("can not parse")
+    elseif index_pos ~= nil and id_pos == nil and value_pos == nil then
+        if self.header[index_pos].type == "int" then
+            self.kind = "list"
+        else
+            error("can not parse")
+        end
+    elseif index_pos == nil and id_pos ~= nil and value_pos ~= nil then
+        self.kind = "dic"
+    else
+        error("can not parse")
+    end 
+end
+
+function spreadsheet:read_body(csv)
+    local header_index = 1
+    if self.kind == "dic" then
+        header_index = self:get_header_record(headerIdNameLiteral).column
+    elseif self.kind == "list" then
+        header_index = self:get_header_record(headerIndexLiteral).column
+    end
+    local key_value = csv[2][header_index]
+    local counter = 1
+
+    if not key_value then
+        error("can not parse")
+    end
+    local current_row = 3
+    local start_row = 2
+    while current_row <= self.height do
+        local cell_content = csv[current_row][header_index]
+        if cell_content and string.len(cell_content) > 0 then
+            if self.kind == "dic" then
+                local key_value = csv[start_row][self:get_header_record(headerValueLiteral).column]
+                local key_name  = csv[start_row][self:get_header_record(headerIdNameLiteral).column]
+                local r = record.new(key_name, tonumber(key_value), start_row, counter, #self.records)
+                table.insert(self.records, r) 
+            elseif self.kind == "list" then
+                local r = record.new(key_value, tonumber(key_value), start_row, counter, #self.records)
+                table.insert(self.records, r)
+            else
+                error("can not parse")
+            end
+            start_row = current_row
+            counter = 1
+            key_value = content
+        else
+            counter = counter + 1     
+        end
+        current_row = current_row + 1
+    end
+
+    if self.kind == "dic" then
+        local key_name  = csv[start_row][self:get_header_record(headerIdNameLiteral).column]
+        local key_value = csv[start_row][self:get_header_record(headerValueLiteral).column]
+        local r = record.new(key_name, tonumber(key_value), start_row, counter, #self.records)
+        table.insert(self.records, r) 
+    elseif self.kind == "list" then
+        local r = record.new(key_value, tonumber(key_value), start_row, counter, #self.records)
+        table.insert(self.records, r)    
+    end
+
+
+    for i, _ in ipairs(self.records) do
+        for j = 1, self.width do
+            local current_record = self.records[i]
+            local start_pos = current_record.start_row
+            local end_pos   = start_pos + current_record.height - 1
+            local column = j
+            local content_num = 0
+            local has_empty_cell = false
+            for k = start_pos, end_pos do
+                if csv[k][column] and string.len(csv[k][column]) > 0 then
+                    if has_empty_cell then
+                        error("can not parse")
+                    else
+                        content_num = content_num + 1    
+                    end
+                else
+                    has_empty_cell = true
+                end
+            end
+            table.insert(current_record.content_lenght, content_num) 
+        end
+    end
+end
+
+function spreadsheet:generate_table(csv)
+    local result = {}
+    local count = 0
+    local id = {}
+    if self.kind == "dic" then
+        for i, v in ipairs(self.records) do
+            local r = {}
+            for j, _ in ipairs(self.header) do 
+                local type_name = self.header[j].type
+                local type_key = self.header[j].name
+                local content = {}
+                for k = v.start_row, v.start_row + v.content_lenght[self.header[j].column] - 1 do
+                    table.insert(content, csv[k][self.header[j].column]) 
+                end 
+                if not type_converter[type_name] then
+                    error("can not find type converter for type name " .. self.header[j].name ..":".. self.header[j].type_literal)
+                else
+                    r[type_key] = type_converter[type_name](content)
+                end
+            end
+            result[self.records[i].key_name] = r
+            id[self.records[i].key_value] = r
+            count = count + 1
+        end
+    elseif self.kind == "list" then
+        for i, v in ipairs(self.records) do
+            local r = {}
+            for j, _ in ipairs(self.header) do 
+                local type_name = self.header[j].type
+                local type_key = self.header[j].name
+                local content = {}
+                for k = v.start_row, v.start_row + v.content_lenght[self.header[j].column] - 1 do
+                    table.insert(content, csv[k][self.header[j].column]) 
+                end 
+                if not type_converter[type_name] then
+                    error("can not find type converter for type name " .. self.header[j].name ..":".. self.header[j].type_literal)
+                else
+                    r[type_key] = type_converter[type_name](content)
+                end
+            end
+            table.insert(result, r)
+            count = count + 1
+        end        
+    end
+    local index = id
+    index._Count = count
+    setmetatable(result, {__index = index})
+    return result
+end
+
+function  spreadsheet:get_header_record(column_name)
+    for i, k in ipairs(self.header) do
+        if self.header[i].name == column_name then
+            return self.header[i]
+        end
+    end
+    error("can not parse")
+end
+
+local csv = require "csv_reader"
+local function open(file)
+    local c, err = csv.open(file)
+    if not c then 
+        return nil, err
+    else
+        return spreadsheet.new(c)
+    end
+end
+
+local function openUnity(file)
+    local content = CS.UnityEngine.Resources.Load(file).text
+    return spreadsheet.new(csv.open(content))
+end
+
+return {open=openUnity}

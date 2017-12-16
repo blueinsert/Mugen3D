@@ -1,0 +1,23 @@
+local M = {}
+
+local function registerEvent(self)
+    self.btnPlay.onClick:AddListener(function()
+	    UI_Manager.AddView("PageCharacterSelect", self.transform.parent)
+	end)
+end
+
+function M:Init(transform)
+	self.transform = transform
+	self.btnPlay = transform:Find("VerticalGroup/Play"):GetComponent("Button")
+	self.btnTeamPlay = transform:Find("VerticalGroup/TeamPlay"):GetComponent("Button")
+	self.btnNetPlay = transform:Find("VerticalGroup/NetPlay"):GetComponent("Button")
+	self.btnOption = transform:Find("VerticalGroup/Options"):GetComponent("Button")
+	self.btnExit = transform:Find("VerticalGroup/Exit"):GetComponent("Button")
+	registerEvent(self)	
+end
+
+function M:Update()
+    --print("lua update")
+end
+
+return M

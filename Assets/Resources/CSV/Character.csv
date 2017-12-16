@@ -1,0 +1,16 @@
+_ID,_VALUE,Name:string,ResourceId:string,LittleHead:string,MediumHead:string,BigHead:string
+Ice,1,Ice,Origin,iceLittleHead,iceMediumHead,iceBigHead
+Iori,2,Iori,Origin,ioriLittleHead,ioriMediumHead,ioriBigHead
+Rugal,3,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal1,4,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal2,5,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal3,6,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal4,7,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal5,8,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal6,9,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal7,10,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal8,11,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal9,12,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal10,13,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal11,14,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead
+Rugal12,15,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead

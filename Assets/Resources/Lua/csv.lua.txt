@@ -1,0 +1,4 @@
+local spreadsheet = require "spreadsheet"
+local M = {}
+M.Character = spreadsheet.open("CSV/Character")
+return M

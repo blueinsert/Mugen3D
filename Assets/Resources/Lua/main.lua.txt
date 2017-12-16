@@ -1,0 +1,7 @@
+utils = require "utils"
+
+CSV = require "csv"
+UI_Manager = require "UI/UIManager"
+UI_Group = require "UI/UIGroup"
+
+print(utils.serialize(CSV.Character))

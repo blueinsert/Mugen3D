@@ -1,0 +1,11 @@
+local M = {}
+
+function M:Init(transform)
+    print(transform)
+end
+
+function M:Update()
+    print("lua update")
+end
+
+return M

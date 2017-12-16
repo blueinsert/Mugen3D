@@ -38,6 +38,7 @@ namespace Mugen3D
         Trigger_MoveType,
         Trigger_PosX,
         Trigger_PosY,
+        Trigger_Random,
         Trigger_VelX,
         Trigger_VelY,
         Trigger_StateNo,
