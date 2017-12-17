@@ -1,91 +1,184 @@
 local M = {}
 
+M.Row = 7
+M.Column = 6
+
 function M:Init(transform)
     self.transform = transform
 	self.prefabLittleHead = transform:Find("AllCharacter/LittleHead").gameObject
 	self.grid = transform:Find("AllCharacter/Viewport/Grid")
-	self.curCharacterP1 = {}
-	self.curCharacterP1.labelName = transform:Find("CurrentCharacterP1/LabelName"):GetComponent("Text")
-	self.curCharacterP1.img = transform:Find("CurrentCharacterP1/ImgMediumHead"):GetComponent("Image")
-	self.curCharacterP2 = {}
-	self.curCharacterP2.labelName = transform:Find("CurrentCharacterP2/LabelName"):GetComponent("Text")
-	self.curCharacterP2.img = transform:Find("CurrentCharacterP2/ImgMediumHead"):GetComponent("Image")
+	self.curSelectedCharacter = {}
+	self.curSelectedCharacter["p1"] = {}
+	self.curSelectedCharacter["p1"].id = 1
+	self.curSelectedCharacter["p1"].labelName = transform:Find("CurrentCharacterP1/LabelName"):GetComponent("Text")
+	self.curSelectedCharacter["p1"].img = transform:Find("CurrentCharacterP1/ImgMediumHead"):GetComponent("Image")
+	self.curSelectedCharacter["p2"] = {}
+	self.curSelectedCharacter["p2"].id = 1
+	self.curSelectedCharacter["p2"].labelName = transform:Find("CurrentCharacterP2/LabelName"):GetComponent("Text")
+	self.curSelectedCharacter["p2"].img = transform:Find("CurrentCharacterP2/ImgMediumHead"):GetComponent("Image")
+	
 	self.characterList  = {}
 	
 	self:CreateAllCharacter()
-	
-	self.p1Selected = 1
-	self.p2Selected = 1
-	self:updateP1Select(1)
-	self:updateP2Select(1)
+	self.p1Pos = {row = 0, column = 0}
+	self.p2Pos = {row = 0, column = M.Column - 1}
+	self:updateP1Select(self.p1Pos)
+	self:updateP2Select(self.p2Pos)
 end
 
 function M:CreateAllCharacter()
+    local characterIds = {}
     for k, v in ipairs(CSV.Character) do
+	    table.insert(characterIds, v._VALUE)
+	end
+	self.characterIds = characterIds
+    for i = 1, M.Row * M.Column do
 	    local go = CS.UnityEngine.GameObject.Instantiate(self.prefabLittleHead, self.grid)
 		go:SetActive(true)
+		local id = characterIds[i]
 		local character = {}
-		character.id = v._VALUE
-		character.go = go
-		character.imgNormalFrame = go.transform:Find("Pos/ImgFrame"):GetComponent("Image")
-		character.imgP1Select = go.transform:Find("Pos/ImgP1Select"):GetComponent("Image")
-		character.imgP2Select = go.transform:Find("Pos/ImgP2Select"):GetComponent("Image")
-		character.imgHead = go.transform:Find("Pos/ImgHead"):GetComponent("Image")
-		character.imgHead.sprite = CS.SpriteLoader.Instance:GetSprite(v.LittleHead)
-		self.characterList[character.id] = character
+		if id then
+		    character.id = id
+		    character.go = go
+		    character.imgNormalFrame = go.transform:Find("Pos/ImgFrame"):GetComponent("Image")
+		    character.imgP1Select = go.transform:Find("Pos/ImgP1Select"):GetComponent("Image")
+		    character.imgP2Select = go.transform:Find("Pos/ImgP2Select"):GetComponent("Image")
+		    character.imgHead = go.transform:Find("Pos/ImgHead"):GetComponent("Image")
+		    character.imgHead.sprite = CS.SpriteLoader.Instance:GetSprite(CSV.Character[id].LittleHead)
+		else
+		    character.id = -1
+			character.imgP1Select = go.transform:Find("Pos/ImgP1Select"):GetComponent("Image")
+		    character.imgP2Select = go.transform:Find("Pos/ImgP2Select"):GetComponent("Image")
+			character.imgHead = go.transform:Find("Pos/ImgHead"):GetComponent("Image")
+		    character.imgHead.sprite = CS.SpriteLoader.Instance:GetSprite("QuestionMark")
+		end	
+		self.characterList[i] = character
 	end
 end
 
-function M:updateP1Select(characterId)
-   local lastCharacter = self.characterList[self.p1Selected]
-   local curCharacter = self.characterList[characterId]
-   self.p1Selected = characterId
+function M:setUICurSelectCharacter(curSelectCharacter, characterId)
+    curSelectCharacter.id = characterId
+	curSelectCharacter.labelName.text = CSV.Character[characterId].Name
+    curSelectCharacter.img.sprite = CS.SpriteLoader.Instance:GetSprite(CSV.Character[characterId].MediumHead)
+end
+
+function M:updateP1Select(newPos)
+   local newIndex = newPos.row * M.Column + newPos.column
+   local lastIndex = self.p1Pos.row * M.Column + self.p1Pos.column
+   newIndex = newIndex + 1
+   lastIndex = lastIndex + 1
+   local lastCharacter = self.characterList[lastIndex]
+   local curCharacter = self.characterList[newIndex]
+   self.p1Pos = newPos
    lastCharacter.imgP1Select.gameObject:SetActive(false)
    curCharacter.imgP1Select.gameObject:SetActive(true)
    
-    self.curCharacterP1.labelName.text = CSV.Character[self.p1Selected].Name
-	self.curCharacterP1.img.sprite = CS.SpriteLoader.Instance:GetSprite(CSV.Character[self.p1Selected].MediumHead)
+   if curCharacter.id ~= -1 then
+       self:setUICurSelectCharacter(self.curSelectedCharacter["p1"], curCharacter.id)
+   end
 end
 
-function M:updateP2Select(characterId)
-   local lastCharacter = self.characterList[self.p2Selected]
-   local curCharacter = self.characterList[characterId]
-   self.p2Selected = characterId
+function M:updateP2Select(newPos)
+   local newIndex = newPos.row * M.Column + newPos.column
+   local lastIndex = self.p2Pos.row * M.Column + self.p2Pos.column
+   newIndex = newIndex + 1
+   lastIndex = lastIndex + 1
+   local lastCharacter = self.characterList[lastIndex]
+   local curCharacter = self.characterList[newIndex]
+   self.p2Pos = newPos
    lastCharacter.imgP2Select.gameObject:SetActive(false)
    curCharacter.imgP2Select.gameObject:SetActive(true)
    
-    self.curCharacterP2.labelName.text = CSV.Character[self.p2Selected].Name
-	self.curCharacterP2.img.sprite = CS.SpriteLoader.Instance:GetSprite(CSV.Character[self.p2Selected].MediumHead)
+   if curCharacter.id ~= -1 then
+       self:setUICurSelectCharacter(self.curSelectedCharacter["p2"], curCharacter.id)
+   end
+end
+
+function M:getPosAtCharacter(pos)
+    local index = pos.row * M.Column + pos.column
+	index = index + 1
+	return self.characterList[index]
+end
+
+function M:getRandomCharacterId()
+    local index = math.random(1, #self.characterIds)
+	return self.characterIds[index]
 end
 
 function M:Update()
+    local newPos = {row = self.p1Pos.row, column = self.p1Pos.column}
     if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.A) then
-	    local characterId = self.p1Selected - 1
-		if characterId <= 0 then
-		    characterId = 3
+	    newPos.column = newPos.column - 1
+		if newPos.column < 0 then
+		    newPos.column = M.Column - 1
 		end
-		self:updateP1Select(characterId)
+		self:updateP1Select(newPos)
 	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.D) then
-	    local characterId = self.p1Selected + 1
-		if characterId >= 4 then
-		    characterId = 1
+	    newPos.column = newPos.column + 1
+		if newPos.column > M.Column - 1 then
+		    newPos.column = 0
 		end
-		self:updateP1Select(characterId)
-	end
-	if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.LeftArrow) then
-	    local characterId = self.p2Selected - 1
-		if characterId <= 0 then
-		    characterId = 3
+		self:updateP1Select(newPos)
+	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.W) then
+	    newPos.row = newPos.row - 1
+		if newPos.row < 0 then
+		    newPos.row = M.Row - 1
 		end
-		self:updateP2Select(characterId)
-	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.RightArrow) then
-	    local characterId = self.p2Selected + 1
-		if characterId >= 4 then
-		    characterId = 1
+		self:updateP1Select(newPos)
+	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.S) then
+	    newPos.row = newPos.row + 1
+		if newPos.row > M.Row - 1 then
+		    newPos.row = 0
 		end
-		self:updateP2Select(characterId)
+		self:updateP1Select(newPos)
 	end
 	
+    newPos = {row = self.p2Pos.row, column = self.p2Pos.column}
+    if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.LeftArrow) then
+	    newPos.column = newPos.column - 1
+		if newPos.column < 0 then
+		    newPos.column = M.Column - 1
+		end
+		self:updateP2Select(newPos)
+	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.RightArrow) then
+	    newPos.column = newPos.column + 1
+		if newPos.column > M.Column - 1 then
+		    newPos.column = 0
+		end
+		self:updateP2Select(newPos)
+	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.UpArrow) then
+	    newPos.row = newPos.row - 1
+		if newPos.row < 0 then
+		    newPos.row = M.Row - 1
+		end
+		self:updateP2Select(newPos)
+	elseif CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.DownArrow) then
+	    newPos.row = newPos.row + 1
+		if newPos.row > M.Row - 1 then
+		    newPos.row = 0
+		end
+		self:updateP2Select(newPos)
+	end
+	
+	self.p1Timer = self.p1Timer or 0
+	if self:getPosAtCharacter(self.p1Pos).id == -1 then
+	    self.p1Timer = self.p1Timer + CS.UnityEngine.Time.deltaTime
+		if self.p1Timer > 0.1 then
+		   self.p1Timer = 0
+		   local id = self:getRandomCharacterId()
+		   self:setUICurSelectCharacter(self.curSelectedCharacter["p1"], id)
+		end    
+	end
+	
+	self.p2Timer = self.p2Timer or 0
+	if self:getPosAtCharacter(self.p2Pos).id == -1 then
+	    self.p2Timer = self.p2Timer + CS.UnityEngine.Time.deltaTime
+		if self.p2Timer > 0.1 then
+		   self.p2Timer = 0
+		   local id = self:getRandomCharacterId()
+		   self:setUICurSelectCharacter(self.curSelectedCharacter["p2"], id)
+		end    
+	end
 end
 
 return M
