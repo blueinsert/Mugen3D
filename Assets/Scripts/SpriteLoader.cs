@@ -23,7 +23,7 @@ public class SpriteLoader {
     {
         GameObject go = Resources.Load<GameObject>("Prefabs/SpriteList");
         SpriteList list = go.GetComponent<SpriteList>();
-        foreach (var s in list.sprites)
+        foreach (var s in list.m_sprites)
         {
             mSprites[s.name] = s;
         }
