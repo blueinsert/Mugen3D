@@ -13,6 +13,7 @@ namespace Mugen3D
             if (p.id == PlayerId.P1)
             {
                 enemy = World.Instance.GetPlayer(PlayerId.P2);
+
             }else if(p.id == PlayerId.P2){
                 enemy = World.Instance.GetPlayer(PlayerId.P1);
             }

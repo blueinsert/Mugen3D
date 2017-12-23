@@ -6,7 +6,7 @@ namespace Mugen3D
     public class InputHandler
     {
 
-        public static uint GetInputKeycode(PlayerId id)
+        public static uint GetInputKeycode(PlayerId id, int facing)
         {
             Dictionary<KeyNames, KeyCode> keycodeMap = new Dictionary<KeyNames, KeyCode>();
             switch (id)
@@ -22,11 +22,11 @@ namespace Mugen3D
             {
                 if (Input.GetKey(pair.Value))
                 {
-                    if (pair.Key == KeyNames.KEY_LEFT && World.Instance.GetPlayer(id).facing < 0)
+                    if (pair.Key == KeyNames.KEY_LEFT && facing < 0)
                     {
                         keycode = keycode | Utility.GetKeycode(KeyNames.KEY_RIGHT);
                     }
-                    else if (pair.Key == KeyNames.KEY_RIGHT && World.Instance.GetPlayer(id).facing < 0)
+                    else if (pair.Key == KeyNames.KEY_RIGHT && facing < 0)
                     {
                         keycode = keycode | Utility.GetKeycode(KeyNames.KEY_LEFT);
                     }

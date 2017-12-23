@@ -90,7 +90,7 @@ public class Player : MonoBehaviour {
     private void UpdatePlayer()
     {
         moveCtr.Update();
-        cmdMgr.Update(InputHandler.GetInputKeycode(this.id));
+        cmdMgr.Update(InputHandler.GetInputKeycode(this.id, this.facing));
         animCtr.Update();
         stateMgr.Update();
     }

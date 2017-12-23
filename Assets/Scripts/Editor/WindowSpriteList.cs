@@ -44,18 +44,20 @@ public class WindowSpriteList : EditorWindow
     void OnGUI()
     {
         List<Sprite> removeList = new List<Sprite>();
-        m_scrollPosition = GUILayout.BeginScrollView(m_scrollPosition, GUILayout.Width(200), GUILayout.Height(200));
+        GUILayout.Label("NUM:" + m_target.GetSpriteNum());
+        m_scrollPosition = GUILayout.BeginScrollView(m_scrollPosition, GUILayout.Width(350), GUILayout.Height(200));
         for (int i = 0; i < m_spriteNum; i++)
         {
             var sprite = m_target.GetSprite()[i];
             GUILayout.BeginHorizontal();
             m_toggleIsOn[i] = GUILayout.Toggle(m_toggleIsOn[i], m_toggleIsOn[i] ? "ON " : "OFF");
+            EditorGUI.LabelField(EditorGUILayout.GetControlRect(GUILayout.Width(30)), "" + i);
             if (m_toggleIsOn[i])
             {
                 UpdateToggleStatus(i);
                 m_chosenSprite = sprite;
             }
-            GUILayout.Label(sprite.name);
+            EditorGUI.LabelField(EditorGUILayout.GetControlRect(GUILayout.Width(70)), sprite.name);
             if (GUILayout.Button("delete"))
             {
                 removeList.Add(sprite);
@@ -64,11 +66,20 @@ public class WindowSpriteList : EditorWindow
         }
         GUILayout.EndScrollView();
         if(m_chosenSprite != null){
-            float width = 320;// m_chosenSprite.rect.width > 320 ? 320 : m_chosenSprite.rect.width;
-            float height = 240;// m_chosenSprite.rect.height > 240 ? 240 : m_chosenSprite.rect.height;
+            float height = 240;
+            float radio = m_chosenSprite.rect.width / m_chosenSprite.rect.height;
+            float width = height * radio;
             EditorGUILayout.LabelField("width:" + m_chosenSprite.rect.width + " height:" + m_chosenSprite.rect.height);
             m_previewRect = EditorGUILayout.GetControlRect(GUILayout.Height(height), GUILayout.Width(width));
             EditorGUI.DrawPreviewTexture(m_previewRect, m_chosenSprite.texture);
+        }
+        else
+        {
+            float width = 320;
+            float height = 240;
+            m_previewRect = EditorGUILayout.GetControlRect(GUILayout.Height(height), GUILayout.Width(width));
+            EditorGUI.DrawRect(m_previewRect, Color.gray);
+            EditorGUI.LabelField(m_previewRect, "none");
         }
         m_rect = EditorGUILayout.GetControlRect(GUILayout.Height(100));
         EditorGUI.DrawRect(m_rect, Color.gray);
@@ -79,6 +90,10 @@ public class WindowSpriteList : EditorWindow
             {
                 onSave();
             }
+        }
+        if (GUILayout.Button("RemoveDuplicate"))
+        {
+            m_target.RemoveDuplicate();
         }
         
         if (Event.current.type == EventType.DragUpdated)
@@ -104,10 +119,10 @@ public class WindowSpriteList : EditorWindow
         }
         if ( Event.current.type == EventType.DragExited)
         {
-            Debug.Log("drag exit");
+            //Debug.Log("drag exit");
             if (m_rect.Contains(m_mousePosition))
             {
-                Debug.Log("m_dragObjects:" + m_dragObjects);
+                //Debug.Log("m_dragObjects:" + m_dragObjects);
                 foreach (var o in m_dragObjects)
                 {
                     if (o is Sprite)
@@ -133,4 +148,12 @@ public class WindowSpriteList : EditorWindow
         }
     }
 
+    public void OnDestroy()
+    {
+        Debug.Log("window destroy");
+        if (onSave != null)
+        {
+            onSave();
+        }
+    }
 }

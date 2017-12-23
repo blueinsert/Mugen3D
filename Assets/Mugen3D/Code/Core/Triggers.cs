@@ -107,7 +107,7 @@ public class Triggers
 
     public float DeltaTime()
     {
-        return GameEngine.deltaTime;
+        return World.Instance.deltaTime;
     }
 
     public int Var(Player p, int id)
