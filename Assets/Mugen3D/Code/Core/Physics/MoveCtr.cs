@@ -53,6 +53,8 @@ namespace Mugen3D
                 {
                     deltaPos = PushTest(velocity * Time.deltaTime);
                 }
+                CastRaysLeft(ref deltaPos);
+                CastRaysRight(ref deltaPos);
                 AddPos(deltaPos);
             }
         }
@@ -66,8 +68,70 @@ namespace Mugen3D
             if (pushTestOn)
             {
                 deltaPos = PushTest(velocity * Time.deltaTime);
-            } 
+            }
+            CastRaysLeft(ref deltaPos);
+            CastRaysRight(ref deltaPos);
             AddPos(deltaPos);
+        }
+
+        private void CastRaysBelow(ref Vector3 deltaPos)
+        {
+
+        }
+
+        private void CastRaysUp(ref Vector3 deltaPos)
+        {
+
+        }
+
+        private void CastRaysLeft(ref Vector3 deltaPos)
+        {
+            if (deltaPos.z >= 0)
+                return;
+            var pos = this.target.position;
+            var collider = target.GetComponent<DecisionBoxManager>().GetCollideBox();
+            var rayLength = collider.width / 2 - deltaPos.z;
+            var rayStart1 = new Vector2(pos.z, pos.y + collider.height / 2);
+            var rayStart2 = new Vector2(pos.z, pos.y - collider.height / 2);
+            var hits = new List<RaycastHit>();
+            var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "left", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart2, "left", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            if (hits.Count != 0)
+            {
+                hits.Sort((x, y) => { return y.point.x.CompareTo(x.point.x); });
+                hit = hits[0];
+                deltaPos.z = hit.point.x - (pos.z - collider.width / 2);
+                velocity.z = 0;
+            }
+        }
+
+        private void CastRaysRight(ref Vector3 deltaPos)
+        {
+            if (deltaPos.z <= 0)
+                return;
+            var pos = this.target.position;
+            var collider =  target.GetComponent<DecisionBoxManager>().GetCollideBox();
+            var rayLength = collider.width / 2 + deltaPos.z;
+            var rayStart1 = new Vector2(pos.z, pos.y + collider.height / 2);
+            var rayStart2 = new Vector2(pos.z, pos.y - collider.height / 2);
+            var hits = new List<RaycastHit>();
+            var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "right", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart2, "right", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            if (hits.Count != 0)
+            {
+                hits.Sort((x, y) => { return x.point.x.CompareTo(y.point.x); });
+                hit = hits[0];
+                deltaPos.z = hit.point.x - (pos.z + collider.width / 2);
+                velocity.z = 0;
+            }
         }
 
         private Vector3 StabilizeVel(Vector3 v)
@@ -91,7 +155,7 @@ namespace Mugen3D
                 if (enemy != null)
                 {
                     Box2D box2 = enemy.GetComponent<DecisionBoxManager>().GetCollideBox();
-                    if (ColliderSystem.RectRectTest(box, box2))
+                    if (ColliderUtils.RectRectTest(box, box2))
                     {
                         movment.x = movment.x / 2;
                         enemy.moveCtr.AddPos(new Vector3(0, 0, movment.x));

@@ -249,7 +249,7 @@ namespace Mugen3D
             {
                 for (int j = 0; j < defenceBoxes.Length; j++)
                 {
-                    if (ColliderSystem.CuboidCuboidTest(attackBoxes[i].cuboid.GetVertexArray().ToArray(), defenceBoxes[j].cuboid.GetVertexArray().ToArray()))
+                    if (ColliderUtils.CuboidCuboidTest(attackBoxes[i].cuboid.GetVertexArray().ToArray(), defenceBoxes[j].cuboid.GetVertexArray().ToArray()))
                     {
                         hit = true;
                         break;

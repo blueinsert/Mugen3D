@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
-    public class ColliderSystem
+    public class ColliderUtils
     {
         static Vector3 GetPlaneNormalVector(Vector3 p1, Vector3 p2, Vector3 p3)
         {
@@ -92,6 +92,73 @@ namespace Mugen3D
                 isIntersect = true;
             }
             return isIntersect;
+        }
+
+        public static bool SegmentIntersectionAxisAlignedTest(Vector2 h1, Vector2 h2, Vector2 v1, Vector2 v2, ref Vector2 point)
+        {
+            Vector2 vss, vse, hss, hse;
+
+            if (v1.y < v2.y)
+            {
+                vss = v1; vse = v2;
+            }
+            else
+            {
+                vss = v2; vse = v1;
+            }
+            if (h1.x < h2.x)
+            {
+                hss = h1; hse = h2;
+            }
+            else
+            {
+                hss = h2; hse = h1;
+            }
+
+            if (hss.x <= vss.x && hse.x >= vss.x && vss.y <= hss.y && vse.y >= hss.y)
+            {
+                point.x = vss.x;
+                point.y = hss.y;
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool SegmentIntersectionTest(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, ref Vector2 point)
+        {
+            var s10_x = p1.x - p0.x;
+            var s10_y = p1.y - p0.y;
+            var s32_x = p3.x - p2.x;
+            var s32_y = p3.y - p2.y;
+
+            var denom = s10_x * s32_y - s32_x * s10_y;
+
+            if (denom == 0) return false; // no collision
+
+            var denom_is_positive = denom > 0;
+
+            var s02_x = p0.x - p2.x;
+            var s02_y = p0.y - p2.y;
+
+            var s_numer = s10_x * s02_y - s10_y * s02_x;
+
+            if ((s_numer < 0) == denom_is_positive) return false; // no collision
+
+            var t_numer = s32_x * s02_y - s32_y * s02_x;
+
+            if ((t_numer < 0) == denom_is_positive) return false; // no collision
+
+            if ((s_numer > denom) == denom_is_positive || (t_numer > denom) == denom_is_positive) return false; // no collision
+
+            // collision detected
+
+            var t = (float)t_numer / denom;
+
+            point.x = (int)(p0.x + (t * s10_x));
+            point.y = (int)(p0.y + (t * s10_y));
+
+            return true;
         }
     }
 }

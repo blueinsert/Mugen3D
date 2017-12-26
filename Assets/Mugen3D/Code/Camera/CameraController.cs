@@ -8,25 +8,28 @@ namespace Mugen3D
     {
         public float dumpRatio = 10;
         private Camera mCamera;
-        private Transform mTarget;
+        public float yOffset = 2;
+        private Transform mTarget1;
+        private Transform mTarget2;
 
         void Start()
         {
             mCamera = this.GetComponent<Camera>();
         }
 
-        public void SetFollowTarget(Transform t)
+        public void SetFollowTarget(Transform t1, Transform t2)
         {
-            mTarget = t;
+            mTarget1 = t1;
+            mTarget2 = t2;
         }
 
         void Update()
         {
-            if (mTarget == null)
+            if (mTarget1 == null)
                 return;
-            Vector3 newPos = new Vector3(this.transform.position.x, mTarget.position.y, mTarget.position.z);
+            Vector3 newPos = new Vector3(this.transform.position.x, mTarget1.position.y + yOffset, mTarget1.position.z);
             this.transform.position = Vector3.Lerp(this.transform.position, newPos, Time.deltaTime * dumpRatio);
-            transform.LookAt(mTarget.transform);
+            //transform.LookAt(mTarget.transform);
         }
     }
 }
