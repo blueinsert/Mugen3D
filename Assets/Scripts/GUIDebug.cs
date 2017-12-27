@@ -48,7 +48,7 @@ public class GUIDebug : MonoBehaviour
         GUILayout.Label(new GUIContent("vel:" + Triggers.Instance.VelX(p) + "," + Triggers.Instance.VelY(p)));
         GUILayout.Label(new GUIContent("commands:" + p.cmdMgr.GetActiveCommandName()));
         GUILayout.Label(new GUIContent("ctrl:" + Triggers.Instance.Ctrl(p)));
-        
+        GUILayout.Label(new GUIContent("justOnGround:"+Triggers.Instance.JustOnGround(p)));
         GUILayout.Label(new GUIContent("vars:" + Utility.DicToString<int,int>(p.vars)));
 
         GUILayout.EndArea();

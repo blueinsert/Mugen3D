@@ -159,7 +159,7 @@ y = Config("MediumJumpSpeedY")
 
 [Event 50, 6]
 type = ChangeState
-trigger1 = (PosY + VelY * DeltaTime) < 0
+trigger1 = JustOnGround
 value = 52
 
 //Jump Down (empty state for compatibility)
@@ -168,7 +168,7 @@ moveType = I
 physics = A
 
 [Event 51, 0]
-type = ChangeState
+type = Null
 trigger1 = (PosY + VelY * DeltaTime) < 0
 value = 52
 

@@ -81,6 +81,7 @@ namespace Mugen3D
             pFuncTable[OpCode.Trigger_CommandTest] = CommandTest;
             pFuncTable[OpCode.Trigger_Config] = GetConfig;
             pFuncTable[OpCode.Trigger_EnemyMoveType] = GetEnemyMoveType;
+            pFuncTable[OpCode.Trigger_JustOnGround] = GetIsJustOnGround;
             pFuncTable[OpCode.Trigger_MoveType] = GetMoveType;
             pFuncTable[OpCode.Trigger_VelX] = GetVelX;
             pFuncTable[OpCode.Trigger_VelY] = GetVelY;
@@ -416,6 +417,12 @@ namespace Mugen3D
         {
             string type = Triggers.Instance.EnemyMoveType(this.mOwner);
             mStack.Push(new StackType(type.GetHashCode()));
+        }
+
+        void GetIsJustOnGround()
+        {
+            int v = Triggers.Instance.JustOnGround(this.mOwner);
+            mStack.Push(new StackType(v));
         }
 
         void GetMoveType()

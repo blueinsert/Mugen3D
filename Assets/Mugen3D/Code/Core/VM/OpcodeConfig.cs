@@ -34,6 +34,7 @@ namespace Mugen3D
             new OpcodeDetail{opcode = OpCode.Trigger_Ctrl,            strValue = "Ctrl",            priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_Config,          strValue = "Config",          priority = 1,     inputNum = 1,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_EnemyMoveType,   strValue = "EnemyMoveType",   priority = 1,     inputNum = 0,    isMugenBuildIn = true},
+            new OpcodeDetail{opcode = OpCode.Trigger_JustOnGround,    strValue = "JustOnGround",    priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_LeftAnimElem,    strValue = "LeftAnimElem",    priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_MoveType,        strValue = "MoveType",        priority = 1,     inputNum = 0,    isMugenBuildIn = true},
             new OpcodeDetail{opcode = OpCode.Trigger_CommandTest,     strValue = "CommandTest",     priority = 1,     inputNum = 1,    isMugenBuildIn = true},

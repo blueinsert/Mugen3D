@@ -34,6 +34,7 @@ namespace Mugen3D
         Trigger_AnimTime,
         Trigger_Ctrl,
         Trigger_EnemyMoveType,
+        Trigger_JustOnGround,
         Trigger_LeftAnimElem,      
         Trigger_MoveType,
         Trigger_PosX,

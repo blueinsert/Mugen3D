@@ -146,7 +146,10 @@ public class Triggers
         //Log.Info("random:" + r);
         return r;
     }
-
+    public int JustOnGround(Player p)
+    {
+        return p.moveCtr.justOnGround ? 1 : 0;
+    }
     #endregion
 
 }

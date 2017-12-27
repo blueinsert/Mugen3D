@@ -23,6 +23,8 @@ namespace Mugen3D
         public float mass = 70f;
         public Vector3 mExternalForce = Vector3.zero;
         public bool pushTestOn = true;
+        public bool isOnGround = true;
+        public bool justOnGround = false;
         Transform target;
 
         public MoveCtr(Transform t) {
@@ -31,6 +33,11 @@ namespace Mugen3D
 
         public void Update()
         {
+            if (justOnGround)
+            {
+                isOnGround = true;
+                justOnGround = false;
+            }
             if (type == PhysicsType.Stand || type == PhysicsType.Crouch)
             {
                 UpdateGround();
@@ -71,28 +78,70 @@ namespace Mugen3D
             }
             CastRaysLeft(ref deltaPos);
             CastRaysRight(ref deltaPos);
+            CastRaysUp(ref deltaPos);
+            CastRaysBelow(ref deltaPos);
             AddPos(deltaPos);
-        }
-
-        private void CastRaysBelow(ref Vector3 deltaPos)
-        {
-
         }
 
         private void CastRaysUp(ref Vector3 deltaPos)
         {
+            if (deltaPos.y <= 0)
+                return;
+            var collider = target.GetComponent<DecisionBoxManager>().GetCollideBox();
+            var rayLength = collider.height / 2 + deltaPos.y;
+            var rayStart1 = new Vector2(collider.center.x + collider.width / 2, collider.center.y);
+            var rayStart2 = new Vector2(collider.center.x - collider.width / 2, collider.center.y);
+            var hits = new List<RaycastHit>();
+            var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "up", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart2, "up", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            if (hits.Count != 0)
+            {
+                Debug.Log("hit ceiling");
+                hits.Sort((x, y) => { return x.point.y.CompareTo(y.point.y); });
+                hit = hits[0];
+                deltaPos.y = hit.point.y - (collider.center.y + collider.height / 2);
+                velocity.y = 0;
+            }
+        }
 
+        private void CastRaysBelow(ref Vector3 deltaPos)
+        {
+            if (deltaPos.y >= 0)
+                return;
+            var collider = target.GetComponent<DecisionBoxManager>().GetCollideBox();
+            var rayLength = collider.height / 2 - deltaPos.y;
+            var rayStart1 = new Vector2(collider.center.x + collider.width / 2, collider.center.y);
+            var rayStart2 = new Vector2(collider.center.x - collider.width / 2, collider.center.y);
+            var hits = new List<RaycastHit>();
+            var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "down", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart2, "down", rayLength);
+            if (hit != null)
+                hits.Add(hit);
+            if (hits.Count != 0)
+            {
+                hits.Sort((x, y) => { return y.point.y.CompareTo(x.point.y); });
+                hit = hits[0];
+                deltaPos.y = -hit.point.y + (collider.center.y - collider.height / 2);
+                velocity.y = 0;
+                this.type = PhysicsType.Stand;
+                this.justOnGround = true;
+            }
         }
 
         private void CastRaysLeft(ref Vector3 deltaPos)
         {
             if (deltaPos.z >= 0)
                 return;
-            var pos = this.target.position;
             var collider = target.GetComponent<DecisionBoxManager>().GetCollideBox();
             var rayLength = collider.width / 2 - deltaPos.z;
-            var rayStart1 = new Vector2(pos.z, pos.y + collider.height / 2);
-            var rayStart2 = new Vector2(pos.z, pos.y - collider.height / 2);
+            var rayStart1 = new Vector2(collider.center.x, collider.center.y + collider.height / 2);
+            var rayStart2 = new Vector2(collider.center.x, collider.center.y - collider.height / 2);
             var hits = new List<RaycastHit>();
             var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "left", rayLength);
             if (hit != null)
@@ -104,7 +153,7 @@ namespace Mugen3D
             {
                 hits.Sort((x, y) => { return y.point.x.CompareTo(x.point.x); });
                 hit = hits[0];
-                deltaPos.z = hit.point.x - (pos.z - collider.width / 2);
+                deltaPos.z = hit.point.x - (collider.center.x - collider.width / 2);
                 velocity.z = 0;
             }
         }
@@ -113,11 +162,10 @@ namespace Mugen3D
         {
             if (deltaPos.z <= 0)
                 return;
-            var pos = this.target.position;
             var collider =  target.GetComponent<DecisionBoxManager>().GetCollideBox();
             var rayLength = collider.width / 2 + deltaPos.z;
-            var rayStart1 = new Vector2(pos.z, pos.y + collider.height / 2);
-            var rayStart2 = new Vector2(pos.z, pos.y - collider.height / 2);
+            var rayStart1 = new Vector2(collider.center.x, collider.center.y + collider.height / 2);
+            var rayStart2 = new Vector2(collider.center.x, collider.center.y - collider.height / 2);
             var hits = new List<RaycastHit>();
             var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "right", rayLength);
             if (hit != null)
@@ -129,7 +177,7 @@ namespace Mugen3D
             {
                 hits.Sort((x, y) => { return x.point.x.CompareTo(y.point.x); });
                 hit = hits[0];
-                deltaPos.z = hit.point.x - (pos.z + collider.width / 2);
+                deltaPos.z = hit.point.x - (collider.center.x + collider.width / 2);
                 velocity.z = 0;
             }
         }

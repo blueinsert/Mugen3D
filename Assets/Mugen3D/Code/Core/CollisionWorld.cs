@@ -48,7 +48,7 @@ namespace Mugen3D
         public RaycastHit Raycast2DAxisAligned(Vector2 origin, string dir, float distance)
         {
             List<RaycastHit> raycastResults = new List<RaycastHit>();
-            DoRayCastAxisAligned(origin, dir, distance, raycastResults, 1);
+            DoRayCast2DAxisAligned(origin, dir, distance, raycastResults, 1);
             if (raycastResults.Count > 0)
             {
                 return raycastResults[0];
@@ -56,7 +56,7 @@ namespace Mugen3D
             return null;
         }
 
-        private void DoRayCastAxisAligned(Vector2 origin, string dir , float distance, List<RaycastHit> results, int max)
+        private void DoRayCast2DAxisAligned(Vector2 origin, string dir , float distance, List<RaycastHit> results, int max)
         {
             Vector2 vss = Vector2.zero;
             Vector2 vse = Vector2.zero;
@@ -124,7 +124,7 @@ namespace Mugen3D
                 bool hit = oblique ? ColliderUtils.SegmentIntersectionTest(hss, hse, vss, vse, ref point) : ColliderUtils.SegmentIntersectionAxisAlignedTest(hss, hse, vss, vse, ref point);
                 if (hit)
                 {
-                    //Debug.DrawLine(point, point + new Vector(2,0), Color.Red, 0.025f);
+                    Debug.DrawLine(point, point + new Vector2(2,0), Color.red, 0.025f);
                     var result = new RaycastHit();
                     result.point = point;
                     result.collider = e;
