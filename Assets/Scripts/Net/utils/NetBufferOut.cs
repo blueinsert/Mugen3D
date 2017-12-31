@@ -41,7 +41,7 @@ public class NetBufferOut {
 
     public void WriteString(string value) {
         var bytes = Encoding.UTF8.GetBytes(value);
-        WriteUInt32((UInt32)bytes.Length);
+        //WriteUInt32((UInt32)bytes.Length);
         m_stream.Write(bytes, 0, bytes.Length);
     }
 }

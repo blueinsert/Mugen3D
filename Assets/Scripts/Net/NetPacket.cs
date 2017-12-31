@@ -1,6 +1,7 @@
 // Copyright (C) 2017 Fsoul Inc.
 
 using System;
+using UnityEngine;
 
 namespace Fsoul.Net {
 
@@ -42,6 +43,7 @@ public class NetPacket {
 
     public byte[] Encode() {
         length = Body.Length;
+        Debug.Log("length:" + length);
         var data = new byte[length + 2];
         Bits.PutUInt16((UInt16)length, data, 0);
         Buffer.BlockCopy(Body, 0, data, 2, Body.Length);
