@@ -33,7 +33,7 @@ public class RectColliderView : MonoBehaviour {
             side += RectCollider.RIGHT;
         var pos = this.transform.position + realOffset;
         var collider =  new RectCollider(new Vector2(pos.z, pos.y), halfSize.x * 2, halfSize.y * 2, side);
-        collider.id = IdGenerater.Instance.NextId();
+        collider.id = -1;
         return collider;
     }
 

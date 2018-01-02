@@ -30,7 +30,7 @@ namespace Mugen3D
             return null;
         }
 
-        public Box2D GetCollideBox()
+        public RectCollider GetCollider()
         {
             List<Vector3> vertexes = new List<Vector3>();
 
@@ -52,8 +52,10 @@ namespace Mugen3D
                         zmin = v.z;
                 }
             }
-            Box2D r = new Box2D(new Vector2((zmin + zmax) / 2, (ymin + ymax) / 2), zmax - zmin, ymax - ymin);
-            return r;
+            RectCollider collider = new RectCollider((new Vector2((zmin + zmax) / 2, (ymin + ymax) / 2)), zmax - zmin, ymax-ymin, RectCollider.FULL);
+            collider.id = (int)this.GetComponent<Player>().id;
+            collider.owner = this.GetComponent<Player>();
+            return collider;
         }
 
         void Update()
@@ -75,7 +77,7 @@ namespace Mugen3D
             {
                 DrawDecisionBox(b, Color.green);
             }
-            DrawRect(GetCollideBox().GetVertex(), Color.black);
+            DrawRect(GetCollider().GetVertex(), Color.black);
         }
 
         void DrawRect(Vector3[] points, Color c)

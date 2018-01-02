@@ -14,7 +14,7 @@ namespace Mugen3D{
 
 [RequireComponent(typeof(Animation))]
 [RequireComponent(typeof(DecisionBoxManager))]
-public class Player : MonoBehaviour {
+public class Player : Entity {
     const int randomSeed = 123456789;
     public System.Random randomGenerater = new System.Random(randomSeed);
     public int AiLevel;
@@ -63,6 +63,7 @@ public class Player : MonoBehaviour {
     public void Init(PlayerSetting setting) { 
         //
         moveCtr = new MoveCtr(this.transform);
+        moveCtr.owner = this;
         //
         cmdMgr = new CmdManager();
         cmdMgr.LoadCmdFile(setting.commandFile);   
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour {
         stateMgr.ReadStateDefFile(setting.stateFiles.ToArray());
         //
         config = new PlayerConfig(setting.playerConfig);
+        moveCtr.gravity = new Vector3(0, config.GetConfig("Gravity"), 0);
         vars = new Dictionary<int, int>();
         
     }

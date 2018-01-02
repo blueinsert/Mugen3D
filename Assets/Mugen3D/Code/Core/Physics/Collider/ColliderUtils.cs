@@ -71,26 +71,11 @@ namespace Mugen3D
             return isIntersect;
         }
 
-        public static bool RectRectTest(Box2D rect1, Box2D rect2)
+        public static bool RectRectTest(RectCollider rect1, RectCollider rect2)
         {
             bool isIntersect = false;
-            float r1xmin = rect1.center.x - rect1.width / 2;
-            float r1xmax = rect1.center.x + rect1.width / 2;
-            float r1ymin = rect1.center.y - rect1.height / 2;
-            float r1ymax = rect1.center.y + rect1.height / 2;
-
-            float r2xmin = rect2.center.x - rect2.width / 2;
-            float r2xmax = rect2.center.x + rect2.width / 2;
-            float r2ymin = rect2.center.y - rect2.height / 2;
-            float r2ymax = rect2.center.y + rect2.height / 2;
-            if (r1xmax < r2xmin || r1xmin > r2xmax || r1ymax < r2ymin || r1ymin > r2ymax)
-            {
-                isIntersect = false;
-            }
-            else
-            {
+            if (Mathf.Abs(rect1.position.x - rect2.position.x) < (rect1.width + rect2.width) / 2 && Mathf.Abs(rect2.position.y - rect1.position.y) < (rect1.height + rect2.height) / 2)
                 isIntersect = true;
-            }
             return isIntersect;
         }
 

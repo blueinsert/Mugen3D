@@ -19,30 +19,68 @@ namespace Mugen3D
             }
         }
 
-        private Dictionary<int, Collider> m_colliders = new Dictionary<int, Collider>();
+        private Dictionary<int, Collider> m_dynamicColliders = new Dictionary<int, Collider>();
+        private List<Collider> m_staticColliders = new List<Collider>();
+
+        public List<Collider> GetColliders()
+        {
+            List<Collider> colliders = new List<Collider>();
+            colliders.AddRange(m_staticColliders);
+            colliders.AddRange(m_dynamicColliders.Values);
+            return colliders;
+        }
 
         public void Clear()
         {
-            m_colliders.Clear();
+            m_dynamicColliders.Clear();
+            m_staticColliders.Clear();
         }
 
         public void AddCollider(Collider c)
         {
-            if (m_colliders.ContainsKey(c.id))
+            int id = c.id;
+            if (id == -1)
             {
-                Log.Error("Collider was already added into Physics, id:" + c.id);
+                m_staticColliders.Add(c);
             }
-            m_colliders.Add(c.id, c);
+            else
+            {
+                if (m_dynamicColliders.ContainsKey(c.id))
+                {
+                    Log.Error("Collider was already added into Physics, id:" + c.id);
+                }
+                m_dynamicColliders.Add(c.id, c);
+            }
+        }
+
+        public void ReplaceCollider(Collider c)
+        {
+            if (m_dynamicColliders.ContainsKey(c.id))
+            {
+                m_dynamicColliders[c.id] = c;
+            }
+            else
+            {
+                m_dynamicColliders.Add(c.id, c);
+            }
         }
 
         public void RemoveCollider(Collider c)
         {
-            m_colliders.Remove(c.id);
+            m_dynamicColliders.Remove(c.id);
         }
 
         public int GetColliderNum()
         {
-            return m_colliders.Count;
+            return m_dynamicColliders.Count;
+        }
+
+        public void Update()
+        {
+            foreach (var kv in World.Instance.Players)
+            {
+                ReplaceCollider(kv.Value.GetComponent<DecisionBoxManager>().GetCollider());
+            }
         }
 
         public RaycastHit Raycast2DAxisAligned(Vector2 origin, string dir, float distance)
@@ -88,9 +126,8 @@ namespace Mugen3D
                 }
                 //Debug.DrawLine(vss, vse, Color.Blue, 0.02f);
             }
-            foreach (var kv in m_colliders)
+            foreach (var e in GetColliders())
             {
-                var e = kv.Value;
                 /*
                 if (!e.entity.isEnabled) continue;
                 if ((e.entity.layer & layerMask) == 0) continue;

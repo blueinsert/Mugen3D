@@ -7,5 +7,6 @@ namespace Mugen3D
     {
         public string tag;
         public int id;
+        public Entity owner;
     }
 }

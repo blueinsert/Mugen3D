@@ -24,5 +24,13 @@ public class RectCollider : Collider {
         this.side = side;
     }
 
+    public Vector3[] GetVertex()
+    {
+        Vector3 leftBottom = new Vector3(0, position.y - height / 2, position.x - width / 2);
+        Vector3 leftTop = new Vector3(0, position.y + height / 2, position.x - width / 2);
+        Vector3 rightTop = new Vector3(0, position.y + height / 2, position.x + width / 2);
+        Vector3 rightBottom = new Vector3(0, position.y - height / 2, position.x + width / 2);
+        return new Vector3[] { leftBottom,leftTop,rightTop,rightBottom};
+    }
 }
 }

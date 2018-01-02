@@ -26,6 +26,11 @@ namespace Mugen3D
             }
         }
 
+        public int GetConfig(string key)
+        {
+            return GetConfig(key.GetHashCode());
+        }
+
         private void Parse(TextAsset def)
         {
             Tokenizer tokenizer = new Tokenizer();

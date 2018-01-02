@@ -17,6 +17,7 @@ public class ClientGame : MonoBehaviour {
     public void Awake()
     {
         Instance = this;
+        Application.targetFrameRate = 60;
     }
 
     public void OnDestroy()
@@ -71,11 +72,17 @@ public class ClientGame : MonoBehaviour {
             goNext = true;
         }
         if (!isPause)
+        {
+            CollisionWorld.Instance.Update();
             world.Update(Time.deltaTime);
+        }
         else
         {
             if (goNext)
+            {
+                CollisionWorld.Instance.Update();
                 world.Update(Time.deltaTime);
+            }
             goNext = false;
         }
     }
