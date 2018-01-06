@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace Mugen3D
 {
-    public class Entity : MonoBehaviour
+    public interface Collideable
     {
-        public int HP = 100;
-        public int MaxHP = 100;
+        Collider[] GetCollider();
     }
 }

@@ -14,7 +14,7 @@ namespace Mugen3D{
 
 [RequireComponent(typeof(Animation))]
 [RequireComponent(typeof(DecisionBoxManager))]
-public class Player : Entity {
+public class Player : Entity, Collideable {
     const int randomSeed = 123456789;
     public System.Random randomGenerater = new System.Random(randomSeed);
     public int AiLevel;
@@ -130,6 +130,11 @@ public class Player : Entity {
         VirtualMachine vm = new VirtualMachine();
         vm.SetOwner(this);
         return vm.Execute(ex);
+    }
+
+    public Collider[] GetCollider()
+    {
+        return new Collider[] { this.GetComponent<DecisionBoxManager>().GetCollider()};
     }
 }
 }

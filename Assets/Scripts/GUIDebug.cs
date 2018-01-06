@@ -28,9 +28,9 @@ public class GUIDebug : MonoBehaviour
     void Draw(PlayerId id, Player p)
     {
         if (id == PlayerId.P1)
-            GUILayout.BeginArea(new Rect(0, 0, 100, Screen.height));
+            GUILayout.BeginArea(new UnityEngine.Rect(0, 0, 100, Screen.height));
         else if (id == PlayerId.P2)
-            GUILayout.BeginArea(new Rect(Screen.width - 100, 0, 300, Screen.height));
+            GUILayout.BeginArea(new UnityEngine.Rect(Screen.width - 100, 0, 300, Screen.height));
         GUI.color = Color.red;
         GUILayout.Label(new GUIContent("playerId:" + id.ToString()));
         GUI.color = Color.black;

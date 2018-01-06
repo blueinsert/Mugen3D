@@ -61,7 +61,7 @@ namespace Mugen3D
             var p2 = GetPlayer(PlayerId.P2);
             if (p1 == null || p2 == null)
                 return;
-            if (p1.transform.position.z > p2.transform.position.z)
+            if (p1.transform.position.x > p2.transform.position.x)
             {
                 p1.ChangeFacing(-1);
                 p2.ChangeFacing(1);

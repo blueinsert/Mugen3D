@@ -67,10 +67,10 @@ namespace Mugen3D
             RectCollider otherCollider = mCollidePlayer.GetComponent<DecisionBoxManager>().GetCollider();
             if (ColliderUtils.RectRectTest(selfCollider, otherCollider))
             {
-                float deltaX = (selfCollider.width + otherCollider.width)/2 - Mathf.Abs(selfCollider.position.x - otherCollider.position.x);
-                float centerX = (selfCollider.position.x + otherCollider.position.x) / 2;
-                owner.moveCtr.AddPos(new Vector3(0,0,deltaX / 2 * (centerX > selfCollider.position.x ? -1 : 1)));
-                mCollidePlayer.moveCtr.AddPos(new Vector3(0, 0, deltaX / 2 * (centerX > otherCollider.position.x ? -1 : 1)));
+                float deltaX = (selfCollider.rect.width + otherCollider.rect.width)/2 - Mathf.Abs(selfCollider.rect.position.x - otherCollider.rect.position.x);
+                float centerX = (selfCollider.rect.position.x + otherCollider.rect.position.x) / 2;
+                owner.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > selfCollider.rect.position.x ? -1 : 1),0,0));
+                mCollidePlayer.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > otherCollider.rect.position.x ? -1 : 1), 0, 0));
             }
         }
 
@@ -95,9 +95,9 @@ namespace Mugen3D
         {
             if (mDeltaPos.y <= 0)
                 return;
-            var rayLength = mCollider.height / 2 + mDeltaPos.y;
-            var rayStart1 = new Vector2(mCollider.position.x + mCollider.width / 2, mCollider.position.y);
-            var rayStart2 = new Vector2(mCollider.position.x - mCollider.width / 2, mCollider.position.y);
+            var rayLength = mCollider.rect.height / 2 + mDeltaPos.y;
+            var rayStart1 = new Vector2(mCollider.rect.position.x + mCollider.rect.width / 2, mCollider.rect.position.y);
+            var rayStart2 = new Vector2(mCollider.rect.position.x - mCollider.rect.width / 2, mCollider.rect.position.y);
             var hits = new List<RaycastHit>();
             var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "up", rayLength);
             if (hit != null)
@@ -120,7 +120,7 @@ namespace Mugen3D
             }
             else
             {
-                mDeltaPos.y = hit.point.y - (mCollider.position.y + mCollider.height / 2);
+                mDeltaPos.y = hit.point.y - (mCollider.rect.position.y + mCollider.rect.height / 2);
                 velocity.y = 0;
             }
         }
@@ -129,9 +129,9 @@ namespace Mugen3D
         {
             if (mDeltaPos.y >= 0)
                 return;
-            var rayLength = mCollider.height / 2 - mDeltaPos.y;
-            var rayStart1 = new Vector2(mCollider.position.x + mCollider.width / 2, mCollider.position.y);
-            var rayStart2 = new Vector2(mCollider.position.x - mCollider.width / 2, mCollider.position.y);
+            var rayLength = mCollider.rect.height / 2 - mDeltaPos.y;
+            var rayStart1 = new Vector2(mCollider.rect.position.x + mCollider.rect.width / 2, mCollider.rect.position.y);
+            var rayStart2 = new Vector2(mCollider.rect.position.x - mCollider.rect.width / 2, mCollider.rect.position.y);
             var hits = new List<RaycastHit>();
             var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "down", rayLength);
             if (hit != null)
@@ -162,7 +162,7 @@ namespace Mugen3D
             }
             else
             {
-                mDeltaPos.y = -hit.point.y + (mCollider.position.y - mCollider.height / 2);
+                mDeltaPos.y = -hit.point.y + (mCollider.rect.position.y - mCollider.rect.height / 2);
                 velocity.y = 0;
                 this.type = PhysicsType.Stand;
                 this.justOnGround = true;
@@ -171,11 +171,11 @@ namespace Mugen3D
 
         private void CastRaysLeft()
         {
-            if (mDeltaPos.z >= 0)
+            if (mDeltaPos.x >= 0)
                 return;
-            var rayLength = mCollider.width / 2 - mDeltaPos.z;
-            var rayStart1 = new Vector2(mCollider.position.x, mCollider.position.y + mCollider.height / 2);
-            var rayStart2 = new Vector2(mCollider.position.x, mCollider.position.y - mCollider.height / 2);
+            var rayLength = mCollider.rect.width / 2 - mDeltaPos.x;
+            var rayStart1 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y + mCollider.rect.height / 2);
+            var rayStart2 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y - mCollider.rect.height / 2);
             var hits = new List<RaycastHit>();
             var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "left", rayLength);
             if (hit != null)
@@ -195,16 +195,16 @@ namespace Mugen3D
         {
             if (hit.collider.owner != null && hit.collider.owner is Player)
             {
-                mDeltaPos.z = mDeltaPos.z / 2;
+                mDeltaPos.x = mDeltaPos.x / 2;
                 Player collidePlayer = hit.collider.owner as Player;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(0, 0, mDeltaPos.z));
-                mDeltaPos.z = realDeltaPos.z;
+                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(mDeltaPos.x, 0, 0));
+                mDeltaPos.x = realDeltaPos.x;
                 //velocity.z = 0;
                 mCollidePlayer = collidePlayer;
             }
             else
             {
-                mDeltaPos.z = hit.point.x - (mCollider.position.x - mCollider.width / 2);
+                mDeltaPos.x = hit.point.x - (mCollider.rect.position.x - mCollider.rect.width / 2);
                 velocity.z = 0;
             }
            
@@ -212,11 +212,11 @@ namespace Mugen3D
 
         private void CastRaysRight()
         {
-            if (mDeltaPos.z <= 0)
+            if (mDeltaPos.x <= 0)
                 return;
-            var rayLength = mCollider.width / 2 + mDeltaPos.z;
-            var rayStart1 = new Vector2(mCollider.position.x, mCollider.position.y + mCollider.height / 2);
-            var rayStart2 = new Vector2(mCollider.position.x, mCollider.position.y - mCollider.height / 2);
+            var rayLength = mCollider.rect.width / 2 + mDeltaPos.x;
+            var rayStart1 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y + mCollider.rect.height / 2);
+            var rayStart2 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y - mCollider.rect.height / 2);
             var hits = new List<RaycastHit>();
             var hit = CollisionWorld.Instance.Raycast2DAxisAligned(rayStart1, "right", rayLength);
             if (hit != null)
@@ -237,16 +237,16 @@ namespace Mugen3D
            
             if (hit.collider.owner != null && hit.collider.owner is Player)
             {
-                mDeltaPos.z = mDeltaPos.z / 2;
+                mDeltaPos.x = mDeltaPos.x / 2;
                 Player collidePlayer = hit.collider.owner as Player;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(0, 0, mDeltaPos.z));
-                mDeltaPos.z = realDeltaPos.z;
+                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(mDeltaPos.x, 0, 0));
+                mDeltaPos.x = realDeltaPos.x;
                 //velocity.z = 0;
                 mCollidePlayer = collidePlayer;
             }
             else
             {
-                mDeltaPos.z = hit.point.x - (mCollider.position.x + mCollider.width / 2);
+                mDeltaPos.x = hit.point.x - (mCollider.rect.position.x + mCollider.rect.width / 2);
                 velocity.z = 0;
             }
         }
@@ -294,27 +294,29 @@ namespace Mugen3D
             return mDeltaPos;
         }
 
-        public void VelSet(float velx, float vely)
+        public void VelSet(float velx, float vely, float velz = 0)
         {
-            this.velocity = new Vector3(0, vely, velx);
+            this.velocity = new Vector3(velx, vely, velz);
         }
 
-        public void VelAdd(float deltaX, float deltaY)
+        public void VelAdd(float deltaX, float deltaY, float deltaZ = 0)
         {
+             this.velocity.x += deltaX;
              this.velocity.y += deltaY;
-             this.velocity.z += deltaX;
+             this.velocity.z += deltaZ;
         }
 
-        public void PosSet(float x, float y)
+        public void PosSet(float x, float y, float z = 0)
         {
-            this.target.transform.position = new Vector3(0, y, x);
+            this.target.transform.position = new Vector3(x, y, z);
         }
 
-        public void PosAdd(float deltaX, float deltaY)
+        public void PosAdd(float deltaX, float deltaY, float deltaZ = 0)
         {
             var pos = this.target.transform.position;
+            pos.x += deltaX;
             pos.y += deltaY;
-            pos.z += deltaX;
+            pos.z += deltaZ;
             this.target.transform.position = pos;
         }
 

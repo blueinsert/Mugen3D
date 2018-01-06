@@ -82,7 +82,7 @@ public class Triggers
 
     public float VelX(Player p)
     {
-        return p.moveCtr.velocity.z;
+        return p.moveCtr.velocity.x;
     }
 
     public float VelY(Player p)
@@ -92,7 +92,7 @@ public class Triggers
 
     public float PosX(Player p)
     {
-        return p.transform.position.z;
+        return p.transform.position.x;
     }
 
     public float PosY(Player p)

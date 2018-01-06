@@ -74,7 +74,7 @@ namespace Mugen3D
         public static bool RectRectTest(RectCollider rect1, RectCollider rect2)
         {
             bool isIntersect = false;
-            if (Mathf.Abs(rect1.position.x - rect2.position.x) < (rect1.width + rect2.width) / 2 && Mathf.Abs(rect2.position.y - rect1.position.y) < (rect1.height + rect2.height) / 2)
+            if (Mathf.Abs(rect1.rect.position.x - rect2.rect.position.x) < (rect1.rect.width + rect2.rect.width) / 2 && Mathf.Abs(rect2.rect.position.y - rect1.rect.position.y) < (rect1.rect.height + rect2.rect.height) / 2)
                 isIntersect = true;
             return isIntersect;
         }

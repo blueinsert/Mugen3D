@@ -19,68 +19,36 @@ namespace Mugen3D
             }
         }
 
-        private Dictionary<int, Collider> m_dynamicColliders = new Dictionary<int, Collider>();
-        private List<Collider> m_staticColliders = new List<Collider>();
+        private List<Collideable> m_colliders = new List<Collideable>();
 
         public List<Collider> GetColliders()
         {
             List<Collider> colliders = new List<Collider>();
-            colliders.AddRange(m_staticColliders);
-            colliders.AddRange(m_dynamicColliders.Values);
+            foreach (var collideable in m_colliders)
+            {
+                colliders.AddRange(collideable.GetCollider());
+            }
             return colliders;
         }
 
         public void Clear()
         {
-            m_dynamicColliders.Clear();
-            m_staticColliders.Clear();
+            m_colliders.Clear();
         }
 
-        public void AddCollider(Collider c)
+        public void AddCollideable(Collideable c)
         {
-            int id = c.id;
-            if (id == -1)
-            {
-                m_staticColliders.Add(c);
-            }
-            else
-            {
-                if (m_dynamicColliders.ContainsKey(c.id))
-                {
-                    Log.Error("Collider was already added into Physics, id:" + c.id);
-                }
-                m_dynamicColliders.Add(c.id, c);
-            }
+            m_colliders.Add(c);
         }
 
-        public void ReplaceCollider(Collider c)
+        public void RemoveCollideable()
         {
-            if (m_dynamicColliders.ContainsKey(c.id))
-            {
-                m_dynamicColliders[c.id] = c;
-            }
-            else
-            {
-                m_dynamicColliders.Add(c.id, c);
-            }
+            
         }
 
-        public void RemoveCollider(Collider c)
+        public int GetCollideableNum()
         {
-            m_dynamicColliders.Remove(c.id);
-        }
-
-        public int GetColliderNum()
-        {
-            return m_dynamicColliders.Count;
-        }
-
-        public void Update()
-        {
-            foreach (var kv in World.Instance.Players)
-            {
-                ReplaceCollider(kv.Value.GetComponent<DecisionBoxManager>().GetCollider());
-            }
+            return m_colliders.Count;
         }
 
         public RaycastHit Raycast2DAxisAligned(Vector2 origin, string dir, float distance)
@@ -137,12 +105,12 @@ namespace Mugen3D
                 if (e is RectCollider)
                 {
                     var c = e as RectCollider;
-                    if (dir =="right" && (c.side & RectCollider.LEFT) == 0) continue;
-                    if (dir == "left" && (c.side & RectCollider.RIGHT) == 0) continue;
-                    if (dir == "up"  && (c.side & RectCollider.DOWN) == 0) continue;
-                    if (dir == "down" && (c.side & RectCollider.TOP) == 0) continue;
-                    var p = c.position;
-                    var s = new Vector2(c.width / 2, c.height / 2);
+                    if (dir =="right" && (c.side & Rect.LEFT) == 0) continue;
+                    if (dir == "left" && (c.side & Rect.RIGHT) == 0) continue;
+                    if (dir == "up" && (c.side & Rect.DOWN) == 0) continue;
+                    if (dir == "down" && (c.side & Rect.TOP) == 0) continue;
+                    var p = c.rect.position;
+                    var s = new Vector2(c.rect.width / 2, c.rect.height / 2);
                     if (dir == "left" || dir == "right")
                     {
                         vss.x = vse.x = (dir == "right" ? p.x - s.x : p.x + s.x);

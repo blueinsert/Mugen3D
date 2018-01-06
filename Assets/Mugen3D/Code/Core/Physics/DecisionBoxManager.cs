@@ -32,12 +32,10 @@ namespace Mugen3D
 
         public RectCollider GetCollider()
         {
-            List<Vector3> vertexes = new List<Vector3>();
-
             float ymin = float.MaxValue;
             float ymax = float.MinValue;
-            float zmin = float.MaxValue;
-            float zmax = float.MinValue;
+            float xmin = float.MaxValue;
+            float xmax = float.MinValue;
             foreach (var box in collideBoxes)
             {
                 foreach (var v in box.cuboid.GetVertexArray())
@@ -46,13 +44,13 @@ namespace Mugen3D
                         ymax = v.y;
                     if (v.y < ymin)
                         ymin = v.y;
-                    if (v.z > zmax)
-                        zmax = v.z;
-                    if (v.z < zmin)
-                        zmin = v.z;
+                    if (v.x > xmax)
+                        xmax = v.x;
+                    if (v.x < xmin)
+                        xmin = v.x;
                 }
             }
-            RectCollider collider = new RectCollider((new Vector2((zmin + zmax) / 2, (ymin + ymax) / 2)), zmax - zmin, ymax-ymin, RectCollider.FULL);
+            RectCollider collider = new RectCollider(new Rect((new Vector2((xmin + xmax) / 2, (ymin + ymax) / 2)), xmax - xmin, ymax-ymin), Rect.FULL);
             collider.id = (int)this.GetComponent<Player>().id;
             collider.owner = this.GetComponent<Player>();
             return collider;
@@ -77,7 +75,7 @@ namespace Mugen3D
             {
                 DrawDecisionBox(b, Color.green);
             }
-            DrawRect(GetCollider().GetVertex(), Color.black);
+            GetCollider().DrawGizmos();
         }
 
         void DrawRect(Vector3[] points, Color c)
