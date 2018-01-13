@@ -315,7 +315,7 @@ triggerOnce = true
 
 [Event 400, 2]
 type = ChangeState
-trigger1 = (PosY + VelY * DeltaTime) < 0
+trigger1 = JustOnGround
 value = 52
 
 //jump light kick
@@ -355,7 +355,7 @@ triggerOnce = true
 
 [Event 420, 2]
 type = ChangeState
-trigger1 = (PosY + VelY * DeltaTime) < 0
+trigger1 = JustOnGround
 value = 52
 
 //jump strong punch
@@ -395,7 +395,7 @@ triggerOnce = true
 
 [Event 440, 2]
 type = ChangeState
-trigger1 = (PosY + VelY * DeltaTime) < 0
+trigger1 = JustOnGround
 value = 52
 
 //jump strong kick
@@ -435,5 +435,5 @@ triggerOnce = true
 
 [Event 460, 2]
 type = ChangeState
-trigger1 = (PosY + VelY * DeltaTime) < 0
+trigger1 = JustOnGround
 value = 52

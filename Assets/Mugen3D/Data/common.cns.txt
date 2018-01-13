@@ -231,7 +231,7 @@ y = Config("HopebackSpeedY")
 
 [Event 105, 1]
 type = ChangeState
-trigger1 = (PosY + VelY * DeltaTime) < 0
+trigger1 = JustOnGround
 value = 106
 
 //hope backwards (land)

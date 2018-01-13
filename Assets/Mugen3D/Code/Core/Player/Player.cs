@@ -42,7 +42,7 @@ public class Player : Entity, Collideable {
     public AnimationController animCtr {  get; private set; }
     [HideInInspector]
     public StateManager stateMgr;
-
+    private bool m_lockInput = false;
     public Dictionary<int, int> vars;
 
     public bool IsPause()
@@ -92,7 +92,8 @@ public class Player : Entity, Collideable {
     private void UpdatePlayer()
     {
         moveCtr.Update();
-        cmdMgr.Update(InputHandler.GetInputKeycode(this.id, this.facing));
+        if(m_lockInput == false)
+            cmdMgr.Update(InputHandler.GetInputKeycode(this.id, this.facing));
         animCtr.Update();
         stateMgr.Update();
     }
@@ -130,6 +131,22 @@ public class Player : Entity, Collideable {
         VirtualMachine vm = new VirtualMachine();
         vm.SetOwner(this);
         return vm.Execute(ex);
+    }
+
+    public void LockInput()
+    {
+        this.m_lockInput = true;
+    }
+
+    public void UnlockInput()
+    {
+        this.m_lockInput = false;
+    }
+
+    public void Reset()
+    {
+        this.hp = this.MaxHP;
+        this.stateMgr.ChangeState(0);
     }
 
     public Collider[] GetCollider()

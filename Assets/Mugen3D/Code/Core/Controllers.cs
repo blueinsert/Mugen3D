@@ -275,6 +275,7 @@ namespace Mugen3D
            {
                p.Pause(hitvars.p1HitPauseTime);
                enemy.SetHitVars(hitvars);
+               enemy.MakeDamage(hitvars.hitDamage);
                //change state
                enemy.stateMgr.ChangeState(5000 + ((int)enemy.moveCtr.type) * 10);
            }
@@ -282,6 +283,7 @@ namespace Mugen3D
            {
                p.Pause(hitvars.p1GuardPauseTime);
                enemy.SetHitVars(hitvars);
+               enemy.MakeDamage(hitvars.guardDamage);
                //change state
                int stateNo = 150 + ((int)enemy.moveCtr.type) * 2;
                Debug.Log("stateNo:" + stateNo);

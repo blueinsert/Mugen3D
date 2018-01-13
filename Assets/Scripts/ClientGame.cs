@@ -15,6 +15,10 @@ public class ClientGame : MonoBehaviour {
     private CameraController mCameraController;
 
     public static ClientGame Instance;
+    public FightUI fightUI;
+    public RoundMgr roundMgr;
+    public Vector3 p1InitPos = new Vector3(-1.5f, 0, 0);
+    public Vector3 p2InitPos = new Vector3(1.5f, 0, 0);
 
     public void Awake()
     {
@@ -39,7 +43,9 @@ public class ClientGame : MonoBehaviour {
 
         GUIDebug.Instance.AddPlayer(PlayerId.P1, World.Instance.GetPlayer(PlayerId.P1));
         GUIDebug.Instance.AddPlayer(PlayerId.P2, World.Instance.GetPlayer(PlayerId.P2));
-
+        roundMgr = new RoundMgr();
+        roundMgr.SetClientGame(this);
+        roundMgr.StartRound(1);
         isIntializeComplete = true;
     }
 
@@ -52,9 +58,12 @@ public class ClientGame : MonoBehaviour {
         goStage.transform.parent = this.transform;
         //create characters
         var rootPlayers = goStage.transform.Find("Players");
-        var p1 = PlayerLoader.LoadPlayer(PlayerId.P1, p1CharacterName, rootPlayers);
-        var p2 = PlayerLoader.LoadPlayer(PlayerId.P2, p2CharacterName, rootPlayers);
-
+        var p1 = PlayerLoader.LoadPlayer(PlayerId.P1, p1CharacterName, rootPlayers, new Vector3(0, 0, 0));
+        var p2 = PlayerLoader.LoadPlayer(PlayerId.P2, p2CharacterName, rootPlayers,new Vector3(0, 0, 0));
+        p1.transform.position = p1InitPos;
+        p2.transform.position = p2InitPos;
+        p1.LockInput();
+        p2.LockInput();
         world = World.Instance;
         world.AddPlayer(PlayerId.P1, p1);
         //p2.AiLevel = 1;
@@ -64,9 +73,9 @@ public class ClientGame : MonoBehaviour {
     private void LoadFightUI()
     {
         GameObject prefabFightUI = Resources.Load<UnityEngine.GameObject>("Prefabs/UI/FightUIRoot");
-        GameObject fightUI = GameObject.Instantiate(prefabFightUI, this.transform) as GameObject;
-        FightUIManager uiScript = fightUI.GetComponent<FightUIManager>();
-        uiScript.SetPlayer(World.Instance.GetPlayer(PlayerId.P1), World.Instance.GetPlayer(PlayerId.P2));
+        GameObject goFightUI = GameObject.Instantiate(prefabFightUI, this.transform) as GameObject;
+        fightUI = goFightUI.GetComponent<FightUI>();
+        fightUI.Init(World.Instance.GetPlayer(PlayerId.P1), World.Instance.GetPlayer(PlayerId.P2));
     }
 
     private void InitCamera()
@@ -89,8 +98,22 @@ public class ClientGame : MonoBehaviour {
         Debug.Log("collider size:" + collisionWorld.GetCollideableNum());
     }
 
+    public void Reset()
+    {
+        var p1 = World.Instance.GetPlayer(PlayerId.P1);
+        var p2 = World.Instance.GetPlayer(PlayerId.P2);
+        p1.Reset();
+        p2.Reset();
+        p1.transform.position = p1InitPos;
+        p2.transform.position = p2InitPos;
+    }
+
     void Update()
     {
+        if (roundMgr != null)
+        {
+            roundMgr.Update();
+        }
         if (!isIntializeComplete)
             return;
         if (Input.GetKeyDown(KeyCode.P))
