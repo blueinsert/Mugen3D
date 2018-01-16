@@ -6,12 +6,7 @@ using Mugen3D;
 public class GUIDebug : MonoBehaviour
 {
     public static GUIDebug Instance;
-    Dictionary<PlayerId, Player> mPlayers = new Dictionary<PlayerId,Player>();
-
-    public void AddPlayer(PlayerId id, Player p)
-    {
-        mPlayers.Add(id, p);
-    }
+ 
 
     void Awake()
     {
@@ -19,9 +14,9 @@ public class GUIDebug : MonoBehaviour
     }
 
     void OnGUI() {
-        foreach (var p in mPlayers)
+        foreach (var p in ClientGame.Instance.world.GetAllPlayers())
         {
-            Draw(p.Key, p.Value);
+            Draw(p.id, p);
         }  
     }
 

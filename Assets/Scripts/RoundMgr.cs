@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mugen3D;
@@ -14,67 +13,32 @@ public enum RoundState
 }
 
 public class RoundMgr {
-    private ClientGame m_clientGame;
-    public RoundState roundState = RoundState.FadeIn;
+    protected ClientGame m_clientGame;
     public float leftTime = 60;
-    public int roundNo;
-    public Action onTimerOver;
+    public RoundState roundState = RoundState.FadeIn;
+    public int roundNo = 1;
 
-    private void Init()
-    {
-        m_clientGame.world.GetPlayer(PlayerId.P1).onDead += EndRound;
-        m_clientGame.world.GetPlayer(PlayerId.P2).onDead += EndRound;
-    }
 
-    public void SetClientGame(ClientGame clientGame)
+    public void Init(ClientGame clientGame)
     {
         m_clientGame = clientGame;
-        Init();
+        OnInit();
     }
 
-    public void StartRound(int roundNum)
+    protected virtual void OnInit()
     {
-        roundNo = roundNum;
-        m_clientGame.fightUI.PopupRound(roundNum, () =>
-        {
-            m_clientGame.fightUI.PopupFight(() =>
-            {
-                m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
-                m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
-                roundState = RoundState.Fighting;
-            });
-        });
+
     }
 
-    public void Update()
+    public virtual void StartRound(int roundNum)
     {
-        if (roundState != RoundState.Fighting)
-            return;
-        leftTime -= Time.deltaTime;
-        if (leftTime <= 0)
-        {
-            TimeOver();
-        }
+        m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
+        m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
     }
 
-    private void TimeOver()
-    {
-        if (onTimerOver != null)
-        {
-            onTimerOver();
-        }
-        roundState = RoundState.BeforeEnd;
-        EndRound();
+    public void Update() {
+        OnUpdate();
     }
 
-    public void EndRound()
-    {
-        m_clientGame.world.GetPlayer(PlayerId.P1).LockInput();
-        m_clientGame.world.GetPlayer(PlayerId.P2).LockInput();
-        m_clientGame.fightUI.PopupK0(() => {
-            m_clientGame.Reset();
-            this.roundNo++;
-            StartRound(this.roundNo);
-        });
-    }
+    protected virtual void OnUpdate() { }
 }

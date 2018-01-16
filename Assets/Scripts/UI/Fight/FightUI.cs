@@ -7,10 +7,13 @@ using Mugen3D;
 
 public class FightUI : MonoBehaviour {
     public WidgetLifeBar lifeBar;
+    public Animator animator;
     public Transform tranIngame;
     public Transform tranBase;
     public Transform tranPopup;
     public Transform tranAdd;
+    public GameObject prefabRound;
+    public GameObject prefabFight;
     public GameObject prefabKO;
     public GameObject prefabOvertime;
 	// Use this for initialization
@@ -29,8 +32,7 @@ public class FightUI : MonoBehaviour {
     }
 
     public void PopupRound(int roundNum, Action cb)
-    {
-        var prefabRound = Resources.Load<GameObject>("Prefabs/UI/PopRound");
+    {  
         var goRound = GameObject.Instantiate(prefabRound, this.tranPopup);
         var popRound = goRound.GetComponent<PopupRound>();
         popRound.Show(roundNum, cb);
@@ -38,7 +40,6 @@ public class FightUI : MonoBehaviour {
 
     public void PopupFight(Action cb)
     {
-        var prefabFight = Resources.Load<GameObject>("Prefabs/UI/PopFight");
         var goFight = GameObject.Instantiate(prefabFight, this.tranPopup);
         var popFight = goFight.GetComponent<PopupFight>();
         popFight.Show(cb);
@@ -58,4 +59,20 @@ public class FightUI : MonoBehaviour {
         popOvertime.Show(cb);
     }
 
+    public void FadeIn(Action cb)
+    {
+        UIUtils.PlayAnimation(animator, "FightUI_FadeIn", (animName) => {
+            if (cb != null)
+                cb();
+        });
+    }
+
+    public void FadeOut(Action cb)
+    {
+        UIUtils.PlayAnimation(animator, "FightUI_FadeOut", (animName) =>
+        {
+            if (cb != null)
+                cb();
+        });
+    }
 }

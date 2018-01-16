@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SpriteList : MonoBehaviour {
-    private List<Sprite> m_sprites;
+    private List<Sprite> m_sprites = new List<Sprite>();
 
     public List<Sprite> GetSprite()
     {

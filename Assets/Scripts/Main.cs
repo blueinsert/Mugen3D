@@ -13,7 +13,5 @@ public class Main : MonoBehaviour {
         UIManager.Instance.AddUIGroup("base", t.Find("BaseGroup"));
         UIManager.Instance.AddUIGroup("popup", t.Find("PopupGroup"));
         UIManager.Instance.AddView("PageMenu", UIManager.Instance.GetUIGroup("base"));
-
-        SpriteLoader.Instance.GetSprite("iceBigHead");
     }
 }

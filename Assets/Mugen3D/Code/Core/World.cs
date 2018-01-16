@@ -44,6 +44,20 @@ namespace Mugen3D
                 return null;
         }
 
+        public Dictionary<PlayerId, Player>.ValueCollection GetAllPlayers()
+        {
+            return mPlayers.Values;
+        }
+
+        public void RemovePlayer(PlayerId id)
+        {
+            if (!mPlayers.ContainsKey(id))
+                return;
+            var p = mPlayers[id];
+            GameObject.Destroy(p.gameObject);
+            mPlayers.Remove(id);
+        }
+
         public void Update(float _deltaTime)
         {
             gameTime++;
