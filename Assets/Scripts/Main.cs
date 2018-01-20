@@ -8,10 +8,6 @@ public class Main : MonoBehaviour {
     public void Awake()
     {
         LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "main"));
-        var t = UIManager.Instance.AddView("UIRoot", canvas.transform);
-        UIManager.Instance.AddUIGroup("bg", t.Find("BGGroup"));
-        UIManager.Instance.AddUIGroup("base", t.Find("BaseGroup"));
-        UIManager.Instance.AddUIGroup("popup", t.Find("PopupGroup"));
-        UIManager.Instance.AddView("PageMenu", UIManager.Instance.GetUIGroup("base"));
+        UIManager.Instance.PushView("ViewMainMenu", GameObject.Find("UIRoot/Canvas/BaseGroup").transform);
     }
 }

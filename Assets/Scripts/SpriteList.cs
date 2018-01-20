@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SpriteList : MonoBehaviour {
+    [HideInInspector]
+    [SerializeField]
     private List<Sprite> m_sprites = new List<Sprite>();
 
     public List<Sprite> GetSprite()

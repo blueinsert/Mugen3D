@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 public class LuaMonoBehaviour : MonoBehaviour {
     public delegate void MonoBehaviourEvent(XLua.LuaTable self);
-    public delegate void LuaBehaviourInit(XLua.LuaTable self, Transform transform);
-    private MonoBehaviourEvent mLuaStart;
+    public delegate void LuaBehaviourInit(XLua.LuaTable self, Transform tran);
     private MonoBehaviourEvent mLuaUpdate;
     private MonoBehaviourEvent mLuaFixedUpdate;
     private MonoBehaviourEvent mLuaLateUpdate;
@@ -15,19 +14,18 @@ public class LuaMonoBehaviour : MonoBehaviour {
     private MonoBehaviourEvent mLuaOnEnable;
     private MonoBehaviourEvent mLuaOnDestroy;
     private MonoBehaviourEvent mLuaOnGUI;
-    private LuaBehaviourInit mLuaInit;
+    protected LuaBehaviourInit mLuaInit;
 
-    protected XLua.LuaTable mLuaBehaviour;
+    protected XLua.LuaTable m_luaBehaviour;
 
-    public XLua.LuaTable LuaBehaviour {
+    public XLua.LuaTable LuaView {
         get {
-            return mLuaBehaviour;
+            return m_luaBehaviour;
         }
     }
 
     public void SetLuaModule(XLua.LuaTable module) {
-        mLuaBehaviour   = module;
-        mLuaStart       = module.Get<string,MonoBehaviourEvent>("Start");
+        m_luaBehaviour   = module;
         mLuaUpdate      = module.Get<string,MonoBehaviourEvent>("Update");
         mLuaFixedUpdate = module.Get<string,MonoBehaviourEvent>("FixedUpdate");
         mLuaLateUpdate  = module.Get<string,MonoBehaviourEvent>("LateUpdate");
@@ -36,61 +34,59 @@ public class LuaMonoBehaviour : MonoBehaviour {
         mLuaOnDestroy   = module.Get<string,MonoBehaviourEvent>("OnDestroy");
         mLuaOnGUI       = module.Get<string,MonoBehaviourEvent>("OnGUI");
         mLuaInit        = module.Get<string, LuaBehaviourInit>("Init");
-    }
 
-    void Start() {
+    }   
+
+    public virtual void Init() {
         if (mLuaInit != null)
         {
-            mLuaInit(mLuaBehaviour, transform);
-        }
-        if (mLuaStart != null) {
-            mLuaStart(mLuaBehaviour);
+            mLuaInit(m_luaBehaviour, this.transform);
         }
     }
 
-    void Update() {
+    protected virtual void Update() {
         if (mLuaUpdate != null) {
-            mLuaUpdate(mLuaBehaviour);
+            mLuaUpdate(m_luaBehaviour);
         }
     }
 
     void FixedUpdate() {
         if (mLuaFixedUpdate != null) {
-            mLuaFixedUpdate(mLuaBehaviour);
+            mLuaFixedUpdate(m_luaBehaviour);
         }
     }
 
     void LateUpdate() {
         if (mLuaLateUpdate != null) {
-            mLuaLateUpdate(mLuaBehaviour);
+            mLuaLateUpdate(m_luaBehaviour);
         }
     }
 
     void OnDisable() {
         if (mLuaOnDisable != null) {
-            mLuaOnDisable(mLuaBehaviour);
+            mLuaOnDisable(m_luaBehaviour);
         }
     }
 
     void OnEnable() {
         if (mLuaOnEnable != null) {
-            mLuaOnEnable(mLuaBehaviour);
+            mLuaOnEnable(m_luaBehaviour);
         }
     }
 
     void OnDestroy() {
         if (mLuaOnDestroy != null) {
-            mLuaOnDestroy(mLuaBehaviour);
+            mLuaOnDestroy(m_luaBehaviour);
         }
-        mLuaBehaviour = null;
         mLuaUpdate = null;
         mLuaOnDestroy = null;
-        mLuaStart = null;
+        m_luaBehaviour.Dispose();
+        m_luaBehaviour = null;
     }
 
     void OnGUI() {
         if (mLuaOnGUI != null) {
-            mLuaOnGUI(mLuaBehaviour);
+            mLuaOnGUI(m_luaBehaviour);
         }
     }
 }

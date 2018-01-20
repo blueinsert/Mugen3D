@@ -1,7 +1,9 @@
-utils = require "utils"
-
 CSV = require "csv"
-UI_Manager = require "UI/UIManager"
-UI_Group = require "UI/UIGroup"
+UIManager = require "UI/UIManager"
+UIDef = require "UI/UIDef"
 
-print(utils.serialize(CSV.Character))
+local function Init()
+	CS.FSoul.UI.UIManager.Instance:Init(UIDef)
+end
+Init()
+--print(utils.serialize(CSV.Character))

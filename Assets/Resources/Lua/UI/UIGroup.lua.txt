@@ -1,5 +1,0 @@
-local M = {}
-M.BASE = "base"
-M.BG = "bg"
-M.POPUP = "popup"
-return M

@@ -7,7 +7,7 @@ moveType = A
 
 [Event 200,0]
 type = HitDef
-trigger1 = AnimElem >= 4 && AnimElem <= 6
+trigger1 = AnimElem >= 3 && AnimElem <= 4
 activeAttackBodyPart = "Hand_L"
 attr = A
 hitFlag = M
@@ -42,7 +42,7 @@ ctrl = 0
 
 [Event 220, 0]
 type = HitDef
-trigger1 = AnimElem >= 10 && AnimElem <= 11
+trigger1 = AnimElem >= 8 && AnimElem <= 9
 activeAttackBodyPart = "Hand_L"
 attr = A
 hitFlag = M
@@ -54,7 +54,7 @@ guardDamage = 1
 p1HitPauseTime = 11
 p2HitShakeTime = 13
 p2HitSlideTime = 17
-groundVelocityX = -12
+groundVelocityX = -8
 groundVelocityY = 0
 airVelocityX = -10
 airVelocityY = 8
@@ -112,7 +112,7 @@ ctrl = 0
 
 [Event 260, 0]
 type = HitDef
-trigger1 = AnimElem >= 8 && AnimElem <= 15
+trigger1 = AnimElem >= 8 && AnimElem <= 13
 activeAttackBodyPart = "Foot_L"
 attr = A
 hitFlag = M
@@ -124,7 +124,7 @@ guardDamage = 1
 p1HitPauseTime = 11
 p2HitShakeTime = 13
 p2HitSlideTime = 17
-groundVelocityX = -14
+groundVelocityX = -8
 groundVelocityY = 0
 airVelocityX = -10
 airVelocityY = 8
