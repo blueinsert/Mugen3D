@@ -5,8 +5,9 @@ M.Row = 7
 M.Column = 6
 
 local Phase = {
-	Selecting,
-	Selected,
+	Selecting = 1,
+	Selected = 2,
+	Loading = 3,
 }
 
 function M:Init(transform)
@@ -24,12 +25,11 @@ function M:Init(transform)
 	
 	self.characterList  = {}
 	self:CreateAllCharacter()
-
+    self.phase = Phase.Selecting
 	self.playerInfo = {}
 	for i = 1, 2 do
 		local playerId = "p" .. i
 		self.playerInfo[playerId] = {}
-		self.playerInfo[playerId].phase = Phase.Selecting
 		if i == 1 then
 			self.playerInfo[playerId].pos = {row = 0, column = 0}
 			self.playerInfo[playerId].characterId = self.characterList[1].id
@@ -37,6 +37,7 @@ function M:Init(transform)
 			self.playerInfo[playerId].pos = {row = 0, column = M.Column - 1}
 			self.playerInfo[playerId].characterId = self.characterList[M.Column].id
 		end
+		self.playerInfo[playerId].isSelected = false
 	end
 
 	self.shouldBeUpdate = true
@@ -118,7 +119,10 @@ function M:getIndex(pos)
 	return pos.row * M.Column + pos.column + 1
 end
 
-function M:ProcessKeyboardInput()
+local function updateP1Select(self)
+	if self.playerInfo["p1"].isSelected == true then
+		return
+	end
 	local isPosChange = false
 	local p1RowAdd = 0
 	local p1ColumnAdd = 0
@@ -135,7 +139,24 @@ function M:ProcessKeyboardInput()
 	    p1RowAdd = 1
 	    isPosChange = true
 	end
-    local p2RowAdd = 0
+	if isPosChange then
+		 self.playerInfo["p1"].pos.row = self.playerInfo["p1"].pos.row + p1RowAdd
+	    self.playerInfo["p1"].pos.column = self.playerInfo["p1"].pos.column + p1ColumnAdd
+	    self.playerInfo["p1"].pos = getRealPos(self.playerInfo["p1"].pos)
+	    self.playerInfo["p1"].characterId = self.characterList[self:getIndex(self.playerInfo["p1"].pos)].id
+		self.isPosChange = true
+	end
+	if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.J) then
+		self.playerInfo["p1"].isSelected = true
+	end
+end
+
+local function updateP2Select(self)
+	if self.playerInfo["p2"].isSelected == true then
+		return
+	end
+	local isPosChange = false
+	local p2RowAdd = 0
 	local p2ColumnAdd = 0
     if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.LeftArrow) then
 	    p2ColumnAdd = -1
@@ -151,27 +172,34 @@ function M:ProcessKeyboardInput()
 	   isPosChange = true
 	end
 	if isPosChange then
-	    self.playerInfo["p1"].pos.row = self.playerInfo["p1"].pos.row + p1RowAdd
-	    self.playerInfo["p1"].pos.column = self.playerInfo["p1"].pos.column + p1ColumnAdd
 	    self.playerInfo["p2"].pos.row = self.playerInfo["p2"].pos.row + p2RowAdd
 	    self.playerInfo["p2"].pos.column = self.playerInfo["p2"].pos.column + p2ColumnAdd
-	    self.playerInfo["p1"].pos = getRealPos(self.playerInfo["p1"].pos)
 	    self.playerInfo["p2"].pos = getRealPos(self.playerInfo["p2"].pos)
-	    self.playerInfo["p1"].characterId = self.characterList[self:getIndex(self.playerInfo["p1"].pos)].id
 	    self.playerInfo["p2"].characterId = self.characterList[self:getIndex(self.playerInfo["p2"].pos)].id
+		self.isPosChange = true
+	end
+	if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.Keypad1) then
+		self.playerInfo["p2"].isSelected = true
+	end
+end
+
+function M:ProcessKeyboardInput()
+	self.isPosChange = false
+	updateP1Select(self)
+	updateP2Select(self)
+	if self.isPosChange then
 	    self.shouldBeUpdate = true
+    end
+    if CS.UnityEngine.Input.GetKeyDown(CS.UnityEngine.KeyCode.Escape) then
+    	CS.UnityEngine.GameObject.Destroy(self.view.gameObject)
     end
 end
 
-function M:Update()
-	--print("p1Pos:" .. Utils.serialize(self.playerInfo["p1"].pos))
-	print("p1CharacterId:" .. self.playerInfo["p1"].characterId)
-	if self.shouldBeUpdate then
-        self:updateUI()
-        self.shouldBeUpdate = false
+local function randomSelectP1(self)
+    if self.playerInfo["p1"].isSelected == true then
+    	return
     end
-    --random select
-    self.p1Timer = self.p1Timer or 0
+	self.p1Timer = self.p1Timer or 0
 	if self.characterList[self:getIndex(self.playerInfo["p1"].pos)].id == -1 then
 	    self.p1Timer = self.p1Timer + CS.UnityEngine.Time.deltaTime
 	    print("p1Timer:" .. self.p1Timer)
@@ -182,6 +210,12 @@ function M:Update()
 		   self.shouldBeUpdate = true
 		end    
 	end
+end
+
+local function randomSelectP2(self)
+	if self.playerInfo["p2"].isSelected == true then
+    	return
+    end
 	self.p2Timer = self.p2Timer or 0
 	if self.characterList[self:getIndex(self.playerInfo["p2"].pos)].id == -1 then
 	    self.p2Timer = self.p2Timer + CS.UnityEngine.Time.deltaTime
@@ -192,6 +226,25 @@ function M:Update()
 		   self.shouldBeUpdate = true
 		end    
 	end
+end
+
+function M:Update()
+	--print("p1Pos:" .. Utils.serialize(self.playerInfo["p1"].pos))
+	print("p1CharacterId:" .. self.playerInfo["p1"].characterId)
+	if self.shouldBeUpdate then
+        self:updateUI()
+        self.shouldBeUpdate = false
+    end
+    if self.playerInfo["p2"].isSelected == true and self.playerInfo["p1"].isSelected == true and self.phase == Phase.Selecting then
+    	self.phase = Phase.Selected
+    end
+    if self.phase == Phase.Selected then
+    	self.phase = Phase.Loading
+    	CS.SceneLoader.LoadFightScene(CS.PlayMode.Training, "Origin", "Origin", "TrainingRoom")
+    end
+    --random select
+    randomSelectP1(self)
+    randomSelectP2(self)
 end
 
 function M:getRandomCharacterId()

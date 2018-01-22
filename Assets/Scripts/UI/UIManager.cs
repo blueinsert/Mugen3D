@@ -46,7 +46,7 @@ public class ViewDef {
             });
         }
 
-        private List<LuaView> m_viewStack = new List<LuaView>();
+        private List<LuaView> m_views = new List<LuaView>();
         private LuaView m_curView;
 
         private LuaView AddLuaView(GameObject go, string script)
@@ -76,14 +76,14 @@ public class ViewDef {
         public LuaView PushView(string viewName, Transform parent)
         {
             var view = AddView(viewName, parent);
-            if(m_viewStack.Count!=0){
-                foreach(var v in m_viewStack){
+            if(m_views.Count!=0){
+                foreach(var v in m_views){
                     if(v.interactable){
                         v.interactable = false;
                     }
                 }
             }
-            m_viewStack.Add(view);
+            m_views.Add(view);
             view.interactable = true; 
             view.isInStack = true;
             m_curView = view;
@@ -92,26 +92,15 @@ public class ViewDef {
 
         public void PopView(LuaView view)
         {
-            var tarView = m_viewStack.Find((v) => { return v == view; });
-            if (tarView != null)
+            if (view.isInStack)
             {
-                var index = m_viewStack.IndexOf(tarView);
-                if (index != m_viewStack.Count - 1)
+                m_views.Remove(view);
+                Debug.Log("view be poped:" + view.viewName);
+                if (m_views.Count != 0)
                 {
-                    Debug.LogError("view poped is not the last element:" + view.viewName);
-                    return;
+                    m_views[m_views.Count - 1].interactable = true;
                 }
-                else
-                {
-                    m_viewStack.RemoveAt(m_viewStack.Count - 1);
-                    m_viewStack[m_viewStack.Count - 1].interactable = true;
-                    m_curView = m_viewStack[m_viewStack.Count - 1];
-                    Debug.Log("view be poped:" + view.viewName);
-                }
-            } else {
-                Debug.LogError("view poped can't be found, name:" + view.viewName);
-                return;
-            }        
+            }
         }
 
     }

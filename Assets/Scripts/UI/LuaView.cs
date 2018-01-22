@@ -30,11 +30,6 @@ namespace FSoul.UI
                 return;
             if (m_interactable)
             {
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    this.Close();
-                    return;
-                }
                 if (m_processKeyboardInput != null)
                 {
                     m_processKeyboardInput(m_luaBehaviour);
@@ -43,13 +38,13 @@ namespace FSoul.UI
             base.Update();
         }
 
-        public void Close()
+        protected override void OnDestroy()
         {
             if (isInStack)
             {
                 UIManager.Instance.PopView(this);
             }
-            GameObject.Destroy(this.gameObject);
+            base.OnDestroy();
         }
 
     }

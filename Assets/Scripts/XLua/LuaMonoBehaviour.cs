@@ -74,7 +74,7 @@ public class LuaMonoBehaviour : MonoBehaviour {
         }
     }
 
-    void OnDestroy() {
+    protected virtual void OnDestroy() {
         if (mLuaOnDestroy != null) {
             mLuaOnDestroy(m_luaBehaviour);
         }
