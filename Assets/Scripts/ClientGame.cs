@@ -71,7 +71,7 @@ public class ClientGame : MonoBehaviour {
         collisionWorld.AddCollideable(mCameraController);
         collisionWorld.AddCollideable(World.Instance.GetPlayer(PlayerId.P1));
         collisionWorld.AddCollideable(World.Instance.GetPlayer(PlayerId.P2));
-        Debug.Log("collider size:" + collisionWorld.GetCollideableNum());
+        //Debug.Log("collider size:" + collisionWorld.GetCollideableNum());
     }
 
     private void Init()

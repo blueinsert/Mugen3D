@@ -74,7 +74,7 @@ namespace Mugen3D
                 return;
             if (isChangingState)
             {
-                Log.Info("changing state when update");
+                //Log.Info("changing state when update");
                 return;
             }
             stateTime++;

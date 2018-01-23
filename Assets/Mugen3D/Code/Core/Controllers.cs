@@ -66,12 +66,12 @@ namespace Mugen3D
 
         public void VelSet(Player p, Dictionary<string, TokenList> param)
         {
-            Log.Info("velSet");
+            //Log.Info("velSet");
             float x,y;
             if (param.ContainsKey("x"))
             {
                 Expression ex = param["x"].asExpression;
-                Log.Info(param["x"].asStr);
+                //Log.Info(param["x"].asStr);
                 x = (float)p.CalcExpressionInRuntime(ex);
             }
             else
@@ -258,7 +258,7 @@ namespace Mugen3D
                         break;
                 }
             }
-            Log.Info("hit:" + hit);
+            //Log.Info("hit:" + hit);
             return hit;
         }
 

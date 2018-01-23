@@ -202,7 +202,7 @@ local function randomSelectP1(self)
 	self.p1Timer = self.p1Timer or 0
 	if self.characterList[self:getIndex(self.playerInfo["p1"].pos)].id == -1 then
 	    self.p1Timer = self.p1Timer + CS.UnityEngine.Time.deltaTime
-	    print("p1Timer:" .. self.p1Timer)
+	    --print("p1Timer:" .. self.p1Timer)
 		if self.p1Timer > 0.1 then
 		   self.p1Timer = 0
 		   local id = self:getRandomCharacterId()
@@ -230,7 +230,7 @@ end
 
 function M:Update()
 	--print("p1Pos:" .. Utils.serialize(self.playerInfo["p1"].pos))
-	print("p1CharacterId:" .. self.playerInfo["p1"].characterId)
+	--print("p1CharacterId:" .. self.playerInfo["p1"].characterId)
 	if self.shouldBeUpdate then
         self:updateUI()
         self.shouldBeUpdate = false
@@ -240,7 +240,7 @@ function M:Update()
     end
     if self.phase == Phase.Selected then
     	self.phase = Phase.Loading
-    	CS.SceneLoader.LoadFightScene(CS.PlayMode.Training, "Origin", "Origin", "TrainingRoom")
+    	CS.SceneLoader.Instance:LoadFightScene(CS.PlayMode.Training, "Origin", "Origin", "TrainingRoom")
     end
     --random select
     randomSelectP1(self)

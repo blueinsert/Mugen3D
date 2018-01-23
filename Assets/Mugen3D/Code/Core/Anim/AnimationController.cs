@@ -99,7 +99,6 @@ public class AnimationController {
 
     private void SetPlayAnim(string animName, AnimPlayMode mode = AnimPlayMode.Loop){
         this.animName = animName;
-        Debug.Log("play anim:" + animNo + " " + animName);
         animLength = anim[animName].length/speed;
         totalFrame = (int)(FrameRate * animLength);
         AnimElem = 0;

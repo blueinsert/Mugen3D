@@ -4,40 +4,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class FightStartInfo
-{
-    public string stage;
-    public string p1CharacterName;
-    public string p2CharacterName;
-    public PlayMode playMode;
+public class SceneLoader : Singleton<SceneLoader>  {
 
-    public FightStartInfo(string stage, string p1Name, string p2Name, PlayMode playMode)
-    {
-        this.stage = stage;
-        this.p1CharacterName = p1Name;
-        this.p2CharacterName = p2Name;
-        this.playMode = playMode;
-    }
-}
-
-public class SceneLoader  {
-
-    private static FightStartInfo fightStartInfo;
-
-    private static void OnFightSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        GameObject gameGo = new GameObject();
-        gameGo.name = "ClientGame";
-        var clientGame = gameGo.AddComponent<ClientGame>();
-        clientGame.StartGame(fightStartInfo.p1CharacterName, fightStartInfo.p2CharacterName, fightStartInfo.stage);
-        fightStartInfo = null;
-        SceneManager.sceneLoaded -= OnFightSceneLoaded;
+    private void ShowLoading() {
+        SceneManager.LoadScene("Loading");
     }
 
-    public static void LoadFightScene(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
-        fightStartInfo = new FightStartInfo(stage, p1CharacterName, p2CharacterName, playMode);
-        SceneManager.sceneLoaded += OnFightSceneLoaded;
-        SceneManager.LoadScene("FightScene");
+    IEnumerator WaitforLoadComplete(AsyncOperation oper, Action onComplete)
+    {
+        long startTime = DateTime.Now.Ticks;
+        while (!oper.isDone) {
+            yield return new WaitForEndOfFrame();
+        }
+        onComplete();
+        long endtTime = DateTime.Now.Ticks;
+        Debug.Log("fightScene load consume time:" + (endtTime - startTime)/10000 + "ms");
+        yield return null;
+    }
+
+    public  void LoadFightScene(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
+        //ShowLoading();
+        var loadOper = SceneManager.LoadSceneAsync("FightScene", LoadSceneMode.Single);
+        StartCoroutine(WaitforLoadComplete(loadOper, () =>
+        {
+            GameObject gameGo = new GameObject();
+            gameGo.name = "ClientGame";
+            var clientGame = gameGo.AddComponent<ClientGame>();
+            clientGame.StartGame(p1CharacterName, p2CharacterName, stage, playMode);
+        }));
+        
     }
 
 }

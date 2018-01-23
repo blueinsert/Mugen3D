@@ -16,7 +16,7 @@ namespace Mugen3D
                 if (mExpression == null)
                 {
                     mExpression = new Expression(mTokens, false);
-                    Log.Info("脱靶");
+                    //Log.Info("脱靶");
                 }
                 return mExpression;
             }
@@ -34,7 +34,7 @@ namespace Mugen3D
                         sb.Append(mTokens[i].value);
                     }
                     mStrValue = sb.ToString();
-                    Log.Info("脱靶");
+                    //Log.Info("脱靶");
                 }
                 return mStrValue;
             } 
