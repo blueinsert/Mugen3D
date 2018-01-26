@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FightSceneLoader : MonoBehaviour {
-    public GameObject goLoading;
-    private bool isLoadingComplete = false;
+public class FightSceneLoadWorker {
 
+    private bool isLoadingComplete = false;
     private ClientGame clientGame;
 
-    IEnumerator CreateGame(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage)
+    public IEnumerator CreateGame(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage)
     {
         GameObject gameGo = new GameObject();
         gameGo.name = "ClientGame";
@@ -21,7 +20,7 @@ public class FightSceneLoader : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator WaitForLoadingComplete(System.Action onComplete)
+    public IEnumerator WaitForLoadingComplete(System.Action onComplete)
     {
         float timer = 0;
         while (timer < 1 || isLoadingComplete == false)
@@ -29,6 +28,8 @@ public class FightSceneLoader : MonoBehaviour {
             timer += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        SetEnabled<Camera>(clientGame.gameObject, true);
+        SetEnabled<AudioListener>(clientGame.gameObject, true);
         onComplete();
         yield return null;
     }
@@ -41,14 +42,4 @@ public class FightSceneLoader : MonoBehaviour {
         }
     }
 
-    public void Loading(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage)
-    {
-        isLoadingComplete = false;
-        StartCoroutine(WaitForLoadingComplete(() => {
-            GameObject.Destroy(goLoading);
-            SetEnabled<Camera>(this.clientGame.gameObject, true);
-            SetEnabled<AudioListener>(this.clientGame.gameObject, true);
-        }));
-        StartCoroutine(CreateGame(playMode, p1CharacterName, p2CharacterName, stage));
-    }
 }
