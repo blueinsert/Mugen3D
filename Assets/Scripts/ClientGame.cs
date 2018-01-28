@@ -81,7 +81,7 @@ public class ClientGame : MonoBehaviour {
         InitCollisionWorld();
     }
 
-    public void StartGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
+    public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
     {
         this.playMode = playMode;
         OpcodeConfig.Init();
@@ -96,8 +96,12 @@ public class ClientGame : MonoBehaviour {
         mCameraController = GetComponentInChildren<CameraController>();
         Init();
         roundMgr = GetRoundMgr(playMode);
-        roundMgr.StartRound(1);
         isIntializeComplete = true;
+    }
+
+    public void StartGame()
+    {
+        roundMgr.StartRound(1);
     }
 
     private void LoadStage(string stageName)

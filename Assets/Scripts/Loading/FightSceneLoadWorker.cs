@@ -12,7 +12,7 @@ public class FightSceneLoadWorker {
         GameObject gameGo = new GameObject();
         gameGo.name = "ClientGame";
         var clientGame = gameGo.AddComponent<ClientGame>();
-        clientGame.StartGame(p1CharacterName, p2CharacterName, stage, playMode);
+        clientGame.CreateGame(p1CharacterName, p2CharacterName, stage, playMode);
         this.clientGame = clientGame;
         SetEnabled<Camera>(clientGame.gameObject, false);
         SetEnabled<AudioListener>(clientGame.gameObject, false);
@@ -30,6 +30,7 @@ public class FightSceneLoadWorker {
         }
         SetEnabled<Camera>(clientGame.gameObject, true);
         SetEnabled<AudioListener>(clientGame.gameObject, true);
+        clientGame.StartGame();
         onComplete();
         yield return null;
     }

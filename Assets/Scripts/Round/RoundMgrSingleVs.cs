@@ -18,11 +18,12 @@ public class RoundMgrSingleVs : RoundMgr {
 
     public override void StartRound(int roundNum)
     {
+        var fightUI = m_clientGame.fightUI;
         roundNo = roundNum;
-        m_clientGame.fightUI.FadeIn(() => {
-            m_clientGame.fightUI.PopupRound(roundNum, () =>
+        fightUI.FadeIn(() => {
+            fightUI.ShowView<ViewPopupRound>(fightUI.tranPopup).Show(roundNum, () =>
             {
-                m_clientGame.fightUI.PopupFight(() =>
+                fightUI.ShowView<PopupFight>(fightUI.tranPopup).Show(() =>
                 {
                     m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
                     m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
@@ -58,7 +59,8 @@ public class RoundMgrSingleVs : RoundMgr {
     {
         m_clientGame.world.GetPlayer(PlayerId.P1).LockInput();
         m_clientGame.world.GetPlayer(PlayerId.P2).LockInput();
-        m_clientGame.fightUI.PopupK0(() => {
+        m_clientGame.fightUI.ShowView<PopupKO>(m_clientGame.fightUI.tranPopup).Show(() =>
+        {
             m_clientGame.Reset();
             this.roundNo++;
             StartRound(this.roundNo);

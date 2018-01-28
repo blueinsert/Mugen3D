@@ -3,22 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PopupOvertime : MonoBehaviour {
-    public Animator animator;
-    private Action onFinish;
+public class PopupOvertime : UIView {
+    
 
     public void Show(Action onFinish)
     {
-        this.onFinish = onFinish;
-        UIUtils.PlayAnimation(this.animator, "popInOut", (animName) => { this.Close(); });
+        this.onDestroy = onFinish;
+        this.onFadeInComplete = () => { this.Close(); };
     }
 
-    private void Close()
-    {
-        if (this.onFinish != null)
-        {
-            this.onFinish();
-        }
-        GameObject.Destroy(this.gameObject);
-    }
+   
 }

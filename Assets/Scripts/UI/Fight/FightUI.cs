@@ -12,51 +12,28 @@ public class FightUI : MonoBehaviour {
     public Transform tranBase;
     public Transform tranPopup;
     public Transform tranAdd;
-    public GameObject prefabRound;
-    public GameObject prefabFight;
-    public GameObject prefabKO;
-    public GameObject prefabOvertime;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-       
-	}
+
+    public List<UIView> views;
 
     public void Init(Player p1, Player p2)
     {
         lifeBar.Init(p1, p2);
     }
 
-    public void PopupRound(int roundNum, Action cb)
-    {  
-        var goRound = GameObject.Instantiate(prefabRound, this.tranPopup);
-        var popRound = goRound.GetComponent<PopupRound>();
-        popRound.Show(roundNum, cb);
-    }
-
-    public void PopupFight(Action cb)
+    public T ShowView<T>(Transform parent) where T : UIView
     {
-        var goFight = GameObject.Instantiate(prefabFight, this.tranPopup);
-        var popFight = goFight.GetComponent<PopupFight>();
-        popFight.Show(cb);
-    }
-
-    public void PopupK0(Action cb)
-    {
-        var goKO = GameObject.Instantiate(prefabKO, this.tranPopup);
-        var popKO = goKO.GetComponent<PopupKO>();
-        popKO.Show(cb);
-    }
-
-    public void PopupOverTime(Action cb)
-    {
-        var goOvertime = GameObject.Instantiate(prefabOvertime, this.tranPopup);
-        var popOvertime = goOvertime.GetComponent<PopupOvertime>();
-        popOvertime.Show(cb);
+        T result;
+        foreach (var view in views)
+        {
+            if (view is T)
+            {
+                var go = GameObject.Instantiate(view.gameObject, parent);
+                go.SetActive(false);
+                result = go.GetComponent<T>();
+                return result;
+            }
+        }
+        return null;
     }
 
     public void FadeIn(Action cb)
@@ -75,4 +52,5 @@ public class FightUI : MonoBehaviour {
                 cb();
         });
     }
+
 }
