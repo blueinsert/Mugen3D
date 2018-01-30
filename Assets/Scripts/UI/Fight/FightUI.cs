@@ -8,32 +8,65 @@ using Mugen3D;
 public class FightUI : MonoBehaviour {
     public WidgetLifeBar lifeBar;
     public Animator animator;
-    public Transform tranIngame;
-    public Transform tranBase;
-    public Transform tranPopup;
-    public Transform tranAdd;
+    public Transform groupIngame;
+    public Transform groupBase;
+    public Transform groupPopup;
+    public Transform groupAdd;
 
     public List<UIView> views;
+
+    private bool m_isConsumingView = false;
+    private List<UIView> m_viewsToShow = new List<UIView>();
+    private List<Action<UIView>> m_onReadyToShow = new List<Action<UIView>>();
 
     public void Init(Player p1, Player p2)
     {
         lifeBar.Init(p1, p2);
     }
 
-    public T ShowView<T>(Transform parent) where T : UIView
+    public T CreateView<T>() where T : UIView
     {
         T result;
         foreach (var view in views)
         {
             if (view is T)
             {
-                var go = GameObject.Instantiate(view.gameObject, parent);
+                var go = GameObject.Instantiate(view.gameObject, groupPopup);
                 go.SetActive(false);
                 result = go.GetComponent<T>();
                 return result;
             }
         }
         return null;
+    }
+
+    public FightUI InsertView<T>(System.Action<UIView> onReady) where T : UIView
+    {
+        var view = CreateView<T>();
+        m_viewsToShow.Add(view);
+        m_onReadyToShow.Add(onReady);
+        if (m_isConsumingView == false)
+        {
+            DoNexView();
+        }
+        return this;
+    }
+
+    private void DoNexView()
+    {
+        if (m_viewsToShow.Count == 0)
+        {
+            m_isConsumingView = false;
+            return;
+        }
+        m_isConsumingView = true;
+        var curView = m_viewsToShow[0];
+        curView.onDestroy += () => {
+            m_viewsToShow.RemoveAt(0);
+            m_onReadyToShow.RemoveAt(0);
+            DoNexView();
+        };
+        m_onReadyToShow[0](curView);
     }
 
     public void FadeIn(Action cb)

@@ -8,30 +8,29 @@ using Mugen3D;
 public class RoundMgrSingleVs : RoundMgr {
    
     public Action onTimerOver;
+    private FightUI m_fightUI;
 
     protected override void OnInit()
     {
         base.OnInit();
-        m_clientGame.world.GetPlayer(PlayerId.P1).onDead += EndRound;
-        m_clientGame.world.GetPlayer(PlayerId.P2).onDead += EndRound;
+        m_fightUI = m_clientGame.fightUI;
+        m_clientGame.world.GetPlayer(PlayerId.P1).onDead += OnKO;
+        m_clientGame.world.GetPlayer(PlayerId.P2).onDead += OnKO;
     }
 
-    public override void StartRound(int roundNum)
+    public override void StartRound(int roundNo)
     {
-        var fightUI = m_clientGame.fightUI;
-        roundNo = roundNum;
-        fightUI.FadeIn(() => {
-            fightUI.ShowView<ViewPopupRound>(fightUI.tranPopup).Show(roundNum, () =>
-            {
-                fightUI.ShowView<PopupFight>(fightUI.tranPopup).Show(() =>
-                {
-                    m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
-                    m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
-                    roundState = RoundState.Fighting;
-                });
-            });
-        });
-        
+        this.leftTime = 60;
+        this.roundNo = roundNo;
+        Action start = () => {
+            m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
+            m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
+            roundState = RoundState.Fighting;
+        };
+        m_fightUI.FadeIn(() => {
+            m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Round" + roundNo); });
+            m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Fight", start); });
+        });   
     }
 
     protected override void OnUpdate()
@@ -52,18 +51,31 @@ public class RoundMgrSingleVs : RoundMgr {
             onTimerOver();
         }
         roundState = RoundState.BeforeEnd;
-        EndRound();
+        //OnKO();
     }
 
-    public void EndRound()
+    private void OnKO(Mugen3D.Entity e)
     {
+        var diePlayer = e as Mugen3D.Player;
         m_clientGame.world.GetPlayer(PlayerId.P1).LockInput();
         m_clientGame.world.GetPlayer(PlayerId.P2).LockInput();
-        m_clientGame.fightUI.ShowView<PopupKO>(m_clientGame.fightUI.tranPopup).Show(() =>
+        string winner = "";
+        if (diePlayer.id == PlayerId.P1)
         {
-            m_clientGame.Reset();
-            this.roundNo++;
-            StartRound(this.roundNo);
-        });
+            winner = PlayerId.P2.ToString();
+        }
+        else if (diePlayer.id == PlayerId.P2)
+        {
+            winner = PlayerId.P1.ToString();
+        }
+        Action nextBattle = () => {
+            m_fightUI.FadeOut(() =>
+            {
+                m_clientGame.Reset(); 
+                StartRound(this.roundNo + 1);
+            });
+        };
+        m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("KO"); });
+        m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Winner is "+winner, nextBattle); });
     }
 }

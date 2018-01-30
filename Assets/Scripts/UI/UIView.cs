@@ -9,7 +9,7 @@ public class UIView : MonoBehaviour {
     public System.Action onFadeInComplete;
     public System.Action onDestroy;
 
-    public void Show() {
+    protected void Show() {
         this.gameObject.SetActive(true);
         if (inAnim != null)
         {

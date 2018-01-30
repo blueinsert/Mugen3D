@@ -9,7 +9,7 @@ namespace Mugen3D
         public int hp = 100;
         public int MaxHP = 100;
         public Action<int> onHpChange;
-        public Action onDead;
+        public Action<Entity> onDead;
 
         public void MakeDamage(int damage)
         {
@@ -18,11 +18,11 @@ namespace Mugen3D
             {
                 onHpChange(this.hp);
             }
-            if (this.hp < 0)
+            if (this.hp <= 0)
             {
                 if (onDead != null)
                 {
-                    onDead();
+                    onDead(this);
                 }
             }
         }
