@@ -7,27 +7,34 @@ using Mugen3D;
 
 public class RoundMgrSingleVs : RoundMgr {
    
-    public Action onTimerOver;
     private FightUI m_fightUI;
+    private Mugen3D.Player m_p1;
+    private Mugen3D.Player m_p2;
+    private int m_p1Score;
+    private int m_p2Score;
 
     protected override void OnInit()
     {
-        base.OnInit();
         m_fightUI = m_clientGame.fightUI;
-        m_clientGame.world.GetPlayer(PlayerId.P1).onDead += OnKO;
-        m_clientGame.world.GetPlayer(PlayerId.P2).onDead += OnKO;
+        m_p1 = m_clientGame.world.GetPlayer(PlayerId.P1);
+        m_p2 = m_clientGame.world.GetPlayer(PlayerId.P2);
+        m_p1.onDead += OnKO;
+        m_p2.onDead += OnKO;
+        m_roundState = RoundState.FadeIn;
+        m_p1Score = 0;
+        m_p2Score = 0;
     }
 
-    public override void StartRound(int roundNo)
+    protected override void OnStartRound(int roundNo)
     {
-        this.leftTime = 60;
-        this.roundNo = roundNo;
+        this.m_leftTime = 60;
         Action start = () => {
             m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
             m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
-            roundState = RoundState.Fighting;
+            m_roundState = RoundState.Fighting;
         };
         m_fightUI.FadeIn(() => {
+            m_roundState = RoundState.Introducing;
             m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Round" + roundNo); });
             m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Fight", start); });
         });   
@@ -35,47 +42,75 @@ public class RoundMgrSingleVs : RoundMgr {
 
     protected override void OnUpdate()
     {
-        if (roundState != RoundState.Fighting)
+        if (m_roundState != RoundState.Fighting)
             return;
-        leftTime -= Time.deltaTime;
-        if (leftTime <= 0)
+        if (m_leftTime <= 0)
         {
-            TimeOver();
+            OnTimeOver();
         }
     }
 
-    private void TimeOver()
+    private void OnTimeOver()
     {
-        if (onTimerOver != null)
+        m_roundState = RoundState.BeforeEnd;
+        Mugen3D.Player winner = m_p1.hp > m_p2.hp ? m_p1 : m_p2;
+        if (winner == m_p1)
         {
-            onTimerOver();
+            m_p1Score += 1;
         }
-        roundState = RoundState.BeforeEnd;
-        //OnKO();
+        else
+        {
+            m_p2Score += 1;
+        }
+        m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("TimeOver"); });
+        m_fightUI.InsertView<ViewPopText>((view) =>
+        {
+            (view as ViewPopText).Show("Winner is " + winner.id.ToString(), BegenNextMatch);
+            m_roundState = RoundState.Ending;
+        });
     }
 
     private void OnKO(Mugen3D.Entity e)
     {
-        var diePlayer = e as Mugen3D.Player;
-        m_clientGame.world.GetPlayer(PlayerId.P1).LockInput();
-        m_clientGame.world.GetPlayer(PlayerId.P2).LockInput();
-        string winner = "";
-        if (diePlayer.id == PlayerId.P1)
+        m_roundState = RoundState.BeforeEnd;
+        var p = e as Mugen3D.Player;
+        var winner = p == m_p1 ? m_p2 : m_p1;
+        if (winner == m_p1)
         {
-            winner = PlayerId.P2.ToString();
+            m_p1Score += 1;
         }
-        else if (diePlayer.id == PlayerId.P2)
+        else
         {
-            winner = PlayerId.P1.ToString();
+            m_p2Score += 1;
         }
-        Action nextBattle = () => {
-            m_fightUI.FadeOut(() =>
-            {
-                m_clientGame.Reset(); 
-                StartRound(this.roundNo + 1);
-            });
-        };
+        m_p1.LockInput();
+        m_p1.LockInput();
         m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("KO"); });
-        m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Winner is "+winner, nextBattle); });
+        m_fightUI.InsertView<ViewPopText>((view) => {
+            (view as ViewPopText).Show("Winner is " + winner.id.ToString(), BegenNextMatch);
+            m_roundState = RoundState.Ending;
+        });
+    }
+
+    private void BegenNextMatch()
+    {
+        if (TryEndMatch())
+            return;
+        m_fightUI.FadeOut(() =>
+        {
+            m_clientGame.Reset();
+            StartRound(this.m_roundNo + 1);
+        });
+    }
+
+    private bool TryEndMatch()
+    {
+        Debug.Log("p1Score:" + m_p1Score + " p2Score:" + m_p2Score);
+        if (m_p1Score >= 2 || m_p2Score >= 2)
+        {
+            m_fightUI.CreateView<ViewWinPlayer>().Show();
+            return true;
+        }
+        return false;
     }
 }

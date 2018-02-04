@@ -13,10 +13,12 @@ public enum RoundState
 }
 
 public class RoundMgr {
+    public float leftTime { get { return m_leftTime; } }
+
     protected ClientGame m_clientGame;
-    public float leftTime = 60;
-    public RoundState roundState = RoundState.FadeIn;
-    public int roundNo = 1;
+    protected float m_leftTime = 60;
+    protected RoundState m_roundState = RoundState.FadeIn;
+    protected int m_roundNo = 1;
 
 
     public void Init(ClientGame clientGame)
@@ -30,13 +32,23 @@ public class RoundMgr {
 
     }
 
-    public virtual void StartRound(int roundNum)
+    public void StartRound(int rounNo)
     {
-        m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
-        m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
+        this.m_roundNo = rounNo;
+        OnStartRound(rounNo); 
+    }
+
+    protected virtual void OnStartRound(int rounNo)
+    {
+        
     }
 
     public void Update() {
+        m_leftTime -= Time.deltaTime;
+        if (m_leftTime <= 0)
+        {
+            m_leftTime = 0;
+        }
         OnUpdate();
     }
 

@@ -22,7 +22,8 @@ public class UIView : MonoBehaviour {
         }
         else
         {
-            onFadeInComplete();
+            if(onFadeInComplete!=null)
+                onFadeInComplete();
         }
        
     }
