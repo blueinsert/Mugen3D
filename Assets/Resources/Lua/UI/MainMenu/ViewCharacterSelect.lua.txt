@@ -240,7 +240,7 @@ function M:Update()
     end
     if self.phase == Phase.Selected then
     	self.phase = Phase.Loading
-    	CS.SceneLoader.Instance:LoadFightScene(CS.PlayMode.SingleVS, "Origin", "Origin", "TrainingRoom")
+    	CS.SceneManager.Instance:LoadFightScene(CS.PlayMode.SingleVS, "Origin", "Origin", "TrainingRoom")
     end
     --random select
     randomSelectP1(self)

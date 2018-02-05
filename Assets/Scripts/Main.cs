@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using FSoul.UI;
 public class Main : MonoBehaviour {
-    public Canvas canvas;
 
-    public void Awake()
+    public void Start()
     {
         LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "main"));
-        UIManager.Instance.PushView("ViewMainMenu", GameObject.Find("UIRoot/Canvas/BaseGroup").transform);
+        SceneManager.Instance.LoadMainMenu();
+        GameObject.Destroy(this.gameObject);
     }
 }
