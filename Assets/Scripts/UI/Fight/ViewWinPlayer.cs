@@ -27,5 +27,6 @@ public class ViewWinPlayer : UIView {
     private void OnClickReturn()
     {
         Debug.Log("ClickReturn");
+        SceneManager.Instance.LoadMainMenu();
     }
 }

@@ -139,7 +139,7 @@ public class SceneManager : MonoBehaviour {
 
     public void LoadFightScene(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
         LoadScene(LoadType.Load, "Scene_Loading", null, null);
-        LoadSceneAsync(LoadType.Create, "Scene_Fight", 
+        LoadSceneAsync(LoadType.Load, "Scene_Fight", 
             (scene) => {
                 scene.SetActive(false);
                 var clientGame = scene.AddComponent<ClientGame>();

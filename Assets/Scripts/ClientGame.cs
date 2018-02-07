@@ -76,6 +76,8 @@ public class ClientGame : MonoBehaviour {
 
     private void Init()
     {
+        roundMgr = GetRoundMgr(playMode);
+        mCameraController = GetComponentInChildren<CameraController>();
         fightUI.Init(World.Instance.GetPlayer(PlayerId.P1), World.Instance.GetPlayer(PlayerId.P2));
         mCameraController.SetFollowTarget(World.Instance.GetPlayer(PlayerId.P1).transform, World.Instance.GetPlayer(PlayerId.P2).transform);
         InitCollisionWorld();
@@ -85,17 +87,17 @@ public class ClientGame : MonoBehaviour {
     {
         this.playMode = playMode;
         OpcodeConfig.Init();
+        mCharacterName.Add(PlayerId.P1, p1CharacterName);
+        mCharacterName.Add(PlayerId.P2, p2CharacterName);
 
         LoadStage(stageName);
         this.world = World.Instance;
-        mCharacterName.Add(PlayerId.P1, p1CharacterName);
-        mCharacterName.Add(PlayerId.P2, p2CharacterName);
         LoadPlayer(PlayerId.P1, p1CharacterName);
         LoadPlayer(PlayerId.P2, p2CharacterName);
         LoadFightUI();
-        mCameraController = GetComponentInChildren<CameraController>();
+        
         Init();
-        roundMgr = GetRoundMgr(playMode);
+        
         isIntializeComplete = true;
     }
 
@@ -108,16 +110,12 @@ public class ClientGame : MonoBehaviour {
     {
         //create stage
         UnityEngine.Object o = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
-        GameObject goStage = GameObject.Instantiate(o, this.transform) as GameObject;
-        goStage.name = "stage_" + stageName;
-        goStage.transform.parent = this.transform;
-        //create characters
-        mPlayerRoot = goStage.transform.Find("Players"); 
+        GameObject goStage = GameObject.Instantiate(o, this.transform.Find("Stage")) as GameObject;
     }
 
     private void LoadPlayer(PlayerId id, string name)
     {
-        var p = PlayerLoader.LoadPlayer(id, name, mPlayerRoot, new Vector3(0, 0, 0));
+        var p = PlayerLoader.LoadPlayer(id, name, this.transform.Find("Players"), new Vector3(0, 0, 0));
         p.transform.position = mInitPos[id];
         p.LockInput();
         world.AddPlayer(id,p);
