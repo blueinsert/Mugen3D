@@ -59,7 +59,7 @@ namespace Mugen3D
             }
         }
 
-        Collider[] Collideable.GetCollider()
+        Collider[] Collideable.GetColliders()
         {
             return new Collider[] {mLeftCollider, mRightCollider};
         }

@@ -35,7 +35,7 @@ namespace Mugen3D
             Collider().DrawGizmos();
         }
 
-        Collider[] Collideable.GetCollider()
+        Collider[] Collideable.GetColliders()
         {
             return new Collider[] { this.Collider() };
         }

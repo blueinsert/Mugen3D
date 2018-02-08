@@ -26,7 +26,7 @@ namespace Mugen3D
             List<Collider> colliders = new List<Collider>();
             foreach (var collideable in m_colliders)
             {
-                colliders.AddRange(collideable.GetCollider());
+                colliders.AddRange(collideable.GetColliders());
             }
             return colliders;
         }
@@ -41,9 +41,9 @@ namespace Mugen3D
             m_colliders.Add(c);
         }
 
-        public void RemoveCollideable()
+        public void RemoveCollideable(Collideable c)
         {
-            
+            m_colliders.Remove(c);
         }
 
         public int GetCollideableNum()
@@ -79,7 +79,6 @@ namespace Mugen3D
                 {
                     hss.x -= distance;
                 }
-                //Debug.DrawLine(hss, hse, Color.Blue, 0.02f);
             }
             else
             {
@@ -92,15 +91,9 @@ namespace Mugen3D
                 {
                     vss.y -= distance;
                 }
-                //Debug.DrawLine(vss, vse, Color.Blue, 0.02f);
             }
             foreach (var e in GetColliders())
-            {
-                /*
-                if (!e.entity.isEnabled) continue;
-                if ((e.entity.layer & layerMask) == 0) continue;
-                if (filter != null && !filter(e)) continue;
-                */
+            { 
                 bool oblique = false;
                 if (e is RectCollider)
                 {
@@ -133,9 +126,7 @@ namespace Mugen3D
                     var result = new RaycastHit();
                     result.point = point;
                     result.collider = e;
-                    //result.distance = vss.y - hss.y;
                     results.Add(result);
-
                     if (results.Count >= max) break;
                 }
             }//foreach collider

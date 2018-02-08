@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mugen3D;
 
 public enum PlayMode
 {
@@ -10,26 +9,21 @@ public enum PlayMode
 }
 
 public class ClientGame : MonoBehaviour {
-    public World world;
-    int frameRate = 60;
-    float timer = 0;
-
-    bool isPause = false;
-    bool goNext = false;
-   
-    private CameraController mCameraController;
-    public PlayMode playMode;
     public static ClientGame Instance;
+
+    public PlayMode playMode;
     public FightUI fightUI;
     public RoundMgr roundMgr;
-   
+
+    private float timer = 0;
+    private bool isPause = false;
+    private bool goNext = false;
     private bool isIntializeComplete = false;
-    private static readonly Dictionary<PlayerId, Vector3> mInitPos = new Dictionary<PlayerId, Vector3> { 
-        {PlayerId.P1, new Vector3(-1.5f, 0, 0)},
-        {PlayerId.P2, new Vector3(1.5f, 0, 0)},
+
+    private static readonly Dictionary<Mugen3D.PlayerId, Vector3> m_initPos = new Dictionary<Mugen3D.PlayerId, Vector3> { 
+        {Mugen3D.PlayerId.P1, new Vector3(-1.5f, 0, 0)},
+        {Mugen3D.PlayerId.P2, new Vector3(1.5f, 0, 0)},
     }; 
-    private Transform mPlayerRoot;
-    private Dictionary<PlayerId, string> mCharacterName = new Dictionary<PlayerId, string>();
 
     public void Awake()
     {
@@ -40,6 +34,55 @@ public class ClientGame : MonoBehaviour {
     public void OnDestroy()
     {
         Instance = null;
+    }
+
+    private void LoadStage(string stageName)
+    {
+        UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
+        GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject;
+        foreach (var colliderView in goStage.GetComponentsInChildren<Mugen3D.RectColliderView>())
+        {
+            Mugen3D.CollisionWorld.Instance.AddCollideable(colliderView);
+        }
+    }
+
+    private void LoadPlayer(Mugen3D.PlayerId id, string name)
+    {
+        var player = PlayerLoader.LoadPlayer(id, name, this.transform.Find("Players"));
+        player.transform.position = m_initPos[id];
+        player.LockInput();
+        Mugen3D.World.Instance.AddPlayer(player);
+        Mugen3D.CollisionWorld.Instance.AddCollideable(player);
+    }
+
+    private void LoadFightUI()
+    {
+        GameObject prefabFightUI = Resources.Load<UnityEngine.GameObject>("Prefabs/UI/Fight/FightUIRoot");
+        GameObject goFightUI = GameObject.Instantiate(prefabFightUI, this.transform) as GameObject;
+        fightUI = goFightUI.GetComponent<FightUI>();
+    }
+
+    public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
+    {
+        this.playMode = playMode;
+        Mugen3D.OpcodeConfig.Init();
+        
+        Mugen3D.World.Instance.Clear();
+        Mugen3D.CollisionWorld.Instance.Clear();
+
+        LoadStage(stageName);
+        LoadPlayer(Mugen3D.PlayerId.P1, p1CharacterName);
+        LoadPlayer(Mugen3D.PlayerId.P2, p2CharacterName);
+        LoadFightUI();
+
+        Init();
+
+        isIntializeComplete = true;
+    }
+
+    public void StartGame()
+    {
+        roundMgr.StartRound(1);
     }
 
     private RoundMgr GetRoundMgr(PlayMode playMode)
@@ -60,104 +103,47 @@ public class ClientGame : MonoBehaviour {
         return mgr;
     }
 
-    private void InitCollisionWorld()
-    {
-        var collisionWorld = CollisionWorld.Instance;
-        collisionWorld.Clear();
-        foreach (var colliderView in GetComponentsInChildren<RectColliderView>())
-        {
-            collisionWorld.AddCollideable(colliderView);
-        }
-        collisionWorld.AddCollideable(mCameraController);
-        collisionWorld.AddCollideable(World.Instance.GetPlayer(PlayerId.P1));
-        collisionWorld.AddCollideable(World.Instance.GetPlayer(PlayerId.P2));
-        //Debug.Log("collider size:" + collisionWorld.GetCollideableNum());
-    }
-
     private void Init()
     {
         roundMgr = GetRoundMgr(playMode);
-        mCameraController = GetComponentInChildren<CameraController>();
-        fightUI.Init(World.Instance.GetPlayer(PlayerId.P1), World.Instance.GetPlayer(PlayerId.P2));
-        mCameraController.SetFollowTarget(World.Instance.GetPlayer(PlayerId.P1).transform, World.Instance.GetPlayer(PlayerId.P2).transform);
-        InitCollisionWorld();
-    }
-
-    public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
-    {
-        this.playMode = playMode;
-        OpcodeConfig.Init();
-        mCharacterName.Add(PlayerId.P1, p1CharacterName);
-        mCharacterName.Add(PlayerId.P2, p2CharacterName);
-
-        LoadStage(stageName);
-        this.world = World.Instance;
-        LoadPlayer(PlayerId.P1, p1CharacterName);
-        LoadPlayer(PlayerId.P2, p2CharacterName);
-        LoadFightUI();
-        
-        Init();
-        
-        isIntializeComplete = true;
-    }
-
-    public void StartGame()
-    {
-        roundMgr.StartRound(1);
-    }
-
-    private void LoadStage(string stageName)
-    {
-        //create stage
-        UnityEngine.Object o = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
-        GameObject goStage = GameObject.Instantiate(o, this.transform.Find("Stage")) as GameObject;
-    }
-
-    private void LoadPlayer(PlayerId id, string name)
-    {
-        var p = PlayerLoader.LoadPlayer(id, name, this.transform.Find("Players"), new Vector3(0, 0, 0));
-        p.transform.position = mInitPos[id];
-        p.LockInput();
-        world.AddPlayer(id,p);
-    }
-
-    private void LoadFightUI()
-    {
-        GameObject prefabFightUI = Resources.Load<UnityEngine.GameObject>("Prefabs/UI/Fight/FightUIRoot");
-        GameObject goFightUI = GameObject.Instantiate(prefabFightUI, this.transform) as GameObject;
-        fightUI = goFightUI.GetComponent<FightUI>();
+        Mugen3D.CameraController mCameraController = GetComponentInChildren<Mugen3D.CameraController>();
+        fightUI.Init(Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1), Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2));
+        mCameraController.SetFollowTarget(Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1).transform, Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2).transform);
+        Mugen3D.CollisionWorld.Instance.AddCollideable(mCameraController);
     }
 
     public void Reset()
     {
-        var p1 = World.Instance.GetPlayer(PlayerId.P1);
-        var p2 = World.Instance.GetPlayer(PlayerId.P2);
+        var p1 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1);
+        var p2 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2);
         p1.Reset();
         p2.Reset();
-        p1.transform.position = mInitPos[p1.id];
-        p2.transform.position = mInitPos[p2.id];
+        p1.transform.position = m_initPos[p1.id];
+        p2.transform.position = m_initPos[p2.id];
     }
 
-    public void ReloadPlayer(PlayerId id)
+    public void ReloadPlayer(Mugen3D.Player p)
     {
         isIntializeComplete = false;
-        world.RemovePlayer(id);
-        LoadPlayer(id, mCharacterName[id]);
+        Mugen3D.CollisionWorld.Instance.RemoveCollideable(p);
+        Mugen3D.World.Instance.RemovePlayer(p);
+        LoadPlayer(p.id, p.name);
         Init();
         isIntializeComplete = true;
     }
 
     public void ReloadAllPlayer()
-    {
+    {/*
         isIntializeComplete = false;
-        var id = PlayerId.P1;
-        world.RemovePlayer(id);
-        LoadPlayer(id, mCharacterName[id]);
-        id = PlayerId.P2;
-        world.RemovePlayer(id);
-        LoadPlayer(id, mCharacterName[id]);
+        var id = Mugen3D.PlayerId.P1;
+        Mugen3D.World.Instance.RemovePlayer(id);
+        LoadPlayer(id, m_characterName[id]);
+        id = Mugen3D.PlayerId.P2;
+        Mugen3D.World.Instance.RemovePlayer(id);
+        LoadPlayer(id, m_characterName[id]);
         Init();
         isIntializeComplete = true;
+      */
     }
 
     void Update()
@@ -178,13 +164,13 @@ public class ClientGame : MonoBehaviour {
         }
         if (!isPause)
         {
-            world.Update(Time.deltaTime);
+            Mugen3D.World.Instance.Update(Time.deltaTime);
         }
         else
         {
             if (goNext)
             {
-                world.Update(Time.deltaTime);
+                Mugen3D.World.Instance.Update(Time.deltaTime);
             }
             goNext = false;
         }

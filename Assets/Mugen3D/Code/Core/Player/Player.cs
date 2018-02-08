@@ -149,7 +149,7 @@ public class Player : Entity, Collideable {
         this.stateMgr.ChangeState(0);
     }
 
-    public Collider[] GetCollider()
+    public Collider[] GetColliders()
     {
         return new Collider[] { this.GetComponent<DecisionBoxManager>().GetCollider()};
     }

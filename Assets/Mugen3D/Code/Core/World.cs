@@ -8,9 +8,10 @@ namespace Mugen3D
     {
         public int gameTime = -1;
         public float deltaTime;
-        private Dictionary<PlayerId, Player> mPlayers = new Dictionary<PlayerId, Player>();
         public Dictionary<PlayerId, Player> Players { get { return mPlayers; } }
 
+        private Dictionary<PlayerId, Player> mPlayers = new Dictionary<PlayerId, Player>();
+        
         public static World mInstance;
         public static World Instance
         {
@@ -31,9 +32,9 @@ namespace Mugen3D
 
         private void Init() { }
 
-        public void AddPlayer(PlayerId id, Player p)
+        public void AddPlayer(Player p)
         {
-            mPlayers[id] = p;
+            mPlayers[p.id] = p;
         }
 
         public Player GetPlayer(PlayerId id)
@@ -53,9 +54,17 @@ namespace Mugen3D
         {
             if (!mPlayers.ContainsKey(id))
                 return;
-            var p = mPlayers[id];
-            GameObject.Destroy(p.gameObject);
             mPlayers.Remove(id);
+        }
+
+        public void RemovePlayer(Player p)
+        {
+            RemovePlayer(p.id);
+        }
+
+        public void Clear()
+        {
+            mPlayers.Clear();
         }
 
         public void Update(float _deltaTime)

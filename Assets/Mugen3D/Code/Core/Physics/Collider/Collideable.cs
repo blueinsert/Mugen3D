@@ -6,6 +6,6 @@ namespace Mugen3D
 {
     public interface Collideable
     {
-        Collider[] GetCollider();
+        Collider[] GetColliders();
     }
 }
