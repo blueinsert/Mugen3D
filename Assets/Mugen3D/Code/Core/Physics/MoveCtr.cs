@@ -54,7 +54,10 @@ namespace Mugen3D
                 mAcceleratedVelocity = gravity;
             }
             velocity += Time.deltaTime * mAcceleratedVelocity;
-            velocity = StabilizeVel(velocity);
+            if (type == PhysicsType.Stand || type == PhysicsType.Crouch)
+            {
+                velocity = StabilizeVel(velocity);
+            }
             AddPos(velocity * Time.deltaTime);
             IntersectingTest();
         }

@@ -28,6 +28,8 @@
 154 : "GuardAir"
 155 : "GuardAir"
 
+190 : "Taunt"
+
 200 : "StandLightPunch"
 220 : "StandStrongPunch"
 240 : "StandLightKick"

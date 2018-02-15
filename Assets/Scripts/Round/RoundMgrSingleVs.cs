@@ -20,30 +20,39 @@ public class RoundMgrSingleVs : RoundMgr {
         m_p2 = m_clientGame.world.GetPlayer(PlayerId.P2);
         m_p1.onDead += OnKO;
         m_p2.onDead += OnKO;
-        m_roundState = RoundState.FadeIn;
+        
         m_p1Score = 0;
         m_p2Score = 0;
     }
 
     protected override void OnStartRound(int roundNo)
     {
-        this.m_leftTime = 60;
-        Action start = () => {
-            m_clientGame.world.GetPlayer(PlayerId.P1).UnlockInput();
-            m_clientGame.world.GetPlayer(PlayerId.P2).UnlockInput();
+        m_roundState = RoundState.FadeIn;
+        Task task1 = new Task((task) => { 
+            m_fightUI.FadeIn(() => { 
+                task.Finish();
+                m_roundState = RoundState.Introducing;
+            }); 
+        });
+        ParallelTask task2 = new ParallelTask();
+        task2.AddTask(new Task((t) => { m_p1.stateMgr.ChangeState(190, () => { t.Finish(); }); }));
+        task2.AddTask(new Task((t) => { m_p2.stateMgr.ChangeState(190, () => { t.Finish(); }); }));
+        Task task3 = new Task((t) => { m_fightUI.CreateView<ViewPopText>().Show("Round" + roundNo, () => { t.Finish(); }); });
+        Task task4 = new Task((t) => { m_fightUI.CreateView<ViewPopText>().Show("Fight" + roundNo, () => { t.Finish(); }); });
+        Task task5 = new Task((t) => {
+            m_p1.UnlockInput();
+            m_p2.UnlockInput();
             m_roundState = RoundState.Fighting;
-        };
-        m_fightUI.FadeIn(() => {
-            m_roundState = RoundState.Introducing;
-            m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Round" + roundNo); });
-            m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("Fight", start); });
-        });   
+            t.Finish();
+        });
+        TaskQueue queue = new TaskQueue();
+        queue.AddTask(task1).AddTask(task2).AddTask(task3).AddTask(task4).AddTask(task5);
+        queue.Exect();
+        this.m_leftTime = 60;
     }
 
     protected override void OnUpdate()
     {
-        if (m_roundState != RoundState.Fighting)
-            return;
         if (m_leftTime <= 0)
         {
             OnTimeOver();

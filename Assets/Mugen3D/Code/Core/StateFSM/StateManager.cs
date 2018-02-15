@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -47,18 +48,23 @@ namespace Mugen3D
             isReady = true;
         }
 
-        public void ChangeState(int id) {
+        public void ChangeState(int id, Action onFinish = null) {
             if (!States.ContainsKey(id))
             {
                 Log.Error("states con't contain id:" + id);
+                return;
             }
             isChangingState = true;
-            var tmp = States[id];
-            tmp.Init();
-          
-            historyStates.Add(currentState.stateId);
-            currentState = tmp;
+
+            var lastState = currentState;
+            lastState.OnExit();
+            historyStates.Add(lastState.stateId);
+
+            currentState = States[id];
+            currentState.Init();
+            currentState.onFinish = onFinish;
             currentState.OnEnter();
+
             stateTime = -1;
             if (historyStates.Count > MaxHistoryStateNum)
             {

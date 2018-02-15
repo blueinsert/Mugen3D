@@ -435,7 +435,15 @@ y = 30
 type = ChangeState
 trigger1 = Time > 5
 value = 51
+ 
+//introduce
+[Statedef 190]
+anim = 190
 
+[Event 190, 0]
+type = ChangeState
+trigger1 = LeftAnimElem == 0
+value = 0
 
 
 //stand get-hit(shaking)

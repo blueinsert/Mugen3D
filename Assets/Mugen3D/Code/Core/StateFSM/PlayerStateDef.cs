@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Mugen3D
 {
     public class PlayerStateDef
     {
+        public Action onFinish;
         private Player owner;
         private StateEvent curEvent;
 
@@ -67,6 +69,14 @@ namespace Mugen3D
                     {"value", InitParams["moveType"]}
                 };
                 Controllers.Instance.SetMoveType(this.owner, param);
+            }
+        }
+
+        public void OnExit()
+        {
+            if (onFinish != null)
+            {
+                onFinish();
             }
         }
 

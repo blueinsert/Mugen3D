@@ -10,7 +10,7 @@ public enum PlayMode
 
 public class ClientGame : MonoBehaviour {
     public static ClientGame Instance;
-
+    public Mugen3D.World world;
     public PlayMode playMode;
     public FightUI fightUI;
     public RoundMgr roundMgr;
@@ -29,6 +29,7 @@ public class ClientGame : MonoBehaviour {
     {
         Instance = this;
         Application.targetFrameRate = 60;
+        world = Mugen3D.World.Instance;
     }
 
     public void OnDestroy()

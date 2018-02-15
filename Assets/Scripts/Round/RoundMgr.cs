@@ -44,6 +44,8 @@ public class RoundMgr {
     }
 
     public void Update() {
+        if (this.m_roundState != RoundState.Fighting)
+            return;
         m_leftTime -= Time.deltaTime;
         if (m_leftTime <= 0)
         {
