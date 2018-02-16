@@ -75,9 +75,9 @@ namespace Mugen3D
             {
                 p.Value.OnUpdate();
             }
-            UpdateFacing();
+            //UpdateFacing();
         }
-
+        /*
         private void UpdateFacing()
         {
             var p1 = GetPlayer(PlayerId.P1);
@@ -95,5 +95,6 @@ namespace Mugen3D
                 p2.ChangeFacing(-1);
             }
         }
+         */
     }
 }

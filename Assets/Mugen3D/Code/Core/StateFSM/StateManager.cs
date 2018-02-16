@@ -7,11 +7,8 @@ namespace Mugen3D
 {
     public class StateManager
     {
-        const int AI_STATE_NO = -4;
-        const int CMD_STATE_NO = -3;
-
-        private Player owner;
-        private Dictionary<int, PlayerStateDef> States = new Dictionary<int,PlayerStateDef>();
+        private Unit owner;
+        private Dictionary<int, PlayerStateDef> m_states = new Dictionary<int, PlayerStateDef>();
 
         private List<int> historyStates = new List<int>();
         private int MaxHistoryStateNum = 10;
@@ -23,7 +20,7 @@ namespace Mugen3D
         private bool isReady = false;
         private bool isChangingState = false;
 
-        public StateManager(Player p)
+        public StateManager(Unit p)
         {
             owner = p;
         }
@@ -41,15 +38,16 @@ namespace Mugen3D
                 foreach (var kv in tmp)
                 {
                     kv.Value.SetOwner(owner);
-                    States[kv.Key] = kv.Value;
+                    m_states[kv.Key] = kv.Value;
                 }
             }
-            currentState = States[0];
+            currentState = m_states[0];
             isReady = true;
         }
 
-        public void ChangeState(int id, Action onFinish = null) {
-            if (!States.ContainsKey(id))
+        public void ChangeState(int id, Action onFinish = null)
+        {
+            if (!m_states.ContainsKey(id))
             {
                 Log.Error("states con't contain id:" + id);
                 return;
@@ -60,7 +58,7 @@ namespace Mugen3D
             lastState.OnExit();
             historyStates.Add(lastState.stateId);
 
-            currentState = States[id];
+            currentState = m_states[id];
             currentState.Init();
             currentState.onFinish = onFinish;
             currentState.OnEnter();
@@ -75,7 +73,8 @@ namespace Mugen3D
             Update();
         }
 
-        public void Update() {
+        public void Update()
+        {
             if (!isReady)
                 return;
             if (isChangingState)
@@ -84,25 +83,11 @@ namespace Mugen3D
                 return;
             }
             stateTime++;
-            if (this.owner.AiLevel == -1)
+            for (int i = -3; i <= -1; i++)
             {
-                if (States.ContainsKey(CMD_STATE_NO))
-                {
-                    States[CMD_STATE_NO].OnUpdate();
-                }
-                if (States.ContainsKey(-1))
-                {
-                    States[-1].OnUpdate();
-                }
+                if(m_states.ContainsKey(i))
+                    m_states[i].OnUpdate();
             }
-            else
-            {
-                if (States.ContainsKey(AI_STATE_NO))
-                {
-                    States[AI_STATE_NO].OnUpdate();
-                }
-            }
-            
             currentState.OnUpdate();
         }
 

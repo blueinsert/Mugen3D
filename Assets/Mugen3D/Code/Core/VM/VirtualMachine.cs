@@ -26,15 +26,15 @@ namespace Mugen3D
 
     public class VirtualMachine
     {
-        private Player mOwner;
+        private Unit mUnit;
         private Stack<StackType> mStack = new Stack<StackType>();
         private StackType mPop;
         private Instruction mCurrIns;
         private Dictionary<OpCode, Action> pFuncTable = new Dictionary<OpCode, Action>();
         private DebugInfo debugInfo;
 
-        public void SetOwner(Player p){
-            mOwner = p;
+        public void SetOwner(Unit p){
+            mUnit = p;
         }
 
         public VirtualMachine() {
@@ -71,7 +71,7 @@ namespace Mugen3D
             pFuncTable[OpCode.LogAnd] = LogAnd;
 
             //trigger vars
-            pFuncTable[OpCode.Trigger_AiLevel] = GetAiLevel;
+            //pFuncTable[OpCode.Trigger_AiLevel] = GetAiLevel;
             pFuncTable[OpCode.Trigger_Anim] = GetAnim;
             pFuncTable[OpCode.Trigger_AnimName] = GetAnimName;
             pFuncTable[OpCode.Trigger_AnimElem] = GetAnimElem;
@@ -358,42 +358,36 @@ namespace Mugen3D
         #region Mugen sys interface
         #region solve trigger vars
 
-        void GetAiLevel()
-        {
-            int aiLevel = Triggers.Instance.AiLevel(this.mOwner);
-            mStack.Push(new StackType(aiLevel));
-        }
-
         void GetAnim() {
-            int anim = Triggers.Instance.Anim(this.mOwner);
+            int anim = Triggers.Instance.Anim(this.mUnit);
             mStack.Push(new StackType(anim));
         }
 
         void GetAnimName() {
-            string animName = Triggers.Instance.AnimName(this.mOwner);
+            string animName = Triggers.Instance.AnimName(this.mUnit);
             mStack.Push(new StackType(animName.GetHashCode()));
         }
 
         void GetAnimElem() {
-            int elem = Triggers.Instance.AnimElem(this.mOwner);
+            int elem = Triggers.Instance.AnimElem(this.mUnit);
             mStack.Push(new StackType(elem));
         }
 
         void GetAnimTime()
         {
-            int animTime = Triggers.Instance.AnimTime(this.mOwner);
+            int animTime = Triggers.Instance.AnimTime(this.mUnit);
             mStack.Push(new StackType(animTime));
         }
 
         void CanCtrl()
         {
-            int ctrl = Triggers.Instance.Ctrl(this.mOwner);
+            int ctrl = Triggers.Instance.Ctrl(this.mUnit);
             mStack.Push(new StackType(ctrl));
         }
 
         void GetLeftAnimTime()
         {
-            int leftTime = Triggers.Instance.LeftAnimElem(this.mOwner);
+            int leftTime = Triggers.Instance.LeftAnimElem(this.mUnit);
             mStack.Push(new StackType(leftTime));
         }
 
@@ -401,7 +395,7 @@ namespace Mugen3D
         {
             PopValue();
             int commandNameHash = (int)mPop.value;
-            int isActive = Triggers.Instance.CommandTest(this.mOwner, commandNameHash);
+            int isActive = Triggers.Instance.CommandTest(this.mUnit, commandNameHash);
             mStack.Push(new StackType(isActive));
         }
 
@@ -409,72 +403,72 @@ namespace Mugen3D
         {
             PopValue();
             int key = (int)mPop.value;
-            int value = Triggers.Instance.GetConfig(this.mOwner, key);
+            int value = Triggers.Instance.GetConfig(this.mUnit, key);
             mStack.Push(new StackType(value));
         }
 
         void GetEnemyMoveType()
         {
-            string type = Triggers.Instance.EnemyMoveType(this.mOwner);
+            string type = this.mUnit.enemy.status.moveType.ToString();
             mStack.Push(new StackType(type.GetHashCode()));
         }
 
         void GetIsJustOnGround()
         {
-            int v = Triggers.Instance.JustOnGround(this.mOwner);
+            int v = Triggers.Instance.JustOnGround(this.mUnit);
             mStack.Push(new StackType(v));
         }
 
         void GetMoveType()
         {
-            string type = Triggers.Instance.MoveType(this.mOwner);
+            string type = Triggers.Instance.MoveType(this.mUnit);
             mStack.Push(new StackType(type.GetHashCode()));
         }
 
         void GetPosX()
         {
-            float posX = Triggers.Instance.PosX(this.mOwner);
+            float posX = Triggers.Instance.PosX(this.mUnit);
             mStack.Push(new StackType(posX));
         }
 
         void GetRandom()
         {
-            float v = Triggers.Instance.Random(this.mOwner);
+            float v = Triggers.Instance.Random(this.mUnit);
             mStack.Push(new StackType(v));
         }
 
         void GetPosY()
         {
-            float posY = Triggers.Instance.PosY(this.mOwner);
+            float posY = Triggers.Instance.PosY(this.mUnit);
             mStack.Push(new StackType(posY));
         }
 
         void GetVelX() {
-            float velX = Triggers.Instance.VelX(this.mOwner);
+            float velX = Triggers.Instance.VelX(this.mUnit);
             mStack.Push(new StackType(velX));
         }
 
         void GetVelY()
         {
-            float velY = Triggers.Instance.VelY(this.mOwner);
+            float velY = Triggers.Instance.VelY(this.mUnit);
             mStack.Push(new StackType(velY));
         }
 
         void GetStateNo()
         {
-            int no = Triggers.Instance.StateNo(this.mOwner);
+            int no = Triggers.Instance.StateNo(this.mUnit);
             mStack.Push(new StackType(no));
         }
 
         void GetPrevStateNo()
         {
-            int no = Triggers.Instance.PrevStateNo(this.mOwner);
+            int no = Triggers.Instance.PrevStateNo(this.mUnit);
             mStack.Push(new StackType(no));
         }
 
         void GetStateTime()
         {
-            int time = Triggers.Instance.Time(this.mOwner);
+            int time = Triggers.Instance.Time(this.mUnit);
             mStack.Push(new StackType(time));
         }
 
@@ -486,7 +480,7 @@ namespace Mugen3D
 
         void GetPhysicsType()
         {
-            string physics = Triggers.Instance.PhysicsType(mOwner);
+            string physics = Triggers.Instance.PhysicsType(mUnit);
             mStack.Push(new StackType(physics.GetHashCode()));
         }
 
@@ -494,7 +488,7 @@ namespace Mugen3D
         {
             PopValue();
             int id = (int) mPop.value;
-            int value = Triggers.Instance.Var(mOwner, id);
+            int value = Triggers.Instance.Var(mUnit, id);
             mStack.Push(new StackType(value));
         }
 
@@ -509,7 +503,7 @@ namespace Mugen3D
         {
             PopValue();
             var tmp = mPop.value;
-            int r = Triggers.Instance.HitVar(mOwner, (int)tmp);
+            int r = Triggers.Instance.HitVar(mUnit, (int)tmp);
             mStack.Push(new StackType(r));
         }
 

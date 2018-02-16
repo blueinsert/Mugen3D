@@ -29,80 +29,80 @@ public class Triggers
 
     #region trigger function
 
-    public int Anim(Player p)
+    public int Anim(Unit p)
     {
         return p.animCtr.animNo;
     }
 
-    public string AnimName(Player p)
+    public string AnimName(Unit p)
     {
         return p.animCtr.animName;
     }
 
-    public int AnimElem(Player p)
+    public int AnimElem(Unit p)
     {
         return p.animCtr.AnimElem;
     }
 
-    public int AnimTime(Player p)
+    public int AnimTime(Unit p)
     {
         return p.animCtr.AnimTime;
     }
 
-    public int LeftAnimElem(Player p)
+    public int LeftAnimElem(Unit p)
     {
         return p.animCtr.totalFrame - p.animCtr.AnimElem-1;
     }
 
-    public int CommandTest(Player p, int commandNameHashCode)
+    public int CommandTest(Unit p, int commandNameHashCode)
     {
         return p.cmdMgr.CommandIsActive(commandNameHashCode);
     }
 
-    public int Ctrl(Player p)
+    public int Ctrl(Unit p)
     {
-        return p.canCtrl?1:0;
+        return 1;// p.canCtrl ? 1 : 0;
     }
 
-    public int StateNo(Player p)
+    public int StateNo(Unit p)
     {
         return p.stateMgr.currentState.stateId;
     }
 
-    public int PrevStateNo(Player p)
+    public int PrevStateNo(Unit p)
     {
         return p.stateMgr.GetPrevStateNo();
     }
 
-    public int Time(Player p)
+    public int Time(Unit p)
     {
         return p.stateMgr.stateTime;
 
     }
 
-    public float VelX(Player p)
+    public float VelX(Unit p)
     {
         return p.moveCtr.velocity.x;
     }
 
-    public float VelY(Player p)
+    public float VelY(Unit p)
     {
         return p.moveCtr.velocity.y;
     }
 
-    public float PosX(Player p)
+    public float PosX(Unit p)
     {
         return p.transform.position.x;
     }
 
-    public float PosY(Player p)
+    public float PosY(Unit p)
     {
         return p.transform.position.y;
     }
 
-    public string PhysicsType(Player p)
+    public string PhysicsType(Unit p)
     {
-        return p.moveCtr.type.ToString();
+        return p.status.physicsType.ToString();
     }
 
     public float DeltaTime()
@@ -110,43 +110,38 @@ public class Triggers
         return World.Instance.deltaTime;
     }
 
-    public int Var(Player p, int id)
+    public int Var(Unit p, int id)
     {
         return p.GetVar(id);
     }
 
-    public int HitVar(Player p, int key)
+    public int HitVar(Unit p, int key)
     {
         return p.hitVars.GetHitVar(key);
     }
 
-    public string MoveType(Player p)
+    public string MoveType(Unit p)
     {
-        return p.moveType.ToString();
+        return p.status.moveType.ToString();
     }
 
-    public int GetConfig(Player p, int key)
+    public int GetConfig(Unit p, int key)
     {
         return p.config.GetConfig(key);
     }
 
-    public string EnemyMoveType(Player p)
+    public string EnemyMoveType(Unit p)
     {
-        return TeamMgr.GetEnemy(p).moveType.ToString();
+        return p.enemy.status.moveType.ToString();
     }
-
-    public int AiLevel(Player p)
+    
+    public float Random(Unit p)
     {
-        return p.AiLevel;
-    }
-
-    public float Random(Player p)
-    {
-        float r = p.randomGenerater.Next(100);
+        //float r = p.randomGenerater.Next(100);
         //Log.Info("random:" + r);
-        return r;
+        return 14;
     }
-    public int JustOnGround(Player p)
+    public int JustOnGround(Unit p)
     {
         return p.moveCtr.justOnGround ? 1 : 0;
     }

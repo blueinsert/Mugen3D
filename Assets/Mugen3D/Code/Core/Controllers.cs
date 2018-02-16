@@ -30,7 +30,8 @@ namespace Mugen3D
 
         #region controller function
 
-        public void ExeController(Player p, StateEventType type, Dictionary<string, TokenList> param, Action cb){
+        public void ExeController(Unit p, StateEventType type, Dictionary<string, TokenList> param, Action cb)
+        {
             switch(type){
                 case StateEventType.VelSet:
                     VelSet(p, param);
@@ -64,7 +65,7 @@ namespace Mugen3D
                 cb();
         }
 
-        public void VelSet(Player p, Dictionary<string, TokenList> param)
+        public void VelSet(Unit p, Dictionary<string, TokenList> param)
         {
             //Log.Info("velSet");
             float x,y;
@@ -113,19 +114,19 @@ namespace Mugen3D
             p.moveCtr.VelAdd(x, y);
         }
 
-        public void CtrlSet(Player p, Dictionary<string, TokenList> param)
+        public void CtrlSet(Unit p, Dictionary<string, TokenList> param)
         {
-            bool value = !(int.Parse(param["value"].asStr) == 0);
-            p.canCtrl = value;
+            //bool value = !(int.Parse(param["value"].asStr) == 0);
+            //p.canCtrl = value;
         }
 
-        public void ChangeState(Player p, Dictionary<string, TokenList> param)
+        public void ChangeState(Unit p, Dictionary<string, TokenList> param)
         {
             int value = (int)p.CalcExpressionInRuntime(param["value"].asExpression);
             p.stateMgr.ChangeState(value);
         }
 
-        public void ChangeAnim(Player p, Dictionary<string, TokenList> param)
+        public void ChangeAnim(Unit p, Dictionary<string, TokenList> param)
         {
             int animNo = (int)p.CalcExpressionInRuntime(param["value"].asExpression);
             
@@ -152,7 +153,7 @@ namespace Mugen3D
             
         }
 
-        public void PosSet(Player p, Dictionary<string, TokenList> param)
+        public void PosSet(Unit p, Dictionary<string, TokenList> param)
         {
             float x, y;
             if (param.ContainsKey("x"))
@@ -202,44 +203,44 @@ namespace Mugen3D
 
         }
 
-        public void PhysicsSet(Player p, Dictionary<string, TokenList> param)
+        public void PhysicsSet(Unit p, Dictionary<string, TokenList> param)
         {
             string v = param["value"].asStr;
             switch (v)
             {
                 case "S":
-                    p.moveCtr.SetPhysicsType(PhysicsType.Stand);
+                    p.SetPhysicsType(PhysicsType.Stand);
                     break;
                 case "C":
-                    p.moveCtr.SetPhysicsType(PhysicsType.Crouch);
+                    p.SetPhysicsType(PhysicsType.Crouch);
                     break;
                 case "A":
-                    p.moveCtr.SetPhysicsType(PhysicsType.Air);
+                    p.SetPhysicsType(PhysicsType.Air);
                     break;
                 case "N":
-                    p.moveCtr.SetPhysicsType(PhysicsType.None);
+                    p.SetPhysicsType(PhysicsType.None);
                     break;
                 default:
-                    p.moveCtr.SetPhysicsType(PhysicsType.Stand);
+                    p.SetPhysicsType(PhysicsType.Stand);
                     break;
             }
         }
 
-        public void VarSet(Player p, Dictionary<string, TokenList> param)
+        public void VarSet(Unit p, Dictionary<string, TokenList> param)
         {
             int id = int.Parse(param["id"].asStr);
             int value = int.Parse(param["value"].asStr);
             p.SetVar(id, value);
         }
 
-        public void Pause(Player p, Dictionary<string, TokenList> param)
+        public void Pause(Unit p, Dictionary<string, TokenList> param)
         {
             int pauseTime;
             pauseTime = int.Parse(param["time"].asStr);
             p.Pause(pauseTime);
         }
 
-        private bool IsHit(Player p, HitBoxLocation activePart, Player enemy)
+        private bool IsHit(Unit p, HitBoxLocation activePart, Player enemy)
         {
             HitBox attackBox = p.GetComponent<DecisionBoxManager>().GetHitBox(activePart);
             HitBox[] attackBoxes = new HitBox[] { attackBox};
@@ -262,9 +263,9 @@ namespace Mugen3D
             return hit;
         }
 
-        public void HitDef(Player p, Dictionary<string, TokenList> param)
+        public void HitDef(Unit p, Dictionary<string, TokenList> param)
         {   
-           Player enemy = TeamMgr.GetEnemy(p);
+           Player enemy = TeamMgr.GetEnemy(p as Player);
            if (enemy == null)
                return;
            HitVars hitvars = new HitVars(param);
@@ -277,7 +278,7 @@ namespace Mugen3D
                enemy.SetHitVars(hitvars);
                enemy.MakeDamage(hitvars.hitDamage);
                //change state
-               enemy.stateMgr.ChangeState(5000 + ((int)enemy.moveCtr.type) * 10);
+               enemy.stateMgr.ChangeState(5000 + ((int)enemy.status.moveType) * 10);
            }
            else
            {
@@ -285,25 +286,25 @@ namespace Mugen3D
                enemy.SetHitVars(hitvars);
                enemy.MakeDamage(hitvars.guardDamage);
                //change state
-               int stateNo = 150 + ((int)enemy.moveCtr.type) * 2;
+               int stateNo = 150 + ((int)enemy.status.moveType) * 2;
                Debug.Log("stateNo:" + stateNo);
                enemy.stateMgr.ChangeState(stateNo);
            }   
         }
 
-        public void SetMoveType(Player p, Dictionary<string, TokenList> param)
+        public void SetMoveType(Unit p, Dictionary<string, TokenList> param)
         {
             string v = param["value"].asStr;
             switch (v)
             {
                 case "A":
-                    p.moveType = MoveType.Attack; break;
+                    p.status.moveType = MoveType.Attack; break;
                 case "I":
-                    p.moveType = MoveType.Idle; break;
+                    p.status.moveType = MoveType.Idle; break;
                 case "D":
-                    p.moveType = MoveType.Defence; break;
+                    p.status.moveType = MoveType.Defence; break;
                 case "H":
-                    p.moveType = MoveType.BeingHitted; break;
+                    p.status.moveType = MoveType.BeingHitted; break;
                 default:
                     Log.Error("MoveType define can't be recongized"); break;
             }

@@ -9,7 +9,7 @@ namespace Mugen3D
     public class PlayerStateDef
     {
         public Action onFinish;
-        private Player owner;
+        private Unit owner;
         private StateEvent curEvent;
 
         public int stateId;
@@ -29,7 +29,7 @@ namespace Mugen3D
             InitParams = new Dictionary<string, TokenList>();
         }
 
-        public void SetOwner(Player p)
+        public void SetOwner(Unit p)
         {
             owner = p;
         }

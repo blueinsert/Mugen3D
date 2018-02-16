@@ -30,7 +30,7 @@ public class GUIDebug : MonoBehaviour
         GUILayout.Label(new GUIContent("playerId:" + id.ToString()));
         GUI.color = Color.black;
         GUILayout.Label(new GUIContent("hp:" + p.hp));
-        GUILayout.Label(new GUIContent("ai:" + Triggers.Instance.AiLevel(p)));
+        //GUILayout.Label(new GUIContent("ai:" + Triggers.Instance.AiLevel(p)));
         GUILayout.Label(new GUIContent("moveType:" + Triggers.Instance.MoveType(p).ToString()));
         GUILayout.Label(new GUIContent("physics:" + Triggers.Instance.PhysicsType(p)));
         GUILayout.Label(new GUIContent("stateNo:" + Triggers.Instance.StateNo(p)));

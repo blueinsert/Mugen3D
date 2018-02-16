@@ -10,7 +10,7 @@ public class PlayerLoader
         GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
         go.name = playerName;
         Player p = go.GetComponentInChildren<Player>();
-        p.Init(p.setting);
+        p.Init();
         p.id = id;
         return p;
     }

@@ -6,18 +6,12 @@ using UnityEngine;
 namespace Mugen3D
 {
 
-    public enum PhysicsType
-    {
-        None = -1,
-        Stand,
-        Crouch,
-        Air,    
-    }
+   
 
     public class MoveCtr
     {
-        public Player owner;
-        public PhysicsType type = PhysicsType.Stand;
+        private Unit m_owner;
+       
         public Vector3 gravity = new Vector3(0, -10f, 0);
         public Vector3 velocity = Vector3.zero;
        
@@ -34,8 +28,9 @@ namespace Mugen3D
         private RectCollider mCollider;
         private Player mCollidePlayer;
 
-        public MoveCtr(Transform t) {
-            target = t;
+        public MoveCtr(Unit unit) {
+            target = unit.transform;
+            m_owner = unit;
         }
 
         public void Update()
@@ -45,16 +40,16 @@ namespace Mugen3D
                 isOnGround = true;
                 justOnGround = false;
             }
-            if (type == PhysicsType.Stand || type == PhysicsType.Crouch)
+            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
             {
                 mAcceleratedVelocity = -gravity.magnitude * groundFrictionFactor * velocity.normalized;
             }
-            else if (type == PhysicsType.Air)
+            else if (m_owner.status.physicsType == PhysicsType.Air)
             {
                 mAcceleratedVelocity = gravity;
             }
             velocity += Time.deltaTime * mAcceleratedVelocity;
-            if (type == PhysicsType.Stand || type == PhysicsType.Crouch)
+            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
             {
                 velocity = StabilizeVel(velocity);
             }
@@ -66,13 +61,13 @@ namespace Mugen3D
         {
             if (mCollidePlayer == null)
                 return;
-            RectCollider selfCollider = owner.GetComponent<DecisionBoxManager>().GetCollider();
+            RectCollider selfCollider = m_owner.GetComponent<DecisionBoxManager>().GetCollider();
             RectCollider otherCollider = mCollidePlayer.GetComponent<DecisionBoxManager>().GetCollider();
             if (ColliderUtils.RectRectTest(selfCollider, otherCollider))
             {
                 float deltaX = (selfCollider.rect.width + otherCollider.rect.width)/2 - Mathf.Abs(selfCollider.rect.position.x - otherCollider.rect.position.x);
                 float centerX = (selfCollider.rect.position.x + otherCollider.rect.position.x) / 2;
-                owner.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > selfCollider.rect.position.x ? -1 : 1),0,0));
+                m_owner.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > selfCollider.rect.position.x ? -1 : 1), 0, 0));
                 mCollidePlayer.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > otherCollider.rect.position.x ? -1 : 1), 0, 0));
             }
         }
@@ -80,12 +75,12 @@ namespace Mugen3D
         private void CollideTest()
         {
             mCollider = target.GetComponent<DecisionBoxManager>().GetCollider();
-            if(type == PhysicsType.Stand || type == PhysicsType.Crouch)
+            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
             {
                 CastRaysLeft();
                 CastRaysRight();
             }
-            else if (type == PhysicsType.Air)
+            else if (m_owner.status.physicsType == PhysicsType.Air)
             {
                 CastRaysLeft();
                 CastRaysRight();
@@ -167,7 +162,7 @@ namespace Mugen3D
             {
                 mDeltaPos.y = -hit.point.y + (mCollider.rect.position.y - mCollider.rect.height / 2);
                 velocity.y = 0;
-                this.type = PhysicsType.Stand;
+                m_owner.status.physicsType = PhysicsType.Stand;
                 this.justOnGround = true;
             }
         }
@@ -321,11 +316,6 @@ namespace Mugen3D
             pos.y += deltaY;
             pos.z += deltaZ;
             this.target.transform.position = pos;
-        }
-
-        public void SetPhysicsType(PhysicsType type)
-        {
-            this.type = type;
         }
     }
 }

@@ -111,6 +111,11 @@ public class ClientGame : MonoBehaviour {
         fightUI.Init(Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1), Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2));
         mCameraController.SetFollowTarget(Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1).transform, Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2).transform);
         Mugen3D.CollisionWorld.Instance.AddCollideable(mCameraController);
+
+        var p1 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1);
+        var p2 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2);
+        p1.SetEnemy(p2);
+        p2.SetEnemy(p1);
     }
 
     public void Reset()

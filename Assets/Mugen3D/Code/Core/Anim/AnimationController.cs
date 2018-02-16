@@ -11,7 +11,7 @@ public enum AnimPlayMode
 }
 
 public class AnimationController {
-    private Player owner;
+    private Unit owner;
     private AnimPlayMode playMode = AnimPlayMode.Loop;
     private Animation anim;
     private AnimationsDef animDef;
@@ -27,7 +27,7 @@ public class AnimationController {
     public int animNo;
 
 
-    public AnimationController(Animation anim, Player owner, TextAsset animDefFile)
+    public AnimationController(Animation anim, Unit owner, TextAsset animDefFile)
     {
         this.owner = owner;
         animDef = new AnimationsDef();
