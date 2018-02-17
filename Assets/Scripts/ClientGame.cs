@@ -14,6 +14,8 @@ public class ClientGame : MonoBehaviour {
     public PlayMode playMode;
     public FightUI fightUI;
     public RoundMgr roundMgr;
+    public Mugen3D.Player p1;
+    public Mugen3D.Player p2;
 
     private float timer = 0;
     private bool isPause = false;
@@ -47,13 +49,12 @@ public class ClientGame : MonoBehaviour {
         }
     }
 
-    private void LoadPlayer(Mugen3D.PlayerId id, string name)
+    private Mugen3D.Player LoadPlayer(Mugen3D.PlayerId id, string name)
     {
-        var player = PlayerLoader.LoadPlayer(id, name, this.transform.Find("Players"));
+        var player = Mugen3D.EntityLoader.LoadPlayer(id, name, this.transform.Find("Players"));
         player.transform.position = m_initPos[id];
         player.LockInput();
-        Mugen3D.World.Instance.AddPlayer(player);
-        Mugen3D.CollisionWorld.Instance.AddCollideable(player);
+        return player;
     }
 
     private void LoadFightUI()
@@ -72,8 +73,8 @@ public class ClientGame : MonoBehaviour {
         Mugen3D.CollisionWorld.Instance.Clear();
 
         LoadStage(stageName);
-        LoadPlayer(Mugen3D.PlayerId.P1, p1CharacterName);
-        LoadPlayer(Mugen3D.PlayerId.P2, p2CharacterName);
+        p1 = LoadPlayer(Mugen3D.PlayerId.P1, p1CharacterName);
+        p2 = LoadPlayer(Mugen3D.PlayerId.P2, p2CharacterName);
         LoadFightUI();
 
         Init();
@@ -108,12 +109,9 @@ public class ClientGame : MonoBehaviour {
     {
         roundMgr = GetRoundMgr(playMode);
         Mugen3D.CameraController mCameraController = GetComponentInChildren<Mugen3D.CameraController>();
-        fightUI.Init(Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1), Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2));
-        mCameraController.SetFollowTarget(Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1).transform, Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2).transform);
+        fightUI.Init(this.p1, this.p2);
+        mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform);
         Mugen3D.CollisionWorld.Instance.AddCollideable(mCameraController);
-
-        var p1 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1);
-        var p2 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2);
         p1.SetEnemy(p2);
         p2.SetEnemy(p1);
     }
@@ -131,10 +129,9 @@ public class ClientGame : MonoBehaviour {
     public void ReloadPlayer(Mugen3D.Player p)
     {
         isIntializeComplete = false;
-        Mugen3D.CollisionWorld.Instance.RemoveCollideable(p);
-        Mugen3D.World.Instance.RemovePlayer(p);
         LoadPlayer(p.id, p.name);
         Init();
+        GameObject.Destroy(p.gameObject);
         isIntializeComplete = true;
     }
 
@@ -158,8 +155,8 @@ public class ClientGame : MonoBehaviour {
         {
             roundMgr.Update();
         }
-        if (!isIntializeComplete)
-            return;
+        //if (!isIntializeComplete)
+         //   return;
         if (Input.GetKeyDown(KeyCode.P))
         {
             isPause = !isPause;

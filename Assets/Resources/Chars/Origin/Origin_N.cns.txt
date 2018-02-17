@@ -28,6 +28,12 @@ p2GuardShakeTime = 13
 p2GuardSlideTime = 9
 triggerOnce = true
 
+[Event 200, 0]
+type = Helper
+trigger1 = AnimElem == 3
+name = "Projectler"
+lifeTime = 30
+
 [Event 200, 1]
 type = ChangeState
 trigger1 = LeftAnimElem == 0

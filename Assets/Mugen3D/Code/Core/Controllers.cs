@@ -32,6 +32,7 @@ namespace Mugen3D
 
         public void ExeController(Unit p, StateEventType type, Dictionary<string, TokenList> param, Action cb)
         {
+            Debug.Log("exe Controller type:" + type.ToString());
             switch(type){
                 case StateEventType.VelSet:
                     VelSet(p, param);
@@ -41,6 +42,9 @@ namespace Mugen3D
                     break;
                 case StateEventType.ChangeState:
                     ChangeState(p, param);
+                    break;
+                case StateEventType.DestroySelf:
+                    DestroySelf(p, param);
                     break;
                 case StateEventType.PosSet:
                     PosSet(p, param);
@@ -60,9 +64,26 @@ namespace Mugen3D
                 case StateEventType.CtrlSet:
                     CtrlSet(p, param);
                     break;
+                case StateEventType.Helper:
+                    CreateHelper(p, param);
+                    break;
             }
             if (cb != null)
                 cb();
+        }
+
+        public void DestroySelf(Unit p, Dictionary<string, TokenList> param)
+        {
+            Debug.Log("DestroySelf");
+            if (p is Helper)
+            {
+                p.Destroy();
+            }
+        }
+
+        public void CreateHelper(Unit p, Dictionary<string, TokenList> param)
+        {
+            Mugen3D.EntityLoader.LoadHelper(param["name"].asStr, p as Player, p.transform.parent, param);
         }
 
         public void VelSet(Unit p, Dictionary<string, TokenList> param)
@@ -276,7 +297,7 @@ namespace Mugen3D
            {
                p.Pause(hitvars.p1HitPauseTime);
                enemy.SetHitVars(hitvars);
-               enemy.MakeDamage(hitvars.hitDamage);
+               enemy.AddHP(-hitvars.hitDamage);
                //change state
                enemy.stateMgr.ChangeState(5000 + ((int)enemy.status.moveType) * 10);
            }
@@ -284,7 +305,7 @@ namespace Mugen3D
            {
                p.Pause(hitvars.p1GuardPauseTime);
                enemy.SetHitVars(hitvars);
-               enemy.MakeDamage(hitvars.guardDamage);
+               enemy.AddHP(-hitvars.guardDamage);
                //change state
                int stateNo = 150 + ((int)enemy.status.moveType) * 2;
                Debug.Log("stateNo:" + stateNo);

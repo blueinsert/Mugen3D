@@ -101,6 +101,8 @@ namespace Mugen3D
                         curParseStateEvent.type = StateEventType.CtrlSet; break;
                     case "ChangeAnim":
                         curParseStateEvent.type = StateEventType.ChangeAnim; break;
+                    case "DestroySelf":
+                        curParseStateEvent.type = StateEventType.DestroySelf; break;
                     case "PhysicsSet":
                         curParseStateEvent.type = StateEventType.PhysicsSet; break;
                     case "PosSet":
@@ -109,6 +111,8 @@ namespace Mugen3D
                         curParseStateEvent.type = StateEventType.VarSet; break;
                     case "HitDef":
                         curParseStateEvent.type = StateEventType.HitDef; break;
+                    case "Helper":
+                        curParseStateEvent.type = StateEventType.Helper; break;
                     case "Null":
                         curParseStateEvent.type = StateEventType.Null; break;
                     default :

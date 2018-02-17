@@ -24,6 +24,7 @@ namespace Mugen3D
     {
         public MoveType moveType = MoveType.Idle;
         public PhysicsType physicsType = PhysicsType.Stand;
+        public bool pushTest = true;
     }
 
     public class Config
@@ -33,6 +34,11 @@ namespace Mugen3D
         public Config(TextAsset def)
         {
             Parse(def);
+        }
+
+        public void AddConfig(int key, int value)
+        {
+            cfg[key] = value;
         }
 
         public int GetConfig(int key)
@@ -83,7 +89,7 @@ namespace Mugen3D
         public Config config;
         public AnimationController animCtr;
         public CmdManager cmdMgr;
-        public MoveCtr moveCtr;
+        public MoveCtrl moveCtr;
         public StateManager stateMgr;
 
         public Status status = new Status();
@@ -97,8 +103,6 @@ namespace Mugen3D
 
         private int pauseTime = 0;
        
-        public abstract void Init();
-
         public void SetEnemy(Unit enemy)
         {
             this.enemy = enemy;
@@ -133,8 +137,6 @@ namespace Mugen3D
             }
             vars[id] = value;
         }
-
-        public abstract void OnUpdate();
 
         public bool IsPause()
         {

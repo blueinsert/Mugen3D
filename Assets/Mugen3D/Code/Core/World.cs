@@ -5,13 +5,7 @@ using Mugen3D;
 namespace Mugen3D
 {
     public class World
-    {
-        public int gameTime = -1;
-        public float deltaTime;
-        public Dictionary<PlayerId, Player> Players { get { return mPlayers; } }
-
-        private Dictionary<PlayerId, Player> mPlayers = new Dictionary<PlayerId, Player>();
-        
+    {  
         public static World mInstance;
         public static World Instance
         {
@@ -30,53 +24,91 @@ namespace Mugen3D
             Init();
         }
 
-        private void Init() { }
-
-        public void AddPlayer(Player p)
-        {
-            mPlayers[p.id] = p;
+        private void Init() {
+            collisionWorld = CollisionWorld.Instance;
         }
 
-        public Player GetPlayer(PlayerId id)
+        public CollisionWorld collisionWorld;
+        public int gameTime = -1;
+        public float deltaTime;
+
+        private List<Entity> m_addedEntities = new List<Entity>();
+        private List<Entity> m_destroyedEntities = new List<Entity>();
+        private List<Entity> m_entities = new List<Entity>();
+
+        private List<Player> m_players = new List<Player>();
+
+        public void AddEntity(Entity e)
         {
-            if (mPlayers.ContainsKey(id))
-                return mPlayers[id];
-            else
-                return null;
+            m_addedEntities.Add(e);
         }
 
-        public Dictionary<PlayerId, Player>.ValueCollection GetAllPlayers()
-        {
-            return mPlayers.Values;
+        private void DoAddEntity(Entity e){
+            m_entities.Add(e);
+            collisionWorld.AddCollideable(e);
+            if (e is Player)
+            {
+                m_players.Add(e as Player);
+            }
         }
 
-        public void RemovePlayer(PlayerId id)
+        private void DoRemoveEntity(Entity e)
         {
-            if (!mPlayers.ContainsKey(id))
-                return;
-            mPlayers.Remove(id);
-        }
-
-        public void RemovePlayer(Player p)
-        {
-            RemovePlayer(p.id);
+            m_entities.Remove(e);
+            collisionWorld.RemoveCollideable(e);
+            if (e is Player)
+            {
+                m_players.Remove(e as Player);
+            }
+            GameObject.Destroy(e.gameObject);
         }
 
         public void Clear()
         {
-            mPlayers.Clear();
+            m_entities.Clear();
+            m_players.Clear();
+        }
+
+        public Player GetPlayer(PlayerId id)
+        {
+            var players = m_players.FindAll((p) => { return p.id == id; });
+            Utility.Assert(players.Count == 1, "more than one player of id:" + id.ToString());
+            return players[0];
+        }
+
+        public List<Player> GetAllPlayers()
+        {
+            return m_players;
         }
 
         public void Update(float _deltaTime)
         {
             gameTime++;
             deltaTime = _deltaTime;
-            foreach (var p in Players)
+
+            foreach (var e in m_addedEntities)
             {
-                p.Value.OnUpdate();
+                DoAddEntity(e);
             }
+            m_addedEntities.Clear();
+            foreach (var e in m_entities)
+            {
+                e.OnUpdate();
+                if (e.isDestroyed)
+                {
+                    m_destroyedEntities.Add(e);
+                }
+            }
+            foreach (var ent in m_destroyedEntities)
+            {
+                DoRemoveEntity(ent);
+            }
+            m_destroyedEntities.Clear();
+
             //UpdateFacing();
+           
         }
+
         /*
         private void UpdateFacing()
         {

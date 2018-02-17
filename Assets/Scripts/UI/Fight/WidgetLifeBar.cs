@@ -8,25 +8,17 @@ public class WidgetLifeBar : MonoBehaviour {
     public Image p1LifeBar;
     public Image p2LifeBar;
     public Text labelLeftTime;
-    private int p1MaxHp;
-    private int p2MaxHp;
+    private Player m_p1;
+    private Player m_p2;
 
-	// Use this for initialization
 	void Start () {
         InvokeRepeating("SetLeftTime", 1, 1);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
     public void Init(Player p1, Player p2)
     {
-        p1.onHpChange += OnP1HpChange;
-        p2.onHpChange += OnP2HpChange;
-        p1MaxHp = p1.MaxHP;
-        p2MaxHp = p2.MaxHP;
+        m_p1 = p1;
+        m_p2 = p2;
     }
 
     private void SetLeftTime()
@@ -36,13 +28,10 @@ public class WidgetLifeBar : MonoBehaviour {
         labelLeftTime.text = leftTime.ToString();
     }
 
-    private void OnP1HpChange(int newHp)
+    public void Update()
     {
-        p1LifeBar.fillAmount = newHp / (float)p1MaxHp;
+        p1LifeBar.fillAmount = m_p1.GetHP() / (float) m_p1.GetMaxHP();
+        p2LifeBar.fillAmount = m_p2.GetHP() / (float)m_p2.GetMaxHP();
     }
 
-    private void OnP2HpChange(int newHp)
-    {
-        p2LifeBar.fillAmount = newHp / (float)p2MaxHp;
-    }
 }

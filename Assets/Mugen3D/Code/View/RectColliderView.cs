@@ -26,7 +26,6 @@ namespace Mugen3D
                 side += Rect.RIGHT;
             Vector2 pos = new Vector2(transform.position.x, transform.position.y) + offset;
             var collider = new RectCollider(new Rect(pos, halfSize.x*2, halfSize.y*2), side);
-            collider.id = -1;
             return collider;
         }
 

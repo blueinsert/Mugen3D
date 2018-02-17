@@ -1,59 +1,23 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace Mugen3D
 {
-
-   
-
-    public class MoveCtr
+    public class PlayerMoveCtrl : MoveCtrl
     {
-        private Unit m_owner;
-       
-        public Vector3 gravity = new Vector3(0, -10f, 0);
-        public Vector3 velocity = Vector3.zero;
-       
-        public float groundFrictionFactor = 3f;
-        public float mass = 70f;
-        public Vector3 mExternalForce = Vector3.zero;
-        public bool pushTestOn = true;
-        public bool isOnGround = true;
-        public bool justOnGround = false;
-        Transform target;
+        protected RectCollider mCollider;
+        protected Player mCollidePlayer;
 
-        public Vector3 mAcceleratedVelocity = Vector3.zero;
-        private Vector3 mDeltaPos;
-        private RectCollider mCollider;
-        private Player mCollidePlayer;
+        public PlayerMoveCtrl(Unit u):base(u)
+        {
 
-        public MoveCtr(Unit unit) {
-            target = unit.transform;
-            m_owner = unit;
         }
 
-        public void Update()
-        {
-            if (justOnGround)
-            {
-                isOnGround = true;
-                justOnGround = false;
-            }
-            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
-            {
-                mAcceleratedVelocity = -gravity.magnitude * groundFrictionFactor * velocity.normalized;
-            }
-            else if (m_owner.status.physicsType == PhysicsType.Air)
-            {
-                mAcceleratedVelocity = gravity;
-            }
-            velocity += Time.deltaTime * mAcceleratedVelocity;
-            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
-            {
-                velocity = StabilizeVel(velocity);
-            }
-            AddPos(velocity * Time.deltaTime);
+        protected override void BeforeAddPos() {
+            CollideTest();
+        }
+
+        protected override void AfterAddPos() {
             IntersectingTest();
         }
 
@@ -65,7 +29,7 @@ namespace Mugen3D
             RectCollider otherCollider = mCollidePlayer.GetComponent<DecisionBoxManager>().GetCollider();
             if (ColliderUtils.RectRectTest(selfCollider, otherCollider))
             {
-                float deltaX = (selfCollider.rect.width + otherCollider.rect.width)/2 - Mathf.Abs(selfCollider.rect.position.x - otherCollider.rect.position.x);
+                float deltaX = (selfCollider.rect.width + otherCollider.rect.width) / 2 - Mathf.Abs(selfCollider.rect.position.x - otherCollider.rect.position.x);
                 float centerX = (selfCollider.rect.position.x + otherCollider.rect.position.x) / 2;
                 m_owner.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > selfCollider.rect.position.x ? -1 : 1), 0, 0));
                 mCollidePlayer.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > otherCollider.rect.position.x ? -1 : 1), 0, 0));
@@ -74,7 +38,7 @@ namespace Mugen3D
 
         private void CollideTest()
         {
-            mCollider = target.GetComponent<DecisionBoxManager>().GetCollider();
+            mCollider = m_owner.GetComponent<DecisionBoxManager>().GetCollider();
             if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
             {
                 CastRaysLeft();
@@ -91,9 +55,9 @@ namespace Mugen3D
 
         private void CastRaysUp()
         {
-            if (mDeltaPos.y <= 0)
+            if (m_deltaPos.y <= 0)
                 return;
-            var rayLength = mCollider.rect.height / 2 + mDeltaPos.y;
+            var rayLength = mCollider.rect.height / 2 + m_deltaPos.y;
             var rayStart1 = new Vector2(mCollider.rect.position.x + mCollider.rect.width / 2, mCollider.rect.position.y);
             var rayStart2 = new Vector2(mCollider.rect.position.x - mCollider.rect.width / 2, mCollider.rect.position.y);
             var hits = new List<RaycastHit>();
@@ -118,16 +82,16 @@ namespace Mugen3D
             }
             else
             {
-                mDeltaPos.y = hit.point.y - (mCollider.rect.position.y + mCollider.rect.height / 2);
-                velocity.y = 0;
+                m_deltaPos.y = hit.point.y - (mCollider.rect.position.y + mCollider.rect.height / 2);
+                m_velocity.y = 0;
             }
         }
 
         private void CastRaysBelow()
         {
-            if (mDeltaPos.y >= 0)
+            if (m_deltaPos.y >= 0)
                 return;
-            var rayLength = mCollider.rect.height / 2 - mDeltaPos.y;
+            var rayLength = mCollider.rect.height / 2 - m_deltaPos.y;
             var rayStart1 = new Vector2(mCollider.rect.position.x + mCollider.rect.width / 2, mCollider.rect.position.y);
             var rayStart2 = new Vector2(mCollider.rect.position.x - mCollider.rect.width / 2, mCollider.rect.position.y);
             var hits = new List<RaycastHit>();
@@ -160,8 +124,8 @@ namespace Mugen3D
             }
             else
             {
-                mDeltaPos.y = -hit.point.y + (mCollider.rect.position.y - mCollider.rect.height / 2);
-                velocity.y = 0;
+                m_deltaPos.y = -hit.point.y + (mCollider.rect.position.y - mCollider.rect.height / 2);
+                m_velocity.y = 0;
                 m_owner.status.physicsType = PhysicsType.Stand;
                 this.justOnGround = true;
             }
@@ -169,9 +133,9 @@ namespace Mugen3D
 
         private void CastRaysLeft()
         {
-            if (mDeltaPos.x >= 0)
+            if (m_deltaPos.x >= 0)
                 return;
-            var rayLength = mCollider.rect.width / 2 - mDeltaPos.x;
+            var rayLength = mCollider.rect.width / 2 - m_deltaPos.x;
             var rayStart1 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y + mCollider.rect.height / 2);
             var rayStart2 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y - mCollider.rect.height / 2);
             var hits = new List<RaycastHit>();
@@ -193,26 +157,26 @@ namespace Mugen3D
         {
             if (hit.collider.owner != null && hit.collider.owner is Player)
             {
-                mDeltaPos.x = mDeltaPos.x / 2;
+                m_deltaPos.x = m_deltaPos.x / 2;
                 Player collidePlayer = hit.collider.owner as Player;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(mDeltaPos.x, 0, 0));
-                mDeltaPos.x = realDeltaPos.x;
+                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(m_deltaPos.x, 0, 0));
+                m_deltaPos.x = realDeltaPos.x;
                 //velocity.z = 0;
                 mCollidePlayer = collidePlayer;
             }
             else
             {
-                mDeltaPos.x = hit.point.x - (mCollider.rect.position.x - mCollider.rect.width / 2);
-                velocity.z = 0;
+                m_deltaPos.x = hit.point.x - (mCollider.rect.position.x - mCollider.rect.width / 2);
+                m_velocity.z = 0;
             }
-           
+
         }
 
         private void CastRaysRight()
         {
-            if (mDeltaPos.x <= 0)
+            if (m_deltaPos.x <= 0)
                 return;
-            var rayLength = mCollider.rect.width / 2 + mDeltaPos.x;
+            var rayLength = mCollider.rect.width / 2 + m_deltaPos.x;
             var rayStart1 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y + mCollider.rect.height / 2);
             var rayStart2 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y - mCollider.rect.height / 2);
             var hits = new List<RaycastHit>();
@@ -232,90 +196,22 @@ namespace Mugen3D
 
         private void HandleHitRight(RaycastHit hit)
         {
-           
+
             if (hit.collider.owner != null && hit.collider.owner is Player)
             {
-                mDeltaPos.x = mDeltaPos.x / 2;
+                m_deltaPos.x = m_deltaPos.x / 2;
                 Player collidePlayer = hit.collider.owner as Player;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(mDeltaPos.x, 0, 0));
-                mDeltaPos.x = realDeltaPos.x;
+                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(m_deltaPos.x, 0, 0));
+                m_deltaPos.x = realDeltaPos.x;
                 //velocity.z = 0;
                 mCollidePlayer = collidePlayer;
             }
             else
             {
-                mDeltaPos.x = hit.point.x - (mCollider.rect.position.x + mCollider.rect.width / 2);
-                velocity.z = 0;
+                m_deltaPos.x = hit.point.x - (mCollider.rect.position.x + mCollider.rect.width / 2);
+                m_velocity.z = 0;
             }
         }
 
-        private Vector3 StabilizeVel(Vector3 v)
-        {
-            float x, y, z;
-            x = Mathf.Abs(v.x) < 0.2 ? 0: v.x;
-            y = Mathf.Abs(v.y) < 0.2 ? 0 : v.y;
-            z = Mathf.Abs(v.z) < 0.2 ? 0 : v.z;
-            return new Vector3(x, y, z);
-        }
-
-        /*
-        private Vector3 PushTest(Vector3 deltaPos)
-        {
-            Vector3 realDeltaPos = deltaPos;
-            if (target.GetComponent<Player>().facing * deltaPos.z >0)
-            {
-                Vector2 movment = new Vector2(deltaPos.z, deltaPos.y);
-                Box2D box = target.GetComponent<DecisionBoxManager>().GetCollideBox();
-                box.center += movment;
-                var enemy = TeamMgr.GetEnemy(target.GetComponent<Player>());
-                if (enemy != null)
-                {
-                    Box2D box2 = enemy.GetComponent<DecisionBoxManager>().GetCollideBox();
-                    if (ColliderUtils.RectRectTest(box, box2))
-                    {
-                        movment.x = movment.x / 2;
-                        enemy.moveCtr.AddPos(new Vector3(0, 0, movment.x));
-                        realDeltaPos = new Vector3(0, movment.y, movment.x);
-                    }
-                }
-            }
-            return realDeltaPos;
-        }
-        */
-        public Vector3 AddPos(Vector3 deltaPos)
-        {
-            mDeltaPos = deltaPos;
-            CollideTest();
-            Vector3 pos = target.position;
-            pos += mDeltaPos;
-            target.position = pos;
-            return mDeltaPos;
-        }
-
-        public void VelSet(float velx, float vely, float velz = 0)
-        {
-            this.velocity = new Vector3(velx, vely, velz);
-        }
-
-        public void VelAdd(float deltaX, float deltaY, float deltaZ = 0)
-        {
-             this.velocity.x += deltaX;
-             this.velocity.y += deltaY;
-             this.velocity.z += deltaZ;
-        }
-
-        public void PosSet(float x, float y, float z = 0)
-        {
-            this.target.transform.position = new Vector3(x, y, z);
-        }
-
-        public void PosAdd(float deltaX, float deltaY, float deltaZ = 0)
-        {
-            var pos = this.target.transform.position;
-            pos.x += deltaX;
-            pos.y += deltaY;
-            pos.z += deltaZ;
-            this.target.transform.position = pos;
-        }
     }
 }

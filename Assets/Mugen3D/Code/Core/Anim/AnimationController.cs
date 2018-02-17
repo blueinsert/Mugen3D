@@ -42,13 +42,15 @@ public class AnimationController {
             state.enabled = false;
             mAnimNames.Add(state.name);
         }
-        SetPlayAnim(anim.clip.name);
+        if(anim.clip != null)
+            SetPlayAnim(anim.clip.name);
         this.animNo = -1;
     }
 
     public void Update()
     {
-        UpdateSample();
+        if(this.animNo != -1)
+            UpdateSample();
     }
   
     private void UpdateSample() {

@@ -16,14 +16,22 @@ public class RoundMgrSingleVs : RoundMgr {
     protected override void OnInit()
     {
         m_fightUI = m_clientGame.fightUI;
-        m_p1 = m_clientGame.world.GetPlayer(PlayerId.P1);
-        m_p2 = m_clientGame.world.GetPlayer(PlayerId.P2);
-        m_p1.onDead += OnKO;
-        m_p2.onDead += OnKO;
+        m_p1 = m_clientGame.p1;
+        m_p2 = m_clientGame.p2;
+        m_p1.onEvent += OnEvent;
+        m_p2.onEvent += OnEvent;
         
         m_p1Score = 0;
         m_p2Score = 0;
     }
+
+    private void OnEvent(Mugen3D.Entity entity, Mugen3D.Event e){
+        if (e.type == Mugen3D.EventType.Dead)
+        {
+            OnKO(entity);
+        }
+    }
+
 
     protected override void OnStartRound(int roundNo)
     {
@@ -62,7 +70,7 @@ public class RoundMgrSingleVs : RoundMgr {
     private void OnTimeOver()
     {
         m_roundState = RoundState.BeforeEnd;
-        Mugen3D.Player winner = m_p1.hp > m_p2.hp ? m_p1 : m_p2;
+        Mugen3D.Player winner = m_p1.GetHP() > m_p2.GetHP() ? m_p1 : m_p2;
         if (winner == m_p1)
         {
             m_p1Score += 1;

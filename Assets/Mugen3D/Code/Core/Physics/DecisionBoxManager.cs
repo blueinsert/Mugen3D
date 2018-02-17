@@ -51,8 +51,7 @@ namespace Mugen3D
                 }
             }
             RectCollider collider = new RectCollider(new Rect((new Vector2((xmin + xmax) / 2, (ymin + ymax) / 2)), xmax - xmin, ymax-ymin), Rect.FULL);
-            collider.id = (int)this.GetComponent<Player>().id;
-            collider.owner = this.GetComponent<Player>();
+            collider.owner = this.GetComponent<Entity>();
             return collider;
         }
 

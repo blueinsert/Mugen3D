@@ -4,29 +4,32 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
-    public abstract class Entity : MonoBehaviour
+    public abstract class Entity : MonoBehaviour, Collideable
     {
-        [HideInInspector]
-        public int hp = 100;
-        [HideInInspector]
-        public int MaxHP = 100;
-        public Action<int> onHpChange;
-        public Action<Entity> onDead;
+        public Action<Entity, Event> onEvent;
 
-        public void MakeDamage(int damage)
+        public abstract void Init();
+
+        public abstract void OnUpdate();
+
+        public bool isDestroyed = false;
+
+        public void SendEvent(Event e)
         {
-            this.hp -= damage;
-            if (onHpChange != null)
+            if (onEvent != null)
             {
-                onHpChange(this.hp);
+                onEvent(this, e);
             }
-            if (this.hp <= 0)
-            {
-                if (onDead != null)
-                {
-                    onDead(this);
-                }
-            }
+        }
+
+        public virtual Collider[] GetColliders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Destroy()
+        {
+            isDestroyed = true;
         }
     }
 }

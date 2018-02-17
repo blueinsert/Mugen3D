@@ -12,10 +12,12 @@ namespace Mugen3D
         CtrlSet,
         ChangeAnim,
         ChangeState,
+        DestroySelf,
         PhysicsSet,
         PosSet,
         VarSet,
         HitDef,
+        Helper,
         Pause,
     }
 

@@ -1,0 +1,13 @@
+[Statedef 0]
+moveType = A
+physics = N
+
+[Event 0, 0]
+type = VelSet
+trigger1 = Time <= Config("lifeTime")
+x = 3
+y = 0
+
+[Event 0, 1]
+type = DestroySelf
+trigger1 = Time > Config("lifeTime")

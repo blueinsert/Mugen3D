@@ -32,9 +32,9 @@ public class RoundMgrTrain : RoundMgr {
 
     private void ResetHP(Player p)
     {
-        if (p.hp < p.MaxHP)
+        if (p.GetHP() < p.GetMaxHP())
         {
-            p.MakeDamage(p.hp - p.MaxHP);
+            p.SetHP(p.GetMaxHP());
         }
     }
 }

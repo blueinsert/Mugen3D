@@ -10,6 +10,15 @@ namespace Mugen3D
         private List<Token> mTokens = new List<Token>();
         private Expression mExpression;
         private string mStrValue = "";
+
+        public List<Token> tokens
+        {
+            get
+            {
+                return mTokens;
+            }
+        }
+
         public Expression asExpression {
             get
             {
