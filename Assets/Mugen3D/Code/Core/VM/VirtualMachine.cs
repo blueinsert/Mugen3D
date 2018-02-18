@@ -403,7 +403,7 @@ namespace Mugen3D
         {
             PopValue();
             int key = (int)mPop.value;
-            int value = Triggers.Instance.GetConfig(this.mUnit, key);
+            float value = Triggers.Instance.GetConfig(this.mUnit, key);
             mStack.Push(new StackType(value));
         }
 

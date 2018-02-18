@@ -56,12 +56,14 @@ public class Triggers
 
     public int CommandTest(Unit p, int commandNameHashCode)
     {
+        if (!p.status.ctrl)
+            return 0;
         return p.cmdMgr.CommandIsActive(commandNameHashCode);
     }
 
     public int Ctrl(Unit p)
     {
-        return 1;// p.canCtrl ? 1 : 0;
+        return p.status.ctrl == true ? 1 : 0;
     }
 
     public int StateNo(Unit p)
@@ -125,7 +127,7 @@ public class Triggers
         return p.status.moveType.ToString();
     }
 
-    public int GetConfig(Unit p, int key)
+    public float GetConfig(Unit p, int key)
     {
         return p.config.GetConfig(key);
     }

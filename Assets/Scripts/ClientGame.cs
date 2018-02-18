@@ -45,7 +45,7 @@ public class ClientGame : MonoBehaviour {
         GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject;
         foreach (var colliderView in goStage.GetComponentsInChildren<Mugen3D.RectColliderView>())
         {
-            Mugen3D.CollisionWorld.Instance.AddCollideable(colliderView);
+            world.collisionWorld.AddCollideable(colliderView);
         }
     }
 
@@ -53,7 +53,7 @@ public class ClientGame : MonoBehaviour {
     {
         var player = Mugen3D.EntityLoader.LoadPlayer(id, name, this.transform.Find("Players"));
         player.transform.position = m_initPos[id];
-        player.LockInput();
+        player.SetCtrl(false);
         return player;
     }
 
@@ -69,9 +69,6 @@ public class ClientGame : MonoBehaviour {
         this.playMode = playMode;
         Mugen3D.OpcodeConfig.Init();
         
-        Mugen3D.World.Instance.Clear();
-        Mugen3D.CollisionWorld.Instance.Clear();
-
         LoadStage(stageName);
         p1 = LoadPlayer(Mugen3D.PlayerId.P1, p1CharacterName);
         p2 = LoadPlayer(Mugen3D.PlayerId.P2, p2CharacterName);
@@ -111,7 +108,7 @@ public class ClientGame : MonoBehaviour {
         Mugen3D.CameraController mCameraController = GetComponentInChildren<Mugen3D.CameraController>();
         fightUI.Init(this.p1, this.p2);
         mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform);
-        Mugen3D.CollisionWorld.Instance.AddCollideable(mCameraController);
+        world.collisionWorld.AddCollideable(mCameraController);
         p1.SetEnemy(p2);
         p2.SetEnemy(p1);
     }

@@ -48,8 +48,8 @@ public class RoundMgrSingleVs : RoundMgr {
         Task task3 = new Task((t) => { m_fightUI.CreateView<ViewPopText>().Show("Round" + roundNo, () => { t.Finish(); }); });
         Task task4 = new Task((t) => { m_fightUI.CreateView<ViewPopText>().Show("Fight" + roundNo, () => { t.Finish(); }); });
         Task task5 = new Task((t) => {
-            m_p1.UnlockInput();
-            m_p2.UnlockInput();
+            m_p1.SetCtrl(true);
+            m_p2.SetCtrl(true);
             m_roundState = RoundState.Fighting;
             t.Finish();
         });
@@ -100,8 +100,8 @@ public class RoundMgrSingleVs : RoundMgr {
         {
             m_p2Score += 1;
         }
-        m_p1.LockInput();
-        m_p1.LockInput();
+        m_p1.SetCtrl(false);
+        m_p1.SetCtrl(false);
         m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("KO"); });
         m_fightUI.InsertView<ViewPopText>((view) => {
             (view as ViewPopText).Show("Winner is " + winner.id.ToString(), BegenNextMatch);

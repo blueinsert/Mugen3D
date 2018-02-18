@@ -1,11 +1,11 @@
 "Gravity" : -10
 "WalkSpeed" : 3
 "RunSpeed" : 6
-"LightJumpSpeedX" : 3
+"LightJumpSpeedX" : 1.5
 "LightJumpSpeedY" : 6
-"MediumJumpSpeedX" : 3
+"MediumJumpSpeedX" : 1.5
 "MediumJumpSpeedY" : 6
-"HardJumpSpeedX" : 3
+"HardJumpSpeedX" : 1.5
 "HardJumpSpeedY" : 6
 "HopebackSpeedX" : -4
 "HopebackSpeedY" : 2

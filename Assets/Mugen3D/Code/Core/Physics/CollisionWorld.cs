@@ -5,20 +5,6 @@ namespace Mugen3D
 {
     public class CollisionWorld
     {
-        private CollisionWorld() { }
-        private static CollisionWorld mInstance;
-        public static CollisionWorld Instance
-        {
-            get
-            {
-                if (mInstance == null)
-                {
-                    mInstance = new CollisionWorld();
-                }
-                return mInstance;
-            }
-        }
-
         private List<Collideable> m_colliders = new List<Collideable>();
 
         public List<Collider> GetColliders()

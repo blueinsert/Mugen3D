@@ -25,23 +25,24 @@ namespace Mugen3D
         public MoveType moveType = MoveType.Idle;
         public PhysicsType physicsType = PhysicsType.Stand;
         public bool pushTest = true;
+        public bool ctrl = true;
     }
 
     public class Config
     {
-        private Dictionary<int, int> cfg = new Dictionary<int, int>();
+        private Dictionary<int, float> cfg = new Dictionary<int, float>();
 
         public Config(TextAsset def)
         {
             Parse(def);
         }
 
-        public void AddConfig(int key, int value)
+        public void AddConfig(int key, float value)
         {
             cfg[key] = value;
         }
 
-        public int GetConfig(int key)
+        public float GetConfig(int key)
         {
             if (cfg.ContainsKey(key))
             {
@@ -54,7 +55,7 @@ namespace Mugen3D
             }
         }
 
-        public int GetConfig(string key)
+        public float GetConfig(string key)
         {
             return GetConfig(key.GetHashCode());
         }
@@ -71,7 +72,7 @@ namespace Mugen3D
                 if (t.value == ":")
                 {
                     string key = tokens[pos - 2].value;
-                    int value = int.Parse(tokens[pos++].value);
+                    float value = float.Parse(tokens[pos++].value);
                     cfg[key.GetHashCode()] = value;
                 }
             }
@@ -102,6 +103,25 @@ namespace Mugen3D
         public Unit enemy;
 
         private int pauseTime = 0;
+
+        public override void OnUpdate()
+        {
+            int facing = enemy.transform.position.x - this.transform.position.x > 0 ? 1 : -1;
+            if (this.facing != facing)
+            {
+                ChangeFacing(facing);
+            }
+        }
+   
+        public void ChangeFacing(int facing)
+        {
+            if (this.facing != facing)
+            {
+                this.facing = facing;
+                var scale = this.transform.localScale;
+                this.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Abs(scale.z)*facing);
+            }
+        }
        
         public void SetEnemy(Unit enemy)
         {
@@ -151,6 +171,11 @@ namespace Mugen3D
         public void SetPhysicsType(PhysicsType type)
         {
             status.physicsType = type;
+        }
+
+        public void SetCtrl(bool ctrl)
+        {
+            status.ctrl = ctrl;
         }
     }
 }

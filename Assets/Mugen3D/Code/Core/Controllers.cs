@@ -32,7 +32,6 @@ namespace Mugen3D
 
         public void ExeController(Unit p, StateEventType type, Dictionary<string, TokenList> param, Action cb)
         {
-            Debug.Log("exe Controller type:" + type.ToString());
             switch(type){
                 case StateEventType.VelSet:
                     VelSet(p, param);
@@ -137,8 +136,8 @@ namespace Mugen3D
 
         public void CtrlSet(Unit p, Dictionary<string, TokenList> param)
         {
-            //bool value = !(int.Parse(param["value"].asStr) == 0);
-            //p.canCtrl = value;
+            bool value = !(int.Parse(param["value"].asStr) == 0);
+            p.SetCtrl(value);
         }
 
         public void ChangeState(Unit p, Dictionary<string, TokenList> param)

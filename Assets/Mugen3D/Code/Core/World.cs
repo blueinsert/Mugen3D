@@ -25,7 +25,7 @@ namespace Mugen3D
         }
 
         private void Init() {
-            collisionWorld = CollisionWorld.Instance;
+            collisionWorld = new CollisionWorld();
         }
 
         public CollisionWorld collisionWorld;

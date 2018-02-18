@@ -7,7 +7,13 @@ namespace Mugen3D
 {
     public class CmdManager
     {
-        Dictionary<int, List<CommandState>> mCommandState = new Dictionary<int, List<CommandState>>(); 
+        private Unit m_owner;
+        private Dictionary<int, List<CommandState>> m_commandState = new Dictionary<int, List<CommandState>>();
+
+        public void SetOwner(Unit owner)
+        {
+            m_owner = owner;
+        }
 
         public void LoadCmdFile(TextAsset content)
         {
@@ -26,18 +32,18 @@ namespace Mugen3D
             {
                 var cmdState = new CommandState(commands[i]);
                 int nameHash = cmdState.name.GetHashCode();
-                if (!mCommandState.ContainsKey(nameHash))
+                if (!m_commandState.ContainsKey(nameHash))
                 {
-                    mCommandState[nameHash] = new List<CommandState>();
+                    m_commandState[nameHash] = new List<CommandState>();
                 }
-                mCommandState[nameHash].Add(cmdState);
+                m_commandState[nameHash].Add(cmdState);
             }
         }
 
         public void Update(uint keycode)
         {
-            //Log.Info("KEYCODE:" + keycode);
-            foreach (var l in mCommandState)
+            Log.Info("KEYCODE:" + keycode);
+            foreach (var l in m_commandState)
             {
                 foreach (var s in l.Value)
                 {
@@ -49,14 +55,14 @@ namespace Mugen3D
         public int CommandIsActive(int commandNameHashCode)
         {
             int result = 0;
-            if (!mCommandState.ContainsKey(commandNameHashCode))
+            if (!m_commandState.ContainsKey(commandNameHashCode))
             {
                 result = 0;
                 Log.Warn("cmd def don't contain:" + commandNameHashCode);
             }
             else
             {
-                foreach (var s in mCommandState[commandNameHashCode])
+                foreach (var s in m_commandState[commandNameHashCode])
                 {
                     if (s.IsCommandComplete)
                     {
@@ -71,11 +77,11 @@ namespace Mugen3D
         public string GetActiveCommandName( )
         {  
             StringBuilder sb = new StringBuilder();
-            foreach (var k in mCommandState.Keys)
+            foreach (var k in m_commandState.Keys)
             {
                 if (CommandIsActive(k) == 1)
                 {
-                    sb.Append(mCommandState[k][0].name).Append(",");
+                    sb.Append(m_commandState[k][0].name).Append(",");
                 }
             }
             return sb.ToString();

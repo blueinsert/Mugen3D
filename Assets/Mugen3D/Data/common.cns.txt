@@ -82,7 +82,7 @@ value = 0
 moveType = I
 physics = S
 anim = 40
-ctrl = 0
+ctrl = 1
 
 [Event 40, 0]
 type = VarSet
@@ -105,6 +105,11 @@ id = 13
 value = -1
 
 [Event 40, 3]
+type = CtrlSet
+trigger1 = Time == 1
+value = 0
+
+[Event 40, 4]
 type = ChangeState
 trigger1 = LeftAnimElem == 0
 value = 50
