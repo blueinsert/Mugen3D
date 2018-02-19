@@ -45,7 +45,7 @@ namespace Mugen3D
 
         private void DoAddEntity(Entity e){
             m_entities.Add(e);
-            collisionWorld.AddCollideable(e);
+            collisionWorld.AddCollider((e as Unit).GetCollider());
             if (e is Player)
             {
                 m_players.Add(e as Player);
@@ -55,7 +55,7 @@ namespace Mugen3D
         private void DoRemoveEntity(Entity e)
         {
             m_entities.Remove(e);
-            collisionWorld.RemoveCollideable(e);
+            //collisionWorld.RemoveCollideable(e);
             if (e is Player)
             {
                 m_players.Remove(e as Player);

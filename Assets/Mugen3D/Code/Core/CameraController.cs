@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mugen3D
 {
-    public class CameraController : MonoBehaviour, Collideable
+    public class CameraController : MonoBehaviour
     {
         public float dumpRatio = 10;
         private Camera mCamera;
@@ -14,8 +14,8 @@ namespace Mugen3D
 
         private Rect mViewPortRect;
         private readonly int colliderWidth = 2;
-        private RectCollider mLeftCollider = new RectCollider(new Rect(Vector2.zero, 2, 999), Rect.RIGHT);
-        private RectCollider mRightCollider = new RectCollider(new Rect(Vector2.zero, 2, 999), Rect.LEFT);
+        public AABBCollider leftCollider;
+        public AABBCollider rightCollider;
 
         void Start()
         {
@@ -45,8 +45,8 @@ namespace Mugen3D
             float h = Mathf.Tan(fileOfView / 2 / 180 * Mathf.PI) * Mathf.Abs(transform.position.z) * 2;
             float w = mCamera.aspect * h;
             mViewPortRect = new Rect(new Vector2(transform.position.x, transform.position.y), w, h);
-            mLeftCollider.rect.position.x = mViewPortRect.position.x - w / 2 - 1;
-            mRightCollider.rect.position.x = mViewPortRect.position.x + w / 2 + 1;
+            leftCollider.aabb.center.x = mViewPortRect.position.x - w / 2 - 1;
+            rightCollider.aabb.center.x = mViewPortRect.position.x + w / 2 + 1;
         }
 
         private void OnDrawGizmos()
@@ -54,14 +54,7 @@ namespace Mugen3D
             if (mViewPortRect != null)
             {
                 mViewPortRect.DrawGizmos(Color.black);
-                mLeftCollider.DrawGizmos();
-                mRightCollider.DrawGizmos();
             }
-        }
-
-        Collider[] Collideable.GetColliders()
-        {
-            return new Collider[] {mLeftCollider, mRightCollider};
         }
     }
 }

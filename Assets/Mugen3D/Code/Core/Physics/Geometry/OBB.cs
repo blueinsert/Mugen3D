@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Mugen3D
 {
     [System.Serializable]
-    public class Cuboid
+    public class OBB : Geometry
     {
         static Vector4[] _points = new Vector4[8] { 
             new Vector4(-0.5f, -0.5f, -0.5f, 1),
@@ -36,14 +36,14 @@ namespace Mugen3D
             }
         }
 
-        public Cuboid()
+        public OBB()
         {
             position = Vector3.zero;
             rotation = Vector3.zero;
             scale = Vector3.one;
         }
 
-        public List<Vector3> GetVertexArray()
+        public override List<Vector3> GetVertexArray()
         {
             List<Vector3> array = new List<Vector3>();
             Matrix4x4 m = TransformMatrix;
@@ -55,6 +55,10 @@ namespace Mugen3D
             return array;
         }
 
+        public Vector3 GetCenter()
+        {
+            return TransformMatrix * new Vector3(0, 0, 0);
+        }
     }
 
 }

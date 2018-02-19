@@ -5,117 +5,78 @@ namespace Mugen3D
 {
     public class CollisionWorld
     {
-        private List<Collideable> m_colliders = new List<Collideable>();
+        private List<Collider> m_colliders = new List<Collider>();
 
-        public List<Collider> GetColliders()
-        {
-            List<Collider> colliders = new List<Collider>();
-            foreach (var collideable in m_colliders)
-            {
-                colliders.AddRange(collideable.GetColliders());
-            }
-            return colliders;
-        }
-
-        public void Clear()
-        {
-            m_colliders.Clear();
-        }
-
-        public void AddCollideable(Collideable c)
+        public void AddCollider(Collider c)
         {
             m_colliders.Add(c);
         }
 
-        public void RemoveCollideable(Collideable c)
+        public void RemoveCollider(Collider c)
         {
             m_colliders.Remove(c);
         }
 
-        public int GetCollideableNum()
+        private float GetNearestDist(Vector3 p, out Collider collider)
         {
-            return m_colliders.Count;
-        }
-
-        public RaycastHit Raycast2DAxisAligned(Vector2 origin, string dir, float distance)
-        {
-            List<RaycastHit> raycastResults = new List<RaycastHit>();
-            DoRayCast2DAxisAligned(origin, dir, distance, raycastResults, 1);
-            if (raycastResults.Count > 0)
+            collider = null;
+            float minDist = float.MaxValue;
+            foreach (var c in m_colliders)
             {
-                return raycastResults[0];
+                float dist = PhysicsUtils.DistToGeometry(c.GetGeometry(), p);
+                if (dist < minDist)
+                {
+                    minDist = Mathf.Min(dist, minDist);
+                    collider = c;
+                }
             }
-            return null;
+            return minDist;
         }
 
-        private void DoRayCast2DAxisAligned(Vector2 origin, string dir , float distance, List<RaycastHit> results, int max)
+        public bool RayCast(Vector3 rayStart, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
         {
-            Vector2 vss = Vector2.zero;
-            Vector2 vse = Vector2.zero;
-            Vector2 hss = Vector2.zero;
-            Vector2 hse = Vector2.zero;
-            if (dir == "left" || dir == "right")
+            hitResult = new RaycastHit();
+            bool isHit = false;
+            int maxIterNum = 10;
+            float goLength = 0;
+            for (int i = 0; i < maxIterNum; i++)
             {
-                hss = hse = origin;
-                if (dir == "right")
+                Collider nearestCollider;
+                float minDist = GetNearestDist(rayStart + goLength * rayDir, out nearestCollider);
+                if (minDist <= 0.001f)
                 {
-                    hse.x += distance;
+                    hitResult = new RaycastHit { collider = nearestCollider, distance = goLength, point = rayStart + rayDir * goLength };
+                    isHit = true;
+                    break;
                 }
-                else
+                goLength += minDist;
+            }
+            return isHit;
+        }
+
+        public bool BoxCast(Vector3[] vertexes, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
+        {
+            hitResult = new RaycastHit();
+            List<RaycastHit> hitResults = new List<RaycastHit>();
+            foreach (var vertex in vertexes)
+            {   RaycastHit r;
+                if (RayCast(vertex, rayDir, rayLength, out r))
                 {
-                    hss.x -= distance;
+                    hitResults.Add(r);
                 }
+            }
+            bool isHit = false;
+            if (hitResults.Count > 0)
+            {
+                isHit = true;
+                hitResults.Sort((a, b) => { return a.distance.CompareTo(b.distance); });
+                hitResult = hitResults[0];
             }
             else
             {
-                vss = vse = origin;
-                if (dir ==  "up")
-                {
-                    vse.y += distance;
-                }
-                else
-                {
-                    vss.y -= distance;
-                }
+                isHit = false;
             }
-            foreach (var e in GetColliders())
-            { 
-                bool oblique = false;
-                if (e is RectCollider)
-                {
-                    var c = e as RectCollider;
-                    if (dir =="right" && (c.side & Rect.LEFT) == 0) continue;
-                    if (dir == "left" && (c.side & Rect.RIGHT) == 0) continue;
-                    if (dir == "up" && (c.side & Rect.DOWN) == 0) continue;
-                    if (dir == "down" && (c.side & Rect.TOP) == 0) continue;
-                    var p = c.rect.position;
-                    var s = new Vector2(c.rect.width / 2, c.rect.height / 2);
-                    if (dir == "left" || dir == "right")
-                    {
-                        vss.x = vse.x = (dir == "right" ? p.x - s.x : p.x + s.x);
-                        vss.y = p.y - s.y;
-                        vse.y = p.y + s.y;
-                    }
-                    else
-                    {
-                        hss.y = hse.y = (dir == "up" ? p.y - s.y : p.y + s.y);
-                        hss.x = p.x - s.x;
-                        hse.x = p.x + s.x;
-                    }
-                }
-
-                Vector2 point = Vector2.zero;
-                bool hit = oblique ? ColliderUtils.SegmentIntersectionTest(hss, hse, vss, vse, ref point) : ColliderUtils.SegmentIntersectionAxisAlignedTest(hss, hse, vss, vse, ref point);
-                if (hit)
-                {
-                    Debug.DrawLine(point, point + new Vector2(2,0), Color.red, 0.025f);
-                    var result = new RaycastHit();
-                    result.point = point;
-                    result.collider = e;
-                    results.Add(result);
-                    if (results.Count >= max) break;
-                }
-            }//foreach collider
+            return isHit;
         }
     }//class
 }//namespace

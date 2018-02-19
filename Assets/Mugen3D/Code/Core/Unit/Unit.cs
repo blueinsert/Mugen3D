@@ -80,6 +80,7 @@ namespace Mugen3D
 
     }//class   
 
+    [RequireComponent(typeof(DecisionBoxes))]
     public abstract class Unit : Entity
     {
         public TextAsset configFile;
@@ -92,6 +93,8 @@ namespace Mugen3D
         public CmdManager cmdMgr;
         public MoveCtrl moveCtr;
         public StateManager stateMgr;
+        [HideInInspector]
+        public DecisionBoxes decisionBoxes;
 
         public Status status = new Status();
         public Dictionary<int, int> vars = new Dictionary<int,int>();
@@ -103,6 +106,19 @@ namespace Mugen3D
         public Unit enemy;
 
         private int pauseTime = 0;
+
+        public override void Init()
+        {
+            decisionBoxes = this.GetComponent<DecisionBoxes>();
+            //decisionBoxes.Init();
+        }
+
+        public override Collider GetCollider()
+        {
+            var c = new AABBCollider();
+            c.aabb = decisionBoxes.GetMinAABB();
+            return c;
+        }
 
         public override void OnUpdate()
         {

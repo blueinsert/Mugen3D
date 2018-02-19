@@ -4,14 +4,9 @@ using UnityEngine;
 
 namespace Mugen3D
 {
-    public class Rect
+    [System.Serializable]
+    public class Rect : Geometry
     {
-        public static readonly int FULL = -1;
-        public static readonly int LEFT = 1 << 0;
-        public static readonly int RIGHT = 1 << 1;
-        public static readonly int TOP = 1 << 2;
-        public static readonly int DOWN = 1 << 3;
-
         public Vector2 position;
         public float width;
         public float height;
@@ -26,14 +21,25 @@ namespace Mugen3D
         public void DrawGizmos(Color c, int side = -1)
         {
             Gizmos.color = c;
+            var vertexes = GetVertexArray();
+            Gizmos.DrawLine(vertexes[0], vertexes[1]);
+            Gizmos.DrawLine(vertexes[1], vertexes[2]);
+            Gizmos.DrawLine(vertexes[2], vertexes[3]);
+            Gizmos.DrawLine(vertexes[3], vertexes[0]);
+        }
+
+        public override List<Vector3> GetVertexArray()
+        {
             Vector3 bottomLeft = new Vector3(position.x, position.y, 0) + new Vector3(-width / 2, -height / 2, 0);
             Vector3 topLeft = new Vector3(position.x, position.y, 0) + new Vector3(-width / 2, height / 2, 0);
             Vector3 topRight = new Vector3(position.x, position.y, 0) + new Vector3(width / 2, height / 2, 0);
             Vector3 bottomRight = new Vector3(position.x, position.y, 0) + new Vector3(width / 2, -height / 2, 0);
-            if ((side & Rect.LEFT) != 0) Gizmos.DrawLine(bottomLeft, topLeft);
-            if ((side & Rect.TOP) != 0) Gizmos.DrawLine(topLeft, topRight);
-            if ((side & Rect.RIGHT) != 0) Gizmos.DrawLine(topRight, bottomRight);
-            if ((side & Rect.DOWN) != 0) Gizmos.DrawLine(bottomRight, bottomLeft);
+            List<Vector3> result = new List<Vector3>();
+            result.Add(bottomLeft);
+            result.Add(topLeft);
+            result.Add(topRight);
+            result.Add(bottomRight);
+            return result;
         }
     }
 }

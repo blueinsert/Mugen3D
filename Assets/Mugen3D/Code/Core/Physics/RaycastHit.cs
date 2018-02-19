@@ -7,6 +7,6 @@ namespace Mugen3D
     {
         public Vector3 point;
         public Collider collider;
-        public int distance;
+        public float distance;
     }
 }

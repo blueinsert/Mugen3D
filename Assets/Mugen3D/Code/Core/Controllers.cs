@@ -260,17 +260,18 @@ namespace Mugen3D
             p.Pause(pauseTime);
         }
 
-        private bool IsHit(Unit p, HitBoxLocation activePart, Player enemy)
+        private bool IsHit(Unit p, HitPart activePart, Player enemy)
         {
-            HitBox attackBox = p.GetComponent<DecisionBoxManager>().GetHitBox(activePart);
-            HitBox[] attackBoxes = new HitBox[] { attackBox};
-            DefenceBox[] defenceBoxes = enemy.GetComponent<DecisionBoxManager>().defenceBoxes.ToArray();
+            /*
+            //HitBox attackBox = p.GetComponent<DecisionBoxManager>().GetHitBox(activePart);
+            //HitBox[] attackBoxes = new HitBox[] { attackBox};
+            //DefenceBox[] defenceBoxes = enemy.GetComponent<DecisionBoxManager>().defenceBoxes.ToArray();
             bool hit = false;
             for (int i = 0; i < attackBoxes.Length; i++)
             {
                 for (int j = 0; j < defenceBoxes.Length; j++)
                 {
-                    if (ColliderUtils.CuboidCuboidTest(attackBoxes[i].cuboid.GetVertexArray().ToArray(), defenceBoxes[j].cuboid.GetVertexArray().ToArray()))
+                    if (PhysicsUtils.CuboidCuboidTest(attackBoxes[i].cuboid.GetVertexArray().ToArray(), defenceBoxes[j].cuboid.GetVertexArray().ToArray()))
                     {
                         hit = true;
                         break;
@@ -279,17 +280,18 @@ namespace Mugen3D
                         break;
                 }
             }
+             */
             //Log.Info("hit:" + hit);
-            return hit;
+            return false;
         }
 
         public void HitDef(Unit p, Dictionary<string, TokenList> param)
-        {   
-           Player enemy = TeamMgr.GetEnemy(p as Player);
+        {
+            Player enemy = p.enemy as Player;
            if (enemy == null)
                return;
            HitVars hitvars = new HitVars(param);
-           bool hit = IsHit(p, hitvars.activeAttackBodyPart, enemy);
+           bool hit = false;//IsHit(p, hitvars.activeAttackBodyPart, enemy);
            if (!hit)
                return;
            if (Triggers.Instance.EnemyMoveType(p) != "Defence")

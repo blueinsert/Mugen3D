@@ -5,8 +5,8 @@ using Mugen3D;
 
 [ExecuteInEditMode]
 public class CollideSystemTest : MonoBehaviour {
-    public Cuboid cuboid1;
-    public Cuboid cuboid2; 
+    public OBB cuboid1;
+    public OBB cuboid2; 
 	// Use this for initialization
 	void Start () {
 
@@ -22,7 +22,7 @@ public class CollideSystemTest : MonoBehaviour {
         Gizmos.color = Color.blue;
         Vector3[] c1Points = cuboid1.GetVertexArray().ToArray();
         Vector3[] c2Points = cuboid2.GetVertexArray().ToArray();
-        if (ColliderUtils.CuboidCuboidTest(c1Points, c2Points))
+        if (PhysicsUtils.CuboidCuboidTest(c1Points, c2Points))
         {
             Gizmos.color = Color.red;
         }

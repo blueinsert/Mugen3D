@@ -36,7 +36,7 @@ namespace Mugen3D
         protected Vector3 mExternalForce = Vector3.zero;
         protected float groundFrictionFactor = 3f;
 
-        protected RectCollider mCollider;
+        protected AABB m_minAABB;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
@@ -117,112 +117,14 @@ namespace Mugen3D
 
         private void CollideTest()
         {
-            mCollider = m_owner.GetComponent<DecisionBoxManager>().GetCollider();
-            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
-            {
-                CastRaysLeft();
-                CastRaysRight();
-            }
-            else if (m_owner.status.physicsType == PhysicsType.Air)
-            {
-                CastRaysLeft();
-                CastRaysRight();
-                CastRaysUp();
-                CastRaysBelow();
-            }
-        }
-
-        private void CastRaysUp()
-        {
-            if (m_deltaPos.y <= 0)
+            if (m_deltaPos.x == 0 && m_deltaPos.y == 0)
                 return;
-            var rayLength = mCollider.rect.height / 2 + m_deltaPos.y;
-            var rayStart1 = new Vector2(mCollider.rect.position.x + mCollider.rect.width / 2, mCollider.rect.position.y);
-            var rayStart2 = new Vector2(mCollider.rect.position.x - mCollider.rect.width / 2, mCollider.rect.position.y);
-            var hits = new List<RaycastHit>();
-            var hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart1, "up", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart2, "up", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            if (hits.Count != 0)
+            m_minAABB = m_owner.decisionBoxes.GetMinAABB();
+            RaycastHit hitResult;
+            if (World.Instance.collisionWorld.BoxCast(m_minAABB.GetVertexArray().ToArray(), m_deltaPos.normalized, m_deltaPos.magnitude, out hitResult))
             {
-                hits.Sort((x, y) => { return x.point.y.CompareTo(y.point.y); });
-                hit = hits[0];
-                HandleHitUp(hit);
+
             }
         }
-
-        private void CastRaysBelow()
-        {
-            if (m_deltaPos.y >= 0)
-                return;
-            var rayLength = mCollider.rect.height / 2 - m_deltaPos.y;
-            var rayStart1 = new Vector2(mCollider.rect.position.x + mCollider.rect.width / 2, mCollider.rect.position.y);
-            var rayStart2 = new Vector2(mCollider.rect.position.x - mCollider.rect.width / 2, mCollider.rect.position.y);
-            var hits = new List<RaycastHit>();
-            var hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart1, "down", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart2, "down", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            if (hits.Count != 0)
-            {
-                hits.Sort((x, y) => { return y.point.y.CompareTo(x.point.y); });
-                hit = hits[0];
-                HandleHitBelow(hit);
-            }
-        }
-
-        private void CastRaysLeft()
-        {
-            if (m_deltaPos.x >= 0)
-                return;
-            var rayLength = mCollider.rect.width / 2 - m_deltaPos.x;
-            var rayStart1 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y + mCollider.rect.height / 2);
-            var rayStart2 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y - mCollider.rect.height / 2);
-            var hits = new List<RaycastHit>();
-            var hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart1, "left", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart2, "left", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            if (hits.Count != 0)
-            {
-                hits.Sort((x, y) => { return y.point.x.CompareTo(x.point.x); });
-                hit = hits[0];
-                HandleHitLeft(hit);
-            }
-        }
-
-        private void CastRaysRight()
-        {
-            if (m_deltaPos.x <= 0)
-                return;
-            var rayLength = mCollider.rect.width / 2 + m_deltaPos.x;
-            var rayStart1 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y + mCollider.rect.height / 2);
-            var rayStart2 = new Vector2(mCollider.rect.position.x, mCollider.rect.position.y - mCollider.rect.height / 2);
-            var hits = new List<RaycastHit>();
-            var hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart1, "right", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            hit = World.Instance.collisionWorld.Raycast2DAxisAligned(rayStart2, "right", rayLength);
-            if (hit != null)
-                hits.Add(hit);
-            if (hits.Count != 0)
-            {
-                hits.Sort((x, y) => { return x.point.x.CompareTo(y.point.x); });
-                hit = hits[0];
-                HandleHitRight(hit);
-            }
-        }
-
-        protected abstract void HandleHitUp(RaycastHit hit);
-        protected abstract void HandleHitBelow(RaycastHit hit);
-        protected abstract void HandleHitLeft(RaycastHit hit);
-        protected abstract void HandleHitRight(RaycastHit hit);
     }
 }

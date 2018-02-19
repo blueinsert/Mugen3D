@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace Mugen3D
 {
-    public interface Collideable
+    public abstract class Geometry
     {
-        Collider[] GetColliders();
+        public abstract List<Vector3> GetVertexArray();
     }
 }

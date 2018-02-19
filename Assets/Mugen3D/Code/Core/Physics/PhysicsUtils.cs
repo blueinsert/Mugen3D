@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
-    public class ColliderUtils
+    public class PhysicsUtils
     {
-        static Vector3 GetPlaneNormalVector(Vector3 p1, Vector3 p2, Vector3 p3)
+        private static Vector3 GetPlaneNormalVector(Vector3 p1, Vector3 p2, Vector3 p3)
         {
             Vector3 v1 = p2 - p1;
             Vector3 v2 = p3 - p1;
@@ -71,43 +71,12 @@ namespace Mugen3D
             return isIntersect;
         }
 
-        public static bool RectRectTest(RectCollider rect1, RectCollider rect2)
+        public static bool RectRectTest(Rect rect1, Rect rect2)
         {
             bool isIntersect = false;
-            if (Mathf.Abs(rect1.rect.position.x - rect2.rect.position.x) < (rect1.rect.width + rect2.rect.width) / 2 && Mathf.Abs(rect2.rect.position.y - rect1.rect.position.y) < (rect1.rect.height + rect2.rect.height) / 2)
+            if (Mathf.Abs(rect1.position.x - rect2.position.x) < (rect1.width + rect2.width) / 2 && Mathf.Abs(rect2.position.y - rect1.position.y) < (rect1.height + rect2.height) / 2)
                 isIntersect = true;
             return isIntersect;
-        }
-
-        public static bool SegmentIntersectionAxisAlignedTest(Vector2 h1, Vector2 h2, Vector2 v1, Vector2 v2, ref Vector2 point)
-        {
-            Vector2 vss, vse, hss, hse;
-
-            if (v1.y < v2.y)
-            {
-                vss = v1; vse = v2;
-            }
-            else
-            {
-                vss = v2; vse = v1;
-            }
-            if (h1.x < h2.x)
-            {
-                hss = h1; hse = h2;
-            }
-            else
-            {
-                hss = h2; hse = h1;
-            }
-
-            if (hss.x <= vss.x && hse.x >= vss.x && vss.y <= hss.y && vse.y >= hss.y)
-            {
-                point.x = vss.x;
-                point.y = hss.y;
-                return true;
-            }
-
-            return false;
         }
 
         public static bool SegmentIntersectionTest(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, ref Vector2 point)
@@ -144,6 +113,46 @@ namespace Mugen3D
             point.y = (int)(p0.y + (t * s10_y));
 
             return true;
+        }
+
+        public bool RayOBBIntersectionTest(OBB cuboid, Vector3 rayStart, Vector3 rayDir, float length, out float distance)
+        {
+            distance = 0;
+            return false;
+        }
+
+        public static void ClosestPointAtOBB(OBB cuboid, Vector3 p, out Vector3 q){
+            q = Vector3.zero;
+            Matrix4x4 trsM = cuboid.TransformMatrix;
+            Vector3 pLocal = trsM.inverse * p;
+            for (int i = 0; i < 3; i++)
+            {
+                float v = p[i];
+                v = Mathf.Max(v, -0.5f);
+                v = Mathf.Min(v, 0.5f);
+                q[i] = v;
+            }
+            q = trsM * q;
+        }
+
+        public static float DistToOBB(OBB cuboid, Vector3 p)
+        {
+            Vector3 closestPoint;
+            ClosestPointAtOBB(cuboid, p, out closestPoint);
+            Vector3 center = cuboid.GetCenter();
+            return (p - center).magnitude - (closestPoint - center).magnitude;
+        }
+
+        public static float DistToGeometry(Geometry geometry, Vector3 p)
+        {
+            if (geometry is OBB)
+            {
+                return DistToOBB(geometry as OBB, p);
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

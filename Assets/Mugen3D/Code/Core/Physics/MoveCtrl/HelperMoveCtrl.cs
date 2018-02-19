@@ -16,10 +16,5 @@ namespace Mugen3D
             base.Update();
         }
 
-        protected override void HandleHitUp(RaycastHit hit) { }
-        protected override void HandleHitBelow(RaycastHit hit) { }
-        protected override void HandleHitLeft(RaycastHit hit) { }
-        protected override void HandleHitRight(RaycastHit hit) { }
-
     }
 }

@@ -13,7 +13,6 @@ namespace Mugen3D
     }
 
     [RequireComponent(typeof(Animation))]
-    [RequireComponent(typeof(DecisionBoxManager))]
     public class Player : Unit, IHealth
     {
         const int randomSeed = 123456789;
@@ -57,10 +56,6 @@ namespace Mugen3D
             this.stateMgr.ChangeState(0);
         }
 
-        public override Collider[] GetColliders()
-        {
-            return new Collider[] { this.GetComponent<DecisionBoxManager>().GetCollider() };
-        }
 
         private int m_maxHP = 100;
         private int m_hp = 100;

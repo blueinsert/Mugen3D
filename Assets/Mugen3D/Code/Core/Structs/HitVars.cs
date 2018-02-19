@@ -31,7 +31,7 @@ namespace Mugen3D
         //This determines how P2 may guard the attack. 
         public string guardFlag;
 
-        public HitBoxLocation activeAttackBodyPart;
+        public HitPart activeAttackBodyPart;
         private AnimType animType;
         private GroundType groundType;
         public int hitDamage;
@@ -105,7 +105,7 @@ namespace Mugen3D
             }
             if (param.ContainsKey("activeAttackBodyPart"))
             {
-                this.activeAttackBodyPart = (HitBoxLocation)Enum.Parse(typeof(HitBoxLocation), param["activeAttackBodyPart"].asStr);
+                this.activeAttackBodyPart = (HitPart)Enum.Parse(typeof(HitPart), param["activeAttackBodyPart"].asStr);
                 this.dic["activeAttackBodyPart".GetHashCode()] = (int)this.activeAttackBodyPart;
             }
             if (param.ContainsKey("groundType"))

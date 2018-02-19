@@ -12,13 +12,14 @@ namespace Mugen3D
 
         }
 
+        /*
         private void IntersectingTest()
         {
             if (mCollidePlayer == null)
                 return;
             RectCollider selfCollider = m_owner.GetComponent<DecisionBoxManager>().GetCollider();
             RectCollider otherCollider = mCollidePlayer.GetComponent<DecisionBoxManager>().GetCollider();
-            if (ColliderUtils.RectRectTest(selfCollider, otherCollider))
+            if (PhysicsUtils.RectRectTest(selfCollider, otherCollider))
             {
                 float deltaX = (selfCollider.rect.width + otherCollider.rect.width) / 2 - Mathf.Abs(selfCollider.rect.position.x - otherCollider.rect.position.x);
                 float centerX = (selfCollider.rect.position.x + otherCollider.rect.position.x) / 2;
@@ -26,13 +27,15 @@ namespace Mugen3D
                 mCollidePlayer.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > otherCollider.rect.position.x ? -1 : 1), 0, 0));
             }
         }
+         */
 
         public override void Update()
         {
             base.Update();
-            IntersectingTest();
+            //IntersectingTest();
         }
 
+        /*
         protected override void HandleHitUp(RaycastHit hit)
         {
             if (hit.collider.owner != null && hit.collider.owner is Player)
@@ -40,7 +43,7 @@ namespace Mugen3D
             }
             else
             {
-                m_deltaPos.y = hit.point.y - (mCollider.rect.position.y + mCollider.rect.height / 2);
+                m_deltaPos.y = hit.point.y - (m_minAABB.rect.position.y + m_minAABB.rect.height / 2);
                 m_velocity.y = 0;
             }
         }
@@ -49,18 +52,11 @@ namespace Mugen3D
         {
             if (hit.collider.owner != null && hit.collider.owner is Player)
             {
-                /*
-                RectCollider hitCollider = hit.collider as RectCollider;
-                float colliderPosX = mCollider.position.x + mDeltaPos.z;
-                float movementX = (mCollider.width + hitCollider.width) / 2 - Mathf.Abs(hitCollider.position.x - colliderPosX);
-                float sign = hitCollider.position.x > colliderPosX ? 1 : -1;
-                Player collidePlayer = hit.collider.owner as Player;
-                collidePlayer.moveCtr.AddPos(new Vector3(0, 0, movementX*sign));
-              */
+              
             }
             else
             {
-                m_deltaPos.y = -hit.point.y + (mCollider.rect.position.y - mCollider.rect.height / 2);
+                m_deltaPos.y = -hit.point.y + (m_minAABB.rect.position.y - m_minAABB.rect.height / 2);
                 m_velocity.y = 0;
                 m_owner.status.physicsType = PhysicsType.Stand;
                 this.justOnGround = true;
@@ -80,7 +76,7 @@ namespace Mugen3D
             }
             else
             {
-                m_deltaPos.x = hit.point.x - (mCollider.rect.position.x - mCollider.rect.width / 2);
+                m_deltaPos.x = hit.point.x - (m_minAABB.rect.position.x - m_minAABB.rect.width / 2);
                 m_velocity.z = 0;
             }
 
@@ -100,11 +96,11 @@ namespace Mugen3D
             }
             else
             {
-                m_deltaPos.x = hit.point.x - (mCollider.rect.position.x + mCollider.rect.width / 2);
+                m_deltaPos.x = hit.point.x - (m_minAABB.rect.position.x + m_minAABB.rect.width / 2);
                 m_velocity.z = 0;
             }
         }
-
+*/
        
 
     }

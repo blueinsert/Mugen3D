@@ -80,10 +80,5 @@ namespace Mugen3D
             animCtr.Update();
             stateMgr.Update();
         }
-
-        public override Collider[] GetColliders()
-        {
-            return new Collider[] { this.GetComponent<DecisionBoxManager>().GetCollider() };
-        }
     }
 }

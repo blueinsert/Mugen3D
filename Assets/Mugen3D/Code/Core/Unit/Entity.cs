@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
-    public abstract class Entity : MonoBehaviour, Collideable
+    public abstract class Entity : MonoBehaviour
     {
         public Action<Entity, Event> onEvent;
 
@@ -22,14 +22,11 @@ namespace Mugen3D
             }
         }
 
-        public virtual Collider[] GetColliders()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Destroy()
         {
             isDestroyed = true;
         }
+
+        public abstract Collider GetCollider(); 
     }
 }

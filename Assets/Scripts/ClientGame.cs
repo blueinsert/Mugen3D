@@ -43,9 +43,9 @@ public class ClientGame : MonoBehaviour {
     {
         UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
         GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject;
-        foreach (var colliderView in goStage.GetComponentsInChildren<Mugen3D.RectColliderView>())
+        foreach (var collider in goStage.GetComponentsInChildren<Mugen3D.Collider>())
         {
-            world.collisionWorld.AddCollideable(colliderView);
+            world.collisionWorld.AddCollider(collider);
         }
     }
 
@@ -108,7 +108,8 @@ public class ClientGame : MonoBehaviour {
         Mugen3D.CameraController mCameraController = GetComponentInChildren<Mugen3D.CameraController>();
         fightUI.Init(this.p1, this.p2);
         mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform);
-        world.collisionWorld.AddCollideable(mCameraController);
+        world.collisionWorld.AddCollider(mCameraController.leftCollider);
+        world.collisionWorld.AddCollider(mCameraController.rightCollider);
         p1.SetEnemy(p2);
         p2.SetEnemy(p1);
     }
