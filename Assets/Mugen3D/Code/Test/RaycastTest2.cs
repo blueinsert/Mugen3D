@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mugen3D;
-
-public class RayCuboidIntersectTest : MonoBehaviour {
-
+public class RaycastTest2 : MonoBehaviour
+{
     public Transform rayStart;
     public Transform rayEnd;
-    public OBBCollider cuboid;
 
     protected void OnDrawGizmos()
     {
@@ -15,12 +13,11 @@ public class RayCuboidIntersectTest : MonoBehaviour {
         Gizmos.DrawSphere(rayStart.position, 0.1f);
         Gizmos.DrawSphere(rayEnd.position, 0.1f);
         Gizmos.DrawLine(rayStart.position, rayEnd.position);
-
-        Vector3 nearestPoint;
-        PhysicsUtils.ClosestPointAtOBB(cuboid.obb, rayStart.position, out nearestPoint);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(nearestPoint, 0.1f);
-        float dis = PhysicsUtils.DistToOBB(cuboid.obb, rayStart.position);
-        //Debug.Log("dis:" + dis);
+        Mugen3D.RaycastHit hitResult;
+        if (World.Instance.collisionWorld.RayCast(rayStart.position, (rayEnd.position - rayStart.position).normalized, (rayEnd.position - rayStart.position).magnitude, out hitResult))
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(hitResult.point, 0.1f);
+        }
     }
 }

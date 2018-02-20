@@ -12,7 +12,7 @@ namespace Mugen3D
     }
 
     [System.Serializable]
-    public class HitBox2
+    public class HitBox
     {
         public HitPart hitPart;
         public OBBCollider collider;

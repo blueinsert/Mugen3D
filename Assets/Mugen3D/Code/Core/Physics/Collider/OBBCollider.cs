@@ -6,19 +6,19 @@ namespace Mugen3D
 {
     public class OBBCollider : Collider
     {
-        public OBB cuboid;
+        public OBB obb;
 
         public override Geometry GetGeometry()
         {
-            return cuboid;
+            return obb;
         }
 
         protected void OnDrawGizmos()
         {
-            if (cuboid == null)
+            if (obb == null)
                 return;
             Gizmos.color = color;
-            List<Vector3> points = cuboid.GetVertexArray();
+            List<Vector3> points = obb.GetVertexArray();
             Gizmos.DrawLine(points[0], points[1]);
             Gizmos.DrawLine(points[1], points[2]);
             Gizmos.DrawLine(points[2], points[3]);

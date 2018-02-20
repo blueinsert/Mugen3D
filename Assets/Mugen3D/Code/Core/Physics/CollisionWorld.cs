@@ -23,6 +23,8 @@ namespace Mugen3D
             float minDist = float.MaxValue;
             foreach (var c in m_colliders)
             {
+                if (!c.interactable)
+                    continue;
                 float dist = PhysicsUtils.DistToGeometry(c.GetGeometry(), p);
                 if (dist < minDist)
                 {
@@ -33,14 +35,17 @@ namespace Mugen3D
             return minDist;
         }
 
+        //iter form
         public bool RayCast(Vector3 rayStart, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
         {
             hitResult = new RaycastHit();
             bool isHit = false;
-            int maxIterNum = 10;
+            int maxIterNum = 25;
             float goLength = 0;
+            int iterNum = 0;
             for (int i = 0; i < maxIterNum; i++)
             {
+                iterNum++;
                 Collider nearestCollider;
                 float minDist = GetNearestDist(rayStart + goLength * rayDir, out nearestCollider);
                 if (minDist <= 0.001f)
@@ -50,12 +55,25 @@ namespace Mugen3D
                     break;
                 }
                 goLength += minDist;
+                if (goLength > rayLength)
+                    break;
             }
+            Debug.Log("iter num:" + iterNum);
             return isHit;
         }
 
-        public bool BoxCast(Vector3[] vertexes, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
+        public bool OBBCast(OBB obb, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
         {
+            var center = obb.GetCenter();
+            hitResult = new RaycastHit();
+            bool isHit = false;
+            if (RayCast(center, rayDir, rayLength, out hitResult))
+            {
+                isHit = true;
+            }
+            return isHit;
+            /*
+            var vertexes = obb.GetVertexArray();
             hitResult = new RaycastHit();
             List<RaycastHit> hitResults = new List<RaycastHit>();
             foreach (var vertex in vertexes)
@@ -77,6 +95,7 @@ namespace Mugen3D
                 isHit = false;
             }
             return isHit;
+            */
         }
     }//class
 }//namespace

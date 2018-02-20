@@ -123,11 +123,17 @@ namespace Mugen3D
 
         public static void ClosestPointAtOBB(OBB cuboid, Vector3 p, out Vector3 q){
             q = Vector3.zero;
-            Matrix4x4 trsM = cuboid.TransformMatrix;
-            Vector3 pLocal = trsM.inverse * p;
+            Matrix4x4 trsM = cuboid.TransformMatrix;    
+            Vector3 localXAxis = trsM.GetColumn(0);
+            Vector3 localYAxis = trsM.GetColumn(1);
+            Vector3 localZAxis = trsM.GetColumn(2);
+            float localX = Vector3.Dot(p, localXAxis) / (localXAxis.magnitude * localXAxis.magnitude);
+            float localY = Vector3.Dot(p, localYAxis) / (localYAxis.magnitude * localYAxis.magnitude);
+            float localZ = Vector3.Dot(p, localZAxis) / (localZAxis.magnitude * localZAxis.magnitude);
+            Vector3 pLocal = new Vector3(localX, localY, localZ);
             for (int i = 0; i < 3; i++)
             {
-                float v = p[i];
+                float v = pLocal[i];
                 v = Mathf.Max(v, -0.5f);
                 v = Mathf.Min(v, 0.5f);
                 q[i] = v;

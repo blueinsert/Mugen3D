@@ -23,6 +23,7 @@ namespace Mugen3D
        
         public override void Init()
         {
+            base.Init();
             //
             moveCtr = new PlayerMoveCtrl(this);
             //

@@ -7,9 +7,20 @@ namespace Mugen3D
     {
         public string tag;
         [HideInInspector]
-        public Entity owner;
+        public Unit owner;
+        public bool interactable = true;
         public Color color = Color.red;
 
-        public abstract Geometry GetGeometry();       
+        public abstract Geometry GetGeometry();
+
+        public void SetOwner(Unit owner)
+        {
+            this.owner = owner;
+        }
+
+        public void SetInteractable(bool interactable)
+        {
+            this.interactable = interactable;
+        }
     }
 }

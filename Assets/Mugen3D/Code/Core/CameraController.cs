@@ -14,8 +14,8 @@ namespace Mugen3D
 
         private Rect mViewPortRect;
         private readonly int colliderWidth = 2;
-        public AABBCollider leftCollider;
-        public AABBCollider rightCollider;
+        public OBBCollider leftCollider;
+        public OBBCollider rightCollider;
 
         void Start()
         {
@@ -45,8 +45,8 @@ namespace Mugen3D
             float h = Mathf.Tan(fileOfView / 2 / 180 * Mathf.PI) * Mathf.Abs(transform.position.z) * 2;
             float w = mCamera.aspect * h;
             mViewPortRect = new Rect(new Vector2(transform.position.x, transform.position.y), w, h);
-            leftCollider.aabb.center.x = mViewPortRect.position.x - w / 2 - 1;
-            rightCollider.aabb.center.x = mViewPortRect.position.x + w / 2 + 1;
+            leftCollider.obb.position.x = mViewPortRect.position.x - w / 2 - 1;
+            rightCollider.obb.position.x = mViewPortRect.position.x + w / 2 + 1;
         }
 
         private void OnDrawGizmos()

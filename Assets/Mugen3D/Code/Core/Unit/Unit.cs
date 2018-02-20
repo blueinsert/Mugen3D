@@ -110,14 +110,13 @@ namespace Mugen3D
         public override void Init()
         {
             decisionBoxes = this.GetComponent<DecisionBoxes>();
-            //decisionBoxes.Init();
+            decisionBoxes.SetOwner(this);
+            decisionBoxes.Init();
         }
 
         public override Collider GetCollider()
         {
-            var c = new AABBCollider();
-            c.aabb = decisionBoxes.GetMinAABB();
-            return c;
+            return decisionBoxes.GetMinBBCollider();
         }
 
         public override void OnUpdate()

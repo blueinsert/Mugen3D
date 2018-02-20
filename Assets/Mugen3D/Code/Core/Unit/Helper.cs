@@ -29,6 +29,8 @@ namespace Mugen3D
 
         public override void Init()
         {
+            base.Init();
+
             moveCtr = new HelperMoveCtrl(this);
             //
             //cmdMgr = new CmdManager();
