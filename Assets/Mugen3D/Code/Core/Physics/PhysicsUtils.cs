@@ -160,5 +160,77 @@ namespace Mugen3D
                 return 0;
             }
         }
+
+        private static Vector3 LocalPoint(Matrix4x4 modelMatrix, Vector3 globalPoint)
+        {
+            Vector3 localXAxis = modelMatrix.GetColumn(0);
+            Vector3 localYAxis = modelMatrix.GetColumn(1);
+            Vector3 localZAxis = modelMatrix.GetColumn(2);
+            Vector3 modelOrigin = modelMatrix.GetColumn(3);
+            Vector3 v = globalPoint - modelOrigin;
+            float localX = Vector3.Dot(v, localXAxis) / (localXAxis.magnitude * localXAxis.magnitude);
+            float localY = Vector3.Dot(v, localYAxis) / (localYAxis.magnitude * localYAxis.magnitude);
+            float localZ = Vector3.Dot(v, localZAxis) / (localZAxis.magnitude * localZAxis.magnitude);
+            Vector3 pLocal = new Vector3(localX, localY, localZ);
+            return pLocal;
+        }
+
+        public static bool RayAABBIntersectTest(Vector3 rayStart, Vector3 rayDir, float rayLength, out float dist, out Vector3 p)
+        {
+            dist = 0;
+            p = rayStart;
+            if(rayStart.x <= 0.5 && rayStart.x >= -0.5 && 
+               rayStart.y <= 0.5 && rayStart.y >= -0.5 && 
+               rayStart.z <= 0.5 && rayStart.z >= -0.5){
+                return true;
+            }
+            float tmin = 0;
+            float tmax = float.MaxValue;
+            for (int i = 0; i < 3; i++)
+            {
+                if (Mathf.Abs(rayDir[i]) < 0.001)
+                {
+                    if (rayStart[i] < -0.5 || rayStart[i] > 0.5)
+                        return false;
+                }
+                else
+                {
+                    float ood = 1.0f / rayDir[i];
+                    float t1 = (0.5f - rayStart[i]) * ood;
+                    float t2 = (-0.5f - rayStart[i]) * ood;
+                    if (t1 > t2)
+                    {
+                        float tmp = t1;
+                        t1 = t2;
+                        t2 = tmp;
+                    }
+                    if (t1 > tmin)
+                        tmin = t1;
+                    if (t2 < tmax)
+                        tmax = t2;
+                    if (tmin > tmax)
+                        return false;
+                }
+            }
+            if (tmin > rayLength)
+                return false;
+            p = tmin * rayDir + rayStart;
+            dist = tmin;
+            return true;
+        }
+
+        public static bool RayOBBIntersectTest(OBB obb, Vector3 rayStart, Vector3 rayEnd, out float dist, out Vector3 p)
+        { 
+            var modelMatrix = obb.TransformMatrix;
+            Vector3 localRayStart = LocalPoint(modelMatrix, rayStart);
+            Vector3 localRayEnd = LocalPoint(modelMatrix, rayEnd);
+            bool isHit = RayAABBIntersectTest(localRayStart, (localRayEnd - localRayStart).normalized, (localRayEnd - localRayStart).magnitude, out dist, out p);
+            if (isHit)
+            {
+                p = modelMatrix * new Vector4(p.x,p.y,p.z,1);
+                dist = (p - rayStart).magnitude;
+            }
+            return isHit;
+        }
     }
 }

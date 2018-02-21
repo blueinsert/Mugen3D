@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 namespace Mugen3D
 {
+    public delegate bool Filter(Collider col);
+
     public class CollisionWorld
     {
         private List<Collider> m_colliders = new List<Collider>();
@@ -17,85 +20,51 @@ namespace Mugen3D
             m_colliders.Remove(c);
         }
 
-        private float GetNearestDist(Vector3 p, out Collider collider)
+        public bool RayCast(Vector3 rayStart, Vector3 rayEnd, out RaycastHit hitResult, Filter filter = null)
         {
-            collider = null;
-            float minDist = float.MaxValue;
+            hitResult = null;
+            List<RaycastHit> results = new List<RaycastHit>();
             foreach (var c in m_colliders)
             {
-                if (!c.interactable)
+                if (!c.interactable || (filter != null && filter(c)))
                     continue;
-                float dist = PhysicsUtils.DistToGeometry(c.GetGeometry(), p);
-                if (dist < minDist)
+                Vector3 p;
+                float dist;
+                if (PhysicsUtils.RayOBBIntersectTest((c as OBBCollider).obb, rayStart, rayEnd, out dist, out p))
                 {
-                    minDist = Mathf.Min(dist, minDist);
-                    collider = c;
+                    results.Add(new RaycastHit() {collider = c, distance = dist, point = p});
                 }
             }
-            return minDist;
-        }
-
-        //iter form
-        public bool RayCast(Vector3 rayStart, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
-        {
-            hitResult = new RaycastHit();
             bool isHit = false;
-            int maxIterNum = 25;
-            float goLength = 0;
-            int iterNum = 0;
-            for (int i = 0; i < maxIterNum; i++)
+            if (results.Count != 0)
             {
-                iterNum++;
-                Collider nearestCollider;
-                float minDist = GetNearestDist(rayStart + goLength * rayDir, out nearestCollider);
-                if (minDist <= 0.001f)
-                {
-                    hitResult = new RaycastHit { collider = nearestCollider, distance = goLength, point = rayStart + rayDir * goLength };
-                    isHit = true;
-                    break;
-                }
-                goLength += minDist;
-                if (goLength > rayLength)
-                    break;
+                isHit = true;
+                results.Sort((a, b) => { return a.distance.CompareTo(b.distance); });
+                hitResult = results[0];
             }
-            Debug.Log("iter num:" + iterNum);
             return isHit;
         }
 
-        public bool OBBCast(OBB obb, Vector3 rayDir, float rayLength, out RaycastHit hitResult)
+        public bool OBBCast(OBB obb, Vector3 rayDir, float rayLength, out RaycastHit hitResult, Filter filter = null)
         {
-            var center = obb.GetCenter();
-            hitResult = new RaycastHit();
-            bool isHit = false;
-            if (RayCast(center, rayDir, rayLength, out hitResult))
-            {
-                isHit = true;
-            }
-            return isHit;
-            /*
-            var vertexes = obb.GetVertexArray();
-            hitResult = new RaycastHit();
-            List<RaycastHit> hitResults = new List<RaycastHit>();
-            foreach (var vertex in vertexes)
-            {   RaycastHit r;
-                if (RayCast(vertex, rayDir, rayLength, out r))
+            hitResult = null;
+            List<RaycastHit> results = new List<RaycastHit>();
+            foreach (var vertex in obb.GetVertexArray())
+            {   
+                RaycastHit hit;
+                if (RayCast(vertex, vertex + rayDir * rayLength, out hit, filter))
                 {
-                    hitResults.Add(r);
+                    results.Add(hit);
                 }
             }
+            results.Sort((a, b) => { return a.distance.CompareTo(b.distance); });
             bool isHit = false;
-            if (hitResults.Count > 0)
+            if (results.Count != 0)
             {
                 isHit = true;
-                hitResults.Sort((a, b) => { return a.distance.CompareTo(b.distance); });
-                hitResult = hitResults[0];
+                hitResult = results[0];
             }
-            else
-            {
-                isHit = false;
-            }
-            return isHit;
-            */
+            return isHit; 
         }
     }//class
 }//namespace

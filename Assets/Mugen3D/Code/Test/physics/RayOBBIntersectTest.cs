@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mugen3D;
 
-public class RayCuboidIntersectTest : MonoBehaviour {
+public class RayOBBIntersectTest : MonoBehaviour
+{
 
     public Transform rayStart;
     public Transform rayEnd;
@@ -16,11 +17,12 @@ public class RayCuboidIntersectTest : MonoBehaviour {
         Gizmos.DrawSphere(rayEnd.position, 0.1f);
         Gizmos.DrawLine(rayStart.position, rayEnd.position);
 
-        Vector3 nearestPoint;
-        PhysicsUtils.ClosestPointAtOBB(cuboid.obb, rayStart.position, out nearestPoint);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(nearestPoint, 0.1f);
-        float dis = PhysicsUtils.DistToOBB(cuboid.obb, rayStart.position);
-        //Debug.Log("dis:" + dis);
+        Vector3 p;
+        float dist;
+        if (PhysicsUtils.RayOBBIntersectTest(cuboid.obb, rayStart.position, rayEnd.position, out dist, out p))
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(p, 0.1f);
+        } 
     }
 }

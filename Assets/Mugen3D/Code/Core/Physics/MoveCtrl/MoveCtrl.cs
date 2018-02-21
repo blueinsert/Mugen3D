@@ -121,7 +121,7 @@ namespace Mugen3D
                 return;
             m_minBBCollider = m_owner.decisionBoxes.GetMinBBCollider();
             RaycastHit hitResult;
-            if (World.Instance.collisionWorld.OBBCast(m_minBBCollider.obb, m_deltaPos.normalized, m_deltaPos.magnitude, out hitResult))
+            if (World.Instance.collisionWorld.OBBCast(m_minBBCollider.obb, m_deltaPos.normalized, m_deltaPos.magnitude, out hitResult, (c)=>{return c == m_minBBCollider;}))
             {
                 Debug.DrawRay(hitResult.point, -m_deltaPos.normalized);
                 if (hitResult.collider.owner != null)

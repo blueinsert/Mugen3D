@@ -36,13 +36,6 @@ namespace Mugen3D
             }
         }
 
-        public OBB()
-        {
-            position = Vector3.zero;
-            rotation = Vector3.zero;
-            scale = Vector3.one;
-        }
-
         public override List<Vector3> GetVertexArray()
         {
             List<Vector3> array = new List<Vector3>();
