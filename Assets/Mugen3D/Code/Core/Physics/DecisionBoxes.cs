@@ -52,6 +52,7 @@ namespace Mugen3D
 
         private void UpdateMinBB()
         {
+            /*
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             foreach (var c in colliderBoxes)
@@ -68,6 +69,8 @@ namespace Mugen3D
             }
             minBB.obb.position = (min + max) / 2;
             minBB.obb.scale = new Vector3(max.x - min.x, max.y - min.y, max.z - min.z);
+             */
+            //minBB.obb.position = this.transform.position;
         }
 
         public void Update()
