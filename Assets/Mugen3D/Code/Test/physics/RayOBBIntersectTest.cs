@@ -17,12 +17,11 @@ public class RayOBBIntersectTest : MonoBehaviour
         Gizmos.DrawSphere(rayEnd.position, 0.1f);
         Gizmos.DrawLine(rayStart.position, rayEnd.position);
 
-        Vector3 p;
-        float dist;
-        if (PhysicsUtils.RayOBBIntersectTest(cuboid.obb, rayStart.position, rayEnd.position, out dist, out p))
+        Mugen3D.RaycastHit hitResult;
+        if (PhysicsUtils.RayOBBIntersectTest(cuboid.obb, new Mugen3D.Ray() {start = rayStart.position, end = rayEnd.position }, out hitResult))
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(p, 0.1f);
+            Gizmos.DrawSphere(hitResult.point, 0.1f);
         } 
     }
 }

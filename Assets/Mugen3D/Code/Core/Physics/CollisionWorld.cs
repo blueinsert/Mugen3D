@@ -20,7 +20,7 @@ namespace Mugen3D
             m_colliders.Remove(c);
         }
 
-        public bool RayCast(Vector3 rayStart, Vector3 rayEnd, out RaycastHit hitResult, Filter filter = null)
+        public bool RayCast(Ray ray, out RaycastHit hitResult, Filter filter = null)
         {
             hitResult = null;
             List<RaycastHit> results = new List<RaycastHit>();
@@ -28,11 +28,11 @@ namespace Mugen3D
             {
                 if (!c.interactable || (filter != null && filter(c)))
                     continue;
-                Vector3 p;
-                float dist;
-                if (PhysicsUtils.RayOBBIntersectTest((c as OBBCollider).obb, rayStart, rayEnd, out dist, out p))
+                RaycastHit hit;
+                if (c.IsHit(ray, out hit))
                 {
-                    results.Add(new RaycastHit() {collider = c, distance = dist, point = p});
+                    hit.collider = c;
+                    results.Add(hit);
                 }
             }
             bool isHit = false;
@@ -45,14 +45,16 @@ namespace Mugen3D
             return isHit;
         }
 
-        public bool OBBCast(OBB obb, Vector3 rayDir, float rayLength, out RaycastHit hitResult, Filter filter = null)
+        public bool ABBCast(ABB abb, Vector3 rayDir, float rayLength, out RaycastHit hitResult, Filter filter = null)
         {
             hitResult = null;
             List<RaycastHit> results = new List<RaycastHit>();
-            foreach (var vertex in obb.GetVertexArray())
-            {   
+            //var center = obb.GetCenter();
+            foreach (var vertex in abb.GetVertexArray())
+            {
+                //var v = vertex - (center - vertex).normalized * 0.001f;
                 RaycastHit hit;
-                if (RayCast(vertex, vertex + rayDir * rayLength, out hit, filter))
+                if (RayCast(new Ray() { start = vertex, end = vertex + rayDir * rayLength }, out hit, filter))
                 {
                     results.Add(hit);
                 }
@@ -64,7 +66,8 @@ namespace Mugen3D
                 isHit = true;
                 hitResult = results[0];
             }
-            return isHit; 
+            return isHit;       
         }
+
     }//class
 }//namespace

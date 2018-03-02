@@ -36,9 +36,9 @@ namespace Mugen3D
         protected Vector3 mExternalForce = Vector3.zero;
         protected float groundFrictionFactor = 3f;
 
-        protected OBBCollider m_minBBCollider;
+        protected ABBCollider m_minBBCollider;
 
-        const float SAFE_DISTANCE = 0.1F;
+        protected const float SAFE_DISTANCE = 0.1f;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
@@ -119,37 +119,19 @@ namespace Mugen3D
 
         protected virtual void OnHitCollider(RaycastHit hitResult)
         {
-            /*
-            if (hitResult.collider.owner != null)
-            {
-                
-                m_deltaPos = m_deltaPos.normalized * hitResult.distance;
-                MoveCtrl otherMoveCtr = hitResult.collider.owner.moveCtr;
-                float m2 = otherMoveCtr.mass;
-                var v1 = ((mass - m2) * m_velocity + 2 * m2 * otherMoveCtr.velocity) / (mass + m2);
-                var v2 = ((m2 - mass) * otherMoveCtr.velocity + 2 * mass * m_velocity) / (mass + m2);
-                m_velocity = v1;
-                otherMoveCtr.VelSet(v2.x, v2.y, v2.z);
-                Debug.Log("hit unit," + hitResult.collider.tag);
-                 
-            }
-            else
-            {
-                m_deltaPos = m_deltaPos.normalized * hitResult.distance;
-                m_velocity = Vector3.zero;
-                Debug.Log("hit environment," + hitResult.collider.tag);
-            }
-    */
-            m_deltaPos = m_deltaPos.normalized * (hitResult.distance);
-            m_velocity = Vector3.zero;
-            Debug.Log("hit tar," + hitResult.collider.tag);
+           
         }
 
         private void CollideTest()
         {
             if (m_deltaPos.x == 0 && m_deltaPos.y == 0)
                 return;
+            if (m_owner.status.physicsType != PhysicsType.Air)
+            {
+                m_deltaPos.y = 0;
+            }
             m_minBBCollider = m_owner.decisionBoxes.GetMinBBCollider();
+            /*
             RaycastHit hitResult;
             if (World.Instance.collisionWorld.OBBCast(m_minBBCollider.obb, m_deltaPos.normalized, m_deltaPos.magnitude + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
             {
@@ -158,6 +140,7 @@ namespace Mugen3D
                 hitResult.distance -= SAFE_DISTANCE;
                 OnHitCollider(hitResult);
             }
+             */
         }
     }
 }

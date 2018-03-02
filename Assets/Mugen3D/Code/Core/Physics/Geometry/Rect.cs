@@ -41,6 +41,11 @@ namespace Mugen3D
             result.Add(bottomRight);
             return result;
         }
+
+        public override Matrix4x4 GetTransformMatrix()
+        {
+            return Matrix4x4.identity;
+        }
     }
 }
 

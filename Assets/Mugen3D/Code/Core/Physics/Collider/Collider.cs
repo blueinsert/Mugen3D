@@ -12,6 +12,7 @@ namespace Mugen3D
         public Color color = Color.red;
 
         public abstract Geometry GetGeometry();
+        public abstract bool IsHit(Ray ray, out RaycastHit hitResult);
 
         public void SetOwner(Unit owner)
         {

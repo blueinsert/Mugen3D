@@ -35,73 +35,37 @@ namespace Mugen3D
             //IntersectingTest();
         }
 
-        /*
-        protected override void HandleHitUp(RaycastHit hit)
+        protected override void OnHitCollider(RaycastHit hitResult)
         {
-            if (hit.collider.owner != null && hit.collider.owner is Player)
-            {
+            base.OnHitCollider(hitResult);
+            Debug.Log("hit tar, tag:" + hitResult.collider.tag + " normal:" + hitResult.normal);
+            if (hitResult.collider.owner != null && hitResult.collider.owner is Player)
+            {   
+                var collidePlayer = hitResult.collider.owner as Player;
+                var normal = hitResult.normal;
+                var realDeltaPos = collidePlayer.moveCtr.AddPos(m_velocity.normalized * (m_deltaPos.magnitude - hitResult.distance));
+                m_deltaPos = realDeltaPos;
+                /*
+                if (Mathf.Abs(normal.x) > 0.55)
+                {
+                    var realDeltaPos = collidePlayer.moveCtr.AddPos(m_velocity.normalized * (m_deltaPos.magnitude - hitResult.distance));
+                    m_deltaPos = realDeltaPos;
+                }
+                 */
             }
-            else
+            else if (hitResult.collider.owner == null)
             {
-                m_deltaPos.y = hit.point.y - (m_minAABB.rect.position.y + m_minAABB.rect.height / 2);
-                m_velocity.y = 0;
+                m_deltaPos = m_velocity.normalized*hitResult.distance;
+                if(hitResult.normal.y > 0){
+                    justOnGround = true;
+                }
+                if (Mathf.Abs(hitResult.normal.x) > 0.99)
+                {
+                    m_velocity.x = 0;
+                }
+               
             }
         }
-
-        protected override void HandleHitBelow(RaycastHit hit)
-        {
-            if (hit.collider.owner != null && hit.collider.owner is Player)
-            {
-              
-            }
-            else
-            {
-                m_deltaPos.y = -hit.point.y + (m_minAABB.rect.position.y - m_minAABB.rect.height / 2);
-                m_velocity.y = 0;
-                m_owner.status.physicsType = PhysicsType.Stand;
-                this.justOnGround = true;
-            }
-        }
-
-        protected override void HandleHitLeft(RaycastHit hit)
-        {
-            if (hit.collider.owner != null && hit.collider.owner is Player)
-            {
-                m_deltaPos.x = m_deltaPos.x / 2;
-                Player collidePlayer = hit.collider.owner as Player;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(m_deltaPos.x, 0, 0));
-                m_deltaPos.x = realDeltaPos.x;
-                //velocity.z = 0;
-                mCollidePlayer = collidePlayer;
-            }
-            else
-            {
-                m_deltaPos.x = hit.point.x - (m_minAABB.rect.position.x - m_minAABB.rect.width / 2);
-                m_velocity.z = 0;
-            }
-
-        }
-
-        protected override void HandleHitRight(RaycastHit hit)
-        {
-
-            if (hit.collider.owner != null && hit.collider.owner is Player)
-            {
-                m_deltaPos.x = m_deltaPos.x / 2;
-                Player collidePlayer = hit.collider.owner as Player;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(new Vector3(m_deltaPos.x, 0, 0));
-                m_deltaPos.x = realDeltaPos.x;
-                //velocity.z = 0;
-                mCollidePlayer = collidePlayer;
-            }
-            else
-            {
-                m_deltaPos.x = hit.point.x - (m_minAABB.rect.position.x + m_minAABB.rect.width / 2);
-                m_velocity.z = 0;
-            }
-        }
-*/
        
-
     }
 }

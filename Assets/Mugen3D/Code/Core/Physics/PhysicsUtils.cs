@@ -115,12 +115,7 @@ namespace Mugen3D
             return true;
         }
 
-        public bool RayOBBIntersectionTest(OBB cuboid, Vector3 rayStart, Vector3 rayDir, float length, out float distance)
-        {
-            distance = 0;
-            return false;
-        }
-
+        /*
         public static void ClosestPointAtOBB(OBB cuboid, Vector3 p, out Vector3 q){
             q = Vector3.zero;
             Matrix4x4 trsM = cuboid.TransformMatrix;    
@@ -160,6 +155,7 @@ namespace Mugen3D
                 return 0;
             }
         }
+        */
 
         private static Vector3 LocalPoint(Matrix4x4 modelMatrix, Vector3 globalPoint)
         {
@@ -175,9 +171,10 @@ namespace Mugen3D
             return pLocal;
         }
 
-        public static bool RayAABBIntersectTest(Vector3 rayStart, Vector3 rayDir, float rayLength, out float dist, out Vector3 p)
+        private static bool RayUnitCubeIntersectTest(Vector3 rayStart, Vector3 rayDir, float rayLength, out float dist, out Vector3 p, out Vector3 normal)
         {
             dist = 0;
+            normal = Vector3.zero;
             p = rayStart;
             if(rayStart.x <= 0.5 && rayStart.x >= -0.5 && 
                rayStart.y <= 0.5 && rayStart.y >= -0.5 && 
@@ -215,22 +212,48 @@ namespace Mugen3D
             if (tmin > rayLength)
                 return false;
             p = tmin * rayDir + rayStart;
+            for (int i = 0; i < 3; i++)
+            {
+                if (p[i] == 0.5)
+                    normal[i] = 1;
+                else if (p[i] == -0.5)
+                    normal[i] = -1;
+                else
+                    normal[i] = 0;
+            }
+            normal.Normalize();
             dist = tmin;
             return true;
         }
 
-        public static bool RayOBBIntersectTest(OBB obb, Vector3 rayStart, Vector3 rayEnd, out float dist, out Vector3 p)
-        { 
-            var modelMatrix = obb.TransformMatrix;
-            Vector3 localRayStart = LocalPoint(modelMatrix, rayStart);
-            Vector3 localRayEnd = LocalPoint(modelMatrix, rayEnd);
-            bool isHit = RayAABBIntersectTest(localRayStart, (localRayEnd - localRayStart).normalized, (localRayEnd - localRayStart).magnitude, out dist, out p);
+        private static bool RayBoxIntersectTest(BoundBox box, Ray ray, out RaycastHit hitResult)
+        {
+            var modelMatrix = box.GetTransformMatrix();
+            Vector3 localRayStart = LocalPoint(modelMatrix, ray.start);
+            Vector3 localRayEnd = LocalPoint(modelMatrix, ray.end);
+            hitResult = null;
+            float dist;
+            Vector3 p;
+            Vector3 normal;
+            bool isHit = RayUnitCubeIntersectTest(localRayStart, (localRayEnd - localRayStart).normalized, (localRayEnd - localRayStart).magnitude, out dist, out p, out normal);
             if (isHit)
             {
-                p = modelMatrix * new Vector4(p.x,p.y,p.z,1);
-                dist = (p - rayStart).magnitude;
+                p = modelMatrix * new Vector4(p.x, p.y, p.z, 1);
+                dist = (p - ray.start).magnitude;
+                normal = (modelMatrix * normal).normalized;
+                hitResult = new RaycastHit { distance = dist, normal = normal, point = p, collider = null};
             }
             return isHit;
+        }
+
+        public static bool RayAABBIntersectTest(ABB abb, Ray ray, out RaycastHit hitResult)
+        {
+            return RayBoxIntersectTest(abb, ray, out hitResult);
+        }
+
+        public static bool RayOBBIntersectTest(OBB obb, Ray ray, out RaycastHit hitResult)
+        {
+            return RayBoxIntersectTest(obb, ray, out hitResult);
         }
     }
 }

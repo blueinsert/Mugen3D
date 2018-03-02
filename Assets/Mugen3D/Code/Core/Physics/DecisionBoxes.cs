@@ -12,8 +12,8 @@ namespace Mugen3D
         public List<HitBox> attackBoxes = new List<HitBox>();
         public List<OBBCollider> defenceBoxes = new List<OBBCollider>();
         public List<OBBCollider> colliderBoxes = new List<OBBCollider>();
-        public OBBCollider minBB;
-        private List<OBBCollider> m_allCollider = new List<OBBCollider>();
+        public ABBCollider minBB;
+        private List<Collider> m_allCollider = new List<Collider>();
         private Dictionary<HitPart, HitBox> m_attactBoxDic = new Dictionary<HitPart, HitBox>();
         private Unit m_owner;
 
@@ -43,16 +43,21 @@ namespace Mugen3D
                     m_attactBoxDic[hitbox.hitPart] = hitbox;
                 }
             }
+            InitMinBB();
         }
 
-        public OBBCollider GetMinBBCollider()
+        public ABBCollider GetMinBBCollider()
         {
             return minBB;
         }
 
+        private void InitMinBB()
+        {  
+            
+        }
+
         private void UpdateMinBB()
-        {
-            /*
+        {  /*
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
             Vector3 max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             foreach (var c in colliderBoxes)
@@ -67,10 +72,9 @@ namespace Mugen3D
                     max.z = Mathf.Max(max.z, vertex.z);
                 }
             }
-            minBB.obb.position = (min + max) / 2;
-            minBB.obb.scale = new Vector3(max.x - min.x, max.y - min.y, max.z - min.z);
-             */
-            //minBB.obb.position = this.transform.position;
+            minBB.obb.position = ((min + max) / 2)*10;
+            minBB.obb.scale = new Vector3(max.x - min.x, max.y - min.y, max.z - min.z)*10;
+            */
         }
 
         public void Update()

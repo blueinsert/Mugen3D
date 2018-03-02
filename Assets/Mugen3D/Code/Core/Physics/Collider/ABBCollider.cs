@@ -1,29 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace Mugen3D
 {
-    public class OBBCollider : Collider
+    public class ABBCollider : Collider
     {
-        public OBB obb;
+        public ABB abb;
 
         public override Geometry GetGeometry()
         {
-            return obb;
+            return abb;
         }
 
         public override bool IsHit(Ray ray, out RaycastHit hitResult)
         {
-            return PhysicsUtils.RayOBBIntersectTest(obb, ray, out hitResult);
+            return PhysicsUtils.RayAABBIntersectTest(abb, ray, out hitResult);
         }
 
         protected void OnDrawGizmos()
         {
-            if (obb == null)
+            if (abb == null)
                 return;
             Gizmos.color = color;
-            List<Vector3> points = obb.GetVertexArray();
+            List<Vector3> points = abb.GetVertexArray();
             Gizmos.DrawLine(points[0], points[1]);
             Gizmos.DrawLine(points[1], points[2]);
             Gizmos.DrawLine(points[2], points[3]);
@@ -37,5 +36,6 @@ namespace Mugen3D
             Gizmos.DrawLine(points[2], points[6]);
             Gizmos.DrawLine(points[3], points[7]);
         }
+
     }
 }
