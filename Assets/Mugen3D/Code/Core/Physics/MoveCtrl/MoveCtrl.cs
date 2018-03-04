@@ -38,7 +38,7 @@ namespace Mugen3D
 
         protected ABBCollider m_minBBCollider;
 
-        protected const float SAFE_DISTANCE = 0.1f;
+        protected const float SAFE_DISTANCE = 0.001f;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
@@ -65,7 +65,10 @@ namespace Mugen3D
                 m_velocity = StabilizeVel(velocity);
             }
             AddPos(velocity * Time.deltaTime);
+            AfterAddPos();
         }
+
+        protected virtual void AfterAddPos() { }
 
         private Vector3 StabilizeVel(Vector3 v)
         {
@@ -124,23 +127,42 @@ namespace Mugen3D
 
         private void CollideTest()
         {
-            if (m_deltaPos.x == 0 && m_deltaPos.y == 0)
+            if (Mathf.Abs(m_deltaPos.x) < 0.001 && Mathf.Abs(m_deltaPos.y) < 0.001)
                 return;
             if (m_owner.status.physicsType != PhysicsType.Air)
             {
                 m_deltaPos.y = 0;
             }
             m_minBBCollider = m_owner.decisionBoxes.GetMinBBCollider();
-            /*
-            RaycastHit hitResult;
-            if (World.Instance.collisionWorld.OBBCast(m_minBBCollider.obb, m_deltaPos.normalized, m_deltaPos.magnitude + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
+            
+            RaycastHit hitResult = null;
+            bool isHit = false;
+            if (m_deltaPos.x != 0)
             {
-                Debug.DrawLine(hitResult.point, hitResult.point - m_deltaPos.normalized*hitResult.distance, Color.red);
+                Vector3 dir = new Vector3(m_deltaPos.x > 0 ? 1 : -1, 0, 0);
+                if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, dir, Mathf.Abs(m_deltaPos.x) + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
+                {
+                    hitResult.normal = -dir;
+                    isHit = true;
+                }
+            }
+            if (m_deltaPos.y != 0 && !isHit)
+            {
+                Vector3 dir = new Vector3(0, m_deltaPos.y > 0 ? 1 : -1, 0);
+                if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, dir, Mathf.Abs(m_deltaPos.y) + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
+                {
+                    hitResult.normal = -dir;
+                    isHit = true;
+                }
+            }
+            if (isHit)
+            {
+                Debug.DrawLine(hitResult.point, hitResult.point - m_deltaPos.normalized * hitResult.distance, Color.red);
                 Debug.DrawLine(hitResult.point, hitResult.point, Color.red);
                 hitResult.distance -= SAFE_DISTANCE;
                 OnHitCollider(hitResult);
             }
-             */
+          
         }
     }
 }

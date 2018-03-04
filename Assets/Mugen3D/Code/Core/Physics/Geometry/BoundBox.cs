@@ -15,5 +15,8 @@ namespace Mugen3D
             new Vector4(0.5f, 0.5f, 0.5f, 1),
             new Vector4(0.5f, 0.5f, -0.5f, 1)
         };
+
+       public abstract Vector3 GetCenter();
+   
     }
 }

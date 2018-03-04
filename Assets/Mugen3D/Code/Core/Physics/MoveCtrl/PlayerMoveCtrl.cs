@@ -5,34 +5,38 @@ namespace Mugen3D
 {
     public class PlayerMoveCtrl : MoveCtrl
     {
-        protected Player mCollidePlayer;
-
+        private Player m_collidePlayer;
+        private bool m_intersectTest = false;
+ 
         public PlayerMoveCtrl(Unit u):base(u)
         {
 
         }
 
-        /*
-        private void IntersectingTest()
+        
+        private void IntersectingTest(Player collidePlayer)
         {
-            if (mCollidePlayer == null)
-                return;
-            RectCollider selfCollider = m_owner.GetComponent<DecisionBoxManager>().GetCollider();
-            RectCollider otherCollider = mCollidePlayer.GetComponent<DecisionBoxManager>().GetCollider();
-            if (PhysicsUtils.RectRectTest(selfCollider, otherCollider))
+            ABB myBB = this.m_owner.decisionBoxes.minBB.abb;
+            ABB otherBB = collidePlayer.decisionBoxes.minBB.abb;
+            var myCenter = myBB.GetCenter();
+            var otherCenter = otherBB.GetCenter();
+            var avgCenter = (myCenter + otherCenter) / 2;
+            m_owner.moveCtr.AddPos(new Vector3((myBB.size.x/2 + 0.011f - Mathf.Abs(avgCenter.x - myCenter.x)) * (avgCenter.x > myCenter.x ? -1 : 1), 0, 0));
+            collidePlayer.moveCtr.AddPos(new Vector3((otherBB.size.x/2 + 0.011f - Mathf.Abs(avgCenter.x - otherCenter.x)) * (avgCenter.x > otherCenter.x ? -1 : 1), 0, 0)); 
+        }
+
+
+        protected override void AfterAddPos() {
+            if (m_intersectTest)
             {
-                float deltaX = (selfCollider.rect.width + otherCollider.rect.width) / 2 - Mathf.Abs(selfCollider.rect.position.x - otherCollider.rect.position.x);
-                float centerX = (selfCollider.rect.position.x + otherCollider.rect.position.x) / 2;
-                m_owner.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > selfCollider.rect.position.x ? -1 : 1), 0, 0));
-                mCollidePlayer.moveCtr.AddPos(new Vector3(deltaX / 2 * (centerX > otherCollider.rect.position.x ? -1 : 1), 0, 0));
+                IntersectingTest(m_collidePlayer);
+                m_intersectTest = false;
             }
         }
-         */
 
         public override void Update()
         {
             base.Update();
-            //IntersectingTest();
         }
 
         protected override void OnHitCollider(RaycastHit hitResult)
@@ -43,15 +47,18 @@ namespace Mugen3D
             {   
                 var collidePlayer = hitResult.collider.owner as Player;
                 var normal = hitResult.normal;
-                var realDeltaPos = collidePlayer.moveCtr.AddPos(m_velocity.normalized * (m_deltaPos.magnitude - hitResult.distance));
-                m_deltaPos = realDeltaPos;
-                /*
-                if (Mathf.Abs(normal.x) > 0.55)
+                m_collidePlayer = collidePlayer;
+                if (Mathf.Abs(normal.x) == 1)
                 {
-                    var realDeltaPos = collidePlayer.moveCtr.AddPos(m_velocity.normalized * (m_deltaPos.magnitude - hitResult.distance));
-                    m_deltaPos = realDeltaPos;
+                    Vector3 deltaPos = new Vector3(m_deltaPos.x/2, 0, 0);
+                    var realDeltaPos = collidePlayer.moveCtr.AddPos(deltaPos);
+                    m_deltaPos.x = realDeltaPos.x;
                 }
-                 */
+                else if (Mathf.Abs(normal.y) == 1)
+                {
+                    m_deltaPos.y = -normal.y * hitResult.distance;
+                    m_intersectTest = true;
+                }  
             }
             else if (hitResult.collider.owner == null)
             {

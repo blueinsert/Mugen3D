@@ -240,7 +240,7 @@ namespace Mugen3D
             {
                 p = modelMatrix * new Vector4(p.x, p.y, p.z, 1);
                 dist = (p - ray.start).magnitude;
-                normal = (modelMatrix * normal).normalized;
+                normal = (modelMatrix.inverse.transpose * normal).normalized;
                 hitResult = new RaycastHit { distance = dist, normal = normal, point = p, collider = null};
             }
             return isHit;
@@ -248,7 +248,21 @@ namespace Mugen3D
 
         public static bool RayAABBIntersectTest(ABB abb, Ray ray, out RaycastHit hitResult)
         {
-            return RayBoxIntersectTest(abb, ray, out hitResult);
+            var modelMatrix = abb.GetTransformMatrix();
+            Vector3 localRayStart = LocalPoint(modelMatrix, ray.start);
+            Vector3 localRayEnd = LocalPoint(modelMatrix, ray.end);
+            hitResult = null;
+            float dist;
+            Vector3 p;
+            Vector3 normal;
+            bool isHit = RayUnitCubeIntersectTest(localRayStart, (localRayEnd - localRayStart).normalized, (localRayEnd - localRayStart).magnitude, out dist, out p, out normal);
+            if (isHit)
+            {
+                p = modelMatrix * new Vector4(p.x, p.y, p.z, 1);
+                dist = (p - ray.start).magnitude;
+                hitResult = new RaycastHit { distance = dist, normal = normal, point = p, collider = null };
+            }
+            return isHit;
         }
 
         public static bool RayOBBIntersectTest(OBB obb, Ray ray, out RaycastHit hitResult)

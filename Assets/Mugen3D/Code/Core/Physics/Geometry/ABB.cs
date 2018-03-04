@@ -30,5 +30,12 @@ public class ABB : BoundBox  {
         return array;
     }
 
+    public override Vector3 GetCenter()
+    {
+        Vector3 translate1 = parent == null ? Vector3.zero : parent.position;
+        Vector3 translate2 = offset;
+        return translate1 + translate2;
+    }
+
 }
 }

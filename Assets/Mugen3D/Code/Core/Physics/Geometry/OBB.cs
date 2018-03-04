@@ -32,7 +32,7 @@ namespace Mugen3D
             return array;
         }
 
-        public Vector3 GetCenter()
+        public override Vector3 GetCenter()
         {
             return GetTransformMatrix() * new Vector3(0, 0, 0);
         }
