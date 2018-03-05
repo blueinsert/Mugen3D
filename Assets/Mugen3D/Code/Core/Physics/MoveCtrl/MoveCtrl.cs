@@ -38,7 +38,7 @@ namespace Mugen3D
 
         protected ABBCollider m_minBBCollider;
 
-        protected const float SAFE_DISTANCE = 0.001f;
+        protected const float SAFE_DISTANCE = 0.01f;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
@@ -135,27 +135,9 @@ namespace Mugen3D
             }
             m_minBBCollider = m_owner.decisionBoxes.GetMinBBCollider();
             
-            RaycastHit hitResult = null;
-            bool isHit = false;
-            if (m_deltaPos.x != 0)
-            {
-                Vector3 dir = new Vector3(m_deltaPos.x > 0 ? 1 : -1, 0, 0);
-                if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, dir, Mathf.Abs(m_deltaPos.x) + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
-                {
-                    hitResult.normal = -dir;
-                    isHit = true;
-                }
-            }
-            if (m_deltaPos.y != 0 && !isHit)
-            {
-                Vector3 dir = new Vector3(0, m_deltaPos.y > 0 ? 1 : -1, 0);
-                if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, dir, Mathf.Abs(m_deltaPos.y) + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
-                {
-                    hitResult.normal = -dir;
-                    isHit = true;
-                }
-            }
-            if (isHit)
+            RaycastHit hitResult = null; 
+
+            if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, m_deltaPos.normalized, m_deltaPos.magnitude + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
             {
                 Debug.DrawLine(hitResult.point, hitResult.point - m_deltaPos.normalized * hitResult.distance, Color.red);
                 Debug.DrawLine(hitResult.point, hitResult.point, Color.red);

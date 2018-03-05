@@ -21,8 +21,8 @@ namespace Mugen3D
             var myCenter = myBB.GetCenter();
             var otherCenter = otherBB.GetCenter();
             var avgCenter = (myCenter + otherCenter) / 2;
-            m_owner.moveCtr.AddPos(new Vector3((myBB.size.x/2 + 0.011f - Mathf.Abs(avgCenter.x - myCenter.x)) * (avgCenter.x > myCenter.x ? -1 : 1), 0, 0));
-            collidePlayer.moveCtr.AddPos(new Vector3((otherBB.size.x/2 + 0.011f - Mathf.Abs(avgCenter.x - otherCenter.x)) * (avgCenter.x > otherCenter.x ? -1 : 1), 0, 0)); 
+            m_owner.moveCtr.AddPos(new Vector3((myBB.size.x/2 + SAFE_DISTANCE - Mathf.Abs(avgCenter.x - myCenter.x)) * (avgCenter.x > myCenter.x ? -1 : 1), 0, 0));
+            collidePlayer.moveCtr.AddPos(new Vector3((otherBB.size.x / 2 + SAFE_DISTANCE - Mathf.Abs(avgCenter.x - otherCenter.x)) * (avgCenter.x > otherCenter.x ? -1 : 1), 0, 0)); 
         }
 
 
