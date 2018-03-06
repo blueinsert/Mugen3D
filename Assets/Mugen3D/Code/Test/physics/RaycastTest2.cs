@@ -13,11 +13,11 @@ public class RaycastTest2 : MonoBehaviour
         Gizmos.DrawSphere(rayStart.position, 0.1f);
         Gizmos.DrawSphere(rayEnd.position, 0.1f);
         Gizmos.DrawLine(rayStart.position, rayEnd.position);
-        Mugen3D.RaycastHit hitResult;
-        if (World.Instance.collisionWorld.RayCast(new Mugen3D.Ray() { start = rayStart.position, end = rayEnd.position }, out hitResult))
+        List<Mugen3D.RaycastHit> hitResults;
+        if (World.Instance.collisionWorld.RayCast(new Mugen3D.Ray() { start = rayStart.position, end = rayEnd.position }, out hitResults))
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(hitResult.point, 0.1f);
+            Gizmos.DrawSphere(hitResults[0].point, 0.1f);
         }
     }
 }

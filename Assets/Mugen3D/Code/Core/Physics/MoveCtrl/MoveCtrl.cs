@@ -125,6 +125,16 @@ namespace Mugen3D
            
         }
 
+        protected void OnHitColliders(RaycastHit[] hitResults)
+        {
+            //Debug.Log(hitResults.Length);
+            foreach (var hit in hitResults)
+            {
+                hit.distance -= SAFE_DISTANCE;
+                OnHitCollider(hit);
+            }
+        }
+
         private void CollideTest()
         {
             if (Mathf.Abs(m_deltaPos.x) < 0.001 && Mathf.Abs(m_deltaPos.y) < 0.001)
@@ -134,15 +144,15 @@ namespace Mugen3D
                 m_deltaPos.y = 0;
             }
             m_minBBCollider = m_owner.decisionBoxes.GetMinBBCollider();
-            
-            RaycastHit hitResult = null; 
 
-            if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, m_deltaPos.normalized, m_deltaPos.magnitude + SAFE_DISTANCE, out hitResult, (c) => { return c == m_minBBCollider; }))
+            List<RaycastHit> hitResults;
+
+            if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, m_deltaPos.normalized, m_deltaPos.magnitude + SAFE_DISTANCE, out hitResults, (c) => { return c == m_minBBCollider; }))
             {
-                Debug.DrawLine(hitResult.point, hitResult.point - m_deltaPos.normalized * hitResult.distance, Color.red);
-                Debug.DrawLine(hitResult.point, hitResult.point, Color.red);
-                hitResult.distance -= SAFE_DISTANCE;
-                OnHitCollider(hitResult);
+                //Debug.DrawLine(hitResult.point, hitResult.point - m_deltaPos.normalized * hitResult.distance, Color.red);
+                //Debug.DrawLine(hitResult.point, hitResult.point, Color.red);
+                //hitResult.distance -= SAFE_DISTANCE;
+                OnHitColliders(hitResults.ToArray());
             }
           
         }

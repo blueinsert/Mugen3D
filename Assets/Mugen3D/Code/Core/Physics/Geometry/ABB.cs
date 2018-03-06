@@ -37,5 +37,58 @@ public class ABB : BoundBox  {
         return translate1 + translate2;
     }
 
+    public List<Vector3> GetVertexes(int side){
+        Dictionary<int, int> indexes = new Dictionary<int, int>();
+        if ((side & BoundBox.LEFT) != 0)
+        {
+            indexes[0] = 0;
+            indexes[1] = 0;
+            indexes[5] = 0;
+            indexes[4] = 0;
+        }
+        if ((side & BoundBox.RIGHT) != 0)
+        {
+            indexes[3] = 0;
+            indexes[7] = 0;
+            indexes[2] = 0;
+            indexes[6] = 0;
+        }
+        if ((side & BoundBox.TOP) != 0)
+        {
+            indexes[4] = 0;
+            indexes[5] = 0;
+            indexes[6] = 0;
+            indexes[7] = 0;
+        }
+        if ((side & BoundBox.DOWN) != 0)
+        {
+            indexes[0] = 0;
+            indexes[1] = 0;
+            indexes[2] = 0;
+            indexes[3] = 0;
+        }
+        if ((side & BoundBox.FRONT) != 0)
+        {
+            indexes[1] = 0;
+            indexes[2] = 0;
+            indexes[6] = 0;
+            indexes[5] = 0;
+        }
+        if ((side & BoundBox.BACK) != 0)
+        {
+            indexes[0] = 0;
+            indexes[3] = 0;
+            indexes[7] = 0;
+            indexes[4] = 0;
+        }
+        List<Vector3> result = new List<Vector3>();
+        Matrix4x4 m = GetTransformMatrix();
+        foreach(var kv in indexes)
+        {
+            Vector3 p = m * _points[kv.Key];
+            result.Add(p);
+        }
+        return result;
+    }
 }
 }
