@@ -15,6 +15,6 @@ namespace Mugen3D
     public class HitBox
     {
         public HitPart hitPart;
-        public OBBCollider collider;
+        public Collider collider;
     }
 }

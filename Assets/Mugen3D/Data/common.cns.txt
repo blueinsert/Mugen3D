@@ -195,7 +195,7 @@ trigger1 = Time == 0
 y = 0
 
 [Event 52, 2]
-type = PosSet
+type = Null //PosSet
 trigger1 = Time == 0
 y = 0
 

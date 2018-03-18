@@ -38,7 +38,7 @@ namespace Mugen3D
 
         protected ABBCollider m_minBBCollider;
 
-        protected const float SAFE_DISTANCE = 0.01f;
+        protected const float SAFE_DISTANCE = 0.001f;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
@@ -127,9 +127,9 @@ namespace Mugen3D
 
         protected void OnHitColliders(RaycastHit[] hitResults)
         {
-            //Debug.Log(hitResults.Length);
             foreach (var hit in hitResults)
             {
+                Debug.DrawLine(hit.point, hit.point, Color.red);
                 hit.distance -= SAFE_DISTANCE;
                 OnHitCollider(hit);
             }
@@ -143,15 +143,12 @@ namespace Mugen3D
             {
                 m_deltaPos.y = 0;
             }
-            m_minBBCollider = m_owner.decisionBoxes.GetMinBBCollider();
+            m_minBBCollider = m_owner.decisionBoxes.GetCollideBox();
 
             List<RaycastHit> hitResults;
 
             if (World.Instance.collisionWorld.ABBCast(m_minBBCollider.abb, m_deltaPos.normalized, m_deltaPos.magnitude + SAFE_DISTANCE, out hitResults, (c) => { return c == m_minBBCollider; }))
-            {
-                //Debug.DrawLine(hitResult.point, hitResult.point - m_deltaPos.normalized * hitResult.distance, Color.red);
-                //Debug.DrawLine(hitResult.point, hitResult.point, Color.red);
-                //hitResult.distance -= SAFE_DISTANCE;
+            { 
                 OnHitColliders(hitResults.ToArray());
             }
           

@@ -116,7 +116,7 @@ namespace Mugen3D
 
         public override Collider GetCollider()
         {
-            return decisionBoxes.GetMinBBCollider();
+            return decisionBoxes.GetCollideBox();
         }
 
         public override void OnUpdate()

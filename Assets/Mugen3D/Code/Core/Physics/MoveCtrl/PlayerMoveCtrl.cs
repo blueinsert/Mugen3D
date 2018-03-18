@@ -16,8 +16,8 @@ namespace Mugen3D
         
         private void IntersectingTest(Player collidePlayer)
         {
-            ABB myBB = this.m_owner.decisionBoxes.minBB.abb;
-            ABB otherBB = collidePlayer.decisionBoxes.minBB.abb;
+            ABB myBB = this.m_owner.decisionBoxes.collideBox.abb;
+            ABB otherBB = collidePlayer.decisionBoxes.collideBox.abb;
             var myCenter = myBB.GetCenter();
             var otherCenter = otherBB.GetCenter();
             var avgCenter = (myCenter + otherCenter) / 2;
@@ -42,7 +42,7 @@ namespace Mugen3D
         protected override void OnHitCollider(RaycastHit hitResult)
         {
             base.OnHitCollider(hitResult);
-            Debug.Log("hit tar, tag:" + hitResult.collider.tag + " normal:" + hitResult.normal);
+            Debug.Log("hit tar, tag:" + hitResult.collider.tag + " normal:" + hitResult.normal + " dis:" + hitResult.distance);
             if (hitResult.collider.owner != null && hitResult.collider.owner is Player)
             {   
                 var collidePlayer = hitResult.collider.owner as Player;
