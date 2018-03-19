@@ -40,7 +40,7 @@ namespace Mugen3D
             stateMgr = new StateManager(this);
             stateMgr.ReadStateDefFile(stateFiles.ToArray());
             //
-            config = new Config(configFile);
+            config = new ConfigReader(configFile);
             vars = new Dictionary<int, int>();
 
             InitStatus();

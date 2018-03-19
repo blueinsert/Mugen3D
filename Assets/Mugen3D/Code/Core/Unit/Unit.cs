@@ -4,82 +4,6 @@ using UnityEngine;
 
 namespace Mugen3D
 {
-    public enum MoveType
-    {
-        Attack,
-        Idle,
-        Defence,
-        BeingHitted,
-    }
-
-    public enum PhysicsType
-    {
-        None = -1,
-        Stand,
-        Crouch,
-        Air,
-    }
-
-    public class Status
-    {
-        public MoveType moveType = MoveType.Idle;
-        public PhysicsType physicsType = PhysicsType.Stand;
-        public bool pushTest = true;
-        public bool ctrl = true;
-    }
-
-    public class Config
-    {
-        private Dictionary<int, float> cfg = new Dictionary<int, float>();
-
-        public Config(TextAsset def)
-        {
-            Parse(def);
-        }
-
-        public void AddConfig(int key, float value)
-        {
-            cfg[key] = value;
-        }
-
-        public float GetConfig(int key)
-        {
-            if (cfg.ContainsKey(key))
-            {
-                return cfg[key];
-            }
-            else
-            {
-                Log.Error("can't get playerConfit, key:" + key);
-                return 0;
-            }
-        }
-
-        public float GetConfig(string key)
-        {
-            return GetConfig(key.GetHashCode());
-        }
-
-        private void Parse(TextAsset def)
-        {
-            Tokenizer tokenizer = new Tokenizer();
-            List<Token> tokens = tokenizer.GetTokens(def);
-            int tokenSize = tokens.Count;
-            int pos = 0;
-            while (pos < tokenSize)
-            {
-                Token t = tokens[pos++];
-                if (t.value == ":")
-                {
-                    string key = tokens[pos - 2].value;
-                    float value = float.Parse(tokens[pos++].value);
-                    cfg[key.GetHashCode()] = value;
-                }
-            }
-        }
-
-    }//class   
-
     [RequireComponent(typeof(DecisionBoxes))]
     public abstract class Unit : Entity
     {
@@ -88,7 +12,7 @@ namespace Mugen3D
         public TextAsset commandFile;
         public List<TextAsset> stateFiles;
 
-        public Config config;
+        public ConfigReader config;
         public AnimationController animCtr;
         public CmdManager cmdMgr;
         public MoveCtrl moveCtr;

@@ -77,7 +77,7 @@ namespace Mugen3D
         {
             UpdateMinBB();
         }
-
+ 
         protected void OnDrawGizmos()
         {
             if (minBB == null)

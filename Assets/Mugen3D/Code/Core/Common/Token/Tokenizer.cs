@@ -14,6 +14,12 @@ namespace Mugen3D
             return GetTokens(content.ToCharArray());
         }
 
+        public List<Token> GetTokens(string data)
+        {
+            return GetTokens(data.ToCharArray());
+        }
+
+        /*
         public List<Token> GetTokens(string fileName)
         {
             string content = "";
@@ -28,6 +34,7 @@ namespace Mugen3D
             }
             return GetTokens(content.ToCharArray());
         }
+         */
 
         private List<Token> GetTokens(char[] charStream)
         {
