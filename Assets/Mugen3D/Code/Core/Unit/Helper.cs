@@ -40,7 +40,7 @@ namespace Mugen3D
             stateMgr = new StateManager(this);
             stateMgr.ReadStateDefFile(stateFiles.ToArray());
             //
-            config = new ConfigReader(configFile);
+            config = new ConfigReader().GetConfig(configFile.text);
             vars = new Dictionary<int, int>();
 
             InitStatus();
@@ -50,7 +50,7 @@ namespace Mugen3D
         {
             if (m_initParams.ContainsKey("lifeTime"))
             {
-                config.AddConfig("lifeTime".GetHashCode(), int.Parse(m_initParams["lifeTime"].asStr));
+                config.AddConfig("lifeTime", m_initParams["lifeTime"].asStr);
             }
             //pos
             string posType = "p1";

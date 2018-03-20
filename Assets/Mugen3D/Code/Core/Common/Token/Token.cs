@@ -14,7 +14,7 @@ namespace Mugen3D
         NewLine,
     }
 
-    public struct Token
+    public class Token
     {
         public string value;
         public TokenType type;

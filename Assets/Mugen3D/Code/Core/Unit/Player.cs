@@ -36,7 +36,7 @@ namespace Mugen3D
             stateMgr = new StateManager(this);
             stateMgr.ReadStateDefFile(stateFiles.ToArray());
             //
-            config = new ConfigReader(configFile);
+            config = new ConfigReader().GetConfig(configFile.text);
 
             moveCtr.SetGravity(0, config.GetConfig("Gravity"), 0);
             vars = new Dictionary<int, int>();

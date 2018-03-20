@@ -12,7 +12,7 @@ namespace Mugen3D
         public TextAsset commandFile;
         public List<TextAsset> stateFiles;
 
-        public ConfigReader config;
+        public Config config;
         public AnimationController animCtr;
         public CmdManager cmdMgr;
         public MoveCtrl moveCtr;
