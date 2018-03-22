@@ -1,0 +1,39 @@
+local Env = require "environment"
+local Ctl = require "controller"
+
+local M = {}
+
+local function init(self, player)
+    self.player = player
+	self.env = Env.new(self)
+	self.ctl = Ctl.new(self)
+	self.stateNo = 0
+end
+
+function M.new(player)
+    local obj = {}
+	init(obj, player)
+	setmetatable(obj, {__index = M})
+	return obj
+end
+
+function M:update()
+	if self.fsm == nil then
+		return
+	end
+	if self.fsm[-1] then
+		self.fsm[-1].onUpdate(self.env, self.ctl, self.cfg)
+	end
+	self.fsm[self.stateNo].onUpdate(self.env, self.ctl, self.cfg)
+end
+
+function M:changeState(stateNo)
+	if self.fsm == nil then
+		return
+	end
+	self.fsm(self.stateNo).onExit(self.env, self.ctl, self.cfg)
+	self.stateNo = stateNo
+	self.fsm(self.stateNo).onEnter(self.env, self.ctl, self.cfg)
+end
+
+return M

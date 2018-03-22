@@ -1,33 +1,35 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XLua;
 
 namespace Mugen3D
 {
     [RequireComponent(typeof(DecisionBoxes))]
     public abstract class Unit : Entity
     {
-        public TextAsset configFile;
-        public TextAsset animDefFile;   
         public TextAsset commandFile;
-        public List<TextAsset> stateFiles;
 
-        public Config config;
+        public XLua.LuaTable fsm;
+        public delegate void DegateFsmInit(XLua.LuaTable self, Unit u);
+        public delegate void DelegateFsmUpdate(XLua.LuaTable self);
+        public delegate void DelegateFsmChangeState(XLua.LuaTable self);
+        private DegateFsmInit funFsmInit;
+        private DelegateFsmUpdate funcFsmUpdate;
+        private DelegateFsmChangeState funFsmChangeState;
+
         public AnimationController animCtr;
         public CmdManager cmdMgr;
         public MoveCtrl moveCtr;
-        public StateManager stateMgr;
+
         [HideInInspector]
         public DecisionBoxes decisionBoxes;
 
         public Status status = new Status();
-        public Dictionary<int, int> vars = new Dictionary<int,int>();
 
-        public HitVars hitVars;   
         [HideInInspector]
         public int facing = 1;
-        [HideInInspector]
-        public Unit enemy;
 
         private int pauseTime = 0;
 
@@ -38,6 +40,15 @@ namespace Mugen3D
             decisionBoxes.Init();
         }
 
+        public void SetFSM(XLua.LuaTable fsm)
+        {
+            this.fsm = fsm;
+            funcFsmUpdate = this.fsm.Get<string, DelegateFsmUpdate>("update");
+            funFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState");
+            funFsmInit = this.fsm.Get<string, DegateFsmInit>("init");
+            funFsmInit(this.fsm, this);
+        }
+
         public override Collider GetCollider()
         {
             return decisionBoxes.GetCollideBox();
@@ -45,10 +56,9 @@ namespace Mugen3D
 
         public override void OnUpdate()
         {
-            int facing = enemy.transform.position.x - this.transform.position.x > 0 ? 1 : -1;
-            if (this.facing != facing)
+            if (funcFsmUpdate != null)
             {
-                ChangeFacing(facing);
+                funcFsmUpdate(this.fsm);
             }
         }
    
@@ -61,41 +71,6 @@ namespace Mugen3D
                 this.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Abs(scale.z)*facing);
             }
         }
-       
-        public void SetEnemy(Unit enemy)
-        {
-            this.enemy = enemy;
-        }
-
-        public void SetHitVars(HitVars hitvars)
-        {
-            this.hitVars = hitvars;
-        }
-
-        public double CalcExpressionInRuntime(Expression ex)
-        {
-            VirtualMachine vm = new VirtualMachine();
-            vm.SetOwner(this);
-            return vm.Execute(ex);
-        }
-
-        public int GetVar(int id)
-        {
-            if (vars != null && vars.ContainsKey(id))
-            {
-                return vars[id];
-            }
-            return -1;
-        }
-
-        public void SetVar(int id, int value)
-        {
-            if (vars == null)
-            {
-                vars = new Dictionary<int, int>();
-            }
-            vars[id] = value;
-        }
 
         public bool IsPause()
         {
@@ -107,14 +82,10 @@ namespace Mugen3D
             pauseTime = duration;
         }
 
-        public void SetPhysicsType(PhysicsType type)
+        public void ChangeState(int stateNo, System.Action onExit)
         {
-            status.physicsType = type;
+
         }
 
-        public void SetCtrl(bool ctrl)
-        {
-            status.ctrl = ctrl;
-        }
     }
 }

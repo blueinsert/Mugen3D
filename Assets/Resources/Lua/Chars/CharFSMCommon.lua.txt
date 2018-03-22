@@ -1,0 +1,49 @@
+local M = {}
+
+--[[
+M[] = {
+	onEnter = function(env, ctl, cfg)
+		
+	end,
+
+	onExit = function(env, ctl, cfg)
+		
+	end,
+	
+	onUpdate = function(env, ctl, cfg)
+		
+	end,
+}
+--]]
+
+--stand
+M[0] = {
+    onEnter = function(env, ctl, cfg)
+	    print("state 0 onEnter")
+	end,
+	
+	onExit = function(env, ctl, cfg)
+	    print("state 0 onExit")
+	end,
+	
+	onUpdate = function(env, ctl, cfg)
+	   print("state 0 onUpdate")
+	end,
+}
+
+--walk
+M[20] = {
+	onEnter = function(env, ctl, cfg)
+		
+	end,
+
+	onExit = function(env, ctl, cfg)
+		
+	end,
+
+	onUpdate = function(env, ctl, cfg)
+		
+	end,
+}
+
+return M

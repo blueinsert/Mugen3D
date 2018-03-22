@@ -9,17 +9,15 @@ namespace Mugen3D
         P1,
         P2,
         P3,
-        P4,
+        P4
     }
-
+  
     [RequireComponent(typeof(Animation))]
     public class Player : Unit, IHealth
     {
-        const int randomSeed = 123456789;
-        public System.Random randomGenerater = new System.Random(randomSeed);
 
-        [HideInInspector]
         public PlayerId id;
+        public int teamId;
        
         public override void Init()
         {
@@ -31,15 +29,9 @@ namespace Mugen3D
             cmdMgr.SetOwner(this);
             cmdMgr.LoadCmdFile(commandFile);
             //
-            animCtr = new AnimationController(this.GetComponent<Animation>(), this, animDefFile);
-            //
-            stateMgr = new StateManager(this);
-            stateMgr.ReadStateDefFile(stateFiles.ToArray());
-            //
-            config = new ConfigReader().GetConfig(configFile.text);
-
-            moveCtr.SetGravity(0, config.GetConfig("Gravity"), 0);
-            vars = new Dictionary<int, int>();
+            animCtr = new AnimationController(this.GetComponent<Animation>(), this);
+           
+            moveCtr.SetGravity(0, -10, 0);
         }
 
         public override void OnUpdate()
@@ -48,13 +40,6 @@ namespace Mugen3D
             moveCtr.Update();
             cmdMgr.Update(InputHandler.GetInputKeycode(this.id, this.facing));
             animCtr.Update();
-            stateMgr.Update();
-        }
-
-        public void Reset()
-        {
-            SetHP(GetMaxHP());
-            this.stateMgr.ChangeState(0);
         }
 
 

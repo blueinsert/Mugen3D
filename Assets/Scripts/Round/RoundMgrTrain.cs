@@ -32,8 +32,7 @@ public class RoundMgrTrain : RoundMgr {
 
     protected override void OnStartRound(int rounNo)
     {
-        m_clientGame.p1.SetCtrl(true);
-        m_clientGame.p2.SetCtrl(true);
+     
     }
 
     private void ResetHP(Player p)

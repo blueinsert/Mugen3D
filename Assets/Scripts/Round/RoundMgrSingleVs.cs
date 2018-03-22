@@ -43,13 +43,11 @@ public class RoundMgrSingleVs : RoundMgr {
             }); 
         });
         ParallelTask task2 = new ParallelTask();
-        task2.AddTask(new Task((t) => { m_p1.stateMgr.ChangeState(190, () => { t.Finish(); }); }));
-        task2.AddTask(new Task((t) => { m_p2.stateMgr.ChangeState(190, () => { t.Finish(); }); }));
+        task2.AddTask(new Task((t) => { m_p1.ChangeState(190, () => { t.Finish(); }); }));
+        task2.AddTask(new Task((t) => { m_p2.ChangeState(190, () => { t.Finish(); }); }));
         Task task3 = new Task((t) => { m_fightUI.CreateView<ViewPopText>().Show("Round" + roundNo, () => { t.Finish(); }); });
         Task task4 = new Task((t) => { m_fightUI.CreateView<ViewPopText>().Show("Fight" + roundNo, () => { t.Finish(); }); });
-        Task task5 = new Task((t) => {
-            m_p1.SetCtrl(true);
-            m_p2.SetCtrl(true);
+        Task task5 = new Task((t) => {  
             m_roundState = RoundState.Fighting;
             t.Finish();
         });
@@ -100,8 +98,6 @@ public class RoundMgrSingleVs : RoundMgr {
         {
             m_p2Score += 1;
         }
-        m_p1.SetCtrl(false);
-        m_p1.SetCtrl(false);
         m_fightUI.InsertView<ViewPopText>((view) => { (view as ViewPopText).Show("KO"); });
         m_fightUI.InsertView<ViewPopText>((view) => {
             (view as ViewPopText).Show("Winner is " + winner.id.ToString(), BegenNextMatch);

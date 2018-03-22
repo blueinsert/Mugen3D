@@ -11,87 +11,79 @@ public enum AnimPlayMode
 }
 
 public class AnimationController {
-    private Unit owner;
-    private AnimPlayMode playMode = AnimPlayMode.Loop;
-    private Animation anim;
-    private AnimationsDef animDef;
-    private List<string> mAnimNames = new List<string>();
+    private Unit m_owner;
+    private AnimPlayMode m_playMode = AnimPlayMode.Loop;
+    private Animation m_anim;
+    private List<string> m_allAnims = new List<string>();
 
     const int FrameRate = 60;
     public float speed = 1;
-    public int AnimTime = -1;// 0 to omega
-    public int AnimElem = 0;// 0 to (length-1)
-    public float animLength;//seconds
-    public int totalFrame;
+
+    public float animLength; //in seconds
+    public int totalFrame; // length * FrameRate
     public string animName;
-    public int animNo;
+
+    public int animTime = -1;// update count since the anim start
+    public int animFrame = 0;// index in totalFrame : from 0 to (totalFrame - 1)
+    
 
 
-    public AnimationController(Animation anim, Unit owner, TextAsset animDefFile)
+    public AnimationController(Animation anim, Unit owner)
     {
-        this.owner = owner;
-        animDef = new AnimationsDef();
-        animDef.Init(animDefFile);
-        this.anim = anim;
-        Init(this.anim);
-    }
-
-    public void Init(Animation anim) {
+        this.m_owner = owner;
+        this.m_anim = anim;
         foreach (AnimationState state in anim)
         {
             state.enabled = false;
-            mAnimNames.Add(state.name);
+            m_allAnims.Add(state.name);
         }
-        if(anim.clip != null)
-            SetPlayAnim(anim.clip.name);
-        this.animNo = -1;
     }
 
     public void Update()
     {
-        if(this.animNo != -1)
+        if(m_allAnims.Contains(animName))
             UpdateSample();
     }
   
     private void UpdateSample() {
-        AnimTime++;
+        animTime++;
         int sampleFrameIndex = 0;
-        if (playMode == AnimPlayMode.Loop)
+        if (m_playMode == AnimPlayMode.Loop)
         {
-            sampleFrameIndex = AnimTime % totalFrame;
+            sampleFrameIndex = animTime % totalFrame;
         }
-        else if(playMode == AnimPlayMode.Once) {
-            if (AnimTime >= totalFrame)
+        else if(m_playMode == AnimPlayMode.Once) {
+            if (animTime >= totalFrame)
             {
                 sampleFrameIndex = totalFrame - 1;
             }
             else
             {
-                sampleFrameIndex = AnimTime % totalFrame;
+                sampleFrameIndex = animTime % totalFrame;
             }
         }
-        AnimElem = sampleFrameIndex;
-        Sample(sampleFrameIndex);
+        animFrame = sampleFrameIndex;
+        Sample(animFrame);
     }
 
     void Sample(int sampleFrameIndex)
     {
         float normalizedTime = sampleFrameIndex / (float)totalFrame;
-        anim[animName].enabled = true;
-        anim[animName].normalizedTime = normalizedTime;
-        anim[animName].weight = 1;
-        anim.Sample();
-        anim[animName].enabled = false;
+        m_anim[animName].enabled = true;
+        m_anim[animName].normalizedTime = normalizedTime;
+        m_anim[animName].weight = 1;
+        m_anim.Sample();
+        m_anim[animName].enabled = false;
     }
 
-    public void  PlayAnim(int animNo, AnimPlayMode mode = AnimPlayMode.Loop)
+    public void  ChangeAnim(string animName, string playMode)
     {
-       
-        string animName = animDef.GetAnimName(animNo);
-        if (mAnimNames.Contains(animName))
+        if (m_allAnims.Contains(animName))
         {
-            this.animNo = animNo;
-            SetPlayAnim(animName, mode);
+            var mode = AnimPlayMode.Loop;
+            if (playMode == "Once")
+                mode = AnimPlayMode.Once;
+            SetAnim(animName, mode);
         }
         else
         {
@@ -99,13 +91,14 @@ public class AnimationController {
         }
     }
 
-    private void SetPlayAnim(string animName, AnimPlayMode mode = AnimPlayMode.Loop){
+    private void SetAnim(string animName, AnimPlayMode mode = AnimPlayMode.Loop){
         this.animName = animName;
-        animLength = anim[animName].length/speed;
+        this.m_playMode = mode;
+        animLength = m_anim[animName].length/speed;
         totalFrame = (int)(FrameRate * animLength);
-        AnimElem = 0;
-        AnimTime = -1;
-        this.playMode = mode;
+        animFrame = 0;
+        animTime = -1;   
     }
+
 }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mugen3D
@@ -13,17 +14,18 @@ namespace Mugen3D
             Player p = go.GetComponentInChildren<Player>();
             p.Init();
             p.id = id;
+            XLua.LuaTable fsm = LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "Chars/" + playerName + "/" + playerName))[0] as XLua.LuaTable;
+            p.SetFSM(fsm);
             World.Instance.AddEntity(p);
             return p;
         }
 
-        public static Helper LoadHelper(string helperName, Player master, Transform parent, Dictionary<string, TokenList> initParams)
+        public static Helper LoadHelper(string helperName, Player master, Transform parent)
         {
             UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Helpers/" + helperName + "/" + helperName);
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
             Helper helper = go.GetComponentInChildren<Helper>();
             helper.master = master;
-            helper.SetInitParams(initParams);
             helper.Init();
             World.Instance.AddEntity(helper);
             return helper;

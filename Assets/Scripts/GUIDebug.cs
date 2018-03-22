@@ -38,19 +38,15 @@ public class GUIDebug : MonoBehaviour
             //GUILayout.Label(new GUIContent("ai:" + Triggers.Instance.AiLevel(p)));
             GUILayout.Label(new GUIContent("moveType:" + Triggers.Instance.MoveType(p).ToString()));
             GUILayout.Label(new GUIContent("physics:" + Triggers.Instance.PhysicsType(p)));
-            GUILayout.Label(new GUIContent("stateNo:" + Triggers.Instance.StateNo(p)));
-            GUILayout.Label(new GUIContent("stateTime:" + Triggers.Instance.Time(p)));
-            GUILayout.Label(new GUIContent("anim:" + Triggers.Instance.Anim(p)));
             GUILayout.Label(new GUIContent("animName:" + Triggers.Instance.AnimName(p)));
-            GUILayout.Label(new GUIContent("animElem:" + Triggers.Instance.AnimElem(p)));
-            GUILayout.Label(new GUIContent("leftAnimElem:" + Triggers.Instance.LeftAnimElem(p)));
+            GUILayout.Label(new GUIContent("animElem:" + Triggers.Instance.AnimFrame(p)));
+            GUILayout.Label(new GUIContent("leftAnimElem:" + Triggers.Instance.LeftAnimFrame(p)));
             GUILayout.Label(new GUIContent("animTime:" + Triggers.Instance.AnimTime(p)));
             GUILayout.Label(new GUIContent("pos:" + Triggers.Instance.PosX(p) + "," + Triggers.Instance.PosY(p)));
             GUILayout.Label(new GUIContent("vel:" + Triggers.Instance.VelX(p) + "," + Triggers.Instance.VelY(p)));
             GUILayout.Label(new GUIContent("commands:" + p.cmdMgr.GetActiveCommandName()));
             GUILayout.Label(new GUIContent("ctrl:" + Triggers.Instance.Ctrl(p)));
             GUILayout.Label(new GUIContent("justOnGround:" + Triggers.Instance.JustOnGround(p)));
-            GUILayout.Label(new GUIContent("vars:" + Utility.DicToString<int, int>(p.vars)));
         }
         
         GUILayout.EndVertical();

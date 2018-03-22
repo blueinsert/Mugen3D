@@ -1,0 +1,16 @@
+local Char = require "Chars/Char"
+local fsm = require "Chars/Origin/OriginFSM"
+local config = require "Chars/Origin/OriginCfg"
+fsm.__loadall()
+
+
+local M = {} 
+
+function M:init(player)
+	local obj = Char.new(player)
+	obj.fsm = fsm
+	obj.cfg = cfg
+	setmetatable(self, {__index = obj})
+end
+
+return M

@@ -53,7 +53,7 @@ public class ClientGame : MonoBehaviour {
     {
         var player = Mugen3D.EntityLoader.LoadPlayer(id, name, this.transform.Find("Players"));
         player.transform.position = m_initPos[id];
-        player.SetCtrl(false);
+        Mugen3D.Controllers.Instance.CtrlSet(player, false);
         return player;
     }
 
@@ -67,7 +67,6 @@ public class ClientGame : MonoBehaviour {
     public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
     {
         this.playMode = playMode;
-        Mugen3D.OpcodeConfig.Init();
         
         LoadStage(stageName);
         p1 = LoadPlayer(Mugen3D.PlayerId.P1, p1CharacterName);
@@ -110,16 +109,14 @@ public class ClientGame : MonoBehaviour {
         mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform);
         world.collisionWorld.AddCollider(mCameraController.leftCollider);
         world.collisionWorld.AddCollider(mCameraController.rightCollider);
-        p1.SetEnemy(p2);
-        p2.SetEnemy(p1);
     }
 
     public void Reset()
     {
         var p1 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1);
         var p2 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2);
-        p1.Reset();
-        p2.Reset();
+       // p1.Reset();
+        //p2.Reset();
         p1.transform.position = m_initPos[p1.id];
         p2.transform.position = m_initPos[p2.id];
     }
