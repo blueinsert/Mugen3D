@@ -1,5 +1,5 @@
-local Env = require "environment"
-local Ctl = require "controller"
+local Ctl = require "FSM/controller"
+local Env = require "FSM/environment"
 
 local M = {}
 

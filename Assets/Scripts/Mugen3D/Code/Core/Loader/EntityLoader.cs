@@ -14,7 +14,7 @@ namespace Mugen3D
             Player p = go.GetComponentInChildren<Player>();
             p.Init();
             p.id = id;
-            XLua.LuaTable fsm = LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "Chars/" + playerName + "/" + playerName))[0] as XLua.LuaTable;
+            XLua.LuaTable fsm = LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "FSM/Chars/" + playerName + "/" + playerName))[0] as XLua.LuaTable;
             p.SetFSM(fsm);
             World.Instance.AddEntity(p);
             return p;

@@ -1,6 +1,6 @@
-local Char = require "Chars/Char"
-local fsm = require "Chars/Origin/OriginFSM"
-local config = require "Chars/Origin/OriginCfg"
+local Char = require "FSM/Chars/Char"
+local fsm = require "FSM/Chars/Origin/OriginFSM"
+local config = require "FSM/Chars/Origin/OriginCfg"
 fsm.__loadall()
 
 

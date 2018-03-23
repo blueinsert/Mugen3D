@@ -43,10 +43,10 @@ namespace Mugen3D
         public void SetFSM(XLua.LuaTable fsm)
         {
             this.fsm = fsm;
-            funcFsmUpdate = this.fsm.Get<string, DelegateFsmUpdate>("update");
-            funFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState");
             funFsmInit = this.fsm.Get<string, DegateFsmInit>("init");
             funFsmInit(this.fsm, this);
+            funcFsmUpdate = this.fsm.Get<string, DelegateFsmUpdate>("update");
+            funFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState");     
         }
 
         public override Collider GetCollider()

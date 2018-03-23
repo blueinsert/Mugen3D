@@ -71,6 +71,11 @@ public class Triggers
         return p.moveCtr.velocity.y;
     }
 
+    public Vector2 Pos(Unit p)
+    {
+        return p.transform.position;
+    }
+
     public float PosX(Unit p)
     {
         return p.transform.position.x;

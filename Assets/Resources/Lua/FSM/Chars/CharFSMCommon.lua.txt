@@ -28,6 +28,8 @@ M[0] = {
 	
 	onUpdate = function(env, ctl, cfg)
 	   print("state 0 onUpdate")
+	   print(env.pos)
+	   print(env.stateNo)
 	end,
 }
 

@@ -1,7 +1,7 @@
 local FSMS = {
-    "Chars/CharFSMCommon",
-    "Chars/Origin/OriginFSM_N",
-    "Chars/Origin/OriginFSM_H",
+    "FSM/Chars/CharFSMCommon",
+    "FSM/Chars/Origin/OriginFSM_N",
+    "FSM/Chars/Origin/OriginFSM_H",
 }
 
 local M = {}

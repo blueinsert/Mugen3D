@@ -1,0 +1,47 @@
+local M = {}
+
+local function init(self, char)
+    self.char = char
+	self.ctl = CS.Controller.Instance
+end
+
+function M.new(char)
+    local obj = {}
+	init(obj, char)
+	setmetatable(obj, {__index = M})
+	return obj
+end
+
+function M:ChangeAnim(animNo)
+    self.ctl:ChangeAnim(self.char.player, animNo)
+end
+
+function M:ChangeState(stateNo)
+    self.char:changeState(stateNo)
+end
+
+function M:CtrlSet(canCtrl)
+    self.ctl:CtrlSet(self.char.player, canCtrl)
+end
+
+function M:CreateHelper(data)
+    self.ctl:CreateHelper(self.char.player, data)
+end
+
+function M:CheckHit(hitDefData)
+    self.ctl:CheckHit(self.char.player, hitDefData)
+end
+
+function M:LifeAdd(lifeAdd)
+    self.ctl:Life(self.char.player, lifeAdd)
+end
+
+function M:LifeSet(life)
+    self.ctl:LifeSet(self.char.player, life)
+end
+
+function M:VelSet(vel)
+    self.ctl:VelSet(self.char.player, vel)
+end 
+
+return M
