@@ -52,12 +52,12 @@ namespace Mugen3D
             }
         }
 
-        public int CommandIsActive(int commandNameHashCode)
+        public bool CommandIsActive(int commandNameHashCode)
         {
-            int result = 0;
+            bool result = false;
             if (!m_commandState.ContainsKey(commandNameHashCode))
             {
-                result = 0;
+                result = false;
                 Log.Warn("cmd def don't contain:" + commandNameHashCode);
             }
             else
@@ -66,7 +66,7 @@ namespace Mugen3D
                 {
                     if (s.IsCommandComplete)
                     {
-                        result = 1;
+                        result = true;
                         break;
                     }
                 }
@@ -79,7 +79,7 @@ namespace Mugen3D
             StringBuilder sb = new StringBuilder();
             foreach (var k in m_commandState.Keys)
             {
-                if (CommandIsActive(k) == 1)
+                if (CommandIsActive(k))
                 {
                     sb.Append(m_commandState[k][0].name).Append(",");
                 }

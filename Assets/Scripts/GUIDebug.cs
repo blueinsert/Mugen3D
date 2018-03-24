@@ -8,18 +8,41 @@ public class GUIDebug : MonoBehaviour
     public static GUIDebug Instance;
     private Vector2 m_p1ScrollPosition = new Vector2(Screen.width / 2, 0);
     private Vector2 m_p2ScrollPosition = new Vector2(Screen.width / 2, 0);
+
+    private Dictionary<int, Dictionary<string, string>> m_msg = new Dictionary<int, Dictionary<string, string>>();
+    private int m_curIndex = 0;
+
     void Awake()
     {
         Instance = this;
     }
 
-    void OnGUI() {
-        foreach (var p in ClientGame.Instance.world.GetAllPlayers())
+    public void AddMsg(int index, string key, string value)
+    {
+        if (!m_msg.ContainsKey(index))
         {
-            Draw(p.id, p);
-        }  
+            m_msg[index] = new Dictionary<string, string>();
+        }
+        m_msg[index][key] = value;            
     }
 
+    void OnGUI() {
+        if(m_msg[m_curIndex]!=null){
+            GUI.color = Color.blue;
+            GUILayout.BeginArea(new UnityEngine.Rect(0, 0, Screen.width / 2, Screen.height));
+            m_p1ScrollPosition = GUILayout.BeginScrollView(m_p1ScrollPosition, GUILayout.Width(Screen.width / 2), GUILayout.Height(Screen.height));
+            GUILayout.BeginVertical();
+            GUILayout.Label(new GUIContent("curIndex:" + m_curIndex));
+            foreach (var kv in m_msg[m_curIndex]){
+                GUILayout.Label(new GUIContent(kv.Key + ":" + kv.Value));
+            }
+             GUILayout.EndVertical();
+             GUILayout.EndArea();
+             GUILayout.EndScrollView();
+        }   
+    }
+
+    /*
     void Draw(PlayerId id, Player p)
     {
         GUI.color = Color.blue;
@@ -53,6 +76,7 @@ public class GUIDebug : MonoBehaviour
         GUILayout.EndArea();
         GUILayout.EndScrollView();
     }
+     */
 
 }
 

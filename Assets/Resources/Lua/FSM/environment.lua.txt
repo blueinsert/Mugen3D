@@ -1,13 +1,22 @@
 local M = {}
 
+local function CommandTest(self, commandName)
+    return self.env:CommandTest(commandName)
+end
+
+local function initEnvTestFuncWithParams(self)
+    self.CommandTest = CommandTest
+end
+
 function M.new(char)
     local obj = {}
     obj.char = char
     obj.env = CS.Mugen3D.Environment(char.player)
+    initEnvTestFuncWithParams(obj)
     local mt = {
-        __index = function(t, key)
+        __index = function(t, key, ...)
             if M[key] and type(M[key]) == "function" then
-            	return (M[key])(t)
+            	return (M[key])(t, ...)
             elseif M[key] and type(M[key]) ~= "function" then
                 return M[key]
             else
@@ -21,6 +30,10 @@ end
 
 function M.stateNo(self)
 	return self.char.stateNo
+end
+
+function M.stateTime(self)
+    return self.char.stateTime
 end
 
 return M

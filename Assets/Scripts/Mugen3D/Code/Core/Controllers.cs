@@ -58,9 +58,9 @@ namespace Mugen3D
             p.status.ctrl = isCtrl;
         }
 
-        public void ChangeAnim(Unit p, string animName, string playMode)
+        public void ChangeAnim(Unit p, int animNo, string playMode = "Once")
         {
-            p.animCtr.ChangeAnim(animName, playMode);
+            p.ChangeAnim(animNo, playMode);
         }
 
         public void PosSet(Unit p, float x, float y)
@@ -73,19 +73,19 @@ namespace Mugen3D
             switch (physics)
             {
                 case "S":
-                    p.status.physicsType = PhysicsType.Stand;
+                    p.status.physicsType = PhysicsType.S;
                     break;
                 case "C":
-                    p.status.physicsType = PhysicsType.Crouch;
+                    p.status.physicsType = PhysicsType.C;
                     break;
                 case "A":
-                    p.status.physicsType = PhysicsType.Air;
+                    p.status.physicsType = PhysicsType.A;
                     break;
                 case "N":
-                    p.status.physicsType = PhysicsType.None;
+                    p.status.physicsType = PhysicsType.N;
                     break;
                 default:
-                    p.status.physicsType = PhysicsType.Stand;
+                    p.status.physicsType = PhysicsType.S;
                     break;
             }
         }

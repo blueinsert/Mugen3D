@@ -6,6 +6,7 @@ namespace Mugen3D
 {
     public class EntityLoader
     {
+        public static Unit curUnit;
 
         public static Player LoadPlayer(PlayerId id, string playerName, Transform parent)
         {
@@ -14,8 +15,10 @@ namespace Mugen3D
             Player p = go.GetComponentInChildren<Player>();
             p.Init();
             p.id = id;
-            XLua.LuaTable fsm = LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "FSM/Chars/" + playerName + "/" + playerName))[0] as XLua.LuaTable;
+            curUnit = p;
+            XLua.LuaTable fsm = LuaMgr.Instance.Env.DoString(string.Format("return (require('{0}')).new(CS.Mugen3D.EntityLoader.curUnit)", "FSM/Chars/" + playerName + "/" + playerName))[0] as XLua.LuaTable;
             p.SetFSM(fsm);
+            curUnit = null;
             World.Instance.AddEntity(p);
             return p;
         }

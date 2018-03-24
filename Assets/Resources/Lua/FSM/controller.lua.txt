@@ -2,7 +2,7 @@ local M = {}
 
 local function init(self, char)
     self.char = char
-	self.ctl = CS.Controller.Instance
+	self.ctl = CS.Mugen3D.Controllers.Instance
 end
 
 function M.new(char)
@@ -12,8 +12,8 @@ function M.new(char)
 	return obj
 end
 
-function M:ChangeAnim(animNo)
-    self.ctl:ChangeAnim(self.char.player, animNo)
+function M:ChangeAnim(animNo, playMode)
+    self.ctl:ChangeAnim(self.char.player, animNo, playMode)
 end
 
 function M:ChangeState(stateNo)

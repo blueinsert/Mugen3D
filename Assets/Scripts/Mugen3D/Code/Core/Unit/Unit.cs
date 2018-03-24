@@ -10,6 +10,8 @@ namespace Mugen3D
     public abstract class Unit : Entity
     {
         public TextAsset commandFile;
+        public TextAsset animMappingFile;
+        private AnimationsDef m_animMapping;
 
         public XLua.LuaTable fsm;
         public delegate void DegateFsmInit(XLua.LuaTable self, Unit u);
@@ -38,13 +40,13 @@ namespace Mugen3D
             decisionBoxes = this.GetComponent<DecisionBoxes>();
             decisionBoxes.SetOwner(this);
             decisionBoxes.Init();
+            if (animMappingFile != null)
+                m_animMapping = new AnimationsDef(animMappingFile.text);
         }
 
         public void SetFSM(XLua.LuaTable fsm)
         {
             this.fsm = fsm;
-            funFsmInit = this.fsm.Get<string, DegateFsmInit>("init");
-            funFsmInit(this.fsm, this);
             funcFsmUpdate = this.fsm.Get<string, DelegateFsmUpdate>("update");
             funFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState");     
         }
@@ -85,6 +87,13 @@ namespace Mugen3D
         public void ChangeState(int stateNo, System.Action onExit)
         {
 
+        }
+
+        public void ChangeAnim(int animNo, string playMode = "Once")
+        {
+            this.status.animNo = animNo;
+            string animName = m_animMapping.GetAnimName(animNo);
+            this.animCtr.ChangeAnim(animName, playMode);
         }
 
     }

@@ -16,35 +16,72 @@ M[] = {
 }
 --]]
 
---stand
+M[-1] = {
+	onUpdate = function(char)
+		if (char.env:CommandTest("holdfwd") or char.env:CommandTest("holdback")) and char.env.stateNo == 1 then
+			char.ctl:ChangeState(20)
+		end
+	end,
+}
+
+-- start state
 M[0] = {
-    onEnter = function(env, ctl, cfg)
-	    print("state 0 onEnter")
+	onEnter = function(char)
+       
 	end,
 	
-	onExit = function(env, ctl, cfg)
-	    print("state 0 onExit")
+	onExit = function(char)
 	end,
 	
-	onUpdate = function(env, ctl, cfg)
-	   print("state 0 onUpdate")
-	   print(env.pos)
-	   print(env.stateNo)
+	onUpdate = function(char)
+	  if char.env.stateTime > 5 then
+	  	  char.ctl:ChangeState(1)
+	  end
+	end,
+}
+
+--stand
+M[1] = {
+    onEnter = function(char)
+        char.ctl:CtrlSet(true)
+	end,
+	
+	onExit = function(char)
+	end,
+	
+	onUpdate = function(char)
+	   if char.env.animNo ~=0 then
+	   	   char.ctl:ChangeAnim(0)
+	   end
 	end,
 }
 
 --walk
 M[20] = {
-	onEnter = function(env, ctl, cfg)
+	onEnter = function(char)
+		char.ctl:CtrlSet(true)
+	end,
+
+	onExit = function(char)
 		
 	end,
 
-	onExit = function(env, ctl, cfg)
-		
-	end,
-
-	onUpdate = function(env, ctl, cfg)
-		
+	onUpdate = function(char)
+		if char.env.animNo ~= 20 and char.env:CommandTest("holdfwd") then
+			char.ctl:ChangeAnim(20)
+		end
+		if char.env.animNo ~= 21 and char.env:CommandTest("holdback") then
+			char.ctl:ChangeAnim(21)
+		end
+		if char.env.animNo == 20 and char.env:CommandTest("holdfwd") then
+			char.ctl:VelSet(5, 0)
+		end
+		if char.env.animNo == 21 and char.env:CommandTest("holdback") then
+			char.ctl:VelSet(-5, 0)
+		end
+		if not char.env:CommandTest("holdback") and not char.env:CommandTest("holdfwd") then
+            char.ctl:ChangeState(0)
+		end
 	end,
 }
 

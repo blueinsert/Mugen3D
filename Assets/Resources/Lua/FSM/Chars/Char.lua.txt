@@ -3,37 +3,93 @@ local Env = require "FSM/environment"
 
 local M = {}
 
-local function init(self, player)
+local function init(self, player, fsm)
     self.player = player
 	self.env = Env.new(self)
 	self.ctl = Ctl.new(self)
+	self.fsm = fsm
 	self.stateNo = 0
+	self.stateTime = -1
 end
 
-function M.new(player)
+function M.new(player, fsm)
     local obj = {}
-	init(obj, player)
+	init(obj, player, fsm)
 	setmetatable(obj, {__index = M})
 	return obj
 end
 
 function M:update()
-	if self.fsm == nil then
+	self:debug()
+	if self.fsm == nil or self.fsm[self.stateNo] == nil then
 		return
 	end
-	if self.fsm[-1] then
-		self.fsm[-1].onUpdate(self.env, self.ctl, self.cfg)
+	self.stateTime = self.stateTime + 1
+	if self.fsm[-1] and self.fsm[-1].onUpdate then
+		self.fsm[-1].onUpdate(self)
 	end
-	self.fsm[self.stateNo].onUpdate(self.env, self.ctl, self.cfg)
+	if self.fsm[self.stateNo].onUpdate then
+	    self.fsm[self.stateNo].onUpdate(self)
+    end
 end
 
 function M:changeState(stateNo)
-	if self.fsm == nil then
+	if self.fsm == nil or self.fsm[self.stateNo] == nil then
 		return
 	end
-	self.fsm(self.stateNo).onExit(self.env, self.ctl, self.cfg)
+	if self.fsm[self.stateNo].onExit then
+	    self.fsm[self.stateNo].onExit(self)
+    end
 	self.stateNo = stateNo
-	self.fsm(self.stateNo).onEnter(self.env, self.ctl, self.cfg)
+	self.stateTime = -1
+	if self.fsm[self.stateNo].onEnter then
+	    self.fsm[self.stateNo].onEnter(self)
+    end
+end
+
+local function toString(obj)
+	if type(obj) == "number" then
+	    return tostring(obj)
+	elseif type(obj) == "userdata" then
+		return obj:ToString()
+	elseif type(obj) == "string" then
+		return obj
+	elseif type(obj) == "boolean" then
+		if obj == true then
+			return "true"
+		else
+			return "false"
+		end
+	else
+		print(type(obj))
+		return "nil"
+	end
+end
+
+function M:debug()
+	local guiDebug = CS.GUIDebug.Instance
+	if guiDebug == nil then
+		return
+	end
+	local index = 0
+	if self.player.id == CS.Mugen3D.PlayerId.P1 then
+		index = 0
+	elseif self.player.id == CS.Mugen3D.PlayerId.P2 then
+		index = 1
+	end
+	guiDebug:AddMsg(index, "stateNo", toString(self.env.stateNo))
+	guiDebug:AddMsg(index, "stateTime", toString(self.env.stateTime))
+	guiDebug:AddMsg(index, "physics", toString(self.env.physics))
+	guiDebug:AddMsg(index, "moveType", toString(self.env.moveType))
+	guiDebug:AddMsg(index, "pos", toString(self.env.pos))
+	guiDebug:AddMsg(index, "vel", toString(self.env.vel))
+	guiDebug:AddMsg(index, "animNo", toString(self.env.animNo))
+	guiDebug:AddMsg(index, "animName", toString(self.env.animName))
+	guiDebug:AddMsg(index, "animFrame", toString(self.env.animFrame))
+	guiDebug:AddMsg(index, "leftAnimFrame", toString(self.env.leftAnimFrame))
+	guiDebug:AddMsg(index, "justOnGround", toString(self.env.justOnGround))
+	guiDebug:AddMsg(index, "ctrl", toString(self.env.ctrl))
+	guiDebug:AddMsg(index, "commands", toString(self.env.commands))
 end
 
 return M

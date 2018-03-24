@@ -51,16 +51,16 @@ namespace Mugen3D
                 isOnGround = true;
                 justOnGround = false;
             }
-            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
+            if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
                 m_acceleratedVelocity = -m_gravity.magnitude * groundFrictionFactor * velocity.normalized;
             }
-            else if (m_owner.status.physicsType == PhysicsType.Air)
+            else if (m_owner.status.physicsType == PhysicsType.A)
             {
                 m_acceleratedVelocity = m_gravity;
             }
             m_velocity += Time.deltaTime * m_acceleratedVelocity;
-            if (m_owner.status.physicsType == PhysicsType.Stand || m_owner.status.physicsType == PhysicsType.Crouch)
+            if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
                 m_velocity = StabilizeVel(velocity);
             }
@@ -139,7 +139,7 @@ namespace Mugen3D
         {
             if (Mathf.Abs(m_deltaPos.x) < 0.001 && Mathf.Abs(m_deltaPos.y) < 0.001)
                 return;
-            if (m_owner.status.physicsType != PhysicsType.Air)
+            if (m_owner.status.physicsType != PhysicsType.A)
             {
                 m_deltaPos.y = 0;
             }

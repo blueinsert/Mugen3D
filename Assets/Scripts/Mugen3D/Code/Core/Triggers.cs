@@ -29,6 +29,31 @@ public class Triggers
 
     #region trigger function
 
+    public string Physics(Unit p)
+    {
+        return p.status.physicsType.ToString();
+    }
+
+    public string MoveType(Unit p)
+    {
+        return p.status.moveType.ToString();
+    }
+
+    public Vector2 Pos(Unit p)
+    {
+        return p.transform.position;
+    }
+
+    public Vector2 Vel(Unit p)
+    {
+        return p.moveCtr.velocity;
+    }
+
+    public int AnimNo(Unit p)
+    {
+        return p.status.animNo;
+    }
+
     public string AnimName(Unit p)
     {
         return p.animCtr.animName;
@@ -48,57 +73,25 @@ public class Triggers
     {
         return p.animCtr.totalFrame - p.animCtr.animFrame - 1;
     }
-
-    public int CommandTest(Unit p, string command)
+    
+    public bool JustOnGround(Unit p)
     {
-        if (!p.status.ctrl)
-            return 0;
+        return p.moveCtr.justOnGround;
+    }
+
+    public bool Ctrl(Unit p)
+    {
+        return p.status.ctrl;
+    }
+
+    public bool CommandTest(Unit p, string command)
+    {
         return p.cmdMgr.CommandIsActive(command.GetHashCode());
     }
 
-    public int Ctrl(Unit p)
+    public string Commands(Unit p)
     {
-        return p.status.ctrl == true ? 1 : 0;
-    }
-
-    public float VelX(Unit p)
-    {
-        return p.moveCtr.velocity.x;
-    }
-
-    public float VelY(Unit p)
-    {
-        return p.moveCtr.velocity.y;
-    }
-
-    public Vector2 Pos(Unit p)
-    {
-        return p.transform.position;
-    }
-
-    public float PosX(Unit p)
-    {
-        return p.transform.position.x;
-    }
-
-    public float PosY(Unit p)
-    {
-        return p.transform.position.y;
-    }
-
-    public string PhysicsType(Unit p)
-    {
-        return p.status.physicsType.ToString();
-    }
-
-    public string MoveType(Unit p)
-    {
-        return p.status.moveType.ToString();
-    }
-    
-    public int JustOnGround(Unit p)
-    {
-        return p.moveCtr.justOnGround ? 1 : 0;
+        return p.cmdMgr.GetActiveCommandName();
     }
 
     #endregion

@@ -7,25 +7,25 @@ namespace Mugen3D
     
     public class AnimationsDef
     {     
-        private Dictionary<int, string> anims = new Dictionary<int,string>();
+        private Dictionary<int, string> m_anims = new Dictionary<int,string>();
 
-        public void Init(TextAsset animDef)
+        public AnimationsDef(string data)
         {
-            Parse(animDef);
+            Parse(data);
         }
 
         public string GetAnimName(int no)
         {
-            if (anims.ContainsKey(no))
-                return anims[no];
+            if (m_anims.ContainsKey(no))
+                return m_anims[no];
             else
                 return "none";
         }
 
-        void Parse(TextAsset animDef)
+        void Parse(string data)
         {
             Tokenizer tokenizer = new Tokenizer();
-            List<Token> tokens = tokenizer.GetTokens(animDef);
+            List<Token> tokens = tokenizer.GetTokens(data);
             int tokenSize = tokens.Count;
             int pos = 0;
             while (pos < tokenSize)
@@ -35,7 +35,7 @@ namespace Mugen3D
                 {
                     int key = int.Parse(tokens[pos - 2].value);
                     string value = tokens[pos++].value;
-                    anims[key] = value;
+                    m_anims[key] = value;
                 }
             }
         }

@@ -1,13 +1,13 @@
 local M = {}
 
 M[200] = {
-	onEnter = function(env, ctl)
+	onEnter = function(char)
 	   
 	end,
-	onExit = function(env, ctl)
+	onExit = function(char)
 	
 	end,
-	onUpdate = function(env, ctl)
+	onUpdate = function(char)
 	    
 	end,
 }
