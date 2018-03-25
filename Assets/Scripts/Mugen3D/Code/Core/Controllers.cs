@@ -68,7 +68,7 @@ namespace Mugen3D
             p.moveCtr.PosSet(x, y);
         }
 
-        public void SetPhysics(Unit p, string physics)
+        public void PhysicsSet(Unit p, string physics)
         {
             switch (physics)
             {
@@ -87,6 +87,23 @@ namespace Mugen3D
                 default:
                     p.status.physicsType = PhysicsType.S;
                     break;
+            }
+        }
+
+        public void MoveTypeSet(Unit p, string moveType)
+        {
+            switch (moveType)
+            {
+                case "A":
+                    p.status.moveType = MoveType.Attack; break;
+                case "I":
+                    p.status.moveType = MoveType.Idle; break;
+                case "D":
+                    p.status.moveType = MoveType.Defence; break;
+                case "H":
+                    p.status.moveType = MoveType.BeingHitted; break;
+                default:
+                    p.status.moveType = MoveType.Idle; break;
             }
         }
 
@@ -151,23 +168,7 @@ namespace Mugen3D
         }
 */
 
-        public void SetMoveType(Unit p, string moveType)
-        {
-            switch (moveType)
-            {
-                case "A":
-                    p.status.moveType = MoveType.Attack; break;
-                case "I":
-                    p.status.moveType = MoveType.Idle; break;
-                case "D":
-                    p.status.moveType = MoveType.Defence; break;
-                case "H":
-                    p.status.moveType = MoveType.BeingHitted; break;
-                default:
-                    p.status.moveType = MoveType.Idle; break;
-            }
-        }
-
+       
         #endregion
     }
 

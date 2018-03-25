@@ -656,6 +656,7 @@ ModelImporter:
     7400186: GuardCrouchStart
     7400188: GuardStandEnd
     7400190: GuardStandStart
+    7400192: JumpingDown
     9500000: //RootNode
     11100000: //RootNode
     13700000: origin_Body

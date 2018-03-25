@@ -12,12 +12,20 @@ function M.new(char)
 	return obj
 end
 
+function M:ChangeState(stateNo)
+    self.char:changeState(stateNo)
+end
+
 function M:ChangeAnim(animNo, playMode)
     self.ctl:ChangeAnim(self.char.player, animNo, playMode)
 end
 
-function M:ChangeState(stateNo)
-    self.char:changeState(stateNo)
+function M:PhysicsSet(physics)
+    self.ctl:PhysicsSet(self.char.player, physics)
+end
+
+function M:MoveTypeSet(moveType)
+    self.ctl:MoveTypeSet(self.char.player, moveType)
 end
 
 function M:CtrlSet(canCtrl)
@@ -40,8 +48,8 @@ function M:LifeSet(life)
     self.ctl:LifeSet(self.char.player, life)
 end
 
-function M:VelSet(vel)
-    self.ctl:VelSet(self.char.player, vel)
+function M:VelSet(x, y)
+    self.ctl:VelSet(self.char.player, x, y)
 end 
 
 return M
