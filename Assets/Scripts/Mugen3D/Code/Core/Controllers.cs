@@ -112,63 +112,6 @@ namespace Mugen3D
             p.Pause(pauseTime);
         }
 
-        /*
-        private bool IsHit(Unit p, HitPart activePart, Player enemy)
-        {
-            
-            //HitBox attackBox = p.GetComponent<DecisionBoxManager>().GetHitBox(activePart);
-            //HitBox[] attackBoxes = new HitBox[] { attackBox};
-            //DefenceBox[] defenceBoxes = enemy.GetComponent<DecisionBoxManager>().defenceBoxes.ToArray();
-            bool hit = false;
-            for (int i = 0; i < attackBoxes.Length; i++)
-            {
-                for (int j = 0; j < defenceBoxes.Length; j++)
-                {
-                    if (PhysicsUtils.CuboidCuboidTest(attackBoxes[i].cuboid.GetVertexArray().ToArray(), defenceBoxes[j].cuboid.GetVertexArray().ToArray()))
-                    {
-                        hit = true;
-                        break;
-                    }
-                    if (hit == true)
-                        break;
-                }
-            }
-            
-            //Log.Info("hit:" + hit);
-            return false;
-        }
-
-        public void HitDef(Unit p, Dictionary<string, TokenList> param)
-        {
-            Player enemy = p.enemy as Player;
-           if (enemy == null)
-               return;
-           HitVars hitvars = new HitVars(param);
-           bool hit = false;//IsHit(p, hitvars.activeAttackBodyPart, enemy);
-           if (!hit)
-               return;
-           if (Triggers.Instance.EnemyMoveType(p) != "Defence")
-           {
-               p.Pause(hitvars.p1HitPauseTime);
-               enemy.SetHitVars(hitvars);
-               enemy.AddHP(-hitvars.hitDamage);
-               //change state
-               enemy.stateMgr.ChangeState(5000 + ((int)enemy.status.moveType) * 10);
-           }
-           else
-           {
-               p.Pause(hitvars.p1GuardPauseTime);
-               enemy.SetHitVars(hitvars);
-               enemy.AddHP(-hitvars.guardDamage);
-               //change state
-               int stateNo = 150 + ((int)enemy.status.moveType) * 2;
-               Debug.Log("stateNo:" + stateNo);
-               enemy.stateMgr.ChangeState(stateNo);
-           }   
-        }
-*/
-
-       
         #endregion
     }
 

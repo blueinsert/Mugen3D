@@ -52,6 +52,10 @@ namespace Mugen3D
             return collideBox;
         }
 
+        public HitBox GetHitBox(HitPart part)
+        {
+            return m_attactBoxDic[part];
+        }
 
         private void UpdateMinBB()
         {  

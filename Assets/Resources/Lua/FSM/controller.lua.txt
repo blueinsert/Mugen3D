@@ -36,8 +36,43 @@ function M:CreateHelper(data)
     self.ctl:CreateHelper(self.char.player, data)
 end
 
-function M:CheckHit(hitDefData)
-    self.ctl:CheckHit(self.char.player, hitDefData)
+local AttackLevel = {
+    light = 1,
+    medium = 2,
+    hard = 3,
+}
+
+local function onHit(attacker, target, hitDefData)
+    print("attack")
+    print(attacker)
+    print("target")
+    print(target)
+    target.hitDefData = hitDefData
+    if target.env.moveType == "D" then
+        attacker.ctl:Pause(hitDefData.guardPauseTime[1])
+        target.ctl:ChangeState(150)
+    else
+        attacker.ctl:Pause(hitDefData.hitPauseTime[1])
+        target.ctl:ChangeState(5000)
+    end
+end
+
+local function onGrab(attacker, target, hitDefData)
+    -- body
+end
+
+function M:HitDef(hitDefData)
+    local isHit, target = self.char.player:IsHitOthers(CS.Mugen3D.HitPart.Hand_L)
+    if not isHit then
+        return
+    end
+    local tarChar = target.fsm
+    if hitDefData.attackType == "T" then
+        onGrab(self.char, tarChar, hitDefData)
+    else
+        onHit(self.char, tarChar, hitDefData)
+    end
+    return isHit
 end
 
 function M:LifeAdd(lifeAdd)
@@ -51,5 +86,9 @@ end
 function M:VelSet(x, y)
     self.ctl:VelSet(self.char.player, x, y)
 end 
+
+function M:Pause(duration)
+    self.ctl:Pause(self.char.player, duration)
+end
 
 return M

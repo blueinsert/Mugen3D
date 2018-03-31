@@ -2,6 +2,12 @@ CSV = require "csv"
 UIManager = require "UI/UIManager"
 UIDef = require "UI/UIDef"
 
+local oldPrint = print
+print = function (...)
+    local trace = debug.traceback("", 3)
+    oldPrint(... , " (at " .. debug.getinfo(2).short_src .. ":" .. debug.getinfo(2).currentline .. ")" .. trace)
+end
+
 local function Init()
 	CS.FSoul.UI.UIManager.Instance:Init(UIDef)
 end

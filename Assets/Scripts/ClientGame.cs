@@ -23,8 +23,8 @@ public class ClientGame : MonoBehaviour {
     private bool isIntializeComplete = false;
 
     private static readonly Dictionary<Mugen3D.PlayerId, Vector3> m_initPos = new Dictionary<Mugen3D.PlayerId, Vector3> { 
-        {Mugen3D.PlayerId.P1, new Vector3(-1.5f, 0, 0)},
-        {Mugen3D.PlayerId.P2, new Vector3(1.5f, 0, 0)},
+        {Mugen3D.PlayerId.P1, new Vector3(-1.5f, 0.3f, 0)},
+        {Mugen3D.PlayerId.P2, new Vector3(1.5f, 0.3f, 0)},
     }; 
 
     public void Awake()

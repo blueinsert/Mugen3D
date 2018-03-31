@@ -31,6 +31,12 @@ namespace Mugen3D
         public CollisionWorld collisionWorld;
         public int gameTime = -1;
         public float deltaTime;
+        public List<Entity> entities
+        {
+            get{
+                return m_entities;
+            }
+        }
 
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();

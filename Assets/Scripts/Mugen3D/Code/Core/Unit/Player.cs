@@ -17,29 +17,18 @@ namespace Mugen3D
     {
 
         public PlayerId id;
-        public int teamId;
        
         public override void Init()
         {
             base.Init();
-            //
             moveCtr = new PlayerMoveCtrl(this);
-            //
-            cmdMgr = new CmdManager();
-            cmdMgr.SetOwner(this);
-            cmdMgr.LoadCmdFile(commandFile);
-            //
-            animCtr = new AnimationController(this.GetComponent<Animation>(), this);
-           
             moveCtr.SetGravity(0, -10, 0);
         }
 
         public override void OnUpdate()
         {
             base.OnUpdate();
-            moveCtr.Update();
             cmdMgr.Update(InputHandler.GetInputKeycode(this.id, this.facing));
-            animCtr.Update();
         }
 
 

@@ -24,26 +24,35 @@ function M:update()
 	if self.fsm == nil or self.fsm[self.stateNo] == nil then
 		return
 	end
+    for i = -3, -1 do
+    	if self.fsm[i] and self.fsm[i].onUpdate then
+		    self.fsm[i].onUpdate(self)
+	    end
+    end
 	self.stateTime = self.stateTime + 1
-	if self.fsm[-1] and self.fsm[-1].onUpdate then
-		self.fsm[-1].onUpdate(self)
-	end
 	if self.fsm[self.stateNo].onUpdate then
 	    self.fsm[self.stateNo].onUpdate(self)
+    else
+    	print("stateNo:" .. self.stateNo .. " don't not have update Func")
     end
 end
 
 function M:changeState(stateNo)
 	if self.fsm == nil or self.fsm[self.stateNo] == nil then
+		print("don't have stateNo:" .. stateNo)
 		return
 	end
 	if self.fsm[self.stateNo].onExit then
 	    self.fsm[self.stateNo].onExit(self)
+    else
+    	print("stateNo:" .. self.stateNo .. "don't not have onExit Func")
     end
 	self.stateNo = stateNo
 	self.stateTime = -1
 	if self.fsm[self.stateNo].onEnter then
 	    self.fsm[self.stateNo].onEnter(self)
+	else
+    	print("stateNo:" .. self.stateNo .. "don't not have onEnter Func")
     end
 end
 

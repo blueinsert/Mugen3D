@@ -71,6 +71,19 @@ namespace Mugen3D
             return isIntersect;
         }
 
+        public static bool GeometryOverlapTest(Geometry g1, Geometry g2)
+        {
+            if ((g1 is OBB) && (g2 is OBB))
+            {
+                return CuboidCuboidTest(g1.GetVertexArray().ToArray(), g2.GetVertexArray().ToArray());
+            }
+            else
+            {
+                Log.Error("un complement");
+                return false;
+            }
+        }
+
         public static bool RectRectTest(Rect rect1, Rect rect2)
         {
             bool isIntersect = false;

@@ -10,7 +10,7 @@ public class GUIDebug : MonoBehaviour
     private Vector2 m_p2ScrollPosition = new Vector2(Screen.width / 2, 0);
 
     private Dictionary<int, Dictionary<string, string>> m_msg = new Dictionary<int, Dictionary<string, string>>();
-    private int m_curIndex = 0;
+    private int m_curIndex = 1;
 
     void Awake()
     {
