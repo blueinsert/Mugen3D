@@ -7,34 +7,10 @@ namespace Mugen3D
 {
     public class Tokenizer
     {
-
-        public List<Token> GetTokens(TextAsset textAssert)
-        {
-            string content = textAssert.text;
-            return GetTokens(content.ToCharArray());
-        }
-
         public List<Token> GetTokens(string data)
         {
             return GetTokens(data.ToCharArray());
         }
-
-        /*
-        public List<Token> GetTokens(string fileName)
-        {
-            string content = "";
-            try{
-            StreamReader reader = new StreamReader(fileName, Encoding.UTF8);
-            content = reader.ReadToEnd();
-            reader.Close();
-            }
-            catch (IOException e)
-            {
-                Debug.Log(e.ToString());
-            }
-            return GetTokens(content.ToCharArray());
-        }
-         */
 
         private List<Token> GetTokens(char[] charStream)
         {

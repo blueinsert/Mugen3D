@@ -8,8 +8,8 @@ using Mugen3D;
 public class RoundMgrSingleVs : RoundMgr {
    
     private FightUI m_fightUI;
-    private Mugen3D.Player m_p1;
-    private Mugen3D.Player m_p2;
+    private Mugen3D.Character m_p1;
+    private Mugen3D.Character m_p2;
     private int m_p1Score;
     private int m_p2Score;
 
@@ -68,7 +68,7 @@ public class RoundMgrSingleVs : RoundMgr {
     private void OnTimeOver()
     {
         m_roundState = RoundState.BeforeEnd;
-        Mugen3D.Player winner = m_p1.GetHP() > m_p2.GetHP() ? m_p1 : m_p2;
+        Mugen3D.Character winner = m_p1.GetHP() > m_p2.GetHP() ? m_p1 : m_p2;
         if (winner == m_p1)
         {
             m_p1Score += 1;
@@ -88,7 +88,7 @@ public class RoundMgrSingleVs : RoundMgr {
     private void OnKO(Mugen3D.Entity e)
     {
         m_roundState = RoundState.BeforeEnd;
-        var p = e as Mugen3D.Player;
+        var p = e as Mugen3D.Character;
         var winner = p == m_p1 ? m_p2 : m_p1;
         if (winner == m_p1)
         {

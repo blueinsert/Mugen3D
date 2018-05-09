@@ -14,8 +14,8 @@ public class ClientGame : MonoBehaviour {
     public PlayMode playMode;
     public FightUI fightUI;
     public RoundMgr roundMgr;
-    public Mugen3D.Player p1;
-    public Mugen3D.Player p2;
+    public Mugen3D.Character p1;
+    public Mugen3D.Character p2;
 
     private float timer = 0;
     private bool isPause = false;
@@ -49,7 +49,7 @@ public class ClientGame : MonoBehaviour {
         }
     }
 
-    private Mugen3D.Player LoadPlayer(Mugen3D.PlayerId id, string name)
+    private Mugen3D.Character LoadPlayer(Mugen3D.PlayerId id, string name)
     {
         var player = Mugen3D.EntityLoader.LoadPlayer(id, name, this.transform.Find("Players"));
         player.transform.position = m_initPos[id];
@@ -121,7 +121,7 @@ public class ClientGame : MonoBehaviour {
         p2.transform.position = m_initPos[p2.id];
     }
 
-    public void ReloadPlayer(Mugen3D.Player p)
+    public void ReloadPlayer(Mugen3D.Character p)
     {
         isIntializeComplete = false;
         LoadPlayer(p.id, p.name);

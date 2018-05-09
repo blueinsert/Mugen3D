@@ -8,11 +8,11 @@ namespace Mugen3D
     {
         public static Unit curUnit;
 
-        public static Player LoadPlayer(PlayerId id, string playerName, Transform parent)
+        public static Character LoadPlayer(PlayerId id, string playerName, Transform parent)
         {
             UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Chars/" + playerName + "/" + playerName);
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
-            Player p = go.GetComponentInChildren<Player>();
+            Character p = go.GetComponentInChildren<Character>();
             p.Init();
             p.id = id;
             p.teamId = (int)id;
@@ -24,7 +24,7 @@ namespace Mugen3D
             return p;
         }
 
-        public static Helper LoadHelper(string helperName, Player master, Transform parent)
+        public static Helper LoadHelper(string helperName, Character master, Transform parent)
         {
             UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Helpers/" + helperName + "/" + helperName);
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;

@@ -9,24 +9,12 @@ namespace Mugen3D
     [RequireComponent(typeof(DecisionBoxes))]
     public abstract class Unit : Entity
     {
-        public TextAsset commandFile;
-        public TextAsset animMappingFile;
-      
-        public DecisionBoxes decisionBoxes;
-
-        public XLua.LuaTable fsm;
-        private delegate void DegateFsmInit(XLua.LuaTable self, Unit u);
-        private delegate void DelegateFsmUpdate(XLua.LuaTable self);
-        private delegate void DelegateFsmChangeState(XLua.LuaTable self, int stateNo);
-        private DegateFsmInit funFsmInit;
-        private DelegateFsmUpdate funcFsmUpdate;
-        private DelegateFsmChangeState funFsmChangeState;
-
-        private AnimationsDef m_animMapping;
+        
         public AnimationController animCtr;
         public CmdManager cmdMgr;
+        public FsmManager fsmMgr;
         public MoveCtrl moveCtr;
-
+       
         public Status status = new Status();
 
         [HideInInspector]
@@ -34,26 +22,15 @@ namespace Mugen3D
         private int pauseTime = 0;
         public int teamId = 0;
 
-        public override void Init()
+        public override void Init(UnitConfig config)
         {
-            decisionBoxes = this.GetComponent<DecisionBoxes>();
-            decisionBoxes.SetOwner(this);
-            decisionBoxes.Init();
-            if (animMappingFile != null)
-                m_animMapping = new AnimationsDef(animMappingFile.text);
-            animCtr = new AnimationController(this.GetComponent<Animation>(), this);
-            cmdMgr = new CmdManager();
-            cmdMgr.SetOwner(this);
-            cmdMgr.LoadCmdFile(commandFile);
-            //
+            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(config.actionConfigFile));
+            animCtr = new AnimationController(actionsConfig, this.GetComponent<Animation>(), this);
+
+            cmdMgr = new CmdManager(ResourceLoader.LoadText(config.cmdConfigFile), this);
+            fsmMgr = new FsmManager(ResourceLoader.LoadText(config.fsmConfigFile), this);
         }
 
-        public void SetFSM(XLua.LuaTable fsm)
-        {
-            this.fsm = fsm;
-            funcFsmUpdate = this.fsm.Get<string, DelegateFsmUpdate>("update");
-            funFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState");     
-        }
 
         public override Collider GetCollider()
         {
@@ -67,10 +44,7 @@ namespace Mugen3D
                 pauseTime--;
                 return;
             }
-            if (funcFsmUpdate != null)
-            {
-                funcFsmUpdate(this.fsm);
-            }
+            fsmMgr.Update();
             moveCtr.Update();
             animCtr.Update();
         }
@@ -97,19 +71,13 @@ namespace Mugen3D
 
         public void ChangeState(int stateNo, System.Action onExit)
         {
-            if (funFsmChangeState != null)
-            {
-                funFsmChangeState(fsm, stateNo);
-            }
+            fsmMgr.ChangeState(stateNo);
         }
 
-        public void ChangeAnim(int animNo, string playMode = "Once")
+        public void ChangeAnim(int animNo)
         {
-            Debug.Log("ChangeAnim");
-            this.status.animNo = animNo;
-            string animName = m_animMapping.GetAnimName(animNo);
-            Debug.Log("animName:" + animName);
-            this.animCtr.ChangeAnim(animName, playMode);
+           
+            this.animCtr.ChangeAnim(animNo);
         }
 
         public bool IsHitOthers(HitPart activePart, out Unit hitTarget)

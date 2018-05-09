@@ -12,93 +12,87 @@ public enum AnimPlayMode
 
 public class AnimationController {
     private Unit m_owner;
-    private AnimPlayMode m_playMode = AnimPlayMode.Loop;
+
     private Animation m_anim;
-    private List<string> m_allAnims = new List<string>();
 
-    const int FrameRate = 60;
-    public float speed = 1;
+    protected Dictionary<int, Mugen3D.Action> m_actions;
+    public int anim;
+    public int animTime;
+    public int animElem;
+    public int animElemTime;
 
-    public float animLength; //in seconds
-    public int totalFrame; // length * FrameRate
-    public string animName;
+    public int animLength
+    {
+        get
+        {
+            return curAction.animLength;
+        }
+    }
 
-    public int animTime = -1;// update count since the anim start
-    public int animFrame = 0;// index in totalFrame : from 0 to (totalFrame - 1)
-    
+    public Mugen3D.Action curAction {
+        get {
+            return m_actions[anim];
+        }
+    }
 
+    private void Init()
+    {
+        foreach (AnimationState state in this.m_anim)
+        {
+            state.enabled = false;
+        }
+    }
 
-    public AnimationController(Animation anim, Unit owner)
+    public AnimationController(ActionsConfig config, Animation anim, Unit owner)
     {
         this.m_owner = owner;
         this.m_anim = anim;
-        foreach (AnimationState state in anim)
-        {
-            state.enabled = false;
-            m_allAnims.Add(state.name);
-        }
+        this.m_actions = config.actions;
     }
 
     public void Update()
     {
-        if(m_allAnims.Contains(animName))
-            UpdateSample();
+        UpdateSample();
     }
   
     private void UpdateSample() {
         animTime++;
-        int sampleFrameIndex = 0;
-        if (m_playMode == AnimPlayMode.Loop)
+        animElemTime++;
+        var animElemDuration = curAction.frames[animElem].duration;
+        if (animElemTime > animElemDuration)
         {
-            sampleFrameIndex = animTime % totalFrame;
-        }
-        else if(m_playMode == AnimPlayMode.Once) {
-            if (animTime >= totalFrame)
+            if (animElem >= curAction.frames.Count - 1 && curAction.loopStartIndex != -1)
             {
-                sampleFrameIndex = totalFrame - 1;
+                animElem = curAction.loopStartIndex;
+                animElemTime = 0;
             }
-            else
+            else if (animElem >= curAction.frames.Count - 1 && curAction.loopStartIndex == -1)
             {
-                sampleFrameIndex = animTime % totalFrame;
+                //do nothing
+            } else {
+                animElem++;
+                animElemTime = 0;
             }
-        }
-        animFrame = sampleFrameIndex;
-        Sample(animFrame);
+        }        
     }
 
-    void Sample(int sampleFrameIndex)
+    void Sample()
     {
-        float normalizedTime = sampleFrameIndex / (float)totalFrame;
-        m_anim[animName].enabled = true;
-        m_anim[animName].normalizedTime = normalizedTime;
-        m_anim[animName].weight = 1;
+        m_anim[curAction.animName].enabled = true;
+        m_anim[curAction.animName].normalizedTime = curAction.frames[animElem].normalizeTime;
+        m_anim[curAction.animName].weight = 1;
         m_anim.Sample();
-        m_anim[animName].enabled = false;
+        m_anim[curAction.animName].enabled = false;
     }
 
-    public void  ChangeAnim(string animName, string playMode)
+    public void  ChangeAnim(int anim)
     {
-        if (m_allAnims.Contains(animName))
-        {
-            var mode = AnimPlayMode.Loop;
-            if (playMode == "Once")
-                mode = AnimPlayMode.Once;
-            SetAnim(animName, mode);
-        }
-        else
-        {
-            Log.Warn("animations do't contain:" + animName);
-        }
-    }
-
-    private void SetAnim(string animName, AnimPlayMode mode = AnimPlayMode.Loop){
-        this.animName = animName;
-        this.m_playMode = mode;
-        animLength = m_anim[animName].length/speed;
-        totalFrame = (int)(FrameRate * animLength);
-        animFrame = 0;
-        animTime = -1;   
+        this.anim = anim;
+        animElem = 0;
+        animElemTime = 0;
+        animTime = 0;
     }
 
 }
+
 }

@@ -10,12 +10,20 @@ namespace Mugen3D
         private Unit m_owner;
         private Dictionary<int, List<CommandState>> m_commandState = new Dictionary<int, List<CommandState>>();
 
+        public CmdManager(string cmdDef, Unit owner)
+        {
+            SetOwner(owner);
+            LoadCmdFile(cmdDef);
+        }
+
+        public CmdManager() { }
+
         public void SetOwner(Unit owner)
         {
             m_owner = owner;
         }
 
-        public void LoadCmdFile(TextAsset content)
+        public void LoadCmdFile(string content)
         {
             Log.Info("cmd parse begin");
             CommandParse parser = new CommandParse();

@@ -35,7 +35,7 @@ public class RoundMgrTrain : RoundMgr {
      
     }
 
-    private void ResetHP(Player p)
+    private void ResetHP(Character p)
     {
         if (p.GetHP() < p.GetMaxHP())
         {

@@ -19,7 +19,7 @@ public class FightUI : MonoBehaviour {
     private List<UIView> m_viewsToShow = new List<UIView>();
     private List<Action<UIView>> m_onReadyToShow = new List<Action<UIView>>();
 
-    public void Init(Player p1, Player p2)
+    public void Init(Character p1, Character p2)
     {
         lifeBar.Init(p1, p2);
     }
@@ -69,7 +69,7 @@ public class FightUI : MonoBehaviour {
         m_onReadyToShow[0](curView);
     }
 
-    public void FadeIn(Action cb)
+    public void FadeIn(System.Action cb)
     {
         UIUtils.PlayAnimation(animator, "FightUI_FadeIn", (animName) => {
             if (cb != null)
@@ -77,7 +77,7 @@ public class FightUI : MonoBehaviour {
         });
     }
 
-    public void FadeOut(Action cb)
+    public void FadeOut(System.Action cb)
     {
         UIUtils.PlayAnimation(animator, "FightUI_FadeOut", (animName) =>
         {

@@ -42,7 +42,7 @@ namespace Mugen3D
         private List<Entity> m_destroyedEntities = new List<Entity>();
         private List<Entity> m_entities = new List<Entity>();
 
-        private List<Player> m_players = new List<Player>();
+        private List<Character> m_players = new List<Character>();
 
         public void AddEntity(Entity e)
         {
@@ -52,9 +52,9 @@ namespace Mugen3D
         private void DoAddEntity(Entity e){
             m_entities.Add(e);
             collisionWorld.AddCollider((e as Unit).GetCollider());
-            if (e is Player)
+            if (e is Character)
             {
-                m_players.Add(e as Player);
+                m_players.Add(e as Character);
             }
         }
 
@@ -62,9 +62,9 @@ namespace Mugen3D
         {
             m_entities.Remove(e);
             //collisionWorld.RemoveCollideable(e);
-            if (e is Player)
+            if (e is Character)
             {
-                m_players.Remove(e as Player);
+                m_players.Remove(e as Character);
             }
             GameObject.Destroy(e.gameObject);
         }
@@ -75,14 +75,14 @@ namespace Mugen3D
             m_players.Clear();
         }
 
-        public Player GetPlayer(PlayerId id)
+        public Character GetPlayer(PlayerId id)
         {
             var players = m_players.FindAll((p) => { return p.id == id; });
             Utility.Assert(players.Count == 1, "more than one player of id:" + id.ToString());
             return players[0];
         }
 
-        public List<Player> GetAllPlayers()
+        public List<Character> GetAllPlayers()
         {
             return m_players;
         }

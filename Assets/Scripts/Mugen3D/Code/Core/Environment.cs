@@ -50,29 +50,14 @@ public class Environment {
         }
     }
 
-    public string animName
+    public int animElem
     {
         get
         {
-            return Triggers.Instance.AnimName(m_unit);
+            return Triggers.Instance.AnimElem(m_unit);
         }
     }
 
-    public int animFrame
-    {
-        get
-        {
-            return Triggers.Instance.AnimFrame(m_unit);
-        }
-    }
-
-    public int leftAnimFrame
-    {
-        get
-        {
-            return Triggers.Instance.LeftAnimFrame(m_unit);
-        }
-    }
 
     public bool justOnGround
     {

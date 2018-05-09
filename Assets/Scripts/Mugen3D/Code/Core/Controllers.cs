@@ -48,7 +48,7 @@ namespace Mugen3D
             p.moveCtr.VelSet(x * p.facing, y);
         }
 
-        public void VelAdd(Player p, float x, float y)
+        public void VelAdd(Character p, float x, float y)
         {
             p.moveCtr.VelAdd(x, y);
         }

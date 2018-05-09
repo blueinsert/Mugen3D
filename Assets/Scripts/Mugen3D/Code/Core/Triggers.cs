@@ -54,24 +54,24 @@ public class Triggers
         return p.status.animNo;
     }
 
-    public string AnimName(Unit p)
-    {
-        return p.animCtr.animName;
-    }
-
-    public int AnimFrame(Unit p)
-    {
-        return p.animCtr.animFrame;
-    }
-
     public int AnimTime(Unit p)
     {
         return p.animCtr.animTime;
     }
 
-    public int LeftAnimFrame(Unit p)
+    public int AnimElem(Unit p)
     {
-        return p.animCtr.totalFrame - p.animCtr.animFrame - 1;
+        return p.animCtr.animElem;
+    }
+
+    public int AnimElemTime(Unit u)
+    {
+        return u.animCtr.animElemTime;
+    }
+    
+    public int AnimLength(Unit p)
+    {
+        return p.animCtr.animLength;
     }
     
     public bool JustOnGround(Unit p)

@@ -8,14 +8,14 @@ public class WidgetLifeBar : MonoBehaviour {
     public Image p1LifeBar;
     public Image p2LifeBar;
     public Text labelLeftTime;
-    private Player m_p1;
-    private Player m_p2;
+    private Character m_p1;
+    private Character m_p2;
 
 	void Start () {
         InvokeRepeating("SetLeftTime", 1, 1);
 	}
 
-    public void Init(Player p1, Player p2)
+    public void Init(Character p1, Character p2)
     {
         m_p1 = p1;
         m_p2 = p2;

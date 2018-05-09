@@ -5,7 +5,7 @@ namespace Mugen3D
 {
     public class PlayerMoveCtrl : MoveCtrl
     {
-        private Player m_collidePlayer;
+        private Character m_collidePlayer;
         private bool m_intersectTest = false;
  
         public PlayerMoveCtrl(Unit u):base(u)
@@ -14,7 +14,7 @@ namespace Mugen3D
         }
 
         
-        private void IntersectingTest(Player collidePlayer)
+        private void IntersectingTest(Character collidePlayer)
         {
             ABB myBB = this.m_owner.decisionBoxes.collideBox.abb;
             ABB otherBB = collidePlayer.decisionBoxes.collideBox.abb;
@@ -43,9 +43,9 @@ namespace Mugen3D
         {
             base.OnHitCollider(hitResult);
             Debug.Log("hit tar, tag:" + hitResult.collider.tag + " normal:" + hitResult.normal + " dis:" + hitResult.distance);
-            if (hitResult.collider.owner != null && hitResult.collider.owner is Player)
+            if (hitResult.collider.owner != null && hitResult.collider.owner is Character)
             {   
-                var collidePlayer = hitResult.collider.owner as Player;
+                var collidePlayer = hitResult.collider.owner as Character;
                 var normal = hitResult.normal;
                 m_collidePlayer = collidePlayer;
                 if (Mathf.Abs(normal.x) == 1)

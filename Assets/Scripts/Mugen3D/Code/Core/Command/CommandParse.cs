@@ -13,7 +13,7 @@ namespace Mugen3D
            return mCommands;
        }
 
-       public void Parse(TextAsset content)
+       public void Parse(string content)
        {
            Utility.Assert(content != null, "cmd def file is null!");
            List<Token> tokens;
