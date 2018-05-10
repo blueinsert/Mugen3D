@@ -7,23 +7,29 @@ namespace Mugen3D
     public class EntityLoader
     {
         public static Unit curUnit;
+        private static int maxId = 0;
 
-        public static Character LoadPlayer(PlayerId id, string playerName, Transform parent)
+        public static Character LoadPlayer(int slot, string characterName, Transform parent)
         {
-            UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Chars/" + playerName + "/" + playerName);
+            string prefix = "Chars/" + characterName;
+            CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + "/" + characterName + ".def"));
+
+            UnityEngine.Object prefab = ResourceLoader.Load(prefix + config.modelFile);
+
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
-            Character p = go.GetComponentInChildren<Character>();
-            p.Init();
-            p.id = id;
-            p.teamId = (int)id;
+
+            Character p = go.AddComponent<Character>();
             curUnit = p;
-            XLua.LuaTable fsm = LuaMgr.Instance.Env.DoString(string.Format("return (require('{0}')).new(CS.Mugen3D.EntityLoader.curUnit)", "FSM/Chars/" + playerName + "/" + playerName))[0] as XLua.LuaTable;
-            p.SetFSM(fsm);
+            p.slot = slot;
+            p.id = maxId++;
+            p.Init(characterName, config);
             curUnit = null;
+        
             World.Instance.AddEntity(p);
             return p;
         }
 
+        /*
         public static Helper LoadHelper(string helperName, Character master, Transform parent)
         {
             UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Helpers/" + helperName + "/" + helperName);
@@ -34,6 +40,7 @@ namespace Mugen3D
             World.Instance.AddEntity(helper);
             return helper;
         }
+         */
     }
 }
 

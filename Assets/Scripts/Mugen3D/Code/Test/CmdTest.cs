@@ -23,6 +23,7 @@ public class CmdTest : MonoBehaviour
 
     uint GetInputKeycode()
     {
+        /*
         uint keycode = 0;
         string keyInfo = "";
         foreach (var pair in KeycodeMapConfig.P1)
@@ -37,5 +38,7 @@ public class CmdTest : MonoBehaviour
       
        //Debug.Log(keyInfo);
         return keycode;
+         */
+        return 0;
     }
 }

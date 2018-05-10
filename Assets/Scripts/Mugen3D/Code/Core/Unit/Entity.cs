@@ -6,9 +6,8 @@ namespace Mugen3D
 {
     public abstract class Entity : MonoBehaviour
     {
+        public int id;
         public Action<Entity, Event> onEvent;
-
-        public abstract void Init();
 
         public abstract void OnUpdate();
 
@@ -26,7 +25,5 @@ namespace Mugen3D
         {
             isDestroyed = true;
         }
-
-        public abstract Collider GetCollider(); 
     }
 }

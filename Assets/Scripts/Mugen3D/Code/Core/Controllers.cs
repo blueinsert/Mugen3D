@@ -58,9 +58,9 @@ namespace Mugen3D
             p.status.ctrl = isCtrl;
         }
 
-        public void ChangeAnim(Unit p, int animNo, string playMode = "Once")
+        public void ChangeAnim(Unit p, int animNo)
         {
-            p.ChangeAnim(animNo, playMode);
+            p.ChangeAnim(animNo);
         }
 
         public void PosSet(Unit p, float x, float y)

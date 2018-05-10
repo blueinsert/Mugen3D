@@ -4,25 +4,23 @@ using System.Collections.Generic;
 
 namespace Mugen3D
 {
-    public enum PlayerId
-    {
-        P1,
-        P2,
-        P3,
-        P4
-    }
-  
     [RequireComponent(typeof(Animation))]
     public class Character : Unit, IHealth
     {
 
-        public PlayerId id;
-       
-        public override void Init()
+        public int slot;
+        public string characterName;
+
+        public void Init(string characterName, CharacterConfig config)
         {
-            base.Init();
+            base.Init(config);
+            this.characterName = characterName;
             moveCtr = new PlayerMoveCtrl(this);
-            moveCtr.SetGravity(0, -10, 0);
+            string prefix = "Chars/" + characterName;
+            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(prefix + config.actionConfigFile));
+            animCtr = new AnimationController(actionsConfig, this.GetComponent<Animation>(), this);
+            cmdMgr = new CmdManager(ResourceLoader.LoadText(prefix + config.cmdConfigFile), this);
+            fsmMgr = new FsmManager(prefix + config.fsmConfigFile, this);
         }
 
         public override void OnUpdate()

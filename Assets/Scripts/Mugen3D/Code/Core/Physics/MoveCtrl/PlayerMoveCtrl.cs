@@ -16,6 +16,7 @@ namespace Mugen3D
         
         private void IntersectingTest(Character collidePlayer)
         {
+            /*
             ABB myBB = this.m_owner.decisionBoxes.collideBox.abb;
             ABB otherBB = collidePlayer.decisionBoxes.collideBox.abb;
             var myCenter = myBB.GetCenter();
@@ -23,6 +24,7 @@ namespace Mugen3D
             var avgCenter = (myCenter + otherCenter) / 2;
             m_owner.moveCtr.AddPos(new Vector3((myBB.size.x/2 + SAFE_DISTANCE - Mathf.Abs(avgCenter.x - myCenter.x)) * (avgCenter.x > myCenter.x ? -1 : 1), 0, 0));
             collidePlayer.moveCtr.AddPos(new Vector3((otherBB.size.x / 2 + SAFE_DISTANCE - Mathf.Abs(avgCenter.x - otherCenter.x)) * (avgCenter.x > otherCenter.x ? -1 : 1), 0, 0)); 
+             */
         }
 
 

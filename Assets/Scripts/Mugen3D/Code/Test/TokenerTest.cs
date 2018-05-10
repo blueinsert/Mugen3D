@@ -11,7 +11,7 @@ public class TokenerTest : MonoBehaviour
     void Start()
     {
         Tokenizer t = new Tokenizer();
-        List<Token> tokens = t.GetTokens(testText);
+        List<Token> tokens = t.GetTokens(testText.text);
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < tokens.Count; i++)
         {

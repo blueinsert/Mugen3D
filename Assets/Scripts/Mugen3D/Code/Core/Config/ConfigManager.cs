@@ -1,17 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 namespace Mugen3D
 {
-    public class Helper : Unit
+    public class ConfigManager
     {
-        public Character master;
-
-        public override void OnUpdate()
+        public static void Init()
         {
-
+            InputConfig.Init("input.cfg");
         }
-
     }
 }

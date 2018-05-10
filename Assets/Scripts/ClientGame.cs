@@ -22,9 +22,9 @@ public class ClientGame : MonoBehaviour {
     private bool goNext = false;
     private bool isIntializeComplete = false;
 
-    private static readonly Dictionary<Mugen3D.PlayerId, Vector3> m_initPos = new Dictionary<Mugen3D.PlayerId, Vector3> { 
-        {Mugen3D.PlayerId.P1, new Vector3(-1.5f, 0.3f, 0)},
-        {Mugen3D.PlayerId.P2, new Vector3(1.5f, 0.3f, 0)},
+    private static readonly List<Vector3> m_initPos = new List<Vector3> { 
+        new Vector3(-1.5f, 0.3f, 0),
+        new Vector3(1.5f, 0.3f, 0),
     }; 
 
     public void Awake()
@@ -49,10 +49,10 @@ public class ClientGame : MonoBehaviour {
         }
     }
 
-    private Mugen3D.Character LoadPlayer(Mugen3D.PlayerId id, string name)
+    private Mugen3D.Character LoadPlayer(int slot, string name)
     {
-        var player = Mugen3D.EntityLoader.LoadPlayer(id, name, this.transform.Find("Players"));
-        player.transform.position = m_initPos[id];
+        var player = Mugen3D.EntityLoader.LoadPlayer(slot, name, this.transform.Find("Players"));
+        player.transform.position = m_initPos[slot];
         Mugen3D.Controllers.Instance.CtrlSet(player, false);
         return player;
     }
@@ -69,8 +69,8 @@ public class ClientGame : MonoBehaviour {
         this.playMode = playMode;
         
         LoadStage(stageName);
-        p1 = LoadPlayer(Mugen3D.PlayerId.P1, p1CharacterName);
-        p2 = LoadPlayer(Mugen3D.PlayerId.P2, p2CharacterName);
+        p1 = LoadPlayer(0, p1CharacterName);
+        p2 = LoadPlayer(1, p2CharacterName);
         LoadFightUI();
 
         Init();
@@ -111,6 +111,7 @@ public class ClientGame : MonoBehaviour {
         world.collisionWorld.AddCollider(mCameraController.rightCollider);
     }
 
+    /*
     public void Reset()
     {
         var p1 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1);
@@ -131,7 +132,7 @@ public class ClientGame : MonoBehaviour {
     }
 
     public void ReloadAllPlayer()
-    {/*
+    {
         isIntializeComplete = false;
         var id = Mugen3D.PlayerId.P1;
         Mugen3D.World.Instance.RemovePlayer(id);
@@ -141,8 +142,9 @@ public class ClientGame : MonoBehaviour {
         LoadPlayer(id, m_characterName[id]);
         Init();
         isIntializeComplete = true;
-      */
+      
     }
+*/
 
     void Update()
     {

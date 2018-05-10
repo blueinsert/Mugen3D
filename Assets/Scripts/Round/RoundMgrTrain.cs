@@ -4,6 +4,7 @@ using UnityEngine;
 using Mugen3D;
 
 public class RoundMgrTrain : RoundMgr {
+    /*
     private float timer = 0;
 
     protected override void OnInit()
@@ -42,4 +43,5 @@ public class RoundMgrTrain : RoundMgr {
             p.SetHP(p.GetMaxHP());
         }
     }
+     */
 }

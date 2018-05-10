@@ -137,6 +137,7 @@ namespace Mugen3D
 
         private void CollideTest()
         {
+            /*
             if (Mathf.Abs(m_deltaPos.x) < 0.001 && Mathf.Abs(m_deltaPos.y) < 0.001)
                 return;
             if (m_owner.status.physicsType != PhysicsType.A)
@@ -151,6 +152,7 @@ namespace Mugen3D
             { 
                 OnHitColliders(hitResults.ToArray());
             }
+             */
           
         }
     }

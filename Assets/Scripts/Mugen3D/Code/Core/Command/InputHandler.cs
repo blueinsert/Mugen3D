@@ -6,18 +6,10 @@ namespace Mugen3D
     public class InputHandler
     {
 
-        public static uint GetInputKeycode(PlayerId id, int facing)
+        public static uint GetInputKeycode(int playerSlot, int facing)
         {
-            Dictionary<KeyNames, KeyCode> keycodeMap = new Dictionary<KeyNames, KeyCode>();
-            switch (id)
-            {
-                case PlayerId.P1:
-                    keycodeMap = KeycodeMapConfig.P1; break;
-                default:
-                    keycodeMap = KeycodeMapConfig.P2;break;
-            }
+            Dictionary<KeyNames, KeyCode> keycodeMap = InputConfig.Instance.mapCfg[playerSlot];          
             uint keycode = 0;
-            //string keyInfo = "";
             foreach (var pair in keycodeMap)
             {
                 if (Input.GetKey(pair.Value))

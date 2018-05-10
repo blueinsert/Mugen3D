@@ -22,19 +22,9 @@ namespace Mugen3D
         private int pauseTime = 0;
         public int teamId = 0;
 
-        public override void Init(UnitConfig config)
+        protected void Init(UnitConfig config)
         {
-            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(config.actionConfigFile));
-            animCtr = new AnimationController(actionsConfig, this.GetComponent<Animation>(), this);
-
-            cmdMgr = new CmdManager(ResourceLoader.LoadText(config.cmdConfigFile), this);
-            fsmMgr = new FsmManager(ResourceLoader.LoadText(config.fsmConfigFile), this);
-        }
-
-
-        public override Collider GetCollider()
-        {
-            return decisionBoxes.GetCollideBox();
+           
         }
 
         public override void OnUpdate()
@@ -80,6 +70,7 @@ namespace Mugen3D
             this.animCtr.ChangeAnim(animNo);
         }
 
+        /*
         public bool IsHitOthers(HitPart activePart, out Unit hitTarget)
         {
             hitTarget = null;
@@ -114,5 +105,6 @@ namespace Mugen3D
             Debug.Log("ishit:" + hit);
             return hit;
         }
+         */
     }
 }

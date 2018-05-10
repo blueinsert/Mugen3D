@@ -6,7 +6,7 @@ using Mugen3D;
 
 
 public class RoundMgrSingleVs : RoundMgr {
-   
+   /*
     private FightUI m_fightUI;
     private Mugen3D.Character m_p1;
     private Mugen3D.Character m_p2;
@@ -126,4 +126,5 @@ public class RoundMgrSingleVs : RoundMgr {
         }
         return false;
     }
+    */
 }

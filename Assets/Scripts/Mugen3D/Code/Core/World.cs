@@ -42,49 +42,24 @@ namespace Mugen3D
         private List<Entity> m_destroyedEntities = new List<Entity>();
         private List<Entity> m_entities = new List<Entity>();
 
-        private List<Character> m_players = new List<Character>();
-
         public void AddEntity(Entity e)
         {
             m_addedEntities.Add(e);
         }
 
         private void DoAddEntity(Entity e){
-            m_entities.Add(e);
-            collisionWorld.AddCollider((e as Unit).GetCollider());
-            if (e is Character)
-            {
-                m_players.Add(e as Character);
-            }
+            m_entities.Add(e);    
         }
 
         private void DoRemoveEntity(Entity e)
         {
-            m_entities.Remove(e);
-            //collisionWorld.RemoveCollideable(e);
-            if (e is Character)
-            {
-                m_players.Remove(e as Character);
-            }
+            m_entities.Remove(e);           
             GameObject.Destroy(e.gameObject);
         }
 
         public void Clear()
         {
             m_entities.Clear();
-            m_players.Clear();
-        }
-
-        public Character GetPlayer(PlayerId id)
-        {
-            var players = m_players.FindAll((p) => { return p.id == id; });
-            Utility.Assert(players.Count == 1, "more than one player of id:" + id.ToString());
-            return players[0];
-        }
-
-        public List<Character> GetAllPlayers()
-        {
-            return m_players;
         }
 
         public void Update(float _deltaTime)
@@ -109,30 +84,8 @@ namespace Mugen3D
             {
                 DoRemoveEntity(ent);
             }
-            m_destroyedEntities.Clear();
-
-            //UpdateFacing();
-           
+            m_destroyedEntities.Clear();      
         }
 
-        /*
-        private void UpdateFacing()
-        {
-            var p1 = GetPlayer(PlayerId.P1);
-            var p2 = GetPlayer(PlayerId.P2);
-            if (p1 == null || p2 == null)
-                return;
-            if (p1.transform.position.x > p2.transform.position.x)
-            {
-                p1.ChangeFacing(-1);
-                p2.ChangeFacing(1);
-            }
-            else
-            {
-                p1.ChangeFacing(1);
-                p2.ChangeFacing(-1);
-            }
-        }
-         */
     }
 }

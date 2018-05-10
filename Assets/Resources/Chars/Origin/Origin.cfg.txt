@@ -1,7 +1,0 @@
-Gravity : -10
-WalkSpeed : 3
-RunSpeed : 6
-LightJumpSpeed : [1.5, 6]
-MediumJumpSpeed : [1.5, 6]
-HardJumpSpeed : [1.5, 6]
-HopebackSpeed : [-4, 2]
