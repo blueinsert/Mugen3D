@@ -5,6 +5,11 @@ namespace Mugen3D
 {
     public class ActionsConfig
     {
-        public Dictionary<int, Mugen3D.Action> actions { get; set; }
+        public List<Mugen3D.Action> actions { get; set; }
+
+        public ActionsConfig()
+        {
+            this.actions = new List<Mugen3D.Action>();
+        }
     }
 }

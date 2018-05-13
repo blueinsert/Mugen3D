@@ -30,8 +30,15 @@ namespace Mugen3D
     public class ActionFrame
     {
         public float normalizeTime { get; set; }
-        public int duration;
+        public int duration { get; set; }
         public List<Clsn> clsns { get; set; }
+        public float xOffset { get; set; }
+        public float yOffset { get; set; }
+
+        public ActionFrame()
+        {
+            clsns = new List<Clsn>();
+        }
     }
 
     public class Action
@@ -41,5 +48,16 @@ namespace Mugen3D
         public int animLength { get; set; }
         public List<ActionFrame> frames { get; set; }
         public int loopStartIndex { get; set; }
+
+        public Action()
+        {
+            frames = new List<ActionFrame>();
+        }
+
+        public Action(int actionNo)
+        {
+            this.animNo = actionNo;
+            frames = new List<ActionFrame>();
+        }
     }
 }

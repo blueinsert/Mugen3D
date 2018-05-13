@@ -1,71 +1,22 @@
-0 : "Standing"
-10 : "StandToCrouch"
-11 : "Crouching"
-12 : "CrouchToStand"
-20 : "WalkingForward"
-21 : "WalkingBack"
-40 : "JumpStart"
-41 : "JumpingUp"
-42 : "JumpingDown"
-47 : "JumpLand"
-100 : "RunForwards"
-105 : "HopBackwards"
-106 : "JumpLand"
-120 : "GuardStandStart" //guard start
-121 : "GuardCrouchStart"
-122 : "GuardAir"
-130 : "GuardStand" guarding
-131 : "GuardCrouch"
-132 : "GuardAir"
-140 : "GuardStandEnd" //guard end
-141 : "GuardCrouchEnd"
-142 : "GuardAir"
-150 : "GuardStand" //stand guard hit(shaking)
-151 : "GuardStand"
-152 : "GuardCrouch"
-153 : "GuardCrouch"
-154 : "GuardAir"
-155 : "GuardAir"
-
-190 : "Taunt"
-
-200 : "StandLightPunch"
-220 : "StandStrongPunch"
-240 : "StandLightKick"
-260 : "StandStrongKick"
-300 : "CrouchLightPunch"
-320 : "CrouchLightKick"
-340 : "CrouchStrongPunch"
-360 : "CrouchStrongKick"
-400 : "JumpLightPunch"
-420 : "JumpLightKick"
-440 : "JumpStrongPunch"
-460 : "JumpStrongKick"
-
-5000 : "Stand_Air_Hit_High_Light"
-5001 : "Stand_Air_Hit_High_Medium"
-5002 : "Stand_Air_Hit_High_Hard"
-5005 : "StandRecover_High_Light"
-5006 : "StandRecover_High_Medium"
-5007 : "StandRecover_High_Hard"
-
-5010 : "Stand_Air_Hit_Low_Light"
-5011 : "Stand_Air_Hit_Low_Medium"
-5012 : "Stand_Air_Hit_Low_Hard"
-5015 : "StandRecover_Low_Light"
-5016 : "StandRecover_Low_Medium"
-5017 : "StandRecover_Low_Hard"
-
-5020 : "CrouchHit_Light"
-5021 : "CrouchHit_Medium"
-5022 : "CrouchHit_Hard"
-5025 : "CrouchRecover_Light"
-5026 : "CrouchRecover_Medium"
-5027 : "CrouchRecover_Hard"
-5030 : "StandAirHitBack"
-5035 : "StandAirHitTransition"
-5040 : "AirRecover"
-5050 : "AirFall"
-5100 : "HitGround"
-5110 : "LieDown"
-5120 : "GetUpFromLieDown"
+actions:
+- animName: GuardStandStart
+  frames:
+  - normalizeTime: 0.300000012
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.600000024
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.899999976
+    duration: 3
+    clsns: []
+  - normalizeTime: 1
+    duration: 4
+    clsns: []
+  loopStartIndex: 2
+- animNo: 1
+  animName: 1
+  frames: []
+- animNo: 2
+  animName: 2
+  frames: []

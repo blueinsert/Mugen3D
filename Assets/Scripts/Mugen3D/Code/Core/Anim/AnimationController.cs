@@ -47,7 +47,11 @@ public class AnimationController {
     {
         this.m_owner = owner;
         this.m_anim = anim;
-        this.m_actions = config.actions;
+        this.m_actions = new Dictionary<int, Action>();
+        foreach (var action in config.actions)
+        {
+            m_actions.Add(action.animNo, action);
+        }
     }
 
     public void Update()
