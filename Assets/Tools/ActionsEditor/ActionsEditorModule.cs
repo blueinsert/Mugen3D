@@ -37,6 +37,10 @@ namespace Mugen3D.Tools
             {
                 return m_curActionIndex;
             }
+            set
+            {
+                m_curActionIndex = value;
+            }
         }
 
 
@@ -44,6 +48,10 @@ namespace Mugen3D.Tools
         {
             get {
                 return m_curActionElemIndex;
+            }
+            set
+            {
+                m_curActionElemIndex = value;
             }
         }
 

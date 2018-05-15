@@ -8,9 +8,11 @@ namespace Mugen3D.Tools
 {
     public class ActionsEditorView : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {
+        private List<string> animNames;
         private ActionsEditorModule module;
         private ActionsEditorAnimController animCtl;
         public ActionsEditorCameraController cameraController;
+        private bool isResponseToUIEvent;
         public Button btnSave;
         public Button btnPlay;
         public Button btnPause;
@@ -29,11 +31,12 @@ namespace Mugen3D.Tools
         public Scrollbar scrollActionElemList;
         public Text labelCurActionElemNo;
         public InputField labelNormalizedTime;
+        public Slider sliderNormalizedTime;
         public InputField labelDurationTime;
         public InputField labelXOffset;
         public InputField labelYOffset;
         public Toggle toggleLoopStart;
-        private List<string> animNames;
+        
 
         // Use this for initialization
         void Start()
@@ -106,7 +109,14 @@ namespace Mugen3D.Tools
                 this.module.GoNextAction();
                 UpdateUI();
             });
-  
+         
+            
+            scrollActionList.onValueChanged.AddListener((value) => {
+                var step = scrollActionList.numberOfSteps;
+                int index = (int)(value * (step - 1)) + 1;
+                this.module.curActionIndex = index;
+                UpdateUI();
+            });  
             dropdownAnimName.onValueChanged.AddListener((animNameIndex) =>
             {
                 this.module.curAction.animName = animNames[animNameIndex];
@@ -121,12 +131,21 @@ namespace Mugen3D.Tools
             {
                 this.module.GoPrevActionElem();
                 UpdateUI();
+                
             });
             btnGoRightActionElem.onClick.AddListener(() =>
             {
                 this.module.GoNextActionElem();
                 UpdateUI();
             });
+            
+            scrollActionElemList.onValueChanged.AddListener((value) => {
+                var step = scrollActionElemList.numberOfSteps;
+                int index = (int)(value * (step - 1)) + 1;
+                this.module.curActionElemIndex = index;
+                UpdateUI();
+            });
+            
             btnCreateActionElem.onClick.AddListener(() =>
             {
                 this.module.CreateActionElem();
@@ -140,13 +159,16 @@ namespace Mugen3D.Tools
 
             labelNormalizedTime.onValueChanged.AddListener((normalizedTime) =>
             {
-                this.module.curActionElem.normalizeTime = float.Parse(normalizedTime);
+                sliderNormalizedTime.value = float.Parse(normalizedTime);
+                UpdateUI();
+            });
+            sliderNormalizedTime.onValueChanged.AddListener((normalizedTime) => {
+                this.module.curActionElem.normalizeTime = normalizedTime;   
                 UpdateUI();
             });
             labelDurationTime.onValueChanged.AddListener((duration) =>
             {
                 this.module.curActionElem.duration = int.Parse(duration);
-                UpdateUI();
             });
             labelXOffset.onValueChanged.AddListener((xoffset) =>
             {
@@ -177,54 +199,84 @@ namespace Mugen3D.Tools
                 animNames.Add(state.name);
             }
             dropdownAnimName.AddOptions(animNames);
-            RegisterEventInternal();
             this.module = module;
             UpdateUI();
+            RegisterEventInternal();   
         }
 
-        public void UpdateUI()
+        void ResizeScrollAction()
+        {
+            this.scrollActionList.numberOfSteps = this.module.actionLength;
+            this.scrollActionList.size = 1 / (float)(this.module.actionLength);
+        }
+
+        void SetScrollActionPos()
+        {
+            if (this.module.curAction.frames.Count > 1)
+                this.scrollActionElemList.value = (this.module.curActionElemIndex - 1) / (float)(this.module.curAction.frames.Count - 1);
+            else
+                this.scrollActionElemList.value = 0;
+        }
+
+        void ResizeScrollActionElem()
+        {
+            this.scrollActionElemList.numberOfSteps = this.module.curAction.frames.Count;
+            this.scrollActionElemList.size = 1 / (float)(this.module.curAction.frames.Count);
+        }
+
+        void SetAcrollActionElemPos()
+        {
+            if (this.module.actionLength > 1)
+                this.scrollActionList.value = (this.module.curActionIndex - 1) / (float)(this.module.actionLength - 1);
+            else
+                this.scrollActionList.value = 0;
+        }
+
+        void UpdateActionElem()
+        {
+            if (this.module.actionLength > 0 && this.module.curAction.frames.Count > 0)
+            {
+                ResizeScrollActionElem();
+                SetAcrollActionElemPos();
+                this.labelCurActionElemNo.text = this.module.curActionElemIndex + "/" + this.module.curAction.frames.Count + "-" + this.module.curActionElem.duration + "ticks";
+                this.labelNormalizedTime.text = this.module.curActionElem.normalizeTime.ToString();
+                this.sliderNormalizedTime.value = this.module.curActionElem.normalizeTime;
+                this.labelDurationTime.text = this.module.curActionElem.duration.ToString();
+                this.labelXOffset.text = this.module.curActionElem.xOffset.ToString();
+                this.labelYOffset.text = this.module.curActionElem.yOffset.ToString();
+                this.toggleLoopStart.isOn = (this.module.curActionElemIndex - 1) == this.module.curAction.loopStartIndex;
+                animCtl.Sample(this.module.curAction.animName, this.module.curActionElem.normalizeTime);
+            }
+            else
+            {
+                this.labelCurActionElemNo.text = "0/0";
+                this.scrollActionElemList.numberOfSteps = 0;
+            }
+        }
+
+        void UpdateAction()
         {
             if (this.module.actionLength > 0)
             {
-                this.scrollActionList.numberOfSteps = this.module.actionLength;
-                this.scrollActionList.size = 1 / (float)(this.module.actionLength);
-                if (this.module.actionLength > 1)
-                    this.scrollActionList.value = (this.module.curActionIndex - 1) / (float)(this.module.actionLength - 1);
-                else
-                    this.scrollActionList.value = 0;
-                //this.scrollActionList
+                ResizeScrollAction();
+                SetScrollActionPos();
                 this.dropdownAnimName.value = animNames.IndexOf(this.module.curAction.animName);
                 this.labelAnimNo.text = this.module.curAction.animNo.ToString();
                 this.labelCurActionNo.text = this.module.curActionIndex + "/" + this.module.actionLength;
-                if (this.module.curAction.frames.Count > 0)
-                {
-                    this.scrollActionElemList.numberOfSteps = this.module.curAction.frames.Count;
-                    this.scrollActionElemList.size = 1 / (float)(this.module.curAction.frames.Count);
-                    if (this.module.curAction.frames.Count > 1)
-                        this.scrollActionElemList.value = (this.module.curActionElemIndex - 1) / (float)(this.module.curAction.frames.Count - 1);
-                    else
-                        this.scrollActionElemList.value = 0;
-
-                    this.labelCurActionElemNo.text = this.module.curActionElemIndex + "/" + this.module.curAction.frames.Count + "-" + this.module.curActionElem.duration + "ticks";
-                    this.labelNormalizedTime.text = this.module.curActionElem.normalizeTime.ToString();
-                    this.labelDurationTime.text = this.module.curActionElem.duration.ToString();
-                    this.labelXOffset.text = this.module.curActionElem.xOffset.ToString();
-                    this.labelYOffset.text = this.module.curActionElem.yOffset.ToString();
-                    this.toggleLoopStart.isOn = (this.module.curActionElemIndex - 1) == this.module.curAction.loopStartIndex;
-                    animCtl.Sample(this.module.curAction.animName, this.module.curActionElem.normalizeTime);
-                }
-                else
-                {
-                    this.labelCurActionElemNo.text = "0/0";
-                    this.scrollActionElemList.numberOfSteps = 0;
-                }
             }
             else
             {
                 this.labelCurActionNo.text = "0/0";
                 this.scrollActionList.numberOfSteps = 0;
             }
+        }
 
+        public void UpdateUI()
+        {
+            isResponseToUIEvent = false;
+            UpdateAction();
+            UpdateActionElem();
+            isResponseToUIEvent = true;
         }
     }
 }
