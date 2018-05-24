@@ -31,13 +31,17 @@ namespace Mugen3D
     {
         public float normalizeTime { get; set; }
         public int duration { get; set; }
-        public List<Clsn> clsns { get; set; }
+        public List<Clsn> clsns1 { get; set; }
+        public List<Clsn> clsns2 { get; set; }
+        public List<Clsn> clsns3 { get; set; }
         public float xOffset { get; set; }
         public float yOffset { get; set; }
 
         public ActionFrame()
         {
-            clsns = new List<Clsn>();
+            clsns1 = new List<Clsn>();
+            clsns2 = new List<Clsn>();
+            clsns3 = new List<Clsn>();
         }
     }
 

@@ -1,22 +1,23 @@
 actions:
-- animName: GuardStandStart
+- animName: StandLightKick
   frames:
-  - normalizeTime: 0.300000012
-    duration: 1
-    clsns: []
-  - normalizeTime: 0.600000024
-    duration: 2
-    clsns: []
-  - normalizeTime: 0.899999976
-    duration: 3
-    clsns: []
-  - normalizeTime: 1
-    duration: 4
-    clsns: []
-  loopStartIndex: 2
-- animNo: 1
-  animName: 1
-  frames: []
-- animNo: 2
-  animName: 2
-  frames: []
+  - clsns1: []
+    clsns2: []
+    clsns3: []
+  - normalizeTime: 0.214850724
+    clsns1: []
+    clsns2: []
+    clsns3: []
+  - normalizeTime: 0.413236767
+    clsns1: []
+    clsns2: []
+    clsns3: []
+  - normalizeTime: 0.609523654
+    clsns1: []
+    clsns2: []
+    clsns3: []
+  - normalizeTime: 0.847135067
+    clsns1: []
+    clsns2: []
+    clsns3: []
+  loopStartIndex: 4

@@ -16,13 +16,13 @@ public class YamlTest : MonoBehaviour {
         action.frames = new List<Mugen3D.ActionFrame>();
         Mugen3D.ActionFrame frame1 = new Mugen3D.ActionFrame();
         frame1.normalizeTime = 0.3f;
-        frame1.clsns = new List<Mugen3D.Clsn>();
+        frame1.clsns1 = new List<Mugen3D.Clsn>();
         Mugen3D.Clsn clsn1 = new Mugen3D.Clsn(1, 0, 1, 1, 0);
         clsn1.useLast = false;
         Mugen3D.Clsn clsn2 = new Mugen3D.Clsn();
         clsn2.useLast = true;
-        frame1.clsns.Add(clsn1);
-        frame1.clsns.Add(clsn2);
+        frame1.clsns1.Add(clsn1);
+        frame1.clsns1.Add(clsn2);
         action.frames.Add(frame1);
 
         YamlDotNet.Serialization.Serializer serializer = new Serializer();

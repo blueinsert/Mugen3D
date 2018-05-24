@@ -12,7 +12,11 @@ namespace Mugen3D.Tools
         private ActionsEditorModule module;
         private ActionsEditorAnimController animCtl;
         public ActionsEditorCameraController cameraController;
-        private bool isResponseToUIEvent;
+        private bool isResponseToUIEvent = true;
+
+        public Camera sceneCamera;
+        public Camera uiCamera;
+        public Canvas cancas;
         public Button btnSave;
         public Button btnPlay;
         public Button btnPause;
@@ -36,7 +40,8 @@ namespace Mugen3D.Tools
         public InputField labelXOffset;
         public InputField labelYOffset;
         public Toggle toggleLoopStart;
-        
+
+        public WidgetCLSN testClsn;
 
         // Use this for initialization
         void Start()
@@ -91,27 +96,37 @@ namespace Mugen3D.Tools
 
             btnCreateAction.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.AddAction();
                 UpdateUI();
             });
             btnDeleAction.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.DeleteAction();
                 UpdateUI();
             });
             btnGoLeftAction.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.GoPrevAction();
                 UpdateUI();
             });
             btnGoRightAction.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.GoNextAction();
                 UpdateUI();
             });
          
             
             scrollActionList.onValueChanged.AddListener((value) => {
+                if (!isResponseToUIEvent)
+                    return;
                 var step = scrollActionList.numberOfSteps;
                 int index = (int)(value * (step - 1)) + 1;
                 this.module.curActionIndex = index;
@@ -119,27 +134,37 @@ namespace Mugen3D.Tools
             });  
             dropdownAnimName.onValueChanged.AddListener((animNameIndex) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.curAction.animName = animNames[animNameIndex];
                 UpdateUI();
             });
             labelAnimNo.onValueChanged.AddListener((animNo) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.curAction.animNo = int.Parse(animNo);
             });
 
             btnGoLeftActionElem.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.GoPrevActionElem();
                 UpdateUI();
                 
             });
             btnGoRightActionElem.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.GoNextActionElem();
                 UpdateUI();
             });
             
             scrollActionElemList.onValueChanged.AddListener((value) => {
+                if (!isResponseToUIEvent)
+                    return;
                 var step = scrollActionElemList.numberOfSteps;
                 int index = (int)(value * (step - 1)) + 1;
                 this.module.curActionElemIndex = index;
@@ -148,47 +173,77 @@ namespace Mugen3D.Tools
             
             btnCreateActionElem.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.CreateActionElem();
                 UpdateUI();
             });
             btnDeleActionElem.onClick.AddListener(() =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.DeleteActionElem();
                 UpdateUI();
             });
 
             labelNormalizedTime.onValueChanged.AddListener((normalizedTime) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 sliderNormalizedTime.value = float.Parse(normalizedTime);
                 UpdateUI();
             });
             sliderNormalizedTime.onValueChanged.AddListener((normalizedTime) => {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.curActionElem.normalizeTime = normalizedTime;   
                 UpdateUI();
             });
             labelDurationTime.onValueChanged.AddListener((duration) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.curActionElem.duration = int.Parse(duration);
             });
             labelXOffset.onValueChanged.AddListener((xoffset) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.curActionElem.xOffset = float.Parse(xoffset);
                 UpdateUI();
             });
             labelYOffset.onValueChanged.AddListener((yoffset) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 this.module.curActionElem.yOffset = float.Parse(yoffset);
                 UpdateUI();
             });
 
             toggleLoopStart.onValueChanged.AddListener((value) =>
             {
+                if (!isResponseToUIEvent)
+                    return;
                 if (value == true)
                 {
                     this.module.curAction.loopStartIndex = this.module.curActionElemIndex - 1;
                 }
             });
         }
+
+        public void OnDrawGizmos()
+        {
+            Vector3 v00 = new Vector3(-1,-1,0);
+            Vector3 v01 = new Vector3(-1,1,0);
+            Vector3 v02 = new Vector3(1, 1, 0);
+            Vector3 v03 = new Vector3(1,-1,0);
+            Gizmos.DrawLine(v00, v01);
+            Gizmos.DrawLine(v01, v02);
+            Gizmos.DrawLine(v02, v03);
+            Gizmos.DrawLine(v03, v00);
+        }
+
+        
 
         public void Init(ActionsEditorModule module, ActionsEditorAnimController animCtl)
         {
@@ -246,6 +301,13 @@ namespace Mugen3D.Tools
                 this.labelYOffset.text = this.module.curActionElem.yOffset.ToString();
                 this.toggleLoopStart.isOn = (this.module.curActionElemIndex - 1) == this.module.curAction.loopStartIndex;
                 animCtl.Sample(this.module.curAction.animName, this.module.curActionElem.normalizeTime);
+
+                var clsn = new Clsn();
+                clsn.x1 = -1;
+                clsn.y1 = -1;
+                clsn.x2 = 1;
+                clsn.y2 = 1;
+                testClsn.Init(clsn);
             }
             else
             {

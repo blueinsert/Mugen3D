@@ -32,7 +32,9 @@ namespace Mugen3D.Tools
                 actionsConfig = new ActionsConfig();
             module = new ActionsEditorModule(actionsConfig.actions);
             module.doSave = Save;
-            controller = new ActionsEditorController();
+            controller = ActionsEditorController.Instance;
+            controller.module = module;
+            controller.view = view;
             var anim = go.GetComponent<Animation>();
             ActionsEditorAnimController animCtl = new ActionsEditorAnimController(anim);
             view.Init(module, animCtl);
