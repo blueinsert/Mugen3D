@@ -31,6 +31,14 @@ namespace Mugen3D.Tools
             return uiPos;
         }
 
+        public Vector3 UIPosToScenePos(Vector3 uiPos)
+        {
+            var canvas = m_instance.view.cancas;
+            var screenPos = canvas.worldCamera.WorldToScreenPoint(uiPos);
+            var wPos = m_instance.view.sceneCamera.ScreenToWorldPoint(screenPos);
+            return wPos;
+        }
+
         //return ui rectTransform size unit / world size unit
         public float GetUISceneLenRadio()
         {

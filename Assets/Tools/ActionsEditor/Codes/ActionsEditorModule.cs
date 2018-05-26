@@ -148,6 +148,22 @@ namespace Mugen3D.Tools
             }
         }
 
+        public void CreateClsn(int type)
+        {
+            Clsn clsn = new Clsn();
+            clsn.type = type;
+            clsn.x1 = -1;
+            clsn.y1 = -1;
+            clsn.x2 = 1;
+            clsn.y2 = 1;
+            curActionElem.clsns.Add(clsn);
+        }
+
+        public void DeleteClsn(Clsn clsn)
+        {
+            curActionElem.clsns.Remove(clsn);
+        }
+
         public void Save()
         {
             if (doSave != null)

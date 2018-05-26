@@ -1,23 +1,15 @@
 actions:
 - animName: StandLightKick
   frames:
-  - clsns1: []
-    clsns2: []
-    clsns3: []
-  - normalizeTime: 0.214850724
-    clsns1: []
-    clsns2: []
-    clsns3: []
-  - normalizeTime: 0.413236767
-    clsns1: []
-    clsns2: []
-    clsns3: []
-  - normalizeTime: 0.609523654
-    clsns1: []
-    clsns2: []
-    clsns3: []
-  - normalizeTime: 0.847135067
-    clsns1: []
-    clsns2: []
-    clsns3: []
-  loopStartIndex: 4
+  - normalizeTime: 0.283074737
+    clsns:
+    - type: 1
+      x1: -0.249525726
+      y1: 0.0235273838
+      x2: 0.319762766
+      y2: 1.65580702
+    - type: 2
+      x1: 0.169950053
+      y1: 0.263128042
+      x2: 0.938988984
+      y2: 0.882096529

@@ -5,7 +5,6 @@ namespace Mugen3D
 {
     //collsion
     public class Clsn {
-        public bool useLast { get; set; }
         public int type { get; set; }
         public float x1 { get; set; }
         public float y1 { get; set; }
@@ -31,17 +30,14 @@ namespace Mugen3D
     {
         public float normalizeTime { get; set; }
         public int duration { get; set; }
-        public List<Clsn> clsns1 { get; set; }
-        public List<Clsn> clsns2 { get; set; }
-        public List<Clsn> clsns3 { get; set; }
+        public List<Clsn> clsns { get; set; }
+       
         public float xOffset { get; set; }
         public float yOffset { get; set; }
 
         public ActionFrame()
         {
-            clsns1 = new List<Clsn>();
-            clsns2 = new List<Clsn>();
-            clsns3 = new List<Clsn>();
+            clsns = new List<Clsn>();
         }
     }
 

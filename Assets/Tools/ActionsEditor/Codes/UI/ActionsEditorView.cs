@@ -41,7 +41,12 @@ namespace Mugen3D.Tools
         public InputField labelYOffset;
         public Toggle toggleLoopStart;
 
-        public WidgetCLSN testClsn;
+        public Transform rootClsns;
+        public GameObject prefabClsn;
+        public Button btnAddClsn1;
+        public Button btnAddClsn2;
+        public Button btnDeleteClsn;
+        public Clsn curSelectedClsn;
 
         // Use this for initialization
         void Start()
@@ -229,6 +234,31 @@ namespace Mugen3D.Tools
                     this.module.curAction.loopStartIndex = this.module.curActionElemIndex - 1;
                 }
             });
+
+            btnAddClsn1.onClick.AddListener(() => {
+                print("click addclsn1");
+                if (!isResponseToUIEvent)
+                    return;
+                this.module.CreateClsn(1);
+                UpdateUI();
+            });
+            btnAddClsn2.onClick.AddListener(() =>
+            {
+                print("click addclsn1");
+                if (!isResponseToUIEvent)
+                    return;
+                this.module.CreateClsn(2);
+                UpdateUI();
+            });
+            btnDeleteClsn.onClick.AddListener(() =>
+            {
+                if (!isResponseToUIEvent)
+                    return;
+                if (curSelectedClsn == null)
+                    return;
+                this.module.DeleteClsn(curSelectedClsn);
+                UpdateUI();
+            });
         }
 
         public void OnDrawGizmos()
@@ -287,6 +317,38 @@ namespace Mugen3D.Tools
                 this.scrollActionList.value = 0;
         }
 
+        void UpdateClsns()
+        {
+            if (rootClsns.childCount != 0)
+            {
+                List<GameObject> toDestroyList = new List<GameObject>();
+                for (int i = 0; i < rootClsns.childCount; i++)
+                {
+                    var child = rootClsns.GetChild(i);
+                    //GameObject.Destroy(child.gameObject);
+                    toDestroyList.Add(child.gameObject);
+                }
+                foreach (var go in toDestroyList)
+                {
+                    GameObject.Destroy(go);
+                }
+                toDestroyList.Clear();
+            }
+            foreach (var clsn in this.module.curActionElem.clsns)
+            {
+                var go = GameObject.Instantiate(prefabClsn, rootClsns);
+                go.SetActive(true);
+                WidgetCLSN wClsn = go.GetComponent<WidgetCLSN>();
+                wClsn.toggle.onValueChanged.AddListener((v) => {
+                    if (v)
+                    {
+                        this.curSelectedClsn = clsn;
+                    }
+                });
+                wClsn.Init(clsn);
+            }
+        }
+
         void UpdateActionElem()
         {
             if (this.module.actionLength > 0 && this.module.curAction.frames.Count > 0)
@@ -301,13 +363,7 @@ namespace Mugen3D.Tools
                 this.labelYOffset.text = this.module.curActionElem.yOffset.ToString();
                 this.toggleLoopStart.isOn = (this.module.curActionElemIndex - 1) == this.module.curAction.loopStartIndex;
                 animCtl.Sample(this.module.curAction.animName, this.module.curActionElem.normalizeTime);
-
-                var clsn = new Clsn();
-                clsn.x1 = -1;
-                clsn.y1 = -1;
-                clsn.x2 = 1;
-                clsn.y2 = 1;
-                testClsn.Init(clsn);
+                UpdateClsns();        
             }
             else
             {
