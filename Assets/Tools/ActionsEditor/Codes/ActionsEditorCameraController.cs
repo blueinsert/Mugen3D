@@ -11,9 +11,9 @@ namespace Mugen3D.Tools
         public void ZoomIn()
         {
             camera.orthographicSize -= 0.1f;
-            if (camera.orthographicSize <= 0)
+            if (camera.orthographicSize <= 0.2f)
             {
-                camera.orthographicSize = 0;
+                camera.orthographicSize = 0.2f;
             }
         }
 

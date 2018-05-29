@@ -46,6 +46,7 @@ namespace Mugen3D.Tools
         public Button btnAddClsn1;
         public Button btnAddClsn2;
         public Button btnDeleteClsn;
+        public Button btnUseLastClsn;
         public Clsn curSelectedClsn;
 
         // Use this for initialization
@@ -257,6 +258,12 @@ namespace Mugen3D.Tools
                 if (curSelectedClsn == null)
                     return;
                 this.module.DeleteClsn(curSelectedClsn);
+                UpdateUI();
+            });
+            btnUseLastClsn.onClick.AddListener(() => {
+                if (!isResponseToUIEvent)
+                    return;
+                this.module.UseLastClsns();
                 UpdateUI();
             });
         }

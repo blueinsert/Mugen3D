@@ -20,6 +20,15 @@ namespace Mugen3D
             this.y2 = y2;
         }
 
+        public Clsn(Clsn clsn)
+        {
+            this.type = clsn.type;
+            this.x1 = clsn.x1;
+            this.y1 = clsn.y1;
+            this.x2 = clsn.x2;
+            this.y2 = clsn.y2;
+        }
+
         public Clsn()
         {
 

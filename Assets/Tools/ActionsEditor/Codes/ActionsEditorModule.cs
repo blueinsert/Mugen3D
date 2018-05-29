@@ -132,20 +132,42 @@ namespace Mugen3D.Tools
         public void CreateActionElem()
         {
             ActionFrame frame = new ActionFrame();
-            curAction.frames.Add(frame);
-            m_curActionElemIndex = curAction.frames.Count;
+            if (curActionElemIndex == curAction.frames.Count)
+            {
+                curAction.frames.Add(frame);
+            }
+            else
+            {
+                curAction.frames.Insert(curActionElemIndex, frame);
+            }
+            
+            if (curAction.frames.Count > 1)
+            {
+                frame.normalizeTime = curActionElem.normalizeTime;
+            }
+            m_curActionElemIndex = m_curActionElemIndex + 1;
+
         }
 
         public void DeleteActionElem()
         {
-            curAction.frames.Remove(curActionElem);
-            if (curAction.frames.Count > 0)
+            if (curAction.frames.Count != 0)
             {
-                if (m_curActionElemIndex > 1)
-                {
+                curAction.frames.Remove(curActionElem);
+                if (curAction.frames.Count > 0)
+                {  
                     m_curActionElemIndex--;
                 }
+                else
+                {
+                    m_curActionElemIndex = 0;
+                }
             }
+            else
+            {
+                Debug.LogError("no action elem");
+            }
+           
         }
 
         public void CreateClsn(int type)
@@ -162,6 +184,28 @@ namespace Mugen3D.Tools
         public void DeleteClsn(Clsn clsn)
         {
             curActionElem.clsns.Remove(clsn);
+        }
+
+        public void UseLastClsns()
+        {
+            if (this.actionLength > 0 && this.curAction.frames.Count > 0)
+            {
+                int index = this.curActionElemIndex - 1;
+                if (index < 1)
+                {
+                    Debug.LogError("last action elem is null");
+                }
+                else
+                {
+                    this.curActionElem.clsns = new List<Clsn>();
+                    var lastElem = this.curAction.frames[index - 1];
+                    foreach (var clsn in lastElem.clsns)
+                    {
+                        Clsn newClsn = new Clsn(clsn);
+                        this.curActionElem.clsns.Add(newClsn);
+                    }
+                }
+            }
         }
 
         public void Save()

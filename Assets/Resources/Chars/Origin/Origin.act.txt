@@ -1,15 +1,217 @@
 actions:
-- animName: StandLightKick
+- animName: Standing
   frames:
-  - normalizeTime: 0.283074737
+  - duration: 6
     clsns:
     - type: 1
       x1: -0.249525726
       y1: 0.0235273838
-      x2: 0.319762766
-      y2: 1.65580702
-    - type: 2
-      x1: 0.169950053
-      y1: 0.263128042
-      x2: 0.938988984
-      y2: 0.882096529
+      x2: 0.265547097
+      y2: 1.57372856
+  - normalizeTime: 0.209768891
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.249525726
+      y1: 0.0235273838
+      x2: 0.265547097
+      y2: 1.57372856
+  - normalizeTime: 0.409060657
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.249525726
+      y1: 0.0235273838
+      x2: 0.265547097
+      y2: 1.57372856
+  - normalizeTime: 0.60429424
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.249525726
+      y1: 0.0235273838
+      x2: 0.265547097
+      y2: 1.57372856
+  - normalizeTime: 0.80882436
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.249525726
+      y1: 0.0235273838
+      x2: 0.265547097
+      y2: 1.57372856
+  - normalizeTime: 1
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.249525726
+      y1: 0.0235273838
+      x2: 0.265547097
+      y2: 1.57372856
+  loopStartIndex: 1
+- animNo: 21
+  animName: WalkingForward
+  frames:
+  - duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 0.0743748248
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 0.195233375
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 0.371873468
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 0.502029002
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 0.669372141
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 0.901792884
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  - normalizeTime: 1
+    duration: 8
+    clsns:
+    - type: 1
+      x1: -0.213975459
+      y1: 0.00647419691
+      x2: 0.315459937
+      y2: 1.60613537
+  loopStartIndex: 1
+- animNo: 22
+  animName: WalkingBack
+  frames:
+  - duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.0836715698
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.195233807
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.288201898
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.418357641
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.511326373
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.594998181
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.660076261
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.74374783
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.827419162
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 0.911090553
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  - normalizeTime: 1
+    duration: 6
+    clsns:
+    - type: 1
+      x1: -0.198205471
+      y1: -0.00228847563
+      x2: 0.262868226
+      y2: 1.62962663
+  loopStartIndex: 1
