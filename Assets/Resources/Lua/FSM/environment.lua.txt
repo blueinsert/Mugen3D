@@ -1,39 +1,38 @@
 local M = {}
 
-local function CommandTest(self, commandName)
-    return self.env:CommandTest(commandName)
-end
-
-local function initEnvTestFuncWithParams(self)
-    self.CommandTest = CommandTest
-end
-
 function M.new(char)
     local obj = {}
     obj.char = char
-    obj.env = CS.Mugen3D.Environment(char.player)
-    initEnvTestFuncWithParams(obj)
-    local mt = {
-        __index = function(t, key, ...)
-            if M[key] and type(M[key]) == "function" then
-            	return (M[key])(t, ...)
-            elseif M[key] and type(M[key]) ~= "function" then
-                return M[key]
-            else
-            	return t.env[key]
-            end
-        end
-    }
-	setmetatable(obj, mt)
+	setmetatable(obj, {__index = M})
 	return obj
 end
 
-function M.stateNo(self)
+function M:CommandTest(commandName)
+
+end
+
+function M:stateNo()
 	return self.char.stateNo
 end
 
-function M.stateTime(self)
+function M:stateTime()
     return self.char.stateTime
+end
+
+function M:anim()
+    return self.char.player.animCtr.anim
+end
+
+function M:animTime()
+    return self.char.player.animCtr.animTime
+end
+
+function M:animElem()
+    return self.char.player.animCtr.animElem
+end
+
+function M:animElemTime()
+    return self.char.player.animCtr.animElemTime
 end
 
 return M

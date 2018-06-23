@@ -6,7 +6,7 @@ public class GameTest1 : MonoBehaviour {
     public PlayMode playMode;
 	// Use this for initialization
 	void Start () {
-        LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "main"));
+        LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "Lua/main"));
         GameObject prefab = Resources.Load("Prefabs/Scene/Scene_Fight") as GameObject;
         GameObject gameGo = GameObject.Instantiate(prefab);
         gameGo.name = "ClientGame";

@@ -1,5 +1,5 @@
-local Char = require "FSM/Chars/Char"
-local fsm = require "FSM/Chars/Origin/OriginFSM"
+local Char = require "Lua/FSM/Char"
+local fsm = require "Chars/Origin/fsm/OriginFSM"
 fsm.__loadall()
 
 local M = {} 

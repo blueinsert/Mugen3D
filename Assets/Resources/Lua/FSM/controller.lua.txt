@@ -1,13 +1,8 @@
 local M = {}
 
-local function init(self, char)
-    self.char = char
-	self.ctl = CS.Mugen3D.Controllers.Instance
-end
-
 function M.new(char)
     local obj = {}
-	init(obj, char)
+	obj.char = char
 	setmetatable(obj, {__index = M})
 	return obj
 end
@@ -16,14 +11,23 @@ function M:ChangeState(stateNo)
     self.char:changeState(stateNo)
 end
 
-function M:ChangeAnim(animNo, playMode)
-    self.ctl:ChangeAnim(self.char.player, animNo, playMode)
+function M:ChangeAnim(animNo)
+    self.char.player.animCtr:ChangeAnim(animNo)
 end
 
 function M:PhysicsSet(physics)
-    self.ctl:PhysicsSet(self.char.player, physics)
+    self.char.player.status.physicsType = physics
 end
 
+function M:VelSet(x, y)
+    self.char.player.moveCtr:VelSet(x, y)
+end 
+
+function M:Pause(duration)
+    self.char.player:Pause(duration)
+end
+
+--[[
 function M:MoveTypeSet(moveType)
     self.ctl:MoveTypeSet(self.char.player, moveType)
 end
@@ -90,5 +94,6 @@ end
 function M:Pause(duration)
     self.ctl:Pause(self.char.player, duration)
 end
+--]]
 
 return M

@@ -1,4 +1,4 @@
 modelFile: /Origin
 actionConfigFile: /Origin.act
 cmdConfigFile: /Origin.cmd
-fsmConfigFile: /Origin.cns.lua
+fsmConfigFile: /fsm/Origin

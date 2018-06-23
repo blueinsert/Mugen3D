@@ -42,18 +42,14 @@ public class ClientGame : MonoBehaviour {
     private void LoadStage(string stageName)
     {
         UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
-        GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject;
-        foreach (var collider in goStage.GetComponentsInChildren<Mugen3D.Collider>())
-        {
-            world.collisionWorld.AddCollider(collider);
-        }
+        GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject; 
     }
 
     private Mugen3D.Character LoadPlayer(int slot, string name)
     {
         var player = Mugen3D.EntityLoader.LoadPlayer(slot, name, this.transform.Find("Players"));
         player.transform.position = m_initPos[slot];
-        Mugen3D.Controllers.Instance.CtrlSet(player, false);
+        player.status.ctrl = false;
         return player;
     }
 
@@ -106,9 +102,7 @@ public class ClientGame : MonoBehaviour {
         roundMgr = GetRoundMgr(playMode);
         Mugen3D.CameraController mCameraController = GetComponentInChildren<Mugen3D.CameraController>();
         fightUI.Init(this.p1, this.p2);
-        mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform);
-        world.collisionWorld.AddCollider(mCameraController.leftCollider);
-        world.collisionWorld.AddCollider(mCameraController.rightCollider);
+        mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform); 
     }
 
     /*

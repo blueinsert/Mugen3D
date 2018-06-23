@@ -45,7 +45,8 @@ public class LuaMgr : MonoBehaviour {
 
     private static byte[] LuaLoader(ref string filename) {
         string path = filename.Replace(".", "/");
-        var code = Resources.Load("Lua/" + path + ".lua", typeof(TextAsset)) as TextAsset;
+        //var code = Resources.Load("Lua/" + path + ".lua", typeof(TextAsset)) as TextAsset;
+        var code = Resources.Load(path + ".lua", typeof(TextAsset)) as TextAsset;
         if(code != null) {
             return code.bytes;
         }

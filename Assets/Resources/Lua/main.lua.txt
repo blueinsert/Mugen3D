@@ -1,6 +1,7 @@
-CSV = require "csv"
-UIManager = require "UI/UIManager"
-UIDef = require "UI/UIDef"
+--[[
+CSV = require "Lua/csv"
+UIManager = require "Lua/UI/UIManager"
+UIDef = require "Lua/UI/UIDef"
 
 local oldPrint = print
 print = function (...)
@@ -13,3 +14,4 @@ local function Init()
 end
 Init()
 --print(utils.serialize(CSV.Character))
+--]]
