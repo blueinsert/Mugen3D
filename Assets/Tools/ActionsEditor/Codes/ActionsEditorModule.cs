@@ -5,205 +5,183 @@ namespace Mugen3D.Tools
 {
     public class ActionsEditorModule
     {
-        private List<Mugen3D.Action> m_actions;
-        private int m_curActionIndex; //begin from 1
-        private int m_curActionElemIndex;//begin from 1
+        public List<Mugen3D.Action> actions;
+        public int curActionIndex; 
+        public int curActionElemIndex;
         public System.Action doSave;
-
-        public List<Mugen3D.Action> actions
-        {
-            get
-            {
-                return m_actions;
-            }
-        }
-
-        public Action curAction { 
-            get {
-                return m_actions[m_curActionIndex - 1];
-            } 
-        }
-
-        public ActionFrame curActionElem
-        {
-            get
-            {
-                return curAction.frames[m_curActionElemIndex - 1];
-            }
-        }
-
-        public int curActionIndex {
-            get
-            {
-                return m_curActionIndex;
-            }
-            set
-            {
-                m_curActionIndex = value;
-            }
-        }
-
-
-        public int curActionElemIndex
-        {
-            get {
-                return m_curActionElemIndex;
-            }
-            set
-            {
-                m_curActionElemIndex = value;
-            }
-        }
-
-        public int actionLength {
-            get
-            {
-                return m_actions.Count;
-            }
-        }
 
         public ActionsEditorModule(List<Mugen3D.Action> actions)
         {
-            this.m_actions = actions;
-            m_curActionIndex = 1;
-            m_curActionElemIndex = 1;
+            this.actions = actions;
+            curActionIndex = 0;
+            curActionElemIndex = 0;
         }
 
         public void GoNextAction()
         {
-            this.m_curActionIndex++;
-            if (this.m_curActionIndex > actionLength)
-            {
-                this.m_curActionIndex = 1;
+            if(actions != null && actions.Count != 0){
+                this.curActionIndex++;
+                if (this.curActionIndex >= actions.Count)
+                {
+                    this.curActionIndex = 0;
+                }
+                curActionElemIndex = 0;
             }
         }
 
         public void GoPrevAction()
         {
-            this.m_curActionIndex--;
-            if (this.m_curActionIndex < 1)
+            if (actions != null && actions.Count != 0)
             {
-                this.m_curActionIndex = actionLength;
+                this.curActionIndex--;
+                if (this.curActionIndex < 0)
+                {
+                    this.curActionIndex = actions.Count - 1;
+                }
+                curActionElemIndex = 0;
             }
         }
 
         public void AddAction()
         {   
-            int id = 0;
-            if (actionLength > 0)
+           
+            if (actions == null)
             {
-                id = m_actions[actionLength - 1].animNo + 1;
+                actions = new List<Action>();
+            }
+            int id = 0;
+            if (actions.Count > 0)
+            {
+                id = actions[actions.Count - 1].animNo + 1;
             }
             Action a = new Action(id);
-            m_actions.Add(a);
-            m_curActionIndex = actionLength;
+            actions.Add(a);
+            curActionIndex = actions.Count - 1;
         }
 
         public void DeleteAction()
         {
-            m_actions.Remove(curAction);
-            if (actionLength > 0)
-            {
-                if (m_curActionIndex > 1)
+            if (actions.Count == 0)
+                return;
+            int newIndex = curActionIndex;
+            if (curActionIndex == 0){//delete in the start
+                newIndex = 0;
+
+            }else if (curActionIndex == actions.Count - 1) {//in end
+                newIndex = actions.Count - 2;
+            }
+            else {//in middle
+                if (actions.Count >= 3)
                 {
-                    m_curActionIndex--;
+                    newIndex = curActionIndex;
                 }
             }
+            actions.RemoveAt(curActionIndex);
+            curActionIndex = newIndex;
         }
 
         public void GoNextActionElem()
         {
-            this.m_curActionElemIndex++;
-            if (this.m_curActionElemIndex > curAction.frames.Count)
-            {
-                this.m_curActionElemIndex = 1;
-            }
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null && actions[curActionIndex].frames.Count != 0) {
+                this.curActionElemIndex++;
+                if (this.curActionElemIndex >= actions[curActionIndex].frames.Count)
+                {
+                    this.curActionElemIndex = 0;
+                }
+            }          
         }
 
         public void GoPrevActionElem()
         {
-            this.m_curActionElemIndex--;
-            if (this.m_curActionElemIndex < 1)
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null && actions[curActionIndex].frames.Count != 0)
             {
-                this.m_curActionElemIndex = curAction.frames.Count;
-            }
+                this.curActionElemIndex--;
+                if (this.curActionElemIndex < 0)
+                {
+                    this.curActionElemIndex = actions[curActionIndex].frames.Count - 1;
+                }
+            }      
         }
 
         public void CreateActionElem()
         {
-            ActionFrame frame = new ActionFrame();
-            if (curActionElemIndex == curAction.frames.Count)
-            {
-                curAction.frames.Add(frame);
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null) {
+                ActionFrame frame = new ActionFrame();
+                int newIndex = 0;
+                if (actions[curActionIndex].frames.Count == 0)
+                {
+                    actions[curActionIndex].frames.Add(frame);
+                    newIndex = 0;
+                }
+                else
+                {
+                    frame.normalizeTime = actions[curActionIndex].frames[curActionElemIndex].normalizeTime;
+                    actions[curActionIndex].frames.Insert(curActionElemIndex + 1, frame);
+                    newIndex = curActionElemIndex + 1;
+                }
+                curActionElemIndex = newIndex;
             }
-            else
-            {
-                curAction.frames.Insert(curActionElemIndex, frame);
-            }
-            
-            if (curAction.frames.Count > 1)
-            {
-                frame.normalizeTime = curActionElem.normalizeTime;
-            }
-            m_curActionElemIndex = m_curActionElemIndex + 1;
-
         }
 
         public void DeleteActionElem()
         {
-            if (curAction.frames.Count != 0)
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null && actions[curActionIndex].frames.Count != 0)
             {
-                curAction.frames.Remove(curActionElem);
-                if (curAction.frames.Count > 0)
-                {  
-                    m_curActionElemIndex--;
+                int newIndex = curActionElemIndex;
+                if (curActionElemIndex == 0)
+                {//delete in the start
+                    newIndex = 0;
+
+                }
+                else if (curActionElemIndex == actions[curActionIndex].frames.Count - 1)
+                {//in end
+                    newIndex = actions[curActionIndex].frames.Count - 2;
                 }
                 else
-                {
-                    m_curActionElemIndex = 0;
+                {//in middle
+                    if (actions[curActionIndex].frames.Count >= 3)
+                    {
+                        newIndex = curActionElemIndex;
+                    }
                 }
-            }
-            else
-            {
-                Debug.LogError("no action elem");
+                actions[curActionIndex].frames.RemoveAt(curActionElemIndex);
+                curActionElemIndex = newIndex;
             }
            
         }
 
         public void CreateClsn(int type)
         {
-            Clsn clsn = new Clsn();
-            clsn.type = type;
-            clsn.x1 = -1;
-            clsn.y1 = -1;
-            clsn.x2 = 1;
-            clsn.y2 = 1;
-            curActionElem.clsns.Add(clsn);
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null && actions[curActionIndex].frames.Count != 0)
+            {
+                Clsn clsn = new Clsn();
+                clsn.type = type;
+                clsn.x1 = -1;
+                clsn.y1 = -1;
+                clsn.x2 = 1;
+                clsn.y2 = 1;
+                actions[curActionIndex].frames[curActionElemIndex].clsns.Add(clsn);
+            } 
         }
 
         public void DeleteClsn(Clsn clsn)
         {
-            curActionElem.clsns.Remove(clsn);
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null && actions[curActionIndex].frames.Count != 0)
+            {
+                actions[curActionIndex].frames[curActionElemIndex].clsns.Remove(clsn);
+            }
         }
 
         public void UseLastClsns()
         {
-            if (this.actionLength > 0 && this.curAction.frames.Count > 0)
+            if (actions != null && actions.Count != 0 && actions[curActionIndex].frames != null && actions[curActionIndex].frames.Count >= 2 && curActionElemIndex >= 1)
             {
-                int index = this.curActionElemIndex - 1;
-                if (index < 1)
+                actions[curActionIndex].frames[curActionElemIndex].clsns = new List<Clsn>();
+                var lastElem = actions[curActionIndex].frames[curActionElemIndex - 1];
+                foreach (var clsn in lastElem.clsns)
                 {
-                    Debug.LogError("last action elem is null");
-                }
-                else
-                {
-                    this.curActionElem.clsns = new List<Clsn>();
-                    var lastElem = this.curAction.frames[index - 1];
-                    foreach (var clsn in lastElem.clsns)
-                    {
-                        Clsn newClsn = new Clsn(clsn);
-                        this.curActionElem.clsns.Add(newClsn);
-                    }
+                    Clsn newClsn = new Clsn(clsn);
+                    actions[curActionIndex].frames[curActionElemIndex].clsns.Add(newClsn);
                 }
             }
         }

@@ -60,8 +60,13 @@ namespace Mugen3D
             }
         }
 
-        public bool CommandIsActive(int commandNameHashCode)
+        public bool CommandIsActive(string commandName)
         {
+            return CommandIsActive(commandName.GetHashCode());
+        }
+
+        private bool CommandIsActive(int commandNameHashCode)
+        {  
             bool result = false;
             if (!m_commandState.ContainsKey(commandNameHashCode))
             {

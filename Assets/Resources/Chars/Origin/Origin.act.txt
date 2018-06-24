@@ -1,5 +1,6 @@
 actions:
 - animName: Standing
+  animLength: 36
   frames:
   - duration: 6
     clsns:
@@ -49,8 +50,9 @@ actions:
       x2: 0.265547097
       y2: 1.57372856
   loopStartIndex: 1
-- animNo: 21
+- animNo: 20
   animName: WalkingForward
+  animLength: 64
   frames:
   - duration: 8
     clsns:
@@ -116,8 +118,9 @@ actions:
       x2: 0.315459937
       y2: 1.60613537
   loopStartIndex: 1
-- animNo: 22
+- animNo: 21
   animName: WalkingBack
+  animLength: 72
   frames:
   - duration: 6
     clsns:
@@ -215,3 +218,81 @@ actions:
       x2: 0.262868226
       y2: 1.62962663
   loopStartIndex: 1
+- animNo: 40
+  animName: JumpStart
+  animLength: 3
+  frames:
+  - duration: 3
+    clsns: []
+- animNo: 41
+  animName: JumpingUp
+  animLength: 50
+  frames:
+  - duration: 5
+    clsns: []
+  - normalizeTime: 0.221645027
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.396628231
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.524948776
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.629938424
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.711597145
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.816587031
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.886580408
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.956573486
+    duration: 5
+    clsns: []
+  - normalizeTime: 1
+    duration: 5
+    clsns: []
+- animNo: 42
+  animName: JumpingDown
+  animLength: 40
+  frames:
+  - duration: 4
+    clsns: []
+  - normalizeTime: 0.22164546
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.384963334
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.501618505
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.606608152
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.723263562
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.828253388
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.886581421
+    duration: 4
+    clsns: []
+  - normalizeTime: 1
+    duration: 4
+    clsns: []
+  - normalizeTime: 1
+    duration: 4
+    clsns: []
+- animNo: 47
+  animName: JumpLand
+  animLength: 6
+  frames:
+  - duration: 6
+    clsns: []

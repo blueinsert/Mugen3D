@@ -86,6 +86,11 @@ public class AnimationController {
 
     public void  ChangeAnim(int anim)
     {
+        if (!m_actions.ContainsKey(anim))
+        {
+            Log.Error("anims don't contain key " + anim);
+            return;
+        }
         this.anim = anim;
         animElem = 0;
         animElemTime = 0;

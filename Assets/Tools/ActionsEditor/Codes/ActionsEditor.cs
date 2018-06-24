@@ -47,6 +47,10 @@ namespace Mugen3D.Tools
             StringWriter strWriter = new StringWriter();
             ActionsConfig actionConfig = new ActionsConfig();
             actionConfig.actions = module.actions;
+            foreach (var action in actionConfig.actions)
+            {
+                action.CalculateAnimLength();
+            }
             serializer.Serialize(strWriter, actionConfig);
 
             using (TextWriter writer = File.CreateText(resourePath + prefix + config.actionConfigFile + ".txt"))

@@ -81,13 +81,17 @@ function M:debug()
 		return
 	end
 	local index = self.player.slot
+	guiDebug:AddMsg(index, "moveType", self.env:moveType())
+    guiDebug:AddMsg(index, "physicsType", self.env:physicsType())
     guiDebug:AddMsg(index, "stateNo", toString(self.env:stateNo()))
     guiDebug:AddMsg(index, "stateTime", toString(self.env:stateTime()))
     guiDebug:AddMsg(index, "anim", toString(self.env:anim()))
     guiDebug:AddMsg(index, "animTime", toString(self.env:animTime()))
+    guiDebug:AddMsg(index, "leftAnimTime", toString(self.env:leftAnimTime()))
     guiDebug:AddMsg(index, "animElem", toString(self.env:animElem())) 
     guiDebug:AddMsg(index, "animElemTime", toString(self.env:animElemTime()))
     guiDebug:AddMsg(index, "activeCommands", self.player.cmdMgr:GetActiveCommandName())
+    guiDebug:AddMsg(index, "vel", toString(self.env:vel()))
     --[[
 	guiDebug:AddMsg(index, "stateNo", toString(self.env.stateNo))
 	guiDebug:AddMsg(index, "stateTime", toString(self.env.stateTime))

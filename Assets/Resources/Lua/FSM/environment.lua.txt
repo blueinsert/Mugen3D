@@ -8,7 +8,15 @@ function M.new(char)
 end
 
 function M:CommandTest(commandName)
+   return self.char.player.cmdMgr:CommandIsActive(commandName)
+end
 
+function M:moveType()
+    return self.char.player.status.moveType:ToString()
+end
+
+function M:physicsType()
+    return self.char.player.status.physicsType:ToString()
 end
 
 function M:stateNo()
@@ -33,6 +41,14 @@ end
 
 function M:animElemTime()
     return self.char.player.animCtr.animElemTime
+end
+
+function M:leftAnimTime()
+    return self.char.player.animCtr.animLength - self:animTime()
+end
+
+function M:vel()
+    return self.char.player.moveCtr.velocity
 end
 
 return M

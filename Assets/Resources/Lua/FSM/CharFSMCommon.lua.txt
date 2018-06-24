@@ -24,7 +24,14 @@ M[-1] = {
 	end,
 	
 	onUpdate = function(char)
-	  
+	    if (char.env:CommandTest("holdfwd") or char.env:CommandTest("holdback")) and char.env:stateNo() == 0 then
+			char.ctl:ChangeState(20) --walk
+			return
+		end
+		if char.env:CommandTest("holdup") and (char.env:stateNo() == 0 or char.env:stateNo() == 20 or char.env:stateNo() == 100) then
+			char.ctl:ChangeState(40) --jump
+			return
+		end
 	end,
 }
 
@@ -36,8 +43,112 @@ M[0] = {
 	end,
 	
 	onUpdate = function(char)
-	  
+	    if char.env:anim() ~= 0 then
+	   	   char.ctl:ChangeAnim(0)
+	    end
 	end,
+}
+
+--walk
+M[20] = {
+	onEnter = function(char)
+		char.ctl:CtrlSet(true)
+	end,
+
+	onExit = function(char)
+		
+	end,
+
+	onUpdate = function(char)
+		if char.env:anim() ~= 20 and char.env:CommandTest("holdfwd") then
+			char.ctl:ChangeAnim(20)
+		end
+		if char.env:anim() ~= 21 and char.env:CommandTest("holdback") then
+			char.ctl:ChangeAnim(21)
+		end
+		if char.env:anim() == 20 and char.env:CommandTest("holdfwd") then
+			char.ctl:VelSet(3, 0)
+		end
+		if char.env:anim() == 21 and char.env:CommandTest("holdback") then
+			char.ctl:VelSet(-3, 0)
+		end
+		if not char.env:CommandTest("holdback") and not char.env:CommandTest("holdfwd") then
+            char.ctl:ChangeState(0)
+		end
+	end,
+}
+
+--jump start
+M[40] = {
+    onEnter = function(char)
+        --print("jumpStart")
+    	char.ctl:PhysicsSet("S")
+    	char.ctl:MoveTypeSet("I")
+    	char.ctl:ChangeAnim(40)
+    	char.ctl:CtrlSet(true)
+    	if char.env:CommandTest("holdback") then
+    		char.jumpDir = -1
+    	elseif char.env:CommandTest("holdfwd") then
+    		char.jumpDir = 1
+    	else
+    		char.jumpDir = 0
+    	end
+    end,
+    onExit = function(char)
+    	
+    end,
+    onUpdate = function(char)
+    	if char.env:leftAnimTime() <= 0 then
+    		char.ctl:ChangeState(41)
+    	end
+    end
+}
+
+--jump up
+M[41] = {
+	onEnter = function(char)
+		char.ctl:PhysicsSet("A")
+		char.ctl:MoveTypeSet("I")
+		char.ctl:CtrlSet(true)
+		char.ctl:ChangeAnim(41, "Once")
+		char.ctl:VelSet(char.jumpDir*2, 7)
+	end,
+	onExit = function(char)
+		
+	end,
+	onUpdate = function(char)
+		if char.env:vel().y <= 0 then
+			char.ctl:ChangeState(42)
+		end
+	end
+}
+--jump down
+M[42] = {
+    onEnter = function(char)
+        char.ctl:ChangeAnim(42, "Once")
+    end,
+    onUpdate = function(char)
+        if char.env.justOnGround then
+        	char.ctl:ChangeState(47)
+        end
+    	-- body
+    end
+}
+
+--land
+M[47] = {
+	onEnter = function(char)
+		char.ctl:MoveTypeSet("I")
+		char.ctl:PhysicsSet("S")
+		char.ctl:CtrlSet(true)
+		char.ctl:ChangeAnim(47)
+		char.ctl:VelSet(0, 0)
+	end,
+	onUpdate = function(char)
+		if char.env.leftAnimFrame == 0 then
+			char.ctl:ChangeState(0)
+		end
+	end
 }
 
 --[[

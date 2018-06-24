@@ -16,12 +16,40 @@ function M:ChangeAnim(animNo)
 end
 
 function M:PhysicsSet(physics)
-    self.char.player.status.physicsType = physics
+    local physicsType
+    if physics == "S" then
+        physicsType = CS.Mugen3D.PhysicsType.S
+    elseif physics == "C" then
+        physicsType = CS.Mugen3D.PhysicsType.C
+    elseif physics == "A" then
+        physicsType = CS.Mugen3D.PhysicsType.A
+    else
+        physicsType = CS.Mugen3D.PhysicsType.N
+    end
+    self.char.player.status.physicsType = physicsType
+end
+
+function M:MoveTypeSet(moveTypeStr) 
+    local moveType
+     if moveTypeStr == "S" then
+        moveType = CS.Mugen3D.PhysicsType.S
+    elseif moveTypeStr == "C" then
+        moveType = CS.Mugen3D.PhysicsType.C
+    elseif moveTypeStr == "A" then
+        moveType = CS.Mugen3D.PhysicsType.A
+    else
+        moveType = CS.Mugen3D.PhysicsType.N
+    end
+    self.char.player.status.moveType = moveType
 end
 
 function M:VelSet(x, y)
     self.char.player.moveCtr:VelSet(x, y)
 end 
+
+function M:CtrlSet(canCtrl)
+    self.char.player.status.ctrl = canCtrl
+end
 
 function M:Pause(duration)
     self.char.player:Pause(duration)

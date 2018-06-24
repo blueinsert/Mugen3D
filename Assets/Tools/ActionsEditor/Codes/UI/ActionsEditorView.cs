@@ -97,7 +97,7 @@ namespace Mugen3D.Tools
                 animCtl.Stop();
             });
             btnPlay.onClick.AddListener(() => {
-                animCtl.Play(this.module.curAction);
+                animCtl.Play(this.module.actions[this.module.curActionIndex]);
             });
 
             btnCreateAction.onClick.AddListener(() =>
@@ -134,7 +134,7 @@ namespace Mugen3D.Tools
                 if (!isResponseToUIEvent)
                     return;
                 var step = scrollActionList.numberOfSteps;
-                int index = (int)(value * (step - 1)) + 1;
+                int index = (int)(value * (step - 1));
                 this.module.curActionIndex = index;
                 UpdateUI();
             });  
@@ -142,14 +142,14 @@ namespace Mugen3D.Tools
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.curAction.animName = animNames[animNameIndex];
+                this.module.actions[this.module.curActionIndex].animName = animNames[animNameIndex];
                 UpdateUI();
             });
             labelAnimNo.onValueChanged.AddListener((animNo) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.curAction.animNo = int.Parse(animNo);
+                this.module.actions[this.module.curActionIndex].animNo = int.Parse(animNo);
             });
 
             btnGoLeftActionElem.onClick.AddListener(() =>
@@ -172,7 +172,7 @@ namespace Mugen3D.Tools
                 if (!isResponseToUIEvent)
                     return;
                 var step = scrollActionElemList.numberOfSteps;
-                int index = (int)(value * (step - 1)) + 1;
+                int index = (int)(value * (step - 1));
                 this.module.curActionElemIndex = index;
                 UpdateUI();
             });
@@ -202,27 +202,27 @@ namespace Mugen3D.Tools
             sliderNormalizedTime.onValueChanged.AddListener((normalizedTime) => {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.curActionElem.normalizeTime = normalizedTime;   
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = normalizedTime;   
                 UpdateUI();
             });
             labelDurationTime.onValueChanged.AddListener((duration) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.curActionElem.duration = int.Parse(duration);
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].duration = int.Parse(duration);
             });
             labelXOffset.onValueChanged.AddListener((xoffset) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.curActionElem.xOffset = float.Parse(xoffset);
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].xOffset = float.Parse(xoffset);
                 UpdateUI();
             });
             labelYOffset.onValueChanged.AddListener((yoffset) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.curActionElem.yOffset = float.Parse(yoffset);
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].yOffset = float.Parse(yoffset);
                 UpdateUI();
             });
 
@@ -232,7 +232,7 @@ namespace Mugen3D.Tools
                     return;
                 if (value == true)
                 {
-                    this.module.curAction.loopStartIndex = this.module.curActionElemIndex - 1;
+                    this.module.actions[this.module.curActionIndex].loopStartIndex = this.module.curActionElemIndex;
                 }
             });
 
@@ -296,35 +296,8 @@ namespace Mugen3D.Tools
             RegisterEventInternal();   
         }
 
-        void ResizeScrollAction()
-        {
-            this.scrollActionList.numberOfSteps = this.module.actionLength;
-            this.scrollActionList.size = 1 / (float)(this.module.actionLength);
-        }
 
-        void SetScrollActionPos()
-        {
-            if (this.module.curAction.frames.Count > 1)
-                this.scrollActionElemList.value = (this.module.curActionElemIndex - 1) / (float)(this.module.curAction.frames.Count - 1);
-            else
-                this.scrollActionElemList.value = 0;
-        }
-
-        void ResizeScrollActionElem()
-        {
-            this.scrollActionElemList.numberOfSteps = this.module.curAction.frames.Count;
-            this.scrollActionElemList.size = 1 / (float)(this.module.curAction.frames.Count);
-        }
-
-        void SetAcrollActionElemPos()
-        {
-            if (this.module.actionLength > 1)
-                this.scrollActionList.value = (this.module.curActionIndex - 1) / (float)(this.module.actionLength - 1);
-            else
-                this.scrollActionList.value = 0;
-        }
-
-        void UpdateClsns()
+        void UpdateClsns(ActionFrame frame)
         {
             if (rootClsns.childCount != 0)
             {
@@ -341,7 +314,7 @@ namespace Mugen3D.Tools
                 }
                 toDestroyList.Clear();
             }
-            foreach (var clsn in this.module.curActionElem.clsns)
+            foreach (var clsn in frame.clsns)
             {
                 var go = GameObject.Instantiate(prefabClsn, rootClsns);
                 go.SetActive(true);
@@ -356,51 +329,51 @@ namespace Mugen3D.Tools
             }
         }
 
-        void UpdateActionElem()
+        public void UpdateUI()
         {
-            if (this.module.actionLength > 0 && this.module.curAction.frames.Count > 0)
+            isResponseToUIEvent = false;
+            if (this.module.actions != null && this.module.actions.Count != 0)
             {
-                ResizeScrollActionElem();
-                SetAcrollActionElemPos();
-                this.labelCurActionElemNo.text = this.module.curActionElemIndex + "/" + this.module.curAction.frames.Count + "-" + this.module.curActionElem.duration + "ticks";
-                this.labelNormalizedTime.text = this.module.curActionElem.normalizeTime.ToString();
-                this.sliderNormalizedTime.value = this.module.curActionElem.normalizeTime;
-                this.labelDurationTime.text = this.module.curActionElem.duration.ToString();
-                this.labelXOffset.text = this.module.curActionElem.xOffset.ToString();
-                this.labelYOffset.text = this.module.curActionElem.yOffset.ToString();
-                this.toggleLoopStart.isOn = (this.module.curActionElemIndex - 1) == this.module.curAction.loopStartIndex;
-                animCtl.Sample(this.module.curAction.animName, this.module.curActionElem.normalizeTime);
-                UpdateClsns();        
-            }
-            else
-            {
-                this.labelCurActionElemNo.text = "0/0";
-                this.scrollActionElemList.numberOfSteps = 0;
-            }
-        }
-
-        void UpdateAction()
-        {
-            if (this.module.actionLength > 0)
-            {
-                ResizeScrollAction();
-                SetScrollActionPos();
-                this.dropdownAnimName.value = animNames.IndexOf(this.module.curAction.animName);
-                this.labelAnimNo.text = this.module.curAction.animNo.ToString();
-                this.labelCurActionNo.text = this.module.curActionIndex + "/" + this.module.actionLength;
+                var curAction = this.module.actions[this.module.curActionIndex];
+                this.scrollActionList.numberOfSteps = this.module.actions.Count;
+                this.scrollActionList.size = 1 / (float)(this.module.actions.Count);
+                if (this.module.actions.Count > 1)
+                    this.scrollActionList.value = this.module.curActionIndex / (float)(this.module.actions.Count - 1);
+                else
+                    this.scrollActionList.value = 0;
+                this.dropdownAnimName.value = animNames.IndexOf(curAction.animName);
+                this.labelAnimNo.text = curAction.animNo.ToString();
+                this.labelCurActionNo.text = this.module.curActionIndex + "/" + this.module.actions.Count;
+                if (curAction.frames != null && curAction.frames.Count != 0)
+                {
+                    var curActionElem = curAction.frames[this.module.curActionElemIndex];
+                    this.scrollActionElemList.numberOfSteps = curAction.frames.Count;
+                    this.scrollActionElemList.size = 1 / (float)(curAction.frames.Count);
+                    if (curAction.frames.Count > 1)
+                        this.scrollActionElemList.value = this.module.curActionElemIndex / (float)(curAction.frames.Count - 1);
+                    else
+                        this.scrollActionElemList.value = 0;
+                    this.labelCurActionElemNo.text = this.module.curActionElemIndex + "/" + curAction.frames.Count + "-" + curActionElem.duration + "ticks";
+                    this.labelNormalizedTime.text = curActionElem.normalizeTime.ToString();
+                    this.sliderNormalizedTime.value = curActionElem.normalizeTime;
+                    this.labelDurationTime.text = curActionElem.duration.ToString();
+                    this.labelXOffset.text = curActionElem.xOffset.ToString();
+                    this.labelYOffset.text = curActionElem.yOffset.ToString();
+                    this.toggleLoopStart.isOn = this.module.curActionElemIndex == curAction.loopStartIndex;
+                    animCtl.Sample(curAction.animName, curActionElem.normalizeTime);
+                    UpdateClsns(curActionElem);
+                }
+                else
+                {
+                    this.labelCurActionElemNo.text = "0/0";
+                    this.scrollActionElemList.numberOfSteps = 0;
+                }
             }
             else
             {
                 this.labelCurActionNo.text = "0/0";
                 this.scrollActionList.numberOfSteps = 0;
             }
-        }
-
-        public void UpdateUI()
-        {
-            isResponseToUIEvent = false;
-            UpdateAction();
-            UpdateActionElem();
             isResponseToUIEvent = true;
         }
     }

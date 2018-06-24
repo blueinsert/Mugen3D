@@ -68,5 +68,15 @@ namespace Mugen3D
             this.animNo = actionNo;
             frames = new List<ActionFrame>();
         }
+
+        public void CalculateAnimLength()
+        {
+            int length = 0;
+            foreach (var frame in frames)
+            {
+                length += frame.duration;
+            }
+            this.animLength = length;
+        }
     }
 }

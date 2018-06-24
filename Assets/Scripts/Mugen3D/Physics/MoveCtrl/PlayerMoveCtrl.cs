@@ -10,7 +10,6 @@ namespace Mugen3D
  
         public PlayerMoveCtrl(Unit u):base(u)
         {
-
         } 
 
         public override void Update()
