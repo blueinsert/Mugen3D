@@ -128,7 +128,7 @@ M[42] = {
         char.ctl:ChangeAnim(42, "Once")
     end,
     onUpdate = function(char)
-        if char.env.justOnGround then
+        if char.env:justOnGround() then
         	char.ctl:ChangeState(47)
         end
     	-- body
@@ -145,7 +145,7 @@ M[47] = {
 		char.ctl:VelSet(0, 0)
 	end,
 	onUpdate = function(char)
-		if char.env.leftAnimFrame == 0 then
+		if char.env:leftAnimTime() <= 0 then
 			char.ctl:ChangeState(0)
 		end
 	end

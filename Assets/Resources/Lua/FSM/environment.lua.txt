@@ -19,6 +19,10 @@ function M:physicsType()
     return self.char.player.status.physicsType:ToString()
 end
 
+function  M:justOnGround()
+    return self.char.player.moveCtr.justOnGround
+end
+
 function M:stateNo()
 	return self.char.stateNo
 end

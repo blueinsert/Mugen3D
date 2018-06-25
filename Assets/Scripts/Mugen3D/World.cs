@@ -41,6 +41,7 @@ namespace Mugen3D
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
         private List<Entity> m_entities = new List<Entity>();
+        public CameraController camCtl;
 
         public void AddEntity(Entity e)
         {
@@ -80,6 +81,7 @@ namespace Mugen3D
                     m_destroyedEntities.Add(e);
                 }
             }
+            camCtl.Update();
             foreach (var ent in m_destroyedEntities)
             {
                 DoRemoveEntity(ent);

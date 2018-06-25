@@ -4,57 +4,42 @@ using UnityEngine;
 
 namespace Mugen3D
 {
-    public class CameraController : MonoBehaviour
+    public class CameraController
     {
+        private Camera m_camera;
+        private Transform m_target1;
+        private Transform m_target2;
+        public Rect viewportRect;
+        public float yOffset = 1f;
         public float dumpRatio = 10;
-        private Camera mCamera;
-        public float yOffset = 2;
-        private Transform mTarget1;
-        private Transform mTarget2;
+        
 
-        private Rect mViewPortRect;
-        private readonly int colliderWidth = 2;
-        public ABBCollider leftCollider;
-        public ABBCollider rightCollider;
-
-        void Start()
+        public CameraController(Camera cam, Transform t1, Transform t2)
         {
-            mCamera = this.GetComponent<Camera>();
+            m_camera = cam;
+            m_target1 = t1;
+            m_target2 = t2;
+            viewportRect = new Rect(Vector2.zero, 1, 1);
         }
 
-        public void SetFollowTarget(Transform t1, Transform t2)
+        public void Update()
         {
-            mTarget1 = t1;
-            mTarget2 = t2;
-        }
-
-        void Update()
-        {
-            if (mTarget1 == null)
+            if (m_target1 == null)
                 return;
-            Vector3 newPos = new Vector3((mTarget1.position.x + mTarget2.position.x)/2, mTarget1.position.y + yOffset, transform.position.z);
-            this.transform.position = Vector3.Lerp(this.transform.position, newPos, Time.deltaTime * dumpRatio);
-            //transform.LookAt(mTarget.transform);
+            Vector3 newPos = new Vector3((m_target1.position.x + m_target2.position.x)/2, m_target1.position.y + yOffset, m_camera.transform.position.z);
+            m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, newPos, Time.deltaTime * dumpRatio);
             CalcViewportRect();
-
         }
 
         private void CalcViewportRect()
         {
-            float fileOfView = mCamera.fieldOfView;
-            float h = Mathf.Tan(fileOfView / 2 / 180 * Mathf.PI) * Mathf.Abs(transform.position.z) * 2;
-            float w = mCamera.aspect * h;
-            mViewPortRect = new Rect(new Vector2(transform.position.x, transform.position.y), w, h);
-            leftCollider.abb.offset.x = mViewPortRect.position.x - w / 2;
-            rightCollider.abb.offset.x = mViewPortRect.position.x + w / 2;
+            float fileOfView = m_camera.fieldOfView;
+            float h = Mathf.Tan(fileOfView / 2 / 180 * Mathf.PI) * Mathf.Abs(m_camera.transform.position.z) * 2;
+            float w = m_camera.aspect * h;
+            viewportRect.position = new Vector2(m_camera.transform.position.x, m_camera.transform.position.y);
+            viewportRect.width = w;
+            viewportRect.height = h;
         }
 
-        private void OnDrawGizmos()
-        {
-            if (mViewPortRect != null)
-            {
-                mViewPortRect.DrawGizmos(Color.black);
-            }
-        }
     }
 }

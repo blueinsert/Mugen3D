@@ -41,8 +41,7 @@ public class ClientGame : MonoBehaviour {
 
     private void LoadStage(string stageName)
     {
-        UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
-        GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject; 
+        
     }
 
     private Mugen3D.Character LoadPlayer(int slot, string name)
@@ -63,8 +62,10 @@ public class ClientGame : MonoBehaviour {
     public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
     {
         this.playMode = playMode;
-        
-        LoadStage(stageName);
+
+        UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
+        GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject; 
+
         p1 = LoadPlayer(0, p1CharacterName);
         p2 = LoadPlayer(1, p2CharacterName);
         LoadFightUI();
@@ -100,45 +101,10 @@ public class ClientGame : MonoBehaviour {
     private void Init()
     {
         roundMgr = GetRoundMgr(playMode);
-        Mugen3D.CameraController mCameraController = GetComponentInChildren<Mugen3D.CameraController>();
+        Mugen3D.CameraController mCameraController = new Mugen3D.CameraController(GetComponentInChildren<Camera>(), p1.transform, p2.transform);
+        world.camCtl = mCameraController;
         fightUI.Init(this.p1, this.p2);
-        mCameraController.SetFollowTarget(this.p1.transform, this.p2.transform); 
     }
-
-    /*
-    public void Reset()
-    {
-        var p1 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P1);
-        var p2 = Mugen3D.World.Instance.GetPlayer(Mugen3D.PlayerId.P2);
-       // p1.Reset();
-        //p2.Reset();
-        p1.transform.position = m_initPos[p1.id];
-        p2.transform.position = m_initPos[p2.id];
-    }
-
-    public void ReloadPlayer(Mugen3D.Character p)
-    {
-        isIntializeComplete = false;
-        LoadPlayer(p.id, p.name);
-        Init();
-        GameObject.Destroy(p.gameObject);
-        isIntializeComplete = true;
-    }
-
-    public void ReloadAllPlayer()
-    {
-        isIntializeComplete = false;
-        var id = Mugen3D.PlayerId.P1;
-        Mugen3D.World.Instance.RemovePlayer(id);
-        LoadPlayer(id, m_characterName[id]);
-        id = Mugen3D.PlayerId.P2;
-        Mugen3D.World.Instance.RemovePlayer(id);
-        LoadPlayer(id, m_characterName[id]);
-        Init();
-        isIntializeComplete = true;
-      
-    }
-*/
 
     void Update()
     {

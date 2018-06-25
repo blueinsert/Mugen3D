@@ -36,8 +36,6 @@ namespace Mugen3D
         protected Vector3 mExternalForce = Vector3.zero;
         protected float groundFrictionFactor = 3f;
 
-        protected ABBCollider m_minBBCollider;
-
         protected const float SAFE_DISTANCE = 0.001f;
 
         public MoveCtrl(Unit unit) {
@@ -120,7 +118,31 @@ namespace Mugen3D
 
         private void CollideTest()
         {
-           
+           var pos = this.m_owner.transform.transform.position;
+           var newPos = pos + m_deltaPos;
+            var viewportRect = World.Instance.camCtl.viewportRect;
+            if (newPos.x < viewportRect.position.x - viewportRect.width / 2)
+            {
+                newPos.x = viewportRect.position.x - viewportRect.width / 2;
+            }
+            if (newPos.x > viewportRect.position.x + viewportRect.width / 2)
+            {
+                newPos.x = viewportRect.position.x + viewportRect.width / 2;
+            }
+           if (newPos.x < World.Instance.config.borderXMin)
+           {
+               newPos.x = World.Instance.config.borderXMin;
+           }
+           if (newPos.x > World.Instance.config.borderXMax)
+           {
+               newPos.x = World.Instance.config.borderXMax;
+           }
+           if (newPos.y < World.Instance.config.borderYMin)
+           {
+               justOnGround = true;
+               newPos.y = World.Instance.config.borderYMin;
+           }
+           m_deltaPos = newPos - pos;
         }
 
     }

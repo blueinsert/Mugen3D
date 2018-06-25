@@ -19,6 +19,7 @@ namespace Mugen3D
 
         protected  void OnHitCollider(RaycastHit hitResult)
         {
+            /*
             Debug.Log("hit tar, tag:" + hitResult.collider.tag + " normal:" + hitResult.normal + " dis:" + hitResult.distance);
             if (hitResult.collider.owner != null && hitResult.collider.owner is Character)
             {   
@@ -49,6 +50,7 @@ namespace Mugen3D
                 }
                
             }
+             */
         }
        
     }
