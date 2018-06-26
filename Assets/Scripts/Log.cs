@@ -20,5 +20,10 @@ namespace Mugen3D
         {
             Debug.LogError(World.Instance.gameTime + ":" + info);
         }
+
+        public static void DrawLine(Vector2 start, Vector2 end, Color c, float duration)
+        {
+            Debug.DrawLine(start, end, c, duration);
+        }
     }
 }

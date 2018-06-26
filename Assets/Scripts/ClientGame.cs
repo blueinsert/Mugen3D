@@ -2,137 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayMode
+namespace Mugen3D
 {
-    Training,
-    SingleVS,
-}
-
-public class ClientGame : MonoBehaviour {
-    public static ClientGame Instance;
-    public Mugen3D.World world;
-    public PlayMode playMode;
-    public FightUI fightUI;
-    public RoundMgr roundMgr;
-    public Mugen3D.Character p1;
-    public Mugen3D.Character p2;
-
-    private float timer = 0;
-    private bool isPause = false;
-    private bool goNext = false;
-    private bool isIntializeComplete = false;
-
-    private static readonly List<Vector3> m_initPos = new List<Vector3> { 
-        new Vector3(-1.5f, 0.3f, 0),
-        new Vector3(1.5f, 0.3f, 0),
-    }; 
-
-    public void Awake()
+    public enum PlayMode
     {
-        Instance = this;
-        Application.targetFrameRate = 60;
-        world = Mugen3D.World.Instance;
+        Training,
+        SingleVS,
     }
 
-    public void OnDestroy()
+    public class ClientGame : MonoBehaviour
     {
-        Instance = null;
-    }
+        public static ClientGame Instance;
 
-    private void LoadStage(string stageName)
-    {
-        
-    }
+        public PlayMode playMode;
 
-    private Mugen3D.Character LoadPlayer(int slot, string name)
-    {
-        var player = Mugen3D.EntityLoader.LoadPlayer(slot, name, this.transform.Find("Players"));
-        player.transform.position = m_initPos[slot];
-        player.status.ctrl = false;
-        return player;
-    }
+        public Mugen3D.World world;
+      
+        private bool isInited = false;
 
-    private void LoadFightUI()
-    {
-        GameObject prefabFightUI = Resources.Load<UnityEngine.GameObject>("Prefabs/UI/Fight/FightUIRoot");
-        GameObject goFightUI = GameObject.Instantiate(prefabFightUI, this.transform) as GameObject;
-        fightUI = goFightUI.GetComponent<FightUI>();
-    }
+        private static readonly List<Vector3> m_initPos = new List<Vector3> { 
+            new Vector3(-1.5f, 0, 0),
+            new Vector3(1.5f, 0, 0),
+        };
 
-    public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
-    {
-        this.playMode = playMode;
-
-        UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
-        GameObject goStage = GameObject.Instantiate(prefab, this.transform.Find("Stage")) as GameObject; 
-
-        p1 = LoadPlayer(0, p1CharacterName);
-        p2 = LoadPlayer(1, p2CharacterName);
-        LoadFightUI();
-
-        Init();
-
-        isIntializeComplete = true;
-    }
-
-    public void StartGame()
-    {
-        roundMgr.StartRound(1);
-    }
-
-    private RoundMgr GetRoundMgr(PlayMode playMode)
-    {
-        RoundMgr mgr = null;
-        if (playMode == PlayMode.Training)
+        public void Awake()
         {
-            mgr = new RoundMgrTrain();
+            Instance = this;
+            Application.targetFrameRate = 60;
+            world = Mugen3D.World.Instance;
         }
-        else if (playMode == PlayMode.SingleVS)
-        {
-            mgr = new RoundMgrSingleVs();
-        }
-        if (mgr != null)
-        {
-            mgr.Init(this);
-        }
-        return mgr;
-    }
 
-    private void Init()
-    {
-        roundMgr = GetRoundMgr(playMode);
-        Mugen3D.CameraController mCameraController = new Mugen3D.CameraController(GetComponentInChildren<Camera>(), p1.transform, p2.transform);
-        world.camCtl = mCameraController;
-        fightUI.Init(this.p1, this.p2);
-    }
+        public void OnDestroy()
+        {
+            Instance = null;
+        }
 
-    void Update()
-    {
-        if (roundMgr != null)
+        public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
         {
-            roundMgr.Update();
+            this.playMode = playMode;
+
+            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
+            GameObject goStage = GameObject.Instantiate(prefabStage, this.transform.Find("Stage")) as GameObject;
+            var p1 = Mugen3D.EntityLoader.LoadPlayer(0, p1CharacterName, this.transform.Find("Players"), m_initPos[0]);
+            var p2 = Mugen3D.EntityLoader.LoadPlayer(1, p2CharacterName, this.transform.Find("Players"), m_initPos[1]);
+            p1.transform.localPosition = m_initPos[0];
+            p2.transform.localPosition = m_initPos[1];
+            var cameraController = new Mugen3D.CameraController(GetComponentInChildren<Camera>(), p1.transform, p2.transform);
+            world.camCtl = cameraController;
+            isInited = true;
         }
-        //if (!isIntializeComplete)
-         //   return;
-        if (Input.GetKeyDown(KeyCode.P))
+
+        void Update()
         {
-            isPause = !isPause;
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            goNext = true;
-        }
-        if (!isPause)
-        {
+            if (!isInited)
+                return;
             Mugen3D.World.Instance.Update(Time.deltaTime);
-        }
-        else
-        {
-            if (goNext)
-            {
-                Mugen3D.World.Instance.Update(Time.deltaTime);
-            }
-            goNext = false;
         }
     }
 }

@@ -6,10 +6,8 @@ namespace Mugen3D
     public class FsmManager
     {
         public XLua.LuaTable fsm;
-        private delegate void DegateFsmInit(XLua.LuaTable self, Unit u);
         private delegate void DelegateFsmUpdate(XLua.LuaTable self);
         private delegate void DelegateFsmChangeState(XLua.LuaTable self, int stateNo);
-        private DegateFsmInit funFsmInit;
         private DelegateFsmUpdate funcFsmUpdate;
         private DelegateFsmChangeState funcFsmChangeState;
 

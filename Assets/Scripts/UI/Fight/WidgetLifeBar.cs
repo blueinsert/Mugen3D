@@ -23,7 +23,7 @@ public class WidgetLifeBar : MonoBehaviour {
 
     private void SetLeftTime()
     {
-        float leftTime = ClientGame.Instance.roundMgr.leftTime;
+        float leftTime = 0;// ClientGame.Instance.roundMgr.leftTime;
         leftTime = Mathf.Floor(leftTime);
         labelLeftTime.text = leftTime.ToString();
     }

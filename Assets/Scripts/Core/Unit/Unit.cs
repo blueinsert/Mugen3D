@@ -20,7 +20,6 @@ namespace Mugen3D
         [HideInInspector]
         public int facing = 1;
         private int pauseTime = 0;
-        public int teamId = 0;
 
         protected void Init(UnitConfig config)
         {

@@ -9,13 +9,13 @@ inputs:
   x: 117
   y: 105
   z: 122
-- up: 0
-  down: 0
-  left: 0
-  right: 0
-  a: 0
-  b: 0
-  c: 0
-  x: 0
-  y: 0
-  z: 0
+- up: 273
+  down: 274
+  left: 276
+  right: 275
+  a: 256
+  b: 257
+  c: 258
+  x: 259
+  y: 260
+  z: 261

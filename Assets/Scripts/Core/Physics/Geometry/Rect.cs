@@ -11,6 +11,38 @@ namespace Mugen3D
         public float width;
         public float height;
 
+        public Vector2 LeftUp
+        {
+            get
+            {
+                return position + new Vector2(-width / 2, height / 2);
+            }
+        }
+
+        public Vector2 RightUp
+        {
+            get
+            {
+                return position + new Vector2(width / 2, height / 2);
+            }
+        }
+
+        public Vector2 RightDown
+        {
+            get
+            {
+                return position + new Vector2(width / 2, -height / 2);
+            }
+        }
+
+        public Vector2 LeftDown
+        {
+            get
+            {
+                return position + new Vector2(-width / 2, -height / 2);
+            }
+        }
+
         public Rect(Vector2 p, float width, float height)
         {
             this.position = p;

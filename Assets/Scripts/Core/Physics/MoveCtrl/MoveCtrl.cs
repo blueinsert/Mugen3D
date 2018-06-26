@@ -118,16 +118,17 @@ namespace Mugen3D
 
         private void CollideTest()
         {
-           var pos = this.m_owner.transform.transform.position;
-           var newPos = pos + m_deltaPos;
+            float playerWidth = 0.7f;
+            var pos = this.m_owner.transform.transform.position;
+            var newPos = pos + m_deltaPos;
             var viewportRect = World.Instance.camCtl.viewportRect;
-            if (newPos.x < viewportRect.position.x - viewportRect.width / 2)
+            if (newPos.x < viewportRect.position.x - viewportRect.width / 2 + playerWidth)
             {
-                newPos.x = viewportRect.position.x - viewportRect.width / 2;
+                newPos.x = viewportRect.position.x - viewportRect.width / 2 + playerWidth;
             }
-            if (newPos.x > viewportRect.position.x + viewportRect.width / 2)
+            if (newPos.x > viewportRect.position.x + viewportRect.width / 2 - playerWidth)
             {
-                newPos.x = viewportRect.position.x + viewportRect.width / 2;
+                newPos.x = viewportRect.position.x + viewportRect.width / 2 - playerWidth;
             }
            if (newPos.x < World.Instance.config.borderXMin)
            {

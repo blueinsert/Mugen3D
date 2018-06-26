@@ -42,10 +42,15 @@ namespace Mugen3D
         private List<Entity> m_destroyedEntities = new List<Entity>();
         private List<Entity> m_entities = new List<Entity>();
         public CameraController camCtl;
+        public TeamInfo teamInfo = new TeamInfo();
 
         public void AddEntity(Entity e)
         {
             m_addedEntities.Add(e);
+            if (e is Character)
+            {
+                teamInfo.AddCharacter(e as Character);
+            }
         }
 
         private void DoAddEntity(Entity e){

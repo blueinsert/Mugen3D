@@ -9,7 +9,7 @@ namespace Mugen3D
         public static Unit curUnit;
         private static int maxId = 0;
 
-        public static Character LoadPlayer(int slot, string characterName, Transform parent)
+        public static Character LoadPlayer(int slot, string characterName, Transform parent, Vector3 initPos)
         {
             string prefix = "Chars/" + characterName;
             CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + "/" + characterName + ".def"));
@@ -17,7 +17,7 @@ namespace Mugen3D
             UnityEngine.Object prefab = ResourceLoader.Load(prefix + config.modelFile);
 
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
-
+            go.transform.position = initPos;
             Character p = go.AddComponent<Character>();
             curUnit = p;
             p.slot = slot;
@@ -28,19 +28,6 @@ namespace Mugen3D
             World.Instance.AddEntity(p);
             return p;
         }
-
-        /*
-        public static Helper LoadHelper(string helperName, Character master, Transform parent)
-        {
-            UnityEngine.Object prefab = Resources.Load<UnityEngine.Object>("Helpers/" + helperName + "/" + helperName);
-            GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
-            Helper helper = go.GetComponentInChildren<Helper>();
-            helper.master = master;
-            helper.Init();
-            World.Instance.AddEntity(helper);
-            return helper;
-        }
-         */
     }
 }
 

@@ -20,15 +20,18 @@ namespace Mugen3D
             m_target1 = t1;
             m_target2 = t2;
             viewportRect = new Rect(Vector2.zero, 1, 1);
+            m_camera.transform.position = new Vector3((m_target1.position.x + m_target2.position.x) / 2, (m_target1.position.y + m_target2.position.y) / 2 + yOffset, m_camera.transform.position.z);
+            CalcViewportRect();
         }
 
         public void Update()
         {
-            if (m_target1 == null)
+            if (m_target1 == null || m_target2 == null)
                 return;
-            Vector3 newPos = new Vector3((m_target1.position.x + m_target2.position.x)/2, m_target1.position.y + yOffset, m_camera.transform.position.z);
+            Vector3 newPos = new Vector3((m_target1.position.x + m_target2.position.x)/2, (m_target1.position.y + m_target2.position.y)/2 + yOffset, m_camera.transform.position.z);
             m_camera.transform.position = Vector3.Lerp(m_camera.transform.position, newPos, Time.deltaTime * dumpRatio);
             CalcViewportRect();
+            DebugDraw();
         }
 
         private void CalcViewportRect()
@@ -41,5 +44,14 @@ namespace Mugen3D
             viewportRect.height = h;
         }
 
+        private void DebugDraw()
+        {
+            if (viewportRect == null)
+                return;
+            Log.DrawLine(viewportRect.LeftUp, viewportRect.RightUp, Color.black, Time.deltaTime);
+            Log.DrawLine(viewportRect.RightUp, viewportRect.RightDown, Color.black, Time.deltaTime);
+            Log.DrawLine(viewportRect.RightDown, viewportRect.LeftDown, Color.black, Time.deltaTime);
+            Log.DrawLine(viewportRect.LeftDown, viewportRect.LeftUp, Color.black, Time.deltaTime);
+        }
     }
 }

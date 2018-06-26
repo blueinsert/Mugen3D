@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FSoul.UI;
+using Mugen3D;
 
 public enum LoadType { 
     Load,
@@ -137,7 +138,7 @@ public class SceneManager : MonoBehaviour {
         StartCoroutine(DoLoadSceneAsync(type, sceneName, onBeginLoad, onFinishLoad, mode));
     }
 
-    public void LoadFightScene(PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
+    public void LoadFightScene(Mugen3D.PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
         LoadScene(LoadType.Load, "Scene_Loading", null, null);
         LoadSceneAsync(LoadType.Load, "Scene_Fight", 
             (scene) => {
@@ -149,7 +150,7 @@ public class SceneManager : MonoBehaviour {
             (scene) => {
                 RemoveScene("Scene_Loading");
                 scene.SetActive(true);
-                scene.GetComponent<ClientGame>().StartGame();
+                //scene.GetComponent<ClientGame>().StartGame();
             },
             LoadMode.Additive
         );       
