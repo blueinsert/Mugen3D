@@ -43,6 +43,38 @@ namespace Mugen3D
             }
         }
 
+        public float xMin
+        {
+            get
+            {
+                return position.x - width / 2;
+            }
+        }
+
+        public float xMax
+        {
+            get
+            {
+                return position.x + width / 2;
+            }
+        }
+
+        public float yMin
+        {
+            get
+            {
+                return position.y - height / 2;
+            }
+        }
+
+        public float yMax
+        {
+            get
+            {
+                return position.y + height / 2;
+            }
+        }
+
         public Rect(Vector2 p, float width, float height)
         {
             this.position = p;
@@ -50,34 +82,20 @@ namespace Mugen3D
             this.height = height;
         }
 
-        public void DrawGizmos(Color c, int side = -1)
+        public Rect(Vector2 p1, Vector2 p2)
         {
-            Gizmos.color = c;
-            var vertexes = GetVertexArray();
-            Gizmos.DrawLine(vertexes[0], vertexes[1]);
-            Gizmos.DrawLine(vertexes[1], vertexes[2]);
-            Gizmos.DrawLine(vertexes[2], vertexes[3]);
-            Gizmos.DrawLine(vertexes[3], vertexes[0]);
+            this.position = (p1 + p2) / 2;
+            this.width = p2.x - p1.x;
+            this.height = p2.y - p1.y;
         }
 
-        public override List<Vector3> GetVertexArray()
+        public Rect(Rect rect)
         {
-            Vector3 bottomLeft = new Vector3(position.x, position.y, 0) + new Vector3(-width / 2, -height / 2, 0);
-            Vector3 topLeft = new Vector3(position.x, position.y, 0) + new Vector3(-width / 2, height / 2, 0);
-            Vector3 topRight = new Vector3(position.x, position.y, 0) + new Vector3(width / 2, height / 2, 0);
-            Vector3 bottomRight = new Vector3(position.x, position.y, 0) + new Vector3(width / 2, -height / 2, 0);
-            List<Vector3> result = new List<Vector3>();
-            result.Add(bottomLeft);
-            result.Add(topLeft);
-            result.Add(topRight);
-            result.Add(bottomRight);
-            return result;
+            this.position = rect.position;
+            this.width = rect.width;
+            this.height = rect.height;
         }
 
-        public override Matrix4x4 GetTransformMatrix()
-        {
-            return Matrix4x4.identity;
-        }
     }
 }
 

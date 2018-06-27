@@ -70,17 +70,42 @@ namespace Mugen3D
             }//for six separate axis
             return isIntersect;
         }
-
-        public static bool GeometryOverlapTest(Geometry g1, Geometry g2)
-        {
-            return false;
-        }
-
+    
         public static bool RectRectTest(Rect rect1, Rect rect2)
         {
             bool isIntersect = false;
             if (Mathf.Abs(rect1.position.x - rect2.position.x) < (rect1.width + rect2.width) / 2 && Mathf.Abs(rect2.position.y - rect1.position.y) < (rect1.height + rect2.height) / 2)
                 isIntersect = true;
+            return isIntersect;
+        }
+
+        public static bool RectRectTest(Rect rect1, Vector2 deltaPos, Rect rect2, out Vector2 minDeltaPos)
+        {
+            minDeltaPos = Vector2.zero;
+            if (RectRectTest(rect1, rect2))
+            {
+                return true;
+            }
+            Rect rect = new Rect(rect1);
+            rect.position += deltaPos;
+            bool isIntersect = RectRectTest(rect, rect2);
+            if (isIntersect)
+            {
+                var dir = deltaPos.normalized;
+                float len = 0;
+                float step = 0.1f;
+                while (true)
+                {
+                    Rect tmp = new Rect(rect1.position + dir * len, rect1.width, rect1.height);
+                    if (RectRectTest(tmp, rect2))
+                    {
+                        break;
+                    }
+                    len += step;
+                }
+                len -= step;
+                minDeltaPos = dir * len;
+            }
             return isIntersect;
         }
 
@@ -119,118 +144,6 @@ namespace Mugen3D
 
             return true;
         }
-
-        /*
-        public static void ClosestPointAtOBB(OBB cuboid, Vector3 p, out Vector3 q){
-            q = Vector3.zero;
-            Matrix4x4 trsM = cuboid.TransformMatrix;    
-            Vector3 localXAxis = trsM.GetColumn(0);
-            Vector3 localYAxis = trsM.GetColumn(1);
-            Vector3 localZAxis = trsM.GetColumn(2);
-            float localX = Vector3.Dot(p, localXAxis) / (localXAxis.magnitude * localXAxis.magnitude);
-            float localY = Vector3.Dot(p, localYAxis) / (localYAxis.magnitude * localYAxis.magnitude);
-            float localZ = Vector3.Dot(p, localZAxis) / (localZAxis.magnitude * localZAxis.magnitude);
-            Vector3 pLocal = new Vector3(localX, localY, localZ);
-            for (int i = 0; i < 3; i++)
-            {
-                float v = pLocal[i];
-                v = Mathf.Max(v, -0.5f);
-                v = Mathf.Min(v, 0.5f);
-                q[i] = v;
-            }
-            q = trsM * q;
-        }
-
-        public static float DistToOBB(OBB cuboid, Vector3 p)
-        {
-            Vector3 closestPoint;
-            ClosestPointAtOBB(cuboid, p, out closestPoint);
-            Vector3 center = cuboid.GetCenter();
-            return (p - center).magnitude - (closestPoint - center).magnitude;
-        }
-
-        public static float DistToGeometry(Geometry geometry, Vector3 p)
-        {
-            if (geometry is OBB)
-            {
-                return DistToOBB(geometry as OBB, p);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        */
-
-        private static Vector3 LocalPoint(Matrix4x4 modelMatrix, Vector3 globalPoint)
-        {
-            Vector3 localXAxis = modelMatrix.GetColumn(0);
-            Vector3 localYAxis = modelMatrix.GetColumn(1);
-            Vector3 localZAxis = modelMatrix.GetColumn(2);
-            Vector3 modelOrigin = modelMatrix.GetColumn(3);
-            Vector3 v = globalPoint - modelOrigin;
-            float localX = Vector3.Dot(v, localXAxis) / (localXAxis.magnitude * localXAxis.magnitude);
-            float localY = Vector3.Dot(v, localYAxis) / (localYAxis.magnitude * localYAxis.magnitude);
-            float localZ = Vector3.Dot(v, localZAxis) / (localZAxis.magnitude * localZAxis.magnitude);
-            Vector3 pLocal = new Vector3(localX, localY, localZ);
-            return pLocal;
-        }
-
-        private static bool RayUnitCubeIntersectTest(Vector3 rayStart, Vector3 rayDir, float rayLength, out float dist, out Vector3 p, out Vector3 normal)
-        {
-            dist = 0;
-            normal = Vector3.zero;
-            p = rayStart;
-            if(rayStart.x <= 0.5 && rayStart.x >= -0.5 && 
-               rayStart.y <= 0.5 && rayStart.y >= -0.5 && 
-               rayStart.z <= 0.5 && rayStart.z >= -0.5){
-                return true;
-            }
-            float tmin = 0;
-            float tmax = float.MaxValue;
-            for (int i = 0; i < 3; i++)
-            {
-                if (Mathf.Abs(rayDir[i]) < 0.001)
-                {
-                    if (rayStart[i] < -0.5 || rayStart[i] > 0.5)
-                        return false;
-                }
-                else
-                {
-                    float ood = 1.0f / rayDir[i];
-                    float t1 = (0.5f - rayStart[i]) * ood;
-                    float t2 = (-0.5f - rayStart[i]) * ood;
-                    if (t1 > t2)
-                    {
-                        float tmp = t1;
-                        t1 = t2;
-                        t2 = tmp;
-                    }
-                    if (t1 > tmin)
-                        tmin = t1;
-                    if (t2 < tmax)
-                        tmax = t2;
-                    if (tmin > tmax)
-                        return false;
-                }
-            }
-            if (tmin > rayLength)
-                return false;
-            p = tmin * rayDir + rayStart;
-            for (int i = 0; i < 3; i++)
-            {
-                if (p[i] == 0.5)
-                    normal[i] = 1;
-                else if (p[i] == -0.5)
-                    normal[i] = -1;
-                else
-                    normal[i] = 0;
-            }
-            normal.Normalize();
-            dist = tmin;
-            return true;
-        }
-
-      
+     
     }
 }

@@ -29,6 +29,14 @@ public class AnimationController {
         }
     }
 
+    public Mugen3D.ActionFrame curActionFrame
+    {
+        get
+        {
+            return m_actions[anim].frames[animElem];
+        }
+    }
+
     private void Init()
     {
         foreach (AnimationState state in this.m_anim)
@@ -48,9 +56,37 @@ public class AnimationController {
         }
     }
 
+    private void DebugDraw()
+    {
+        if (m_actions.ContainsKey(anim))
+        {
+            var curAction = m_actions[anim];
+            if (curAction.frames.Count != 0)
+            {
+                var curActionFrame = curAction.frames[animElem];
+                foreach (var clsn in curActionFrame.clsns)
+                {
+                    var pos = new Vector2(m_owner.transform.position.x, m_owner.transform.position.y);
+                    Rect rect = new Rect(new Vector2(clsn.x1, clsn.y1) + pos, new Vector2(clsn.x2, clsn.y2) + pos);
+                    Color c = Color.blue;
+                    if (clsn.type == 1)
+                    {
+                        c = Color.blue;
+                    }
+                    else if (clsn.type == 2)
+                    {
+                        c = Color.red;
+                    }
+                    Log.DrawRect(rect.LeftUp, rect.RightUp, rect.RightDown, rect.LeftDown, c, Time.deltaTime);
+                }
+            }
+        }
+    }
+
     public void Update()
     {
         UpdateSample();
+        DebugDraw();
     }
   
     private void UpdateSample() {

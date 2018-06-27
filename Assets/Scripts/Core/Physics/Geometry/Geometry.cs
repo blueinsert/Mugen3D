@@ -5,7 +5,7 @@ namespace Mugen3D
 {
     public abstract class Geometry
     {
-        public abstract List<Vector3> GetVertexArray();
-        public abstract Matrix4x4 GetTransformMatrix();      
+        //public abstract List<Vector3> GetVertexArray();
+        //public abstract Matrix4x4 GetTransformMatrix();      
     }
 }

@@ -223,76 +223,186 @@ actions:
   animLength: 3
   frames:
   - duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.302589178
+      y1: -0.0179440677
+      x2: 0.321016461
+      y2: 1.37065411
 - animNo: 41
   animName: JumpingUp
   animLength: 50
   frames:
   - duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.172952414
+      y2: 1.73271012
   - normalizeTime: 0.221645027
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.129483223
+      y2: 1.60074782
   - normalizeTime: 0.396628231
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.129483223
+      y2: 1.51850486
   - normalizeTime: 0.524948776
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.151915759
+      y2: 1.30542076
   - normalizeTime: 0.629938424
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.155654579
+      y2: 1.22691607
   - normalizeTime: 0.711597145
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.178087115
+      y2: 1.14467311
   - normalizeTime: 0.816587031
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.185564578
+      y2: 1.06990671
   - normalizeTime: 0.886580408
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.185564578
+      y2: 1.06990671
   - normalizeTime: 0.956573486
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.185564578
+      y2: 1.06990671
   - normalizeTime: 1
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23668769
+      y1: 0.103457987
+      x2: 0.185564578
+      y2: 1.06990671
 - animNo: 42
   animName: JumpingDown
   animLength: 40
   frames:
   - duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.215474546
+      y2: 1.08112168
   - normalizeTime: 0.22164546
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.184257925
+      y2: 1.15439248
   - normalizeTime: 0.384963334
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.16930306
+      y2: 1.30018687
   - normalizeTime: 0.501618505
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.184257925
+      y2: 1.41607475
   - normalizeTime: 0.606608152
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.184257925
+      y2: 1.5394392
   - normalizeTime: 0.723263562
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.180519313
+      y2: 1.62915897
   - normalizeTime: 0.828253388
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.165564239
+      y2: 1.64785051
   - normalizeTime: 0.886581421
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.150609136
+      y2: 1.6927104
   - normalizeTime: 1
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.150609136
+      y2: 1.6927104
   - normalizeTime: 1
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.223266169
+      y1: 0.0889720321
+      x2: 0.150609136
+      y2: 1.6927104
 - animNo: 47
   animName: JumpLand
   animLength: 6
   frames:
   - duration: 6
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.292319775
+      y1: 0.0298131257
+      x2: 0.248673528
+      y2: 1.39018703

@@ -144,6 +144,28 @@ namespace Mugen3D
                newPos.y = World.Instance.config.borderYMin;
            }
            m_deltaPos = newPos - pos;
+           var enemy = World.Instance.teamInfo.GetEnemy(m_owner as Character);
+           foreach (var clsn in m_owner.animCtr.curActionFrame.clsns)
+           {
+               foreach (var clsn2 in enemy.animCtr.curActionFrame.clsns)
+               {
+                   if (clsn.type == 1 && clsn2.type == 1)
+                   {
+                       Rect rect1 = new Rect(new Vector2(clsn.x1, clsn.y1) , new Vector2(clsn.x2, clsn.y2));
+                       rect1.position += new Vector2(m_owner.transform.position.x, m_owner.transform.position.y);
+                       Rect rect2 = new Rect(new Vector2(clsn2.x1, clsn2.y1), new Vector2(clsn2.x2, clsn2.y2));
+                       rect2.position += new Vector2(enemy.transform.position.x, enemy.transform.position.y);
+                       Vector2 minDeltaPos;
+                       if (PhysicsUtils.RectRectTest(rect1, m_deltaPos, rect2, out minDeltaPos))
+                       {
+                           if (minDeltaPos.magnitude < m_deltaPos.magnitude)
+                           {
+                               m_deltaPos = minDeltaPos;
+                           }
+                       }   
+                   }
+               }
+           }
         }
 
     }

@@ -19,7 +19,17 @@ namespace Mugen3D
             m_chars.Add(c);
         }
 
-
+        public Character GetEnemy(Character c)
+        {
+            foreach (var character in m_chars)
+            {
+                if (character.slot != c.slot)
+                {
+                    return character;
+                }
+            }
+            return null;
+        }
         
     }
 }
