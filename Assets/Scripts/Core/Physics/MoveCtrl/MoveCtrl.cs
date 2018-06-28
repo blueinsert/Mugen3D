@@ -33,10 +33,8 @@ namespace Mugen3D
         protected Vector3 m_deltaPos = Vector3.zero;
         protected Vector3 m_gravity = new Vector3(0, -10f, 0);
         protected float mass = 70f;
-        protected Vector3 mExternalForce = Vector3.zero;
+        protected Vector3 m_externalForce = Vector3.zero;
         protected float groundFrictionFactor = 3f;
-
-        protected const float SAFE_DISTANCE = 0.001f;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
@@ -49,14 +47,16 @@ namespace Mugen3D
                 isOnGround = true;
                 justOnGround = false;
             }
+            //Log.Info("force:" + m_externalForce.ToString());
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
-                m_acceleratedVelocity = -m_gravity.magnitude * groundFrictionFactor * velocity.normalized;
+                m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-velocity.normalized) + new Vector3(m_externalForce.x, 0, 0) / mass;
             }
             else if (m_owner.status.physicsType == PhysicsType.A)
             {
-                m_acceleratedVelocity = m_gravity;
+                m_acceleratedVelocity = m_gravity + m_externalForce / mass;
             }
+            //Log.Info("accler:" + m_acceleratedVelocity.ToString());
             m_velocity += Time.deltaTime * m_acceleratedVelocity;
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
@@ -115,6 +115,10 @@ namespace Mugen3D
             m_gravity = new Vector3(x, y, z);
         }
 
+        public void SetForce(Vector3 force)
+        {
+            m_externalForce = force;
+        }
 
         private void CollideTest()
         {
@@ -122,13 +126,13 @@ namespace Mugen3D
             var pos = this.m_owner.transform.transform.position;
             var newPos = pos + m_deltaPos;
             var viewportRect = World.Instance.camCtl.viewportRect;
-            if (newPos.x < viewportRect.position.x - viewportRect.width / 2 + playerWidth)
+            if (newPos.x < viewportRect.xMin + playerWidth)
             {
-                newPos.x = viewportRect.position.x - viewportRect.width / 2 + playerWidth;
+                newPos.x = viewportRect.xMin + playerWidth;
             }
-            if (newPos.x > viewportRect.position.x + viewportRect.width / 2 - playerWidth)
+            if (newPos.x > viewportRect.xMax - playerWidth)
             {
-                newPos.x = viewportRect.position.x + viewportRect.width / 2 - playerWidth;
+                newPos.x = viewportRect.xMax - playerWidth;
             }
            if (newPos.x < World.Instance.config.borderXMin)
            {
@@ -145,26 +149,29 @@ namespace Mugen3D
            }
            m_deltaPos = newPos - pos;
            var enemy = World.Instance.teamInfo.GetEnemy(m_owner as Character);
+           bool findIntersect = false;
            foreach (var clsn in m_owner.animCtr.curActionFrame.clsns)
            {
                foreach (var clsn2 in enemy.animCtr.curActionFrame.clsns)
                {
                    if (clsn.type == 1 && clsn2.type == 1)
-                   {
+                   { 
                        Rect rect1 = new Rect(new Vector2(clsn.x1, clsn.y1) , new Vector2(clsn.x2, clsn.y2));
                        rect1.position += new Vector2(m_owner.transform.position.x, m_owner.transform.position.y);
                        Rect rect2 = new Rect(new Vector2(clsn2.x1, clsn2.y1), new Vector2(clsn2.x2, clsn2.y2));
                        rect2.position += new Vector2(enemy.transform.position.x, enemy.transform.position.y);
-                       Vector2 minDeltaPos;
-                       if (PhysicsUtils.RectRectTest(rect1, m_deltaPos, rect2, out minDeltaPos))
+                       if (PhysicsUtils.RectRectTest(rect1, rect2))
                        {
-                           if (minDeltaPos.magnitude < m_deltaPos.magnitude)
-                           {
-                               m_deltaPos = minDeltaPos;
-                           }
-                       }   
+                           Vector2 dir = (rect1.position - rect2.position).normalized;
+                           float distX = (rect1.width + rect2.width) / 2 - Mathf.Abs(rect1.position.x - rect2.position.x);  
+                           m_deltaPos += new Vector3(distX*0.25f * (dir.x > 0 ? 1 : -1), 0, 0);
+                       }
+                       findIntersect = true;
+                       break;
                    }
                }
+               if (findIntersect)
+                   break;
            }
         }
 

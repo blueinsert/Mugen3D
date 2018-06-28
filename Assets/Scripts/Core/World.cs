@@ -22,7 +22,7 @@ namespace Mugen3D
         private World()
         {
             Init();
-            config = new WorldConfig() { borderXMax = 400, borderXMin = -400, borderYMin = 0, borderYMax = 100 };
+            config = new WorldConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100 };
         }
 
         private void Init() {

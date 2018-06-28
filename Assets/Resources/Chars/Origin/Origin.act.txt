@@ -312,6 +312,7 @@ actions:
       y1: 0.103457987
       x2: 0.185564578
       y2: 1.06990671
+  loopStartIndex: 9
 - animNo: 42
   animName: JumpingDown
   animLength: 40
@@ -395,6 +396,7 @@ actions:
       y1: 0.0889720321
       x2: 0.150609136
       y2: 1.6927104
+  loopStartIndex: 9
 - animNo: 47
   animName: JumpLand
   animLength: 6
