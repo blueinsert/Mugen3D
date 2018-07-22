@@ -1,17 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
+
+namespace Mugen3D.Core
 {
     //collsion
     public class Clsn {
         public int type { get; set; }
-        public float x1 { get; set; }
-        public float y1 { get; set; }
-        public float x2 { get; set; }
-        public float y2 { get; set; }
+        public Number x1 { get; set; }
+        public Number y1 { get; set; }
+        public Number x2 { get; set; }
+        public Number y2 { get; set; }
 
-        public Clsn(int type, float x1, float y1, float x2, float y2)
+        public Clsn(int type, Number x1, Number y1, Number x2, Number y2)
         {
             this.type = type;
             this.x1 = x1;
@@ -37,12 +39,12 @@ namespace Mugen3D
 
     public class ActionFrame
     {
-        public float normalizeTime { get; set; }
+        public Number normalizeTime { get; set; }
         public int duration { get; set; }
         public List<Clsn> clsns { get; set; }
-       
-        public float xOffset { get; set; }
-        public float yOffset { get; set; }
+
+        public Number xOffset { get; set; }
+        public Number yOffset { get; set; }
 
         public ActionFrame()
         {

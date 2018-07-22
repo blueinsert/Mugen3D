@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+
+namespace Mugen3D.Core
 {
     public class CharacterConfig : UnitConfig
     {

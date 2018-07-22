@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+
+namespace Mugen3D.Core
 {
+
     public class ActionsConfig
     {
-        public List<Mugen3D.Action> actions { get; set; }
+        public List<Action> actions { get; set; }
 
         public ActionsConfig()
         {
-            this.actions = new List<Mugen3D.Action>();
+            this.actions = new List<Action>();
         }
     }
+
 }

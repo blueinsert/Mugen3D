@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <RootNamespace></RootNamespace>
+    <ProjectGuid>{F524B1DD-2D76-DCF0-DBE0-542CF4B76AC6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Temp\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_5;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Temp\bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="UnityEngine">
+      <HintPath>D:/Program/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>D:/Program/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\Scripts\Editor\FixAnimationPath.cs" />
+     <Compile Include="Assets\Scripts\Editor\InspectorSpriteList.cs" />
+     <Compile Include="Assets\Scripts\Editor\WindowSpriteList.cs" />
+     <Compile Include="Assets\XLua\Src\Editor\Generator.cs" />
+     <Compile Include="Assets\XLua\Src\Editor\Hotfix.cs" />
+     <Compile Include="Assets\XLua\Src\Editor\LinkXmlGen\LinkXmlGen.cs" />
+     <Compile Include="Assets\XLua\Src\Editor\TemplateRef.cs" />
+     <None Include="Assets\Resources\Chars\Mike\Mike_Common.cns.txt" />
+     <None Include="Assets\Resources\Chars\Mike\Mike_N.cns.txt" />
+     <None Include="Assets\Resources\Lua\test.lua.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\Origin\OriginFSM.lua.txt" />
+     <None Include="Assets\Resources\Lua\UI\MainMenu\ViewMainMenu.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\LinkXmlGen\LinkXmlGen.tpl.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\Origin\OriginCfg.lua.txt" />
+     <None Include="Assets\Resources\Chars\Origin\Origin.cmd.txt" />
+     <None Include="Assets\Resources\Helpers\Projectler\Projectler.anim.txt" />
+     <None Include="Assets\Resources\Lua\csv_reader.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaClassWrapGCM.tpl.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\Origin\Origin.lua.txt" />
+     <None Include="Assets\Resources\Lua\controller.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaWrapPusher.tpl.txt" />
+     <None Include="Assets\Resources\Helpers\Projectler\Projectler.config.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaDelegateBridge.tpl.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\Char.lua.txt" />
+     <None Include="Assets\XLua\Resources\xlua\util.lua.txt" />
+     <None Include="Assets\Resources\Lua\UI\UIDef.lua.txt" />
+     <None Include="Assets\Resources\Lua\main.lua.txt" />
+     <None Include="Assets\Resources\Chars\Mike\Mike.cmd.txt" />
+     <None Include="Assets\Resources\Lua\UI\UIManager.lua.txt" />
+     <None Include="Assets\Resources\Helpers\Projectler\Projectler.cns.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\Origin\OriginFSM_N.lua.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\CharFSMCommon.lua.txt" />
+     <None Include="Assets\Resources\Lua\UI\MainMenu\ViewCharacterSelect.lua.txt" />
+     <None Include="Assets\Resources\Chars\Mike\Mike_CmdRes.cns.txt" />
+     <None Include="Assets\Resources\Lua\FSM\Chars\Origin\OriginFSM_H.lua.txt" />
+     <None Include="Assets\Resources\Lua\FSM\controller.lua.txt" />
+     <None Include="Assets\Scripts\Mugen3D\Data\common.cmd.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\TemplateCommon.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaEnumWrap.tpl.txt" />
+     <None Include="Assets\Plugins\YamlDotNet\YamlDotNet.license.txt" />
+     <None Include="Assets\XLua\Resources\perf\profiler.lua.txt" />
+     <None Include="Assets\Resources\Lua\csv.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaDelegateWrap.tpl.txt" />
+     <None Include="Assets\Plugins\YamlDotNet\Readme.txt" />
+     <None Include="Assets\Resources\Lua\utils.lua.txt" />
+     <None Include="Assets\Scripts\Mugen3D\Data\common.cns.txt" />
+     <None Include="Assets\Resources\Lua\FSM\environment.lua.txt" />
+     <None Include="Assets\XLua\Resources\perf\memory.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaRegisterGCM.tpl.txt" />
+     <None Include="Assets\Resources\Chars\Origin\Origin.act.txt" />
+     <None Include="Assets\Resources\Chars\Origin\Origin.def.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaRegister.tpl.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaInterfaceBridge.tpl.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaClassWrap.tpl.txt" />
+     <None Include="Assets\Resources\Lua\spreadsheet.lua.txt" />
+     <None Include="Assets\XLua\CHANGELOG.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\LuaEnumWrapGCM.tpl.txt" />
+     <None Include="Assets\XLua\Resources\tdr\tdr.lua.txt" />
+     <None Include="Assets\XLua\Src\Editor\Template\PackUnpack.tpl.txt" />
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Networking">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TestRunner">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/Editor/UnityEditor.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.TestRunner">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Analytics">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/Editor/UnityEditor.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.HoloLens">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.HoloLens">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Purchasing">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/Editor/UnityEditor.Purchasing.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.VR">
+ <HintPath>D:/Program/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>D:/Program/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>D:/Program/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{E4D03AAD-91AC-43D1-91F0-79FD87A56C27}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{D4092C8D-43C7-6AE1-2F49-D9720557AE54}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>

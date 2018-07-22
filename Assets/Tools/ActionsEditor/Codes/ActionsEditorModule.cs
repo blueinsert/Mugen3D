@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mugen3D.Core;
+
 namespace Mugen3D.Tools
 {
     public class ActionsEditorModule
     {
-        public List<Mugen3D.Action> actions;
+        public List<Action> actions;
         public int curActionIndex; 
         public int curActionElemIndex;
         public System.Action doSave;
 
-        public ActionsEditorModule(List<Mugen3D.Action> actions)
+        public ActionsEditorModule(List<Action> actions)
         {
             this.actions = actions;
             curActionIndex = 0;

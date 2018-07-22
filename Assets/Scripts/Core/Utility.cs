@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Mugen3D;
 using System.Text;
 using System;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
     public class Utility
     {
@@ -18,8 +16,7 @@ namespace Mugen3D
         {
             if (!flag)
             {
-                Debug.LogError(msg);
-                Application.Quit();
+               
             }
         }
 
@@ -40,7 +37,7 @@ namespace Mugen3D
                 }
                 sb.Append("{" + value + "," + tokens[i].type.ToString() + "}" + "\n");
             }
-            Debug.Log("Command Tokens:" + sb.ToString());
+            Log.Info("Command Tokens:" + sb.ToString());
         }
 
         public static void PrintCommandList(List<Command> cmds)

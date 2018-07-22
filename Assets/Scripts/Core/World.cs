@@ -1,48 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Mugen3D;
-namespace Mugen3D
+using Math = Mugen3D.Core.Math;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
+
+namespace Mugen3D.Core
 {
     public class World
-    {  
-        public static World mInstance;
-        public static World Instance
-        {
-            get
-            {
-                if (mInstance == null)
-                {
-                    mInstance = new World();
-                }
-                return mInstance;
-            }
-        }
-
-        private World()
-        {
-            Init();
-            config = new WorldConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100 };
-        }
-
-        private void Init() {
-        }
-
+    {     
         public int gameTime = -1;
-        public float deltaTime;
+        public Number deltaTime;
         public WorldConfig config;
-        public List<Entity> entities
-        {
-            get{
-                return m_entities;
-            }
-        }
-
+        private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
-        private List<Entity> m_entities = new List<Entity>();
+        public List<Entity> entities  {get; private set; }
         public CameraController camCtl;
         public TeamInfo teamInfo = new TeamInfo();
+        public System.Action<Entity> onCreateEntity;
+
+        public World(WorldConfig cfg)
+        {
+            config = cfg;
+            entities = new List<Entity>();
+            Time.Clear();
+        }
 
         public void AddEntity(Entity e)
         {
@@ -51,25 +34,32 @@ namespace Mugen3D
             {
                 teamInfo.AddCharacter(e as Character);
             }
+            e.SetEntityId(m_maxEntityId++);
+            e.SetWorld(this);
+            if (onCreateEntity != null)
+            {
+                onCreateEntity(e);
+            }
         }
 
         private void DoAddEntity(Entity e){
-            m_entities.Add(e);    
+            entities.Add(e);    
         }
 
         private void DoRemoveEntity(Entity e)
         {
-            m_entities.Remove(e);           
-            GameObject.Destroy(e.gameObject);
+            entities.Remove(e);           
+            //GameObject.Destroy(e.gameObject);
         }
 
         public void Clear()
         {
-            m_entities.Clear();
+            entities.Clear();
         }
 
-        public void Update(float _deltaTime)
+        public void Update(Number _deltaTime)
         {
+            Time.Update(_deltaTime);
             gameTime++;
             deltaTime = _deltaTime;
 
@@ -78,15 +68,14 @@ namespace Mugen3D
                 DoAddEntity(e);
             }
             m_addedEntities.Clear();
-            foreach (var e in m_entities)
+            foreach (var e in entities)
             {
-                e.OnUpdate();
+                e.OnUpdate(_deltaTime);
                 if (e.isDestroyed)
                 {
                     m_destroyedEntities.Add(e);
                 }
             }
-            camCtl.Update();
             foreach (var ent in m_destroyedEntities)
             {
                 DoRemoveEntity(ent);

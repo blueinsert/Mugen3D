@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using YamlDotNet.Serialization;
+using Mugen3D.Core;
+
 namespace Mugen3D.Tools
 {
     public class ActionsEditor : MonoBehaviour

@@ -1,11 +1,37 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using XLua;
+using Math = Mugen3D.Core.Math;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
+    public enum MoveType
+    {
+        Attack,
+        Idle,
+        Defence,
+        BeingHitted,
+    }
+
+    public enum PhysicsType
+    {
+        N = -1,
+        S,
+        C,
+        A,
+    }
+
+    public class Status
+    {
+        public MoveType moveType = MoveType.Idle;
+        public PhysicsType physicsType = PhysicsType.S;
+        public bool pushTest = true;
+        public bool ctrl = true;
+        public int animNo = -1;
+    }
 
     public abstract class Unit : Entity
     {
@@ -17,16 +43,16 @@ namespace Mugen3D
        
         public Status status = new Status();
 
-        [HideInInspector]
         public int facing = 1;
         private int pauseTime = 0;
+        private uint input;
 
-        protected void Init(UnitConfig config)
+        public Unit(UnitConfig cfg) : base(cfg)
         {
-           
+            this.cfg = cfg;
         }
 
-        public override void OnUpdate()
+        public override void OnUpdate(Number deltaTime)
         {
             if (IsPause())
             {
@@ -34,8 +60,14 @@ namespace Mugen3D
                 return;
             }
             fsmMgr.Update();
-            moveCtr.Update();
+            moveCtr.Update(deltaTime);
             animCtr.Update();
+            cmdMgr.Update(input);
+        }
+
+        public void UpdateInput(uint input)
+        {
+            this.input = input;
         }
    
         public void ChangeFacing(int facing)
@@ -43,8 +75,7 @@ namespace Mugen3D
             if (this.facing != facing)
             {
                 this.facing = facing;
-                var scale = this.transform.localScale;
-                this.transform.localScale = new Vector3(scale.x, scale.y, Mathf.Abs(scale.z)*facing);
+                this.scale = new Vector(Math.Abs(scale.x)*facing, scale.y);
             }
         }
 

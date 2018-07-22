@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Math = Mugen3D.Core.Math;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
 
     public abstract class MoveCtrl
     {
-        public Vector3 gravity
+        public Vector gravity
         {
             get
             {
@@ -16,7 +18,8 @@ namespace Mugen3D
             }
         }
 
-        public Vector3 velocity {
+        public Vector velocity
+        {
             get
             {
                 return m_velocity;
@@ -28,19 +31,19 @@ namespace Mugen3D
 
         protected Unit m_owner;
 
-        protected Vector3 m_velocity = Vector3.zero;
-        protected Vector3 m_acceleratedVelocity = Vector3.zero;
-        protected Vector3 m_deltaPos = Vector3.zero;
-        protected Vector3 m_gravity = new Vector3(0, -10f, 0);
-        protected float mass = 70f;
-        protected Vector3 m_externalForce = Vector3.zero;
-        protected float groundFrictionFactor = 3f;
+        protected Vector m_velocity = Vector.zero;
+        protected Vector m_acceleratedVelocity = Vector.zero;
+        protected Vector m_deltaPos = Vector.zero;
+        protected Vector m_gravity = new Vector(0, -10);
+        protected Number mass = 70;
+        protected Vector m_externalForce = Vector.zero;
+        protected Number groundFrictionFactor = 3;
 
         public MoveCtrl(Unit unit) {
             m_owner = unit;
         }
 
-        public virtual void Update()
+        public virtual void Update(Number deltaTime)
         {
             if (justOnGround)
             {
@@ -50,82 +53,81 @@ namespace Mugen3D
             //Log.Info("force:" + m_externalForce.ToString());
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
-                m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-velocity.normalized) + new Vector3(m_externalForce.x, 0, 0) / mass;
+                m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-velocity.normalized) + new Vector(m_externalForce.x, 0) / mass;
             }
             else if (m_owner.status.physicsType == PhysicsType.A)
             {
                 m_acceleratedVelocity = m_gravity + m_externalForce / mass;
             }
             //Log.Info("accler:" + m_acceleratedVelocity.ToString());
-            m_velocity += Time.deltaTime * m_acceleratedVelocity;
+            m_velocity += deltaTime * m_acceleratedVelocity;
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
-                m_velocity = StabilizeVel(velocity);
+                //m_velocity = StabilizeVel(velocity);
             }
-            AddPos(velocity * Time.deltaTime);
+            AddPos(velocity * deltaTime);
         }
 
-        private Vector3 StabilizeVel(Vector3 v)
+        /*
+        private Vector StabilizeVel(Vector v)
         {
             float x, y, z;
-            x = Mathf.Abs(v.x) < 0.2 ? 0: v.x;
-            y = Mathf.Abs(v.y) < 0.2 ? 0 : v.y;
-            z = Mathf.Abs(v.z) < 0.2 ? 0 : v.z;
-            return new Vector3(x, y, z);
+            x = Math.Abs(v.x) < 0.2 ? 0: v.x;
+            y = Math.Abs(v.y) < 0.2 ? 0 : v.y;
+            return new Vector(x, y, z);
         }
+        */
 
-        public Vector3 AddPos(Vector3 deltaPos)
+        public Vector AddPos(Vector deltaPos)
         {
             m_deltaPos = deltaPos;
             CollideTest();
-            Vector3 pos = m_owner.transform.position;
+            var pos = m_owner.position;
             pos += m_deltaPos;
-            m_owner.transform.position = pos;
+            m_owner.position = pos;
             return m_deltaPos;
         }
 
-        public void VelSet(float velx, float vely, float velz = 0)
+        public void VelSet(Number velx, Number vely)
         {
-            this.m_velocity = new Vector3(velx, vely, velz);
+            this.m_velocity = new Vector(velx, vely);
         }
 
-        public void VelAdd(float deltaX, float deltaY, float deltaZ = 0)
+        public void VelAdd(Number deltaX, Number deltaY)
         {
             this.m_velocity.x += deltaX;
             this.m_velocity.y += deltaY;
-            this.m_velocity.z += deltaZ;
         }
 
-        public void PosSet(float x, float y, float z = 0)
+        public void PosSet(Number x, Number y)
         {
-            m_owner.transform.transform.position = new Vector3(x, y, z);
+            m_owner.position = new Vector(x, y);
         }
 
-        public void PosAdd(float deltaX, float deltaY, float deltaZ = 0)
+        public void PosAdd(Number deltaX, Number deltaY)
         {
-            var pos = m_owner.transform.transform.position;
+            var pos = m_owner.position;
             pos.x += deltaX;
             pos.y += deltaY;
-            pos.z += deltaZ;
-            m_owner.transform.transform.position = pos;
+            m_owner.position = pos;
         }
 
-        public void SetGravity(float x, float y, float z)
+        public void SetGravity(Number x, Number y)
         {
-            m_gravity = new Vector3(x, y, z);
+            m_gravity = new Vector(x, y);
         }
 
-        public void SetForce(Vector3 force)
+        public void SetForce(Vector force)
         {
             m_externalForce = force;
         }
 
         private void CollideTest()
         {
-            float playerWidth = 0.7f;
-            var pos = this.m_owner.transform.transform.position;
+            Number playerWidth = new Number(7)/new Number(10);
+            var pos = this.m_owner.position;
             var newPos = pos + m_deltaPos;
-            var viewportRect = World.Instance.camCtl.viewportRect;
+            var viewportRect = m_owner.world.camCtl.viewportRect;
             if (newPos.x < viewportRect.xMin + playerWidth)
             {
                 newPos.x = viewportRect.xMin + playerWidth;
@@ -134,37 +136,37 @@ namespace Mugen3D
             {
                 newPos.x = viewportRect.xMax - playerWidth;
             }
-           if (newPos.x < World.Instance.config.borderXMin)
+            if (newPos.x < m_owner.world.config.borderXMin)
            {
-               newPos.x = World.Instance.config.borderXMin;
+               newPos.x = m_owner.world.config.borderXMin;
            }
-           if (newPos.x > World.Instance.config.borderXMax)
+            if (newPos.x > m_owner.world.config.borderXMax)
            {
-               newPos.x = World.Instance.config.borderXMax;
+               newPos.x = m_owner.world.config.borderXMax;
            }
-           if (newPos.y < World.Instance.config.borderYMin)
+            if (newPos.y < m_owner.world.config.borderYMin)
            {
                justOnGround = true;
-               newPos.y = World.Instance.config.borderYMin;
+               newPos.y = m_owner.world.config.borderYMin;
            }
            m_deltaPos = newPos - pos;
-           var enemy = World.Instance.teamInfo.GetEnemy(m_owner as Character);
+           var enemy = m_owner.world.teamInfo.GetEnemy(m_owner as Character);
            bool findIntersect = false;
            foreach (var clsn in m_owner.animCtr.curActionFrame.clsns)
            {
                foreach (var clsn2 in enemy.animCtr.curActionFrame.clsns)
                {
                    if (clsn.type == 1 && clsn2.type == 1)
-                   { 
-                       Rect rect1 = new Rect(new Vector2(clsn.x1, clsn.y1) , new Vector2(clsn.x2, clsn.y2));
-                       rect1.position += new Vector2(m_owner.transform.position.x, m_owner.transform.position.y);
-                       Rect rect2 = new Rect(new Vector2(clsn2.x1, clsn2.y1), new Vector2(clsn2.x2, clsn2.y2));
-                       rect2.position += new Vector2(enemy.transform.position.x, enemy.transform.position.y);
+                   {
+                       Rect rect1 = new Rect(new Vector(clsn.x1, clsn.y1), new Vector(clsn.x2, clsn.y2));
+                       rect1.position += new Vector(m_owner.position.x, m_owner.position.y);
+                       Rect rect2 = new Rect(new Vector(clsn2.x1, clsn2.y1), new Vector(clsn2.x2, clsn2.y2));
+                       rect2.position += new Vector(enemy.position.x, enemy.position.y);
                        if (PhysicsUtils.RectRectTest(rect1, rect2))
                        {
-                           Vector2 dir = (rect1.position - rect2.position).normalized;
-                           float distX = (rect1.width + rect2.width) / 2 - Mathf.Abs(rect1.position.x - rect2.position.x);  
-                           m_deltaPos += new Vector3(distX*0.25f * (dir.x > 0 ? 1 : -1), 0, 0);
+                           Vector dir = (rect1.position - rect2.position).normalized;
+                           Number distX = (rect1.width + rect2.width) / 2 - Math.Abs(rect1.position.x - rect2.position.x);
+                           m_deltaPos += new Vector(distX * new Number(1) / new Number(4) * (dir.x > 0 ? 1 : -1), 0);
                        }
                        findIntersect = true;
                        break;

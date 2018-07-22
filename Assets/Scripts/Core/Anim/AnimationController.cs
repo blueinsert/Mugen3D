@@ -1,15 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Mugen3D { 
+namespace Mugen3D.Core 
+{ 
 
 public class AnimationController {
     private Unit m_owner;
 
-    private Animation m_anim;
-
-    protected Dictionary<int, Mugen3D.Action> m_actions;
+    public Dictionary<int, Action> m_actions;
     public int anim;
     public int animTime;
     public int animElem;
@@ -23,13 +21,13 @@ public class AnimationController {
         }
     }
 
-    public Mugen3D.Action curAction {
+    public Action curAction {
         get {
             return m_actions[anim];
         }
     }
 
-    public Mugen3D.ActionFrame curActionFrame
+    public ActionFrame curActionFrame
     {
         get
         {
@@ -39,16 +37,12 @@ public class AnimationController {
 
     private void Init()
     {
-        foreach (AnimationState state in this.m_anim)
-        {
-            state.enabled = false;
-        }
+       
     }
 
-    public AnimationController(ActionsConfig config, Animation anim, Unit owner)
+    public AnimationController(ActionsConfig config, Unit owner)
     {
         this.m_owner = owner;
-        this.m_anim = anim;
         this.m_actions = new Dictionary<int, Action>();
         foreach (var action in config.actions)
         {
@@ -56,37 +50,11 @@ public class AnimationController {
         }
     }
 
-    private void DebugDraw()
-    {
-        if (m_actions.ContainsKey(anim))
-        {
-            var curAction = m_actions[anim];
-            if (curAction.frames.Count != 0)
-            {
-                var curActionFrame = curAction.frames[animElem];
-                foreach (var clsn in curActionFrame.clsns)
-                {
-                    var pos = new Vector2(m_owner.transform.position.x, m_owner.transform.position.y);
-                    Rect rect = new Rect(new Vector2(clsn.x1, clsn.y1) + pos, new Vector2(clsn.x2, clsn.y2) + pos);
-                    Color c = Color.blue;
-                    if (clsn.type == 1)
-                    {
-                        c = Color.blue;
-                    }
-                    else if (clsn.type == 2)
-                    {
-                        c = Color.red;
-                    }
-                    Log.DrawRect(rect.LeftUp, rect.RightUp, rect.RightDown, rect.LeftDown, c, Time.deltaTime);
-                }
-            }
-        }
-    }
+    
 
     public void Update()
     {
         UpdateSample();
-        DebugDraw();
     }
   
     private void UpdateSample() {
@@ -108,17 +76,10 @@ public class AnimationController {
                 animElemTime = 0;
             }
         }
-        Sample();
+        m_owner.SendEvent(new Event(){type = EventType.SampleAnim, data = null});
     }
 
-    void Sample()
-    {
-        m_anim[curAction.animName].enabled = true;
-        m_anim[curAction.animName].normalizedTime = curAction.frames[animElem].normalizeTime;
-        m_anim[curAction.animName].weight = 1;
-        m_anim.Sample();
-        m_anim[curAction.animName].enabled = false;
-    }
+   
 
     public void  ChangeAnim(int anim)
     {

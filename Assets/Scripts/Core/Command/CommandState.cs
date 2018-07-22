@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+
+namespace Mugen3D.Core
 {
     /*
      *              command[0]              command[1]          command[2]              command[n]            

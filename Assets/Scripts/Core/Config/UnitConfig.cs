@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+
+namespace Mugen3D.Core
 {
-    public class UnitConfig
+    public class UnitConfig : EntityConfig
     {
         public string modelFile { get; set; }
         public string actionConfigFile { get; set; }

@@ -1,49 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
     [System.Serializable]
     public class Rect : Geometry
     {
-        public Vector2 position;
-        public float width;
-        public float height;
+        public Vector position;
+        public Number width;
+        public Number height;
 
-        public Vector2 LeftUp
+        public Vector LeftUp
         {
             get
             {
-                return position + new Vector2(-width / 2, height / 2);
+                return position + new Vector(-width / 2, height / 2);
             }
         }
 
-        public Vector2 RightUp
+        public Vector RightUp
         {
             get
             {
-                return position + new Vector2(width / 2, height / 2);
+                return position + new Vector(width / 2, height / 2);
             }
         }
 
-        public Vector2 RightDown
+        public Vector RightDown
         {
             get
             {
-                return position + new Vector2(width / 2, -height / 2);
+                return position + new Vector(width / 2, -height / 2);
             }
         }
 
-        public Vector2 LeftDown
+        public Vector LeftDown
         {
             get
             {
-                return position + new Vector2(-width / 2, -height / 2);
+                return position + new Vector(-width / 2, -height / 2);
             }
         }
 
-        public float xMin
+        public Number xMin
         {
             get
             {
@@ -51,7 +52,7 @@ namespace Mugen3D
             }
         }
 
-        public float xMax
+        public Number xMax
         {
             get
             {
@@ -59,7 +60,7 @@ namespace Mugen3D
             }
         }
 
-        public float yMin
+        public Number yMin
         {
             get
             {
@@ -67,7 +68,7 @@ namespace Mugen3D
             }
         }
 
-        public float yMax
+        public Number yMax
         {
             get
             {
@@ -75,14 +76,14 @@ namespace Mugen3D
             }
         }
 
-        public Rect(Vector2 p, float width, float height)
+        public Rect(Vector p, Number width, Number height)
         {
             this.position = p;
             this.width = width;
             this.height = height;
         }
 
-        public Rect(Vector2 p1, Vector2 p2)
+        public Rect(Vector p1, Vector p2)
         {
             this.position = (p1 + p2) / 2;
             this.width = p2.x - p1.x;

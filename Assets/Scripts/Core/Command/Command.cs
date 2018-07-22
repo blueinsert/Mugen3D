@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using UnityEngine;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
 
     public enum KeyNames

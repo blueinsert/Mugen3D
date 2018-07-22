@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mugen3D.Core;
 
 namespace Mugen3D.Tools
 {
@@ -39,15 +40,15 @@ namespace Mugen3D.Tools
            // this.rightUp.GetComponent<RectTransform>().position = ActionsEditorController.Instance.ScenePosToUIPos(rightUp);
             this.leftDown.onDrag += (uipos) =>{
                 var leftDownPos = ActionsEditorController.Instance.UIPosToScenePos(uipos);
-                this.m_clsn.x1 = leftDownPos.x;
-                this.m_clsn.y1 = leftDownPos.y;
+                this.m_clsn.x1 = leftDownPos.x.ToNumber();
+                this.m_clsn.y1 = leftDownPos.y.ToNumber();
             };
 
             this.rightUp.onDrag += (uipos) =>
             {
                 var rightDownPos = ActionsEditorController.Instance.UIPosToScenePos(uipos);
-                this.m_clsn.x2 = rightDownPos.x;
-                this.m_clsn.y2 = rightDownPos.y;
+                this.m_clsn.x2 = rightDownPos.x.ToNumber();
+                this.m_clsn.y2 = rightDownPos.y.ToNumber();
             };
             this.isInited = true;
         }
@@ -58,14 +59,14 @@ namespace Mugen3D.Tools
         {
             if (!isInited)
                 return;
-            var leftDown = new Vector3(this.m_clsn.x1, this.m_clsn.y1, 0);
-            var rightUp = new Vector3(this.m_clsn.x2, this.m_clsn.y2, 0);
+            var leftDown = new Vector3(this.m_clsn.x1.AsFloat(), this.m_clsn.y1.AsFloat(), 0);
+            var rightUp = new Vector3(this.m_clsn.x2.AsFloat(), this.m_clsn.y2.AsFloat(), 0);
             var center = (leftDown + rightUp) / 2;
             center = ActionsEditorController.Instance.ScenePosToUIPos(center);
             this.transform.position = center;
 
             float lenRadio = ActionsEditorController.Instance.GetUISceneLenRadio();
-            Vector2 size = new Vector2(lenRadio * (m_clsn.x2 - m_clsn.x1), lenRadio * (m_clsn.y2 - m_clsn.y1));
+            Vector2 size = new Vector2(lenRadio * (m_clsn.x2.AsFloat() - m_clsn.x1.AsFloat()), lenRadio * (m_clsn.y2.AsFloat() - m_clsn.y1.AsFloat()));
             this.transform.GetComponent<RectTransform>().sizeDelta = size;
             size = size * 0.1f;
             if (size.x < 30)

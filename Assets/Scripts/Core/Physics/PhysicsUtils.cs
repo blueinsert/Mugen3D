@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+using Math = Mugen3D.Core.Math;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
+
+namespace Mugen3D.Core
 {
     public class PhysicsUtils
     {
+        /*
         private static Vector3 GetPlaneNormalVector(Vector3 p1, Vector3 p2, Vector3 p3)
         {
             Vector3 v1 = p2 - p1;
@@ -70,46 +74,18 @@ namespace Mugen3D
             }//for six separate axis
             return isIntersect;
         }
+         */
     
         public static bool RectRectTest(Rect rect1, Rect rect2)
         {
             bool isIntersect = false;
-            if (Mathf.Abs(rect1.position.x - rect2.position.x) < (rect1.width + rect2.width) / 2 && Mathf.Abs(rect2.position.y - rect1.position.y) < (rect1.height + rect2.height) / 2)
+            if (Math.Abs(rect1.position.x - rect2.position.x) < (rect1.width + rect2.width) / 2 && Math.Abs(rect2.position.y - rect1.position.y) < (rect1.height + rect2.height) / 2)
                 isIntersect = true;
             return isIntersect;
         }
 
-        public static bool RectRectTest(Rect rect1, Vector2 deltaPos, Rect rect2, out Vector2 minDeltaPos)
-        {
-            minDeltaPos = Vector2.zero;
-            if (RectRectTest(rect1, rect2))
-            {
-                return true;
-            }
-            Rect rect = new Rect(rect1);
-            rect.position += deltaPos;
-            bool isIntersect = RectRectTest(rect, rect2);
-            if (isIntersect)
-            {
-                var dir = deltaPos.normalized;
-                float len = 0;
-                float step = 0.1f;
-                while (true)
-                {
-                    Rect tmp = new Rect(rect1.position + dir * len, rect1.width, rect1.height);
-                    if (RectRectTest(tmp, rect2))
-                    {
-                        break;
-                    }
-                    len += step;
-                }
-                len -= step;
-                minDeltaPos = dir * len;
-            }
-            return isIntersect;
-        }
 
-        public static bool SegmentIntersectionTest(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, ref Vector2 point)
+        public static bool SegmentIntersectionTest(Vector p0, Vector p1, Vector p2, Vector p3, ref Vector point)
         {
             var s10_x = p1.x - p0.x;
             var s10_y = p1.y - p0.y;
@@ -137,7 +113,7 @@ namespace Mugen3D
 
             // collision detected
 
-            var t = (float)t_numer / denom;
+            var t = t_numer / denom;
 
             point.x = (int)(p0.x + (t * s10_x));
             point.y = (int)(p0.y + (t * s10_y));

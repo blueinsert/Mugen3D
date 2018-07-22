@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Mugen3D.Core;
 
 namespace Mugen3D.Tools
 {
@@ -202,7 +203,7 @@ namespace Mugen3D.Tools
             sliderNormalizedTime.onValueChanged.AddListener((normalizedTime) => {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = normalizedTime;   
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = normalizedTime.ToNumber();
                 UpdateUI();
             });
             labelDurationTime.onValueChanged.AddListener((duration) =>
@@ -215,14 +216,14 @@ namespace Mugen3D.Tools
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].xOffset = float.Parse(xoffset);
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].xOffset = float.Parse(xoffset).ToNumber();
                 UpdateUI();
             });
             labelYOffset.onValueChanged.AddListener((yoffset) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].yOffset = float.Parse(yoffset);
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].yOffset = float.Parse(yoffset).ToNumber();
                 UpdateUI();
             });
 
@@ -355,12 +356,12 @@ namespace Mugen3D.Tools
                         this.scrollActionElemList.value = 0;
                     this.labelCurActionElemNo.text = this.module.curActionElemIndex + "/" + curAction.frames.Count + "-" + curActionElem.duration + "ticks";
                     this.labelNormalizedTime.text = curActionElem.normalizeTime.ToString();
-                    this.sliderNormalizedTime.value = curActionElem.normalizeTime;
+                    this.sliderNormalizedTime.value = curActionElem.normalizeTime.AsFloat();
                     this.labelDurationTime.text = curActionElem.duration.ToString();
                     this.labelXOffset.text = curActionElem.xOffset.ToString();
                     this.labelYOffset.text = curActionElem.yOffset.ToString();
                     this.toggleLoopStart.isOn = this.module.curActionElemIndex == curAction.loopStartIndex;
-                    animCtl.Sample(curAction.animName, curActionElem.normalizeTime);
+                    animCtl.Sample(curAction.animName, curActionElem.normalizeTime.AsFloat());
                     UpdateClsns(curActionElem);
                 }
                 else

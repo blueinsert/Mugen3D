@@ -1,19 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-namespace Mugen3D
+
+namespace Mugen3D.Core
 {
     public class FsmManager
     {
         public XLua.LuaTable fsm;
-        private delegate void DelegateFsmUpdate(XLua.LuaTable self);
-        private delegate void DelegateFsmChangeState(XLua.LuaTable self, int stateNo);
+        public delegate XLua.LuaTable DelegateFsmConstruct(Unit u);
+        public delegate void DelegateFsmUpdate(XLua.LuaTable self);
+        public delegate void DelegateFsmChangeState(XLua.LuaTable self, int stateNo);
+        private DelegateFsmConstruct funcFsmConstruct;
         private DelegateFsmUpdate funcFsmUpdate;
         private DelegateFsmChangeState funcFsmChangeState;
 
         public FsmManager(string fsmFile, Unit owner)
         {
-            this.fsm = LuaMgr.Instance.Env.DoString(string.Format("return (require('{0}')).new(CS.Mugen3D.EntityLoader.curUnit)", fsmFile))[0] as XLua.LuaTable;
+            XLua.LuaTable characterModule = LuaMgr.Instance.Env.DoString(string.Format("return (require('{0}'))", fsmFile))[0] as XLua.LuaTable;
+            funcFsmConstruct = characterModule.Get<string, DelegateFsmConstruct>("new");
+            this.fsm = funcFsmConstruct(owner);
             funcFsmUpdate = this.fsm.Get<string, DelegateFsmUpdate>("update");
             funcFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState"); 
         }

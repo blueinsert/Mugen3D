@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
     public class WorldConfig
     {
@@ -10,5 +11,6 @@ namespace Mugen3D
         public int borderXMax { get; set; }
         public int borderYMin { get; set; }
         public int borderYMax { get; set; }
+        public Vector[] initPos { get; set; }
     }
 }

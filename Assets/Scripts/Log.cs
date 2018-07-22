@@ -8,17 +8,17 @@ namespace Mugen3D
     {
         public static void Info(string info)
         {
-            Debug.Log(World.Instance.gameTime + ":" + info);
+            Debug.Log(info);
         }
 
         public static void Warn(string info)
         {
-            Debug.LogWarning(World.Instance.gameTime + ":" + info);
+            Debug.LogWarning(info);
         }
 
         public static void Error(string info)
         {
-            Debug.LogError(World.Instance.gameTime + ":" + info);
+            Debug.LogError(info);
         }
 
         public static void DrawLine(Vector2 start, Vector2 end, Color c, float duration)

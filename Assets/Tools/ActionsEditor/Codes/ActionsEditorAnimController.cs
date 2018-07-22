@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mugen3D.Core;
+
 namespace Mugen3D.Tools
 {
     enum AnimState
@@ -13,7 +15,7 @@ namespace Mugen3D.Tools
     {
         public Animation m_anim;
 
-        protected Mugen3D.Action action;
+        protected Action action;
         public int animTime;
         public int animElem;
         public int animElemTime;
@@ -61,7 +63,7 @@ namespace Mugen3D.Tools
                     animElemTime = 0;
                 }
             }
-            Sample(action.animName, action.frames[animElem].normalizeTime);
+            Sample(action.animName, action.frames[animElem].normalizeTime.AsFloat());
         }
 
         public void Sample(string nameName, float normalizeTime)
@@ -73,7 +75,7 @@ namespace Mugen3D.Tools
             m_anim[nameName].enabled = false;
         }
 
-        public void Play(Mugen3D.Action action)
+        public void Play(Action action)
         {
             this.action = action;
             state = AnimState.Playing;

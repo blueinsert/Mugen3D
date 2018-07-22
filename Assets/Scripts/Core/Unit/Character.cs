@@ -1,32 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Vector = Mugen3D.Core.Vector;
+using Number = Mugen3D.Core.Number;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
-    [RequireComponent(typeof(Animation))]
     public class Character : Unit, IHealth
     {
 
         public int slot;
         public string characterName;
+        public CharacterConfig config;
 
-        public void Init(string characterName, CharacterConfig config)
+        public Character(string characterName, CharacterConfig config) : base(config)
         {
-            base.Init(config);
             this.characterName = characterName;
+            this.config = config;
             moveCtr = new PlayerMoveCtrl(this);
             string prefix = "Chars/" + characterName;
             ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(prefix + config.actionConfigFile));
-            animCtr = new AnimationController(actionsConfig, this.GetComponent<Animation>(), this);
+            animCtr = new AnimationController(actionsConfig, this);
             cmdMgr = new CmdManager(ResourceLoader.LoadText(prefix + config.cmdConfigFile), this);
             fsmMgr = new FsmManager(prefix + config.fsmConfigFile, this);
         }
 
-        public override void OnUpdate()
+        public void SetSlot(int slot)
         {
-            base.OnUpdate();
-            cmdMgr.Update(InputHandler.GetInputKeycode(this.id, this.facing));
+            this.slot = slot;
+        }
+
+        public override void OnUpdate(Number deltaTime)
+        {
+            base.OnUpdate(deltaTime);
+            //
         }
 
 

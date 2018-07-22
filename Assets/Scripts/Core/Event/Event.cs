@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace Mugen3D
+namespace Mugen3D.Core
 {
     public enum EventType
     {
         Dead = 1,
+        SampleAnim = 2,
     }
 
     public class Event

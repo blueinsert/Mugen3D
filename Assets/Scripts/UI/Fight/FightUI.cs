@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mugen3D;
+using Mugen3D.Core;
 
 public class FightUI : MonoBehaviour {
     public WidgetLifeBar lifeBar;
