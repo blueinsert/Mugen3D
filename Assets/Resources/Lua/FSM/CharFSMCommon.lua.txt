@@ -67,10 +67,10 @@ M[20] = {
 			char.ctl:ChangeAnim(21)
 		end
 		if char.env:anim() == 20 and char.env:CommandTest("holdfwd") then
-			char.ctl:VelSet(3, 0)
+			char.ctl:VelSet(2.5, 0)
 		end
 		if char.env:anim() == 21 and char.env:CommandTest("holdback") then
-			char.ctl:VelSet(-3, 0)
+			char.ctl:VelSet(-2.5, 0)
 		end
 		if not char.env:CommandTest("holdback") and not char.env:CommandTest("holdfwd") then
             char.ctl:ChangeState(0)

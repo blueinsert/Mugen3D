@@ -39,6 +39,8 @@ namespace Mugen3D.Core
         protected Vector m_externalForce = Vector.zero;
         protected Number groundFrictionFactor = 3;
 
+        private static Number TINY = new Number(2) / new Number(10);
+
         public MoveCtrl(Unit unit) {
             m_owner = unit;
         }
@@ -63,20 +65,18 @@ namespace Mugen3D.Core
             m_velocity += deltaTime * m_acceleratedVelocity;
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
-                //m_velocity = StabilizeVel(velocity);
+                m_velocity = StabilizeVel(velocity);
             }
             AddPos(velocity * deltaTime);
         }
 
-        /*
         private Vector StabilizeVel(Vector v)
         {
-            float x, y, z;
-            x = Math.Abs(v.x) < 0.2 ? 0: v.x;
-            y = Math.Abs(v.y) < 0.2 ? 0 : v.y;
-            return new Vector(x, y, z);
+            Number x, y;
+            x = Math.Abs(v.x) < TINY ? 0 : v.x;
+            y = Math.Abs(v.y) < TINY ? 0 : v.y;
+            return new Vector(x, y);
         }
-        */
 
         public Vector AddPos(Vector deltaPos)
         {

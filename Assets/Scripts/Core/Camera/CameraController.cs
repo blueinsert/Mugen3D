@@ -9,9 +9,9 @@ namespace Mugen3D.Core
     {
         private Character m_target1;
         private Character m_target2;
-        private Number yOffset = 1;
+        
         private Number dumpRatio = 10;
-
+        private Number yOffset = 1;
         public Number fieldOfView;
         public Number depth;
         public Number aspect;
@@ -20,6 +20,12 @@ namespace Mugen3D.Core
 
         public CameraController(CameraConfig config, Character char1, Character char2) : base(config)
         {
+            this.cfg = config;
+            this.yOffset = config.yOffset;
+            this.fieldOfView = config.fieldOfView;
+            this.depth = config.depth;
+            this.aspect = config.aspect;
+
             m_target1 = char1;
             m_target2 = char2;
             viewportRect = new Rect(Vector.zero, 1, 1);

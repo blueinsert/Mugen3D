@@ -18,13 +18,13 @@ end
 function M:PhysicsSet(physics)
     local physicsType
     if physics == "S" then
-        physicsType = CS.Mugen3D.PhysicsType.S
+        physicsType = CS.Mugen3D.Core.PhysicsType.S
     elseif physics == "C" then
-        physicsType = CS.Mugen3D.PhysicsType.C
+        physicsType = CS.Mugen3D.Core.PhysicsType.C
     elseif physics == "A" then
-        physicsType = CS.Mugen3D.PhysicsType.A
+        physicsType = CS.Mugen3D.Core.PhysicsType.A
     else
-        physicsType = CS.Mugen3D.PhysicsType.N
+        physicsType = CS.Mugen3D.Core.PhysicsType.N
     end
     self.char.player.status.physicsType = physicsType
 end
@@ -32,19 +32,19 @@ end
 function M:MoveTypeSet(moveTypeStr) 
     local moveType
      if moveTypeStr == "S" then
-        moveType = CS.Mugen3D.PhysicsType.S
+        moveType = CS.Mugen3D.Core.PhysicsType.S
     elseif moveTypeStr == "C" then
-        moveType = CS.Mugen3D.PhysicsType.C
+        moveType = CS.Mugen3D.Core.PhysicsType.C
     elseif moveTypeStr == "A" then
-        moveType = CS.Mugen3D.PhysicsType.A
+        moveType = CS.Mugen3D.Core.PhysicsType.A
     else
-        moveType = CS.Mugen3D.PhysicsType.N
+        moveType = CS.Mugen3D.Core.PhysicsType.N
     end
     self.char.player.status.moveType = moveType
 end
 
 function M:VelSet(x, y)
-    self.char.player.moveCtr:VelSet(x, y)
+    self.char.player.moveCtr:VelSet(toNumber(x), toNumber(y))
 end 
 
 function M:CtrlSet(canCtrl)

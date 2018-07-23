@@ -43,6 +43,7 @@ namespace Mugen3D
         {
             world = new World(new WorldConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100 });
             viewWorld = new ViewWorld();
+            viewWorld.CreateBattleScene(this.gameObject);
             world.onCreateEntity += viewWorld.OnCreateEntity;
         }
 
@@ -69,7 +70,7 @@ namespace Mugen3D
             GameObject goStage = GameObject.Instantiate(prefabStage, this.transform.Find("Stage")) as GameObject;
             p1 = AddCharacter(p1CharacterName, 0);
             p2 = AddCharacter(p2CharacterName, 1);
-            var cameraController = new CameraController(new CameraConfig(), p1, p2);
+            var cameraController = new CameraController(new CameraConfig() { depth = -6, fieldOfView  = 34, yOffset = 1, aspect = new Number(4)/new Number(3)}, p1, p2);
             world.AddEntity(cameraController);
             world.camCtl = cameraController;
             isInited = true;
@@ -79,9 +80,9 @@ namespace Mugen3D
         {
             if (!isInited)
                 return;
+            p1.UpdateInput(InputHandler.Instance.GetInputKeycode(p1.slot, p1.facing));
+            p2.UpdateInput(InputHandler.Instance.GetInputKeycode(p2.slot, p2.facing));
             this.world.Update(UnityEngine.Time.deltaTime.ToNumber());
-            p1.UpdateInput(InputHandler.GetInputKeycode(p1.slot, p1.facing));
-            p2.UpdateInput(InputHandler.GetInputKeycode(p2.slot, p2.facing));
         }
     }
 }

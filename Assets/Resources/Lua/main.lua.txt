@@ -15,3 +15,7 @@ end
 Init()
 --print(utils.serialize(CSV.Character))
 --]]
+
+toNumber = function(value)
+	return CS.Mugen3D.Core.Number(math.ceil(value*1000))/CS.Mugen3D.Core.Number(1000)
+end

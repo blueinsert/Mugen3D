@@ -7,21 +7,29 @@ namespace Mugen3D
 {
     public class InputHandler
     {
-        private static List<Dictionary<KeyNames, KeyCode>> m_mapCfg = new List<Dictionary<KeyNames, KeyCode>>();
-
-        private static List<Dictionary<KeyNames, KeyCode>> mapCfg
+        private static InputHandler m_instance;
+        public static InputHandler Instance
         {
             get
             {
-                if (m_mapCfg == null || m_mapCfg.Count == 0)
-                {
-                    InitMapCfg();
+                if (m_instance == null) {
+                    m_instance = new InputHandler();
                 }
-                return m_mapCfg;
+                return m_instance;
             }
         }
 
-        private static void InitMapCfg()
+
+
+
+        private List<Dictionary<KeyNames, KeyCode>> m_mapCfg = new List<Dictionary<KeyNames, KeyCode>>();
+
+        private InputHandler()
+        {
+            InitMapCfg();
+        }
+
+        private void InitMapCfg()
         {
             m_mapCfg = new List<Dictionary<KeyNames, KeyCode>>();
             var inputs = InputConfig.Instance.inputs;
@@ -38,13 +46,13 @@ namespace Mugen3D
                 mapping.Add(KeyNames.KEY_BUTTON_X, (KeyCode)inputs[i].x);
                 mapping.Add(KeyNames.KEY_BUTTON_Y, (KeyCode)inputs[i].y);
                 mapping.Add(KeyNames.KEY_BUTTON_Z, (KeyCode)inputs[i].z);
-                mapCfg.Add(mapping);
+                m_mapCfg.Add(mapping);
             }
         }
 
-        public static uint GetInputKeycode(int playerSlot, int facing)
+        public uint GetInputKeycode(int playerSlot, int facing)
         {
-            Dictionary<KeyNames, KeyCode> keycodeMap = mapCfg[playerSlot];          
+            Dictionary<KeyNames, KeyCode> keycodeMap = m_mapCfg[playerSlot];
             uint keycode = 0;
             foreach (var pair in keycodeMap)
             {
@@ -62,11 +70,9 @@ namespace Mugen3D
                     {
                         keycode = keycode | Utility.GetKeycode(pair.Key);
                     }   
-                    //keyInfo += pair.Value.ToString() + "+";
                 }
             }
-            //Debug.Log("keycode:"+keycode);
-            //Debug.Log(keyInfo);
+            Debug.Log("keycode:"+keycode);
             return keycode;
         }
 
