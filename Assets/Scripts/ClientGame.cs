@@ -18,19 +18,12 @@ namespace Mugen3D
     {
         public static ClientGame Instance;
 
-        public PlayMode playMode;
-
         public Core.World world;
         public ViewWorld viewWorld;
 
         private Character p1;
         private Character p2;
         private bool isInited = false;
-
-        private static readonly List<Vector3> m_initPos = new List<Vector3> { 
-            new Vector3(-1.5f, 0, 0),
-            new Vector3(1.5f, 0, 0),
-        };
 
         public void Awake()
         {
@@ -41,7 +34,7 @@ namespace Mugen3D
 
         public void Init()
         {
-            world = new World(new WorldConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100 });
+            world = new World(new StageConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100 });
             viewWorld = new ViewWorld();
             viewWorld.CreateBattleScene(this.gameObject);
             world.onCreateEntity += viewWorld.OnCreateEntity;
@@ -64,8 +57,6 @@ namespace Mugen3D
 
         public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
         {
-            this.playMode = playMode;
-
             UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Stage/" + stageName + "/" + stageName);
             GameObject goStage = GameObject.Instantiate(prefabStage, this.transform.Find("Stage")) as GameObject;
             p1 = AddCharacter(p1CharacterName, 0);

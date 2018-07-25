@@ -1,50 +1,61 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mugen3D.Core;
 
 namespace Mugen3D
 {
 
     public class ViewWorld
     {
-        public GameObject rootScene;
+        public delegate EntityView ViewCreater(Core.Entity entity);
+        private Dictionary<Type, ViewCreater> m_viewCreater = new Dictionary<Type, ViewCreater>();
+        private GameObject m_rootScene;
+
+        public ViewWorld()
+        {
+            m_viewCreater[typeof(Core.Character)] = OnCreateCharacter;
+            m_viewCreater[typeof(Core.CameraController)] = OnCreateCamera;
+        }
 
         public void CreateBattleScene(GameObject rootScene)
         {
 
-            this.rootScene = rootScene;
+            this.m_rootScene = rootScene;
             GameObject stage = new GameObject("Stage");
             stage.transform.parent = rootScene.transform;
             GameObject players = new GameObject("Players");
             players.transform.parent = rootScene.transform;
         }
 
-        private void OnCreateCharacter(Character c)
+        private EntityView OnCreateCharacter(Core.Entity entity)
         {
+            var c = entity as Core.Character;
             UnityEngine.Object prefab = ResourceLoader.Load("Chars/" + c.characterName + c.config.modelFile);
-            GameObject go = GameObject.Instantiate(prefab, rootScene.transform.Find("Players")) as GameObject;
+            GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform.Find("Players")) as GameObject;
             var view = go.AddComponent<CharView>();
             view.Init(c);
+            return view;
         }
 
-        private void OnCreateCamera(CameraController camCtl)
+        private EntityView OnCreateCamera(Core.Entity entity)
         {
+            Core.CameraController camCtl = entity as Core.CameraController;
             UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/Scene/BattleCamera");
-            GameObject go = GameObject.Instantiate(prefab, rootScene.transform) as GameObject;
+            GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
             var view = go.AddComponent<CameraView>();
             view.Init(camCtl);
+            return view;
         }
 
-        public void OnCreateEntity(Entity e)
+        public void OnCreateEntity(Core.Entity e)
         {
-            if (e is Character)
+            ViewCreater creater;
+            if (m_viewCreater.TryGetValue(e.GetType(), out creater))
             {
-                OnCreateCharacter(e as Character);
-            }
-            else if (e is CameraController)
-            {
-                OnCreateCamera(e as CameraController);
+                creater(e);
+            } else {
+                Debug.LogError("can get view creater");
             }
         }
 

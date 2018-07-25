@@ -11,7 +11,7 @@ namespace Mugen3D.Core
     {     
         public int gameTime = -1;
         public Number deltaTime;
-        public WorldConfig config;
+        public StageConfig config;
         private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
@@ -20,7 +20,7 @@ namespace Mugen3D.Core
         public TeamInfo teamInfo = new TeamInfo();
         public System.Action<Entity> onCreateEntity;
 
-        public World(WorldConfig cfg)
+        public World(StageConfig cfg)
         {
             config = cfg;
             entities = new List<Entity>();
