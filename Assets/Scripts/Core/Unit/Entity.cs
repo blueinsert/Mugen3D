@@ -6,6 +6,17 @@ using Number = Mugen3D.Core.Number;
 
 namespace Mugen3D.Core
 {
+    public enum EventType
+    {
+        Dead = 1,
+        SampleAnim = 2,
+    }
+
+    public class Event
+    {
+        public EventType type;
+        public object data;
+    }
 
     public abstract class Entity
     {

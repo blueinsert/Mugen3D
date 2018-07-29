@@ -2,15 +2,13 @@
 using System.IO;
 using System.Collections.Generic;
 
-using UnityEngine;
-
 namespace UniLua
 {
 	public delegate string PathHook(string filename);
 	public class LuaFile
 	{
 		//private static readonly string LUA_ROOT = System.IO.Path.Combine(Application.streamingAssetsPath, "LuaRoot");
-		private static PathHook pathhook = (s) => Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), s);
+        private static PathHook pathhook;
 		public static void SetPathHook(PathHook hook) {
 			pathhook = hook;
 		}

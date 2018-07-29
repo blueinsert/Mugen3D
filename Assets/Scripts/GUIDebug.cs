@@ -23,23 +23,26 @@ public class GUIDebug : MonoBehaviour
         {
             m_msg[index] = new Dictionary<string, string>();
         }
-        m_msg[index][key] = value;            
+        m_msg[index][key] = value;
     }
 
-    void OnGUI() {
-        if(m_msg[m_curIndex]!=null){
+    void OnGUI()
+    {
+        if (m_msg.Count != 0 && m_msg.ContainsKey(m_curIndex))
+        {
             GUI.color = Color.blue;
             GUILayout.BeginArea(new UnityEngine.Rect(0, 0, Screen.width / 2, Screen.height));
             m_p1ScrollPosition = GUILayout.BeginScrollView(m_p1ScrollPosition, GUILayout.Width(Screen.width / 2), GUILayout.Height(Screen.height));
             GUILayout.BeginVertical();
             GUILayout.Label(new GUIContent("curIndex:" + m_curIndex));
-            foreach (var kv in m_msg[m_curIndex]){
+            foreach (var kv in m_msg[m_curIndex])
+            {
                 GUILayout.Label(new GUIContent(kv.Key + ":" + kv.Value));
             }
-             GUILayout.EndVertical();
-             GUILayout.EndArea();
-             GUILayout.EndScrollView();
-        }   
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
+            GUILayout.EndScrollView();
+        }
     }
 }
 

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Mugen3D.Core;
 using Math = Mugen3D.Core.Math;
 using Vector = Mugen3D.Core.Vector;
 using Number = Mugen3D.Core.Number;
+using System;
 
 namespace Mugen3D
 {
@@ -29,17 +31,25 @@ namespace Mugen3D
         {
             Instance = this;
             Application.targetFrameRate = 60;
-            Init();    
-        }
-
-        public void Init()
-        {         
-            
         }
 
         public void OnDestroy()
         {
             Instance = null;
+        }
+
+        private void CoreInit()
+        {
+            Core.Debug.Log = Log.Info;
+            Core.Debug.LogWarn = Log.Warn;
+            Core.Debug.LogError = Log.Error;
+            Core.Debug.Assert = Log.Assert;
+            Core.LuaMgr.SetPathHook(this.LuaPathHook);
+        }
+
+        private string LuaPathHook(string fileName)
+        {
+            return Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), fileName);
         }
 
         protected Character AddCharacter(string characterName, int slot)
@@ -102,6 +112,7 @@ namespace Mugen3D
 
         public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
         {
+            CoreInit();
             CreateWorld();
             p1 = AddCharacter(p1CharacterName, 0);
             p2 = AddCharacter(p2CharacterName, 1);
