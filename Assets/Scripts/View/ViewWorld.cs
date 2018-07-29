@@ -18,7 +18,7 @@ namespace Mugen3D
             m_viewCreater[typeof(Core.CameraController)] = OnCreateCamera;
         }
 
-        public void CreateBattleScene(GameObject rootScene)
+        public void InitScene(GameObject rootScene)
         {
 
             this.m_rootScene = rootScene;
@@ -26,6 +26,12 @@ namespace Mugen3D
             stage.transform.parent = rootScene.transform;
             GameObject players = new GameObject("Players");
             players.transform.parent = rootScene.transform;
+        }
+
+        public void OnCreateWorld(Core.WorldConfig config)
+        {
+            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Stage/" + config.stageConfig.stage + "/" + config.stageConfig.stage);
+            GameObject goStage = GameObject.Instantiate(prefabStage, m_rootScene.transform.Find("Stage")) as GameObject;
         }
 
         private EntityView OnCreateCharacter(Core.Entity entity)

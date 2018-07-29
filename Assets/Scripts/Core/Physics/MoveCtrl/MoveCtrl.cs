@@ -136,18 +136,18 @@ namespace Mugen3D.Core
             {
                 newPos.x = viewportRect.xMax - playerWidth;
             }
-            if (newPos.x < m_owner.world.config.borderXMin)
+            if (newPos.x < m_owner.world.config.stageConfig.borderXMin)
            {
-               newPos.x = m_owner.world.config.borderXMin;
+               newPos.x = m_owner.world.config.stageConfig.borderXMin;
            }
-            if (newPos.x > m_owner.world.config.borderXMax)
+            if (newPos.x > m_owner.world.config.stageConfig.borderXMax)
            {
-               newPos.x = m_owner.world.config.borderXMax;
+               newPos.x = m_owner.world.config.stageConfig.borderXMax;
            }
-            if (newPos.y < m_owner.world.config.borderYMin)
+            if (newPos.y < m_owner.world.config.stageConfig.borderYMin)
            {
                justOnGround = true;
-               newPos.y = m_owner.world.config.borderYMin;
+               newPos.y = m_owner.world.config.stageConfig.borderYMin;
            }
            m_deltaPos = newPos - pos;
            var enemy = m_owner.world.teamInfo.GetEnemy(m_owner as Character);

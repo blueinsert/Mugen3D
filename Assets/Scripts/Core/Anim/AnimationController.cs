@@ -40,11 +40,11 @@ public class AnimationController {
        
     }
 
-    public AnimationController(ActionsConfig config, Unit owner)
+    public AnimationController(Action[] actions, Unit owner)
     {
         this.m_owner = owner;
         this.m_actions = new Dictionary<int, Action>();
-        foreach (var action in config.actions)
+        foreach (var action in actions)
         {
             m_actions.Add(action.animNo, action);
         }

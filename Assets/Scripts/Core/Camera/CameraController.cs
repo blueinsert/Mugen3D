@@ -8,8 +8,7 @@ namespace Mugen3D.Core
     public class CameraController : Entity
     {
         private Character m_target1;
-        private Character m_target2;
-        
+        private Character m_target2;  
         private Number dumpRatio = 10;
         private Number yOffset = 1;
         public Number fieldOfView;
@@ -18,9 +17,8 @@ namespace Mugen3D.Core
 
         public Rect viewportRect;
 
-        public CameraController(CameraConfig config, Character char1, Character char2) : base(config)
+        public CameraController(CameraConfig config, Character char1, Character char2)
         {
-            this.cfg = config;
             this.yOffset = config.yOffset;
             this.fieldOfView = config.fieldOfView;
             this.depth = config.depth;

@@ -47,9 +47,8 @@ namespace Mugen3D.Core
         private int pauseTime = 0;
         private uint input;
 
-        public Unit(UnitConfig cfg) : base(cfg)
+        public Unit()
         {
-            this.cfg = cfg;
         }
 
         public override void OnUpdate(Number deltaTime)

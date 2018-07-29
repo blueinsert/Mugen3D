@@ -7,20 +7,18 @@ namespace Mugen3D.Core
 {
     public class Character : Unit, IHealth
     {
-
         public int slot;
         public string characterName;
         public CharacterConfig config;
 
-        public Character(string characterName, CharacterConfig config) : base(config)
+        public Character(string characterName, CharacterConfig config)
         {
             this.characterName = characterName;
             this.config = config;
             moveCtr = new PlayerMoveCtrl(this);
             string prefix = "Chars/" + characterName;
-            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(prefix + config.actionConfigFile));
-            animCtr = new AnimationController(actionsConfig, this);
-            cmdMgr = new CmdManager(ResourceLoader.LoadText(prefix + config.cmdConfigFile), this);
+            animCtr = new AnimationController(config.actions, this);
+            cmdMgr = new CmdManager(config.commandContent, this);
             fsmMgr = new FsmManager(prefix + config.fsmConfigFile, this);
         }
 

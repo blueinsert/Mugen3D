@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-namespace Mugen3D
+
+namespace Mugen3D.Core
 {
     public class Tokenizer
     {

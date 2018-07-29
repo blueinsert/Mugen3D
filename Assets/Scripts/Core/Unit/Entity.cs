@@ -13,17 +13,15 @@ namespace Mugen3D.Core
         public Vector position;
         public Vector scale;
         public World world;
-        public EntityConfig cfg;
         public Action<Entity, Event> onEvent;
 
         public abstract void OnUpdate(Number deltaTime);
 
         public bool isDestroyed = false;
 
-        public Entity(EntityConfig cfg)
+        public Entity()
         {
-            this.cfg = cfg;
-            this.scale = cfg.scale;
+          
         }
 
         public void SetEntityId(int id)

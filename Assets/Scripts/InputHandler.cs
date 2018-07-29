@@ -22,7 +22,7 @@ namespace Mugen3D
 
 
 
-        private List<Dictionary<KeyNames, KeyCode>> m_mapCfg = new List<Dictionary<KeyNames, KeyCode>>();
+        private Dictionary<int, Dictionary<KeyNames, KeyCode>> m_mapCfg = new Dictionary<int, Dictionary<KeyNames, KeyCode>>();
 
         private InputHandler()
         {
@@ -31,9 +31,8 @@ namespace Mugen3D
 
         private void InitMapCfg()
         {
-            m_mapCfg = new List<Dictionary<KeyNames, KeyCode>>();
-            var inputs = InputConfig.Instance.inputs;
-            for (int i = 0; i < inputs.Count; i++)
+            var inputs = ClientGame.Instance.world.config.inputConfig;
+            for (int i = 0; i < inputs.Length; i++)
             {
                 var mapping = new Dictionary<KeyNames, KeyCode>();
                 mapping.Add(KeyNames.KEY_UP, (KeyCode)inputs[i].up);
@@ -46,7 +45,7 @@ namespace Mugen3D
                 mapping.Add(KeyNames.KEY_BUTTON_X, (KeyCode)inputs[i].x);
                 mapping.Add(KeyNames.KEY_BUTTON_Y, (KeyCode)inputs[i].y);
                 mapping.Add(KeyNames.KEY_BUTTON_Z, (KeyCode)inputs[i].z);
-                m_mapCfg.Add(mapping);
+                m_mapCfg.Add(inputs[i].slot, mapping);
             }
         }
 
