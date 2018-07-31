@@ -24,11 +24,11 @@ M[-1] = {
 	end,
 	
 	onUpdate = function(char)
-	    if (char.env:CommandTest("holdfwd") or char.env:CommandTest("holdback")) and char.env:stateNo() == 0 then
+	    if (char.env:CommandTest("holdfwd") or char.env:CommandTest("holdback")) and char.env:StateNo() == 0 then
 			char.ctl:ChangeState(20) --walk
 			return
 		end
-		if char.env:CommandTest("holdup") and (char.env:stateNo() == 0 or char.env:stateNo() == 20 or char.env:stateNo() == 100) then
+		if char.env:CommandTest("holdup") and (char.env:StateNo() == 0 or char.env:StateNo() == 20 or char.env:StateNo() == 100) then
 			char.ctl:ChangeState(40) --jump
 			return
 		end
@@ -43,7 +43,7 @@ M[0] = {
 	end,
 	
 	onUpdate = function(char)
-	    if char.env:anim() ~= 0 then
+	    if char.env:Anim() ~= 0 then
 	   	   char.ctl:ChangeAnim(0)
 	    end
 	end,
@@ -60,16 +60,16 @@ M[20] = {
 	end,
 
 	onUpdate = function(char)
-		if char.env:anim() ~= 20 and char.env:CommandTest("holdfwd") then
+		if char.env:Anim() ~= 20 and char.env:CommandTest("holdfwd") then
 			char.ctl:ChangeAnim(20)
 		end
-		if char.env:anim() ~= 21 and char.env:CommandTest("holdback") then
+		if char.env:Anim() ~= 21 and char.env:CommandTest("holdback") then
 			char.ctl:ChangeAnim(21)
 		end
-		if char.env:anim() == 20 and char.env:CommandTest("holdfwd") then
+		if char.env:Anim() == 20 and char.env:CommandTest("holdfwd") then
 			char.ctl:VelSet(2.5, 0)
 		end
-		if char.env:anim() == 21 and char.env:CommandTest("holdback") then
+		if char.env:Anim() == 21 and char.env:CommandTest("holdback") then
 			char.ctl:VelSet(-2.5, 0)
 		end
 		if not char.env:CommandTest("holdback") and not char.env:CommandTest("holdfwd") then
@@ -98,7 +98,7 @@ M[40] = {
     	
     end,
     onUpdate = function(char)
-    	if char.env:leftAnimTime() <= 0 then
+    	if char.env:LeftAnimTime() <= 0 then
     		char.ctl:ChangeState(41)
     	end
     end
@@ -117,7 +117,7 @@ M[41] = {
 		
 	end,
 	onUpdate = function(char)
-		if char.env:vel().y <= 0 then
+		if char.env:Vel().y <= 0 then
 			char.ctl:ChangeState(42)
 		end
 	end
@@ -128,7 +128,7 @@ M[42] = {
         char.ctl:ChangeAnim(42, "Once")
     end,
     onUpdate = function(char)
-        if char.env:justOnGround() then
+        if char.env:JustOnGround() then
         	char.ctl:ChangeState(47)
         end
     	-- body
@@ -145,7 +145,7 @@ M[47] = {
 		char.ctl:VelSet(0, 0)
 	end,
 	onUpdate = function(char)
-		if char.env:leftAnimTime() <= 0 then
+		if char.env:LeftAnimTime() <= 0 then
 			char.ctl:ChangeState(0)
 		end
 	end

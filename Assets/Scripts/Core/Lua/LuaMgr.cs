@@ -31,6 +31,8 @@ namespace Mugen3D.Core
             mInstance = new LuaMgr();
             var Lua = LuaAPI.NewState();
             Lua.L_OpenLibs();
+            Lua.L_RequireF(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
+            Lua.L_RequireF(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
             mInstance.Env = Lua;
         }
 

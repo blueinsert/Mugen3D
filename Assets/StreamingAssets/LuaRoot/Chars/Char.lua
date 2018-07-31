@@ -3,24 +3,23 @@ local Env = require "Chars/environment"
 
 local M = {}
 
-local function init(self, player, fsm)
-    self.player = player
-	self.env = Env.new(self)
-	self.ctl = Ctl.new(self)
+local function init(self, csObjChar, fsm)
+    self.csObjChar = csObjChar
+	self.env = Env.new(csObjChar)
+	self.ctl = Ctl.new(csObjChar)
 	self.fsm = fsm
 	self.stateNo = 0
 	self.stateTime = -1
 end
 
-function M.new(player, fsm)
+function M.new(csObjChar, fsm)
     local obj = {}
-	init(obj, player, fsm)
+	init(obj, csObjChar, fsm)
 	setmetatable(obj, {__index = M})
 	return obj
 end
 
 function M:update()
-	self:debug()
 	if self.fsm == nil or self.fsm[self.stateNo] == nil then
 		return
 	end
@@ -75,6 +74,7 @@ local function toString(obj)
 	end
 end
 
+--[[
 function M:debug()
 	local guiDebug = CS.GUIDebug.Instance
 	if guiDebug == nil then
@@ -92,21 +92,7 @@ function M:debug()
     guiDebug:AddMsg(index, "animElemTime", toString(self.env:animElemTime()))
     guiDebug:AddMsg(index, "activeCommands", self.player.cmdMgr:GetActiveCommandName())
     guiDebug:AddMsg(index, "vel", toString(self.env:vel()))
-    --[[
-	guiDebug:AddMsg(index, "stateNo", toString(self.env.stateNo))
-	guiDebug:AddMsg(index, "stateTime", toString(self.env.stateTime))
-	guiDebug:AddMsg(index, "physics", toString(self.env.physics))
-	guiDebug:AddMsg(index, "moveType", toString(self.env.moveType))
-	guiDebug:AddMsg(index, "pos", toString(self.env.pos))
-	guiDebug:AddMsg(index, "vel", toString(self.env.vel))
-	guiDebug:AddMsg(index, "animNo", toString(self.env.animNo))
-	guiDebug:AddMsg(index, "animName", toString(self.env.animName))
-	guiDebug:AddMsg(index, "animFrame", toString(self.env.animFrame))
-	guiDebug:AddMsg(index, "leftAnimFrame", toString(self.env.leftAnimFrame))
-	guiDebug:AddMsg(index, "justOnGround", toString(self.env.justOnGround))
-	guiDebug:AddMsg(index, "ctrl", toString(self.env.ctrl))
-	guiDebug:AddMsg(index, "commands", toString(self.env.commands))
-	--]]
 end
+--]]
 
 return M

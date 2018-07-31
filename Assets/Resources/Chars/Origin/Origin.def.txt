@@ -4,4 +4,4 @@ scaleZ: 0.01
 modelFile: /Origin
 actionConfigFile: /Origin.act
 cmdConfigFile: /Origin.cmd
-fsmConfigFile: /fsm/Origin
+fsmConfigFile: Origin

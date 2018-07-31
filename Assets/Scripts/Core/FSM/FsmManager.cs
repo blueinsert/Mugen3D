@@ -32,7 +32,7 @@ namespace Mugen3D.Core
             funcFsmChangeState = this.fsm.Get<string, DelegateFsmChangeState>("changeState"); 
              */
             var env = LuaMgr.Instance.Env;
-            var status = env.L_DoString(string.Format("return (require('{0}'))", "Chars/Origin/Origin"));
+            var status = env.L_DoString("return (require('Chars/CharFsmManager'))");
             if (status != ThreadStatus.LUA_OK)
             {
                 throw new Exception(env.ToString(-1));
@@ -41,13 +41,14 @@ namespace Mugen3D.Core
             {
                 throw new Exception("framework main's return value is not a table");
             }
-            env.GetField(-1, "new");
+            env.GetField(-1, "create");
             if (!env.IsFunction(-1))
             {
                 throw new Exception(string.Format("method {0} not found!", env));
             }
+            env.PushString(m_owner.config.fsmConfigFile);
             env.PushLightUserData(m_owner);
-            status = env.PCall(1, 1, 0);
+            status = env.PCall(2, 1, 0);
             if (status != ThreadStatus.LUA_OK)
             {
                 Debug.LogError(env.ToString(-1));
@@ -57,7 +58,7 @@ namespace Mugen3D.Core
                 throw new Exception("framework main's return value is not a table");
             }
             refUpdate = StoreMethod(env, "update");
-
+            env.Pop(env.GetTop());
         }
 
         int refUpdate;

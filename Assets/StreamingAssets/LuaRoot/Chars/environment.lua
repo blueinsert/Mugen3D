@@ -1,58 +1,62 @@
+local trigger = require "trigger.cs"
+
 local M = {}
 
-function M.new(char)
+function M.new(csObjChar)
     local obj = {}
-    obj.char = char
+    obj.csObjChar = csObjChar
 	setmetatable(obj, {__index = M})
 	return obj
 end
 
 function M:CommandTest(commandName)
-   return self.char.player.cmdMgr:CommandIsActive(commandName)
+   local res = trigger.CommandTest(self.csObjChar, commandName)
+   --print("commandTest " .. commandName .. ":" .. res)
+   return res
 end
 
-function M:moveType()
-    return self.char.player.status.moveType:ToString()
+function M:MoveType()
+    return trigger.MoveType(self.csObjChar)
 end
 
-function M:physicsType()
-    return self.char.player.status.physicsType:ToString()
+function M:PhysicsType()
+    return trigger.PhysicsType(self.csObjChar)
 end
 
-function  M:justOnGround()
-    return self.char.player.moveCtr.justOnGround
+function  M:JustOnGround()
+    return trigger.JustOnGround(self.csObjChar)
 end
 
-function M:stateNo()
-	return self.char.stateNo
+function M:StateNo()
+	return trigger.StateNo(self.csObjChar)
 end
 
-function M:stateTime()
-    return self.char.stateTime
+function M:StateTime()
+    return trigger.StateTime(self.csObjChar)
 end
 
-function M:anim()
-    return self.char.player.animCtr.anim
+function M:Anim()
+    return trigger.Anim(self.csObjChar)
 end
 
-function M:animTime()
-    return self.char.player.animCtr.animTime
+function M:AnimTime()
+    return trigger.AnimTime(self.csObjChar)
 end
 
-function M:animElem()
-    return self.char.player.animCtr.animElem
+function M:AnimElem()
+    return trigger.AnimElem(self.csObjChar)
 end
 
-function M:animElemTime()
-    return self.char.player.animCtr.animElemTime
+function M:AnimElemTime()
+    return trigger.AnimElemTime(self.csObjChar)
 end
 
-function M:leftAnimTime()
-    return self.char.player.animCtr.animLength - self:animTime()
+function M:LeftAnimTime()
+    return trigger.LeftAnimTime(self.csObjChar)
 end
 
-function M:vel()
-    return self.char.player.moveCtr.velocity
+function M:Vel()
+    return trigger.Vel(self.csObjChar)
 end
 
 return M

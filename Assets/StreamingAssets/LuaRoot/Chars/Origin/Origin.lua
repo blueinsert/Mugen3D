@@ -4,8 +4,8 @@ fsm.__loadall()
 
 local M = {} 
 
-function M.new(player)
-	return Char.new(player, fsm)
+function M.new(csObjChar)
+	return Char.new(csObjChar, fsm)
 end
 
 return M
