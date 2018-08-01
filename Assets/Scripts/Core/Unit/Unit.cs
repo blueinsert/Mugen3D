@@ -10,7 +10,7 @@ namespace Mugen3D.Core
 {
     public enum MoveType
     {
-        Attack,
+        Attack = 1,
         Idle,
         Defence,
         BeingHitted,
@@ -19,7 +19,7 @@ namespace Mugen3D.Core
     public enum PhysicsType
     {
         N = -1,
-        S,
+        S = 1,
         C,
         A,
     }

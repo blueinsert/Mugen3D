@@ -1,3 +1,4 @@
+require "Chars/enums"
 local M = {}
 
 --[[
@@ -82,8 +83,8 @@ M[20] = {
 M[40] = {
     onEnter = function(char)
         --print("jumpStart")
-    	char.ctl:PhysicsSet("S")
-    	char.ctl:MoveTypeSet("I")
+    	char.ctl:PhysicsSet(PhysicsType.S)
+    	char.ctl:MoveTypeSet(MoveType.I)
     	char.ctl:ChangeAnim(40)
     	char.ctl:CtrlSet(true)
     	if char.env:CommandTest("holdback") then
@@ -107,10 +108,10 @@ M[40] = {
 --jump up
 M[41] = {
 	onEnter = function(char)
-		char.ctl:PhysicsSet("A")
-		char.ctl:MoveTypeSet("I")
+		char.ctl:PhysicsSet(PhysicsType.A)
+		char.ctl:MoveTypeSet(MoveType.I)
 		char.ctl:CtrlSet(true)
-		char.ctl:ChangeAnim(41, "Once")
+		char.ctl:ChangeAnim(41)
 		char.ctl:VelSet(char.jumpDir*2, 7)
 	end,
 	onExit = function(char)
@@ -138,8 +139,8 @@ M[42] = {
 --land
 M[47] = {
 	onEnter = function(char)
-		char.ctl:MoveTypeSet("I")
-		char.ctl:PhysicsSet("S")
+		char.ctl:MoveTypeSet(MoveType.I)
+		char.ctl:PhysicsSet(PhysicsType.S)
 		char.ctl:CtrlSet(true)
 		char.ctl:ChangeAnim(47)
 		char.ctl:VelSet(0, 0)

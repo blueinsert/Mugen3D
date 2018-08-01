@@ -51,52 +51,91 @@ namespace Mugen3D.Core
 
         public static int GetPhysicsType(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var physicsType = (int)c.status.moveType;
+            lua.PushInteger(physicsType);
             return 1;
         }
 
         public static int IsJustOnGround(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var justOnGround = c.moveCtr.justOnGround;
+            lua.PushBoolean(justOnGround);
             return 1;
         }
 
         public static int GetStateNo(ILuaState lua)
         {
+            //lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+           // Character c = (Character)lua.ToUserData(1);
             return 1;
         }
 
         public static int GetStateTime(ILuaState lua)
         {
+
+            //lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //Character c = (Character)lua.ToUserData(1);
+       
             return 1;
         }
 
         public static int GetAnim(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var anim = c.animCtr.anim;
+            lua.PushInteger(anim);
             return 1;
         }
 
         public static int GetAnimTime(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var animTime = c.animCtr.animTime;
+            lua.PushInteger(animTime);
             return 1;
         }
 
         public static int GetAnimElem(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var animElem = c.animCtr.animElem;
+            lua.PushInteger(animElem);
             return 1;
         }
 
         public static int GetAnimElemTime(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var animElemTime = c.animCtr.animElemTime;
+            lua.PushInteger(animElemTime);
             return 1;
         }
 
         public static int GetLeftAnimTime(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var leftTime = c.animCtr.animLength - c.animCtr.animTime;
+            lua.PushInteger(leftTime);
             return 1;
         }
 
         public static int GetVel(ILuaState lua)
         {
-            return 1;
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var vel = c.moveCtr.velocity;
+            lua.PushNumber(vel.x.AsFloat());
+            lua.PushNumber(vel.y.AsFloat());
+            return 2;
         }
 
        

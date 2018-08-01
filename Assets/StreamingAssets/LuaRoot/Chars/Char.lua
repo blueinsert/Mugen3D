@@ -5,8 +5,8 @@ local M = {}
 
 local function init(self, csObjChar, fsm)
     self.csObjChar = csObjChar
-	self.env = Env.new(csObjChar)
-	self.ctl = Ctl.new(csObjChar)
+	self.env = Env.new(self)
+	self.ctl = Ctl.new(self)
 	self.fsm = fsm
 	self.stateNo = 0
 	self.stateTime = -1

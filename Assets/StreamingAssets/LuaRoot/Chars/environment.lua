@@ -2,61 +2,64 @@ local trigger = require "trigger.cs"
 
 local M = {}
 
-function M.new(csObjChar)
+function M.new(charFsm)
     local obj = {}
-    obj.csObjChar = csObjChar
+    obj.charFsm = charFsm
 	setmetatable(obj, {__index = M})
 	return obj
 end
 
 function M:CommandTest(commandName)
-   local res = trigger.CommandTest(self.csObjChar, commandName)
+   local res = trigger.CommandTest(self.charFsm.csObjChar, commandName)
    --print("commandTest " .. commandName .. ":" .. res)
    return res
 end
 
 function M:MoveType()
-    return trigger.MoveType(self.csObjChar)
+    return trigger.MoveType(self.charFsm.csObjChar)
 end
 
 function M:PhysicsType()
-    return trigger.PhysicsType(self.csObjChar)
+    return trigger.PhysicsType(self.charFsm.csObjChar)
 end
 
 function  M:JustOnGround()
-    return trigger.JustOnGround(self.csObjChar)
+    return trigger.JustOnGround(self.charFsm.csObjChar)
 end
 
 function M:StateNo()
-	return trigger.StateNo(self.csObjChar)
+    return self.charFsm.stateNo
+	--return trigger.StateNo(self.charFsm.csObjChar)
 end
 
 function M:StateTime()
-    return trigger.StateTime(self.csObjChar)
+    return self.charFsm.stateTime
+    --return trigger.StateTime(self.charFsm.csObjChar)
 end
 
 function M:Anim()
-    return trigger.Anim(self.csObjChar)
+    return trigger.Anim(self.charFsm.csObjChar)
 end
 
 function M:AnimTime()
-    return trigger.AnimTime(self.csObjChar)
+    return trigger.AnimTime(self.charFsm.csObjChar)
 end
 
 function M:AnimElem()
-    return trigger.AnimElem(self.csObjChar)
+    return trigger.AnimElem(self.charFsm.csObjChar)
 end
 
 function M:AnimElemTime()
-    return trigger.AnimElemTime(self.csObjChar)
+    return trigger.AnimElemTime(self.charFsm.csObjChar)
 end
 
 function M:LeftAnimTime()
-    return trigger.LeftAnimTime(self.csObjChar)
+    return trigger.LeftAnimTime(self.charFsm.csObjChar)
 end
 
 function M:Vel()
-    return trigger.Vel(self.csObjChar)
+    local x,y = trigger.Vel(self.charFsm.csObjChar)
+    return {x = x, y = y}
 end
 
 return M
