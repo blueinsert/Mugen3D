@@ -8,26 +8,7 @@ namespace Mugen3D
 {
     public class Log
     {
-        public static void Info(string info)
-        {
-            Debug.Log(info);
-        }
-
-        public static void Warn(string info)
-        {
-            Debug.LogWarning(info);
-        }
-
-        public static void Error(string info)
-        {
-            Debug.LogError(info);
-        }
-
-        public static void DrawLine(Vector2 start, Vector2 end, Color c, float duration)
-        {
-            Debug.DrawLine(start, end, c, duration);
-        }
-
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void DrawRect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color c, float duration)
         {
             Debug.DrawLine(p1, p2, c, duration);
@@ -36,25 +17,25 @@ namespace Mugen3D
             Debug.DrawLine(p4, p1, c, duration);
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void Info(string message, params object[] args)
         {
             Debug.Log(FormatLog(message, args));
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
+        ////[System.Diagnostics.Conditional("DEBUG")]
         public static void Warn(string message, params object[] args)
         {
             Debug.LogWarning(FormatLog(message, args));
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void Error(string message, params object[] args)
         {
             Debug.LogError(FormatLog(message, args));
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void Binary(string message, byte[] data)
         {
             var sb = new StringBuilder();
@@ -69,7 +50,7 @@ namespace Mugen3D
             Info(sb.ToString());
         }
 
-        [System.Diagnostics.Conditional("DEBUG")]
+        //[System.Diagnostics.Conditional("DEBUG")]
         public static void Assert(bool condition, object message)
         {
             if (!condition)

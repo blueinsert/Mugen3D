@@ -3,9 +3,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace Mugen3D.Net
+namespace Mugen3D.Net.Server
 {
     public class Conn
     {
@@ -51,6 +52,23 @@ namespace Mugen3D.Net
                 return "无法获取地址";
             return socket.RemoteEndPoint.ToString();
         }
+
+        //发送
+        public void Send(Protocol.ProtocolBase protocol)
+        {
+            byte[] bytes = protocol.Encode();
+            byte[] length = BitConverter.GetBytes(bytes.Length);
+            byte[] sendbuff = length.Concat(bytes).ToArray();
+            try
+            {
+                this.socket.BeginSend(sendbuff, 0, sendbuff.Length, SocketFlags.None, null, null);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("[发送消息]" + this.GetAdress() + " : " + e.Message);
+            }
+        }
+
         //关闭
         public void Close()
         {

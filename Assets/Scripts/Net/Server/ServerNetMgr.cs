@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Mugen3D.Net
+namespace Mugen3D.Net.Server
 {
 
     public class ServerNetMgr : MonoBehaviour
@@ -63,7 +63,8 @@ namespace Mugen3D.Net
             listenfd.Listen(MAX_CONN);
             //Accept
             listenfd.BeginAccept(AcceptCb, null);
-            Console.WriteLine("[服务器]启动成功");
+            Console.WriteLine("[服务器]启动成功 listening in:" + host + ":" + port);
+            Debug.Log("server listening at:" + host + ":" + port);
         }
 
         //获取链接池索引，返回负数表示获取失败
@@ -182,7 +183,15 @@ namespace Mugen3D.Net
         private void HandleMsg(Conn conn, Protocol.ProtocolBase protoBase)
         {
             string name = protoBase.GetName();
-            Debug.Log(conn.GetAdress() + " protocol:" + name);
+            switch (name)
+            {
+                case "CreateRoom":
+                    BattleMsgHandler.CreateRoom(conn, protoBase);
+                    break;
+                case "JoinRoom":
+                    BattleMsgHandler.JoinRoom(conn, protoBase);
+                    break;
+            }
         }
 
         //发送

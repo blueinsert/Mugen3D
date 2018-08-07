@@ -17,6 +17,11 @@ public class GUIDebug : MonoBehaviour
         Instance = this;
     }
 
+    public void AddMsg(string key, string value)
+    {
+        AddMsg(0, key, value);
+    }
+
     public void AddMsg(int index, string key, string value)
     {
         if (!m_msg.ContainsKey(index))

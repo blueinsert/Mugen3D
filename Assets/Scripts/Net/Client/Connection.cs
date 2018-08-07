@@ -113,7 +113,7 @@ namespace Mugen3D.Net
                 return;
             //协议解码
             Protocol.ProtocolBase protocol = proto.Decode(readBuff, sizeof(Int32), msgLength);
-            Debug.Log("收到消息 " + protocol.GetDesc());
+            //Debug.Log("收到消息 " + protocol.GetDesc());
             lock (msgDist.msgList)
             {
                 msgDist.msgList.Add(protocol);
@@ -142,7 +142,6 @@ namespace Mugen3D.Net
 
             byte[] sendbuff = length.Concat(b).ToArray();
             socket.Send(sendbuff);
-            Debug.Log("发送消息 " + protocol.GetDesc());
             return true;
         }
 
