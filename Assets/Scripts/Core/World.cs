@@ -20,10 +20,14 @@ namespace Mugen3D.Core
         public TeamInfo teamInfo = new TeamInfo();
         public System.Action<Entity> onCreateEntity;
         public System.Action<WorldConfig> onCreateWorld;
+        public Character localPlayer;
+        public int logicFPS;
 
-        public World(WorldConfig cfg)
+        public World(WorldConfig cfg, int logicFPS)
         {
             config = cfg;
+            this.logicFPS = logicFPS;
+            this.deltaTime = new Number(1000/logicFPS) / new Number(1000);
             entities = new List<Entity>();
             Time.Clear();
         }
@@ -46,7 +50,12 @@ namespace Mugen3D.Core
             m_addedEntities.Add(e);
             if (e is Character)
             {
-                teamInfo.AddCharacter(e as Character);
+                Character c = e as Character;
+                teamInfo.AddCharacter(c);
+                if (c.isLocal)
+                {
+                    this.localPlayer = c;
+                }
             }
             e.SetEntityId(m_maxEntityId++);
             e.SetWorld(this);
@@ -71,12 +80,10 @@ namespace Mugen3D.Core
             entities.Clear();
         }
 
-        public void Update(Number _deltaTime)
+        public void Update()
         {
-            Time.Update(_deltaTime);
+            Time.Update(deltaTime);
             gameTime++;
-            deltaTime = _deltaTime;
-
             foreach (var e in m_addedEntities)
             {
                 DoAddEntity(e);
@@ -84,7 +91,7 @@ namespace Mugen3D.Core
             m_addedEntities.Clear();
             foreach (var e in entities)
             {
-                e.OnUpdate(_deltaTime);
+                e.OnUpdate(deltaTime);
                 if (e.isDestroyed)
                 {
                     m_destroyedEntities.Add(e);

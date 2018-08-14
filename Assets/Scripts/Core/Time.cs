@@ -16,10 +16,10 @@ namespace Mugen3D.Core
             frameCount = 0;
         }
 
-        public static void Update(Number deltaTime)
+        public static void Update(Number _deltaTime)
         {
-            time += deltaTime;
-            Time.deltaTime = deltaTime;
+            time += _deltaTime;
+            deltaTime = _deltaTime;
             frameCount++;
         }
     }

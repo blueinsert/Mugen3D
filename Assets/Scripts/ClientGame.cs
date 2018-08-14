@@ -23,22 +23,35 @@ namespace Mugen3D
         public Core.World world;
         public ViewWorld viewWorld;
 
-        private Character p1;
-        private Character p2;
-        private bool isInited = false;
-
-        public void Awake()
+        private void Awake()
         {
             Instance = this;
-            Application.targetFrameRate = 60;
         }
 
-        public void OnDestroy()
+        private void DestroyWorld()
+        {
+            if (this.viewWorld != null)
+            {
+                //this.viewWorld.Destroy();
+                //ResourceMgr.UnloadUnusedAssets();
+            }
+        }
+
+        private void OnDestroy()
         {
             Instance = null;
+            if (this.viewWorld != null)
+            {
+                DestroyWorld();
+            }
         }
 
-        private void CoreInit()
+        private string LuaPathHook(string fileName)
+        {
+            return Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), fileName);
+        }
+
+        private void InitCore()
         {
             Core.Debug.Log = Log.Info;
             Core.Debug.LogWarn = Log.Warn;
@@ -47,12 +60,12 @@ namespace Mugen3D
             Core.LuaMgr.SetPathHook(this.LuaPathHook);
         }
 
-        private string LuaPathHook(string fileName)
+        protected void InitGame()
         {
-            return Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), fileName);
+            InitCore();
         }
 
-        protected Character AddCharacter(string characterName, int slot)
+        protected Character CreateCharacter(string characterName, int slot, bool isLocal)
         {
             string prefix = "Chars/" + characterName;
             CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + "/" + characterName + ".def"));
@@ -60,13 +73,13 @@ namespace Mugen3D
             string commands = ResourceLoader.LoadText(prefix + config.cmdConfigFile);
             config.SetActions(actionsConfig.actions.ToArray());
             config.SetCommand(commands);
-            Character p = new Character(characterName, config);
+            Character p = new Character(characterName, config, isLocal);
             p.SetSlot(slot);
             this.world.AddEntity(p);
             return p;
         }
 
-        protected void CreateWorld()
+        protected void CreateWorld(string stageName, int logicFPS)
         {
             CameraConfig cameraConfig = new CameraConfig() { depth = -6, fieldOfView = 34, yOffset = 1, aspect = new Number(4) / new Number(3) };
             var stageConfig = new StageConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100, cameraConfig = cameraConfig, stage = "TrainingRoom", initPos = new Vector[] { new Vector(-10, 0), new Vector(10, 0) } };
@@ -102,7 +115,7 @@ namespace Mugen3D
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.SetStageConfig(stageConfig);
             worldConfig.SetInputConfig(inputConfig);
-            world = new World(worldConfig);
+            world = new World(worldConfig, logicFPS);
             viewWorld = new ViewWorld();
             viewWorld.InitScene(this.gameObject);
             world.onCreateEntity += viewWorld.OnCreateEntity;
@@ -110,23 +123,16 @@ namespace Mugen3D
             world.CreateWorld();
         }
 
-        public void CreateGame(string p1CharacterName, string p2CharacterName, string stageName, PlayMode playMode = PlayMode.Training)
+        protected virtual void Update()
         {
-            CoreInit();
-            CreateWorld();
-            p1 = AddCharacter(p1CharacterName, 0);
-            p2 = AddCharacter(p2CharacterName, 1);
-            world.CreateCamera();
-            isInited = true;
+            OnUpdate();
         }
 
-        void Update()
+        protected virtual void OnUpdate() { }
+
+        protected void Step()
         {
-            if (!isInited)
-                return;
-            p1.UpdateInput(InputHandler.Instance.GetInputKeycode(p1.slot, p1.facing));
-            p2.UpdateInput(InputHandler.Instance.GetInputKeycode(p2.slot, p2.facing));
-            this.world.Update(UnityEngine.Time.deltaTime.ToNumber());
+            this.world.Update();
         }
     }
 }

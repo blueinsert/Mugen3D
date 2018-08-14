@@ -18,9 +18,6 @@ namespace Mugen3D
             }
         }
 
-
-
-
         private Dictionary<int, Dictionary<Core.KeyNames, KeyCode>> m_mapCfg = new Dictionary<int, Dictionary<Core.KeyNames, KeyCode>>();
 
         private InputHandler()
@@ -70,7 +67,6 @@ namespace Mugen3D
                     }   
                 }
             }
-            Debug.Log("keycode:"+keycode);
             return keycode;
         }
 

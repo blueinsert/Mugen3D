@@ -10,7 +10,7 @@ public class GameTest1 : MonoBehaviour {
         LuaMgr.Instance.Env.DoString(string.Format("return require('{0}')", "Lua/main"));
         GameObject go = new GameObject("Battle");
         var clientGame = go.AddComponent<ClientGame>();
-        clientGame.CreateGame("Origin", "Origin", "TrainingRoom", playMode);
+        //clientGame.CreateGame("Origin", "Origin", "TrainingRoom", playMode);
 	}
 	
 	void Update () {

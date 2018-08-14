@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mugen3D.Core
 {
-    public delegate void LogDelegate(string message, params object[] args);
+    public delegate void LogDelegate(string message);
     public delegate void AssertDelegate(bool expr, object message);
 
     public class Debug

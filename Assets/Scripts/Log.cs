@@ -8,7 +8,6 @@ namespace Mugen3D
 {
     public class Log
     {
-        //[System.Diagnostics.Conditional("DEBUG")]
         public static void DrawRect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color c, float duration)
         {
             Debug.DrawLine(p1, p2, c, duration);
@@ -17,25 +16,21 @@ namespace Mugen3D
             Debug.DrawLine(p4, p1, c, duration);
         }
 
-        //[System.Diagnostics.Conditional("DEBUG")]
-        public static void Info(string message, params object[] args)
+        public static void Info(string message)
         {
-            Debug.Log(FormatLog(message, args));
+            Debug.Log(FormatLog(message));
         }
 
-        ////[System.Diagnostics.Conditional("DEBUG")]
-        public static void Warn(string message, params object[] args)
+        public static void Warn(string message)
         {
-            Debug.LogWarning(FormatLog(message, args));
+            Debug.LogWarning(FormatLog(message));
         }
 
-        //[System.Diagnostics.Conditional("DEBUG")]
-        public static void Error(string message, params object[] args)
+        public static void Error(string messages)
         {
-            Debug.LogError(FormatLog(message, args));
+            Debug.LogError(FormatLog(messages));
         }
 
-        //[System.Diagnostics.Conditional("DEBUG")]
         public static void Binary(string message, byte[] data)
         {
             var sb = new StringBuilder();
@@ -50,7 +45,6 @@ namespace Mugen3D
             Info(sb.ToString());
         }
 
-        //[System.Diagnostics.Conditional("DEBUG")]
         public static void Assert(bool condition, object message)
         {
             if (!condition)
@@ -59,11 +53,11 @@ namespace Mugen3D
             }
         }
 
-        private static string FormatLog(string message, params object[] args)
+        private static string FormatLog(string message)
         {
             var now = DateTime.Now;
             var prefix = string.Format("[{0}.{1}] ", now.ToString("yyyy-MM-dd HH:mm:ss"), now.Millisecond);
-            return prefix + string.Format(message, args);
+            return prefix + message;
         }
     }
 }

@@ -144,7 +144,7 @@ public class SceneManager : MonoBehaviour {
             (scene) => {
                 scene.SetActive(false);
                 var clientGame = scene.AddComponent<ClientGame>();
-                clientGame.CreateGame(p1CharacterName, p1CharacterName, stage, playMode);
+                //clientGame.CreateGame(p1CharacterName, p1CharacterName, stage, playMode);
                
             }, 
             (scene) => {

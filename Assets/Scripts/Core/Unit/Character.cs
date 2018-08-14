@@ -10,11 +10,13 @@ namespace Mugen3D.Core
         public int slot;
         public string characterName;
         public CharacterConfig config;
+        public bool isLocal;
 
-        public Character(string characterName, CharacterConfig config)
+        public Character(string characterName, CharacterConfig config, bool isLocal)
         {
             this.characterName = characterName;
             this.config = config;
+            this.isLocal = isLocal;
             moveCtr = new PlayerMoveCtrl(this);
             string prefix = "Chars/" + characterName;
             animCtr = new AnimationController(config.actions, this);
