@@ -45,7 +45,7 @@ namespace Mugen3D.Core
 
         public int facing = 1;
         private int pauseTime = 0;
-        private uint input;
+        private int input;
 
         public Unit()
         {
@@ -64,7 +64,7 @@ namespace Mugen3D.Core
             cmdMgr.Update(input);
         }
 
-        public void UpdateInput(uint input)
+        public void UpdateInput(int input)
         {
             this.input = input;
         }

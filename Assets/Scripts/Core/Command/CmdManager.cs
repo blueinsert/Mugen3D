@@ -47,7 +47,7 @@ namespace Mugen3D.Core
             }
         }
 
-        public void Update(uint keycode)
+        public void Update(int keycode)
         {
             //Log.Info("KEYCODE:" + keycode);
             foreach (var l in m_commandState)

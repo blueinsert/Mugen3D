@@ -7,9 +7,9 @@ namespace Mugen3D.Core
 {
     public class Utility
     {
-        public static uint GetKeycode(KeyNames key)
+        public static int GetKeycode(KeyNames key)
         {
-            return (uint)1 << ((int)key);
+            return 1 << ((int)key);
         }
 
         public static void Assert(bool flag, string msg)

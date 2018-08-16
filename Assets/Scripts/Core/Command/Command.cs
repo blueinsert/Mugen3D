@@ -32,8 +32,8 @@ namespace Mugen3D.Core
 
     public class CommandElement
     {
-        public uint keyCode;
-        public uint keyModifier;
+        public int keyCode;
+        public int keyModifier;
 
         public string ToString()
         {

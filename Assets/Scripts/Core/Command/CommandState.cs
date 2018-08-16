@@ -21,7 +21,7 @@ namespace Mugen3D.Core
         private int bufferTimer = 0;
         private int commandBeginTime = 0;
 
-        private uint mLastInput = 0;
+        private int mLastInput = 0;
 
         public bool IsCommandComplete { get { return stateIndex == commandElementNum; } }
 
@@ -51,10 +51,10 @@ namespace Mugen3D.Core
         {
             stateIndex = 0;
         }
-  
-        private bool IsHolding(CommandElement expectInput, uint lastInput, uint curInput)
+
+        private bool IsHolding(CommandElement expectInput, int lastInput, int curInput)
         {
-            uint expect = expectInput.keyCode;
+            int expect = expectInput.keyCode;
             if ((expectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Detect_As_4Way)) != 0)
             {
                 if ((lastInput & expect) == expect && (curInput & expect) == expect)
@@ -79,9 +79,9 @@ namespace Mugen3D.Core
             }
         }
 
-        private bool IsPressed(CommandElement expectInput, uint lastInput, uint curInput)
+        private bool IsPressed(CommandElement expectInput, int lastInput, int curInput)
         {
-            uint expect = expectInput.keyCode;
+            int expect = expectInput.keyCode;
             if ((expectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Detect_As_4Way)) != 0)
             {
                 if ((lastInput & expect) != expect && (curInput & expect) == expect)
@@ -106,9 +106,9 @@ namespace Mugen3D.Core
             }
         }
 
-        private bool isRelease(CommandElement expectInput, uint lastInput, uint curInput)
+        private bool isRelease(CommandElement expectInput, int lastInput, int curInput)
         {
-            uint expect = expectInput.keyCode;
+            int expect = expectInput.keyCode;
             if ((expectInput.keyModifier & (1 << (int)KeyMode.KeyMode_Detect_As_4Way)) != 0)
             {
                 if ((lastInput & expect) == expect && (curInput & expect) != expect)
@@ -150,7 +150,7 @@ namespace Mugen3D.Core
             }
         }
 
-        public void Update(uint keycode)
+        public void Update(int keycode)
         {  
             if (IsCommandComplete)
             {

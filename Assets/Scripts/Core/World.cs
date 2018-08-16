@@ -16,6 +16,7 @@ namespace Mugen3D.Core
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
         public List<Entity> entities  { get; private set; }
+        public List<Character> characters = new List<Character>();
         public CameraController camCtl { get; private set; }
         public TeamInfo teamInfo = new TeamInfo();
         public System.Action<Entity> onCreateEntity;
@@ -56,6 +57,7 @@ namespace Mugen3D.Core
                 {
                     this.localPlayer = c;
                 }
+                characters.Add(c);
             }
             e.SetEntityId(m_maxEntityId++);
             e.SetWorld(this);

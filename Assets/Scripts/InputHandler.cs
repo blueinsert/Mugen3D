@@ -45,10 +45,10 @@ namespace Mugen3D
             }
         }
 
-        public uint GetInputKeycode(int playerSlot, int facing)
+        public int GetInputKeycode(int playerSlot, int facing)
         {
             Dictionary<Core.KeyNames, KeyCode> keycodeMap = m_mapCfg[playerSlot];
-            uint keycode = 0;
+            int keycode = 0;
             foreach (var pair in keycodeMap)
             {
                 if (Input.GetKey(pair.Value))
