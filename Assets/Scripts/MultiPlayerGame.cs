@@ -10,7 +10,7 @@ namespace Mugen3D
     {
         BattleNetClient m_battleNetClient;
 
-        public void StartGame(string p1CharacterName, string p2CharacterName, string stageName, BattleNetClient battleNetClient, int renderFPS, int logicFPS)
+        public void StartGame(string p1CharacterName, string p2CharacterName, string stageName, BattleNetClient battleNetClient, int renderFPS = 60, int logicFPS = 60)
         {
             RegisterBattleNetClient(battleNetClient);
             Application.targetFrameRate = renderFPS;
@@ -45,6 +45,7 @@ namespace Mugen3D
 
         void OnGameUpdate(int frame, int[] commands)
         {
+            Debug.Log("OnGameUpdate");
             if (commands != null)
             {
                 var players = world.characters;
@@ -56,6 +57,7 @@ namespace Mugen3D
                     }
                 }
             }
+            Step();
         }
 
         void OnGameEnd() { 

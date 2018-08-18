@@ -4,49 +4,53 @@ using UnityEngine;
 using Mugen3D.Net;
 
 public class PvpTest : MonoBehaviour {
-
+    BattleNetClient m_battleClient;
+    
 	// Use this for initialization
 	void Start () {
-        /*
-        serverNetMgr = Mugen3D.Net.Server.ServerNetMgr.Instance;
-        serverNetMgr.Start("127.0.0.1", 1234);
-        clientNetMgr = Mugen3D.Net.ClientNetMgr.Instance;
-        clientNetMgr.Connect("127.0.0.1", 1234);
-        Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
-        proto.AddString("hello");
-        clientNetMgr.conn.Send(proto);
-         */
+        m_battleClient = BattleNetClient.Instance;
+        RegisterNetEvent();
 	}
-	
-	// Update is called once per frame
+
+    void RegisterNetEvent()
+    {
+        m_battleClient.onRoomCreate += OnRoomCreate;
+        m_battleClient.onMatchCreate += OnMatchCreate;
+    }
+
+    void UnRegisterNetEvent()
+    {
+        m_battleClient.onRoomCreate -= OnRoomCreate;
+        m_battleClient.onMatchCreate -= OnMatchCreate;
+    }
+
+    void OnRoomCreate(int roomId)
+    {
+        Debug.Log("OnRoomCreate roomId:" + roomId);
+    }
+
+    void OnMatchCreate()
+    {
+        Debug.Log("OnMatchCreate");
+        var multiGame = this.gameObject.AddComponent<Mugen3D.MultiPlayerGame>();
+        multiGame.StartGame("Origin", "Origin", "Training", m_battleClient, 60, 60);
+    }
+
 	void Update () {
 		
 	}
 
+
     void OnGUI() {
         if (GUILayout.Button("CreateRoom"))
         {
-            Mugen3D.Net.Server.ServerNetMgr.Instance.Start("127.0.0.1", 1234);
-            Mugen3D.Net.ClientNetMgr.Instance.Connect("127.0.0.1", 1234);
-            Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
-            proto.AddString("CreateRoom");
-            Mugen3D.Net.ClientNetMgr.Instance.conn.Send(proto);
-            Mugen3D.Net.ClientNetMgr.Instance.conn.msgDist.AddListener("GameStart", (res) => {
-                Debug.Log("GameStart");
-                GUIDebug.Instance.AddMsg("msg", "GameStart");
-            });
+            m_battleClient.Connect("127.0.0.1", 1234);
+            m_battleClient.CreateRoom();
         }
         if (GUILayout.Button("JoinRoom"))
         {
-            Mugen3D.Net.ClientNetMgr.Instance.Connect("127.0.0.1", 1234);
-            Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
-            proto.AddString("JoinRoom");
-            Mugen3D.Net.ClientNetMgr.Instance.conn.Send(proto);
-            Mugen3D.Net.ClientNetMgr.Instance.conn.msgDist.AddListener("GameStart", (res) =>
-            {
-                Debug.Log("GameStart");
-                GUIDebug.Instance.AddMsg("msg", "GameStart");
-            });
+            m_battleClient.Connect("127.0.0.1", 1234);
+            m_battleClient.JoinRoom(0);
         }
     }
 }
