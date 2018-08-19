@@ -7,7 +7,6 @@ namespace Mugen3D.Net
 {
     public class BattleNetClient : MonoBehaviour
     {
-        public event Action<int> onRoomCreate;
         public event Action onMatchCreate;
         public event Action onGameStart;
         public event Action<int, int[]> onGameUpdate;
@@ -33,19 +32,11 @@ namespace Mugen3D.Net
 
         private void Init()
         {
-            conn.msgDist.AddListener("RoomCreate", (res) =>
-            {
-                if (onRoomCreate != null)
-                {
-                    Protocol.ProtocolBytes protocol = (Protocol.ProtocolBytes)res;
-                    int start = 0;
-                    string protoName = protocol.GetString(start, ref start);
-                    int roomId = protocol.GetInt(start, ref start);
-                    this.roomId = roomId;
-                    onRoomCreate(roomId);
-                }
-            });
             conn.msgDist.AddListener("MatchCreate", (res) => {
+                Protocol.ProtocolBytes protocol = (Protocol.ProtocolBytes)res;
+                int start = 0;
+                string protoName = protocol.GetString(start, ref start);
+                roomId = protocol.GetInt(start, ref start);
                 if (onMatchCreate != null)
                 {
                     onMatchCreate();
@@ -91,29 +82,24 @@ namespace Mugen3D.Net
             return conn.Connect(host, port);
         }
 
-        public void CreateRoom()
+        public void FindMatch()
         {
             Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
-            proto.AddString("CreateRoom");
+            proto.AddString("FindMatch");
             conn.Send(proto);
         }
 
-        public void JoinRoom(int roomId)
+        public void CancelFindMatch()
         {
             Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
-            proto.AddString("JoinRoom");
-            proto.AddInt(roomId);
+            proto.AddString("CancelFindMatch");
             conn.Send(proto);
         }
 
         public void SendInput(int frameNo, int value)
-        {
-            Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
-            proto.AddString("Input");
-            proto.AddInt(roomId);
-            proto.AddInt(frameNo);
-            proto.AddInt(value);
-            conn.Send(proto);
+        {      
+            Protocol.FrameData frameData = new Protocol.FrameData(roomId, frameNo, value);
+            conn.Send(frameData);
         }
     }
 }

@@ -14,19 +14,12 @@ public class PvpTest : MonoBehaviour {
 
     void RegisterNetEvent()
     {
-        m_battleClient.onRoomCreate += OnRoomCreate;
         m_battleClient.onMatchCreate += OnMatchCreate;
     }
 
     void UnRegisterNetEvent()
     {
-        m_battleClient.onRoomCreate -= OnRoomCreate;
         m_battleClient.onMatchCreate -= OnMatchCreate;
-    }
-
-    void OnRoomCreate(int roomId)
-    {
-        Debug.Log("OnRoomCreate roomId:" + roomId);
     }
 
     void OnMatchCreate()
@@ -36,21 +29,16 @@ public class PvpTest : MonoBehaviour {
         multiGame.StartGame("Origin", "Origin", "Training", m_battleClient, 60, 60);
     }
 
-	void Update () {
-		
-	}
-
+    void Update()
+    {
+    }
 
     void OnGUI() {
-        if (GUILayout.Button("CreateRoom"))
+        if (GUILayout.Button("FindMatch"))
         {
             m_battleClient.Connect("127.0.0.1", 1234);
-            m_battleClient.CreateRoom();
+            m_battleClient.FindMatch();
         }
-        if (GUILayout.Button("JoinRoom"))
-        {
-            m_battleClient.Connect("127.0.0.1", 1234);
-            m_battleClient.JoinRoom(0);
-        }
+       
     }
 }
