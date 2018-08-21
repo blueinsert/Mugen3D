@@ -34,11 +34,17 @@ public class PvpTest : MonoBehaviour {
     }
 
     void OnGUI() {
-        if (GUILayout.Button("FindMatch"))
+        if (GUILayout.Button("Connect"))
         {
             m_battleClient.Connect("127.0.0.1", 1234);
+        }
+        if (GUILayout.Button("FindMatch"))
+        {
             m_battleClient.FindMatch();
         }
-       
+        if (GUILayout.Button("CancelFindMatch"))
+        {
+            m_battleClient.CancelFindMatch();
+        }
     }
 }

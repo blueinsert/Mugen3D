@@ -45,7 +45,7 @@ namespace Mugen3D
 
         void OnGameUpdate(int frame, int[] commands)
         {
-            Debug.Log("OnGameUpdate");
+            //Debug.Log("OnGameUpdate");
             if (commands != null)
             {
                 var players = world.characters;

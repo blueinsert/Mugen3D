@@ -7,13 +7,11 @@ namespace Mugen3D.Net.Protocol
 
     public class FrameData : ProtocolBytes
     {
-        public int roomId {get; private set;}
         public int frameNo { get; private set; }
         public int input { get; private set; }
 
-        public FrameData(int roomId, int frameNo, int input)
+        public FrameData(int frameNo, int input)
         {
-            this.roomId = roomId;
             this.frameNo = frameNo;
             this.input = input;
         }
@@ -23,17 +21,14 @@ namespace Mugen3D.Net.Protocol
             this.bytes = data;
             int start = 0;
             string protoName = GetString(start, ref start);
-            this.roomId = GetInt(start, ref start);
             this.frameNo = GetInt(start, ref start);
             this.input = GetInt(start, ref start);
         }
 
-        //编码器
         public override byte[] Encode()
         {
             bytes = null;
             AddString("FrameData");
-            AddInt(roomId);
             AddInt(frameNo);
             AddInt(input);
             return bytes;

@@ -28,15 +28,9 @@ namespace Mugen3D.Net
             }
         }
 
-        public int roomId { get; private set; }
-
         private void Init()
         {
             conn.msgDist.AddListener("MatchCreate", (res) => {
-                Protocol.ProtocolBytes protocol = (Protocol.ProtocolBytes)res;
-                int start = 0;
-                string protoName = protocol.GetString(start, ref start);
-                roomId = protocol.GetInt(start, ref start);
                 if (onMatchCreate != null)
                 {
                     onMatchCreate();
@@ -98,7 +92,7 @@ namespace Mugen3D.Net
 
         public void SendInput(int frameNo, int value)
         {      
-            Protocol.FrameData frameData = new Protocol.FrameData(roomId, frameNo, value);
+            Protocol.FrameData frameData = new Protocol.FrameData(frameNo, value);
             conn.Send(frameData);
         }
     }

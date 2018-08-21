@@ -14,7 +14,7 @@ namespace Mugen3D.Net
     {
         //常量
         const int BUFFER_SIZE = 1024;
-        const float HEART_BEAT_TIME = 30;
+        const float HEART_BEAT_TIME = 4;
 
         //Socket
         private Socket socket;
@@ -171,7 +171,7 @@ namespace Mugen3D.Net
                 if (Time.time - lastTickTime > HEART_BEAT_TIME)
                 {
                     Protocol.ProtocolBytes protocol = new Protocol.ProtocolBytes();
-                    protocol.AddString("HeatBeat");
+                    protocol.AddString("HeartBeat");
                     //ProtocolBase protocol = NetMgr.GetHeatBeatProtocol();
                     Send(protocol);
                     lastTickTime = Time.time;
