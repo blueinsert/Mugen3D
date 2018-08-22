@@ -5,12 +5,19 @@ using UnityEngine;
 
 namespace Mugen3D.Net
 {
+    public enum BattleNetStatus
+    {
+        UnConnect,
+        Connect,
+    }
+
     public class BattleNetClient : MonoBehaviour
     {
         public event Action onMatchCreate;
         public event Action onGameStart;
         public event Action<int, int[]> onGameUpdate;
         public event Action onGameEnd;
+        public bool isBattleReady { get; private set; }
 
         private static BattleNetClient m_instance;
         
@@ -30,6 +37,7 @@ namespace Mugen3D.Net
 
         private void Init()
         {
+            isBattleReady = false;
             conn.msgDist.AddListener("MatchCreate", (res) => {
                 if (onMatchCreate != null)
                 {
@@ -38,6 +46,7 @@ namespace Mugen3D.Net
             });
             conn.msgDist.AddListener("GameStart", (res) =>
             {
+                isBattleReady = true;
                 if (onGameStart != null)
                 {
                     onGameStart();
@@ -54,6 +63,13 @@ namespace Mugen3D.Net
                     int input1 = protocol.GetInt(start, ref start);
                     int input2 = protocol.GetInt(start, ref start);
                     onGameUpdate(frameNo, new int[] { input1, input2 });
+                }
+            });
+            conn.msgDist.AddListener("GameEnd", (res) => {
+                isBattleReady = false;
+                if (onGameEnd != null)
+                {
+                    onGameEnd();
                 }
             });
         }
@@ -90,10 +106,26 @@ namespace Mugen3D.Net
             conn.Send(proto);
         }
 
+        public void SendLoadProgress(int progress)
+        {
+            Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
+            proto.AddString("Progress");
+            proto.AddInt(progress);
+            conn.Send(proto);
+        }
+
         public void SendInput(int frameNo, int value)
         {      
             Protocol.FrameData frameData = new Protocol.FrameData(frameNo, value);
             conn.Send(frameData);
+        }
+
+        public void EndGame()
+        {
+            Mugen3D.Net.Protocol.ProtocolBytes proto = new Mugen3D.Net.Protocol.ProtocolBytes();
+            proto.AddString("EndGame");
+            conn.Send(proto);
+            isBattleReady = false;
         }
     }
 }

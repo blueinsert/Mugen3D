@@ -10,6 +10,15 @@ namespace Mugen3D
     {
         BattleNetClient m_battleNetClient;
 
+        IEnumerator SendProgress()
+        {
+            while (!m_battleNetClient.isBattleReady)
+            {
+                m_battleNetClient.SendLoadProgress(100);
+                yield return new WaitForSeconds(0.5f);
+            }      
+        }
+
         public void StartGame(string p1CharacterName, string p2CharacterName, string stageName, BattleNetClient battleNetClient, int renderFPS = 60, int logicFPS = 60)
         {
             RegisterBattleNetClient(battleNetClient);
@@ -19,6 +28,7 @@ namespace Mugen3D
             CreateCharacter(p1CharacterName, 0, true);
             CreateCharacter(p2CharacterName, 1, false);
             world.CreateCamera();
+            StartCoroutine(SendProgress());
         }
 
         void RegisterBattleNetClient(BattleNetClient battleNetClient)
@@ -40,7 +50,7 @@ namespace Mugen3D
 
         void OnGameStart()
         {
-
+            Debug.Log("OnGameStart");
         }
 
         void OnGameUpdate(int frame, int[] commands)
@@ -60,13 +70,25 @@ namespace Mugen3D
             Step();
         }
 
-        void OnGameEnd() { 
-
+        void OnGameEnd() {
+            Debug.Log("OnGameEnd");
         }
 
         protected override void OnUpdate()
         {
+            if (!m_battleNetClient.isBattleReady)
+                return;
             m_battleNetClient.SendInput(Core.Time.frameCount, InputHandler.Instance.GetInputKeycode(world.localPlayer.slot, world.localPlayer.facing));
         }
+
+        void OnGUI()
+        {
+            if (GUILayout.Button("EndGame"))
+            {
+                m_battleNetClient.EndGame();
+            }
+
+        }
+
     }
 }
