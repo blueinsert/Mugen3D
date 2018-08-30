@@ -1,7 +1,0 @@
-scaleX: 0.01
-scaleY: 0.01
-scaleZ: 0.01 
-modelFile: /Origin
-actionConfigFile: /Origin.act
-cmdConfigFile: /Origin.cmd
-fsmConfigFile: Origin

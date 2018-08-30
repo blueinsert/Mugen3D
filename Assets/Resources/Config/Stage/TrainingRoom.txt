@@ -1,0 +1,16 @@
+stage: TrainingRoom
+borderXMax: 15
+borderXMin: -15
+borderYMax: 100
+borderYMin: 0
+initPos : 
+- x: -10
+  y: 0
+- x: 10
+  y: 0
+cameraConfig:
+  depth: -6
+  fieldOfView: 34
+  yOffset: 1
+  aspect: 1.33
+  

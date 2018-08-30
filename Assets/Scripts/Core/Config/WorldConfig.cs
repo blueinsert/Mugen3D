@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace Mugen3D.Core
 {
+    public class VectorInt{
+        public int x {get; set;}
+        public int y {get; set;}
+    }
+
     public class CameraConfig
     {
         public Number depth { get; set; }
@@ -19,7 +24,7 @@ namespace Mugen3D.Core
         public int borderXMax { get; set; }
         public int borderYMin { get; set; }
         public int borderYMax { get; set; }
-        public Vector[] initPos { get; set; }
+        public VectorInt[] initPos { get; set; }
         public CameraConfig cameraConfig { get; set; }
     }
 
@@ -40,13 +45,13 @@ namespace Mugen3D.Core
 
     public class InputConfig
     {
-        public PlayerInputConfig[] inputConfig { get; set; }
+        public PlayerInputConfig[] playerInputs { get; set; }
     }
 
     public class WorldConfig
     {
         public StageConfig stageConfig { get; private set; }
-        public PlayerInputConfig[] inputConfig { get; private set; }
+        public InputConfig inputConfig { get; private set; }
 
         public void SetStageConfig(StageConfig stageConfig)
         {
@@ -55,7 +60,7 @@ namespace Mugen3D.Core
 
         public void SetInputConfig(InputConfig inputConfig)
         {
-            this.inputConfig = inputConfig.inputConfig;
+            this.inputConfig = inputConfig;
         }
     }
 }

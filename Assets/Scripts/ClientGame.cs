@@ -67,8 +67,8 @@ namespace Mugen3D
 
         protected Character CreateCharacter(string characterName, int slot, bool isLocal)
         {
-            string prefix = "Chars/" + characterName;
-            CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + "/" + characterName + ".def"));
+            string prefix = "Config/Chars/" + characterName + "/";
+            CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + characterName + ".def"));
             ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(prefix + config.actionConfigFile));
             string commands = ResourceLoader.LoadText(prefix + config.cmdConfigFile);
             config.SetActions(actionsConfig.actions.ToArray());
@@ -81,37 +81,8 @@ namespace Mugen3D
 
         protected void CreateWorld(string stageName, int logicFPS)
         {
-            CameraConfig cameraConfig = new CameraConfig() { depth = -6, fieldOfView = 34, yOffset = 1, aspect = new Number(4) / new Number(3) };
-            var stageConfig = new StageConfig() { borderXMax = 15, borderXMin = -15, borderYMin = 0, borderYMax = 100, cameraConfig = cameraConfig, stage = "TrainingRoom", initPos = new Vector[] { new Vector(-10, 0), new Vector(10, 0) } };
-            InputConfig inputConfig = new InputConfig();
-            inputConfig.inputConfig = new PlayerInputConfig[] { 
-                new PlayerInputConfig(){
-                    slot = 0,
-                    up = 119,
-                    down = 115,
-                    left = 97,
-                    right = 100,
-                    a = 106,
-                    b = 107,
-                    c = 108,
-                    x = 117,
-                    y = 105,
-                    z = 122,
-                },
-                new PlayerInputConfig(){
-                    slot = 1,
-                    up = 273,
-                    down = 274,
-                    left = 276,
-                    right = 275,
-                    a = 256,
-                    b = 257,
-                    c = 258,
-                    x = 259,
-                    y = 260,
-                    z = 261,
-                },
-            };
+            StageConfig stageConfig = ConfigReader.Read<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + stageName));
+            InputConfig inputConfig = ConfigReader.Read<InputConfig>(ResourceLoader.LoadText("Config/Input"));
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.SetStageConfig(stageConfig);
             worldConfig.SetInputConfig(inputConfig);

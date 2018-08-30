@@ -30,14 +30,14 @@ namespace Mugen3D
 
         public void OnCreateWorld(Core.WorldConfig config)
         {
-            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Stage/" + config.stageConfig.stage + "/" + config.stageConfig.stage);
+            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Prefabs/Stage/" + config.stageConfig.stage);
             GameObject goStage = GameObject.Instantiate(prefabStage, m_rootScene.transform.Find("Stage")) as GameObject;
         }
 
         private EntityView OnCreateCharacter(Core.Entity entity)
         {
             var c = entity as Core.Character;
-            UnityEngine.Object prefab = ResourceLoader.Load("Chars/" + c.characterName + c.config.modelFile);
+            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/Chars/" + c.config.modelFile);
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform.Find("Players")) as GameObject;
             var view = go.AddComponent<CharView>();
             view.Init(c);
@@ -47,7 +47,7 @@ namespace Mugen3D
         private EntityView OnCreateCamera(Core.Entity entity)
         {
             Core.CameraController camCtl = entity as Core.CameraController;
-            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/Scene/BattleCamera");
+            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/BattleCamera");
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
             var view = go.AddComponent<CameraView>();
             view.Init(camCtl);
