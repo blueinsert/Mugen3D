@@ -14,6 +14,6 @@ public static class Extend {
 
     public static Mugen3D.Core.Number ToNumber(this float v)
     {
-        return new Number((int)(Time.deltaTime * 1000)) / new Number(1000);
+        return new Number((int)(v * 100)) / new Number(100);
     }
 }

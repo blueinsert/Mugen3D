@@ -132,6 +132,9 @@
     <None Include="Assets\Resources\Config\Chars\Origin\Origin.act.txt" />
     <None Include="Assets\Resources\Config\Chars\Origin\Origin.cmd.txt" />
     <None Include="Assets\Resources\Config\Chars\Origin\Origin.def.txt" />
+    <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.act.txt" />
+    <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.cmd.txt" />
+    <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.def.txt" />
     <None Include="Assets\Resources\Config\Chars\common.cmd.txt" />
     <None Include="Assets\Resources\Config\Input.txt" />
     <None Include="Assets\Resources\Config\Stage\TrainingRoom.txt" />

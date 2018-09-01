@@ -15,21 +15,19 @@ namespace Mugen3D.Tools
         public ActionsEditorModule module;
         public ActionsEditorController controller;
 
-        private string prefix;
         private CharacterConfig config;
         const string resourePath = "Assets/Resources/";
 
         public void Awake()
         {
-            prefix = "Chars/" + characterName;
-            config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + "/" + characterName + ".def"));
+            config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText("Config/Chars/" + characterName + "/" + characterName + ".def"));
 
-            UnityEngine.Object prefab = ResourceLoader.Load(prefix + config.modelFile);
+            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/Chars/" + config.modelFile);
 
             GameObject go = GameObject.Instantiate(prefab, playerRoot) as GameObject;
             go.transform.position = Vector3.zero;
 
-            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(prefix + config.actionConfigFile));
+            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText("Config/Chars/" + characterName + "/" + config.actionConfigFile));
             if (actionsConfig == null)
                 actionsConfig = new ActionsConfig();
             module = new ActionsEditorModule(actionsConfig.actions);
@@ -55,7 +53,7 @@ namespace Mugen3D.Tools
             }
             serializer.Serialize(strWriter, actionConfig);
 
-            using (TextWriter writer = File.CreateText(resourePath + prefix + config.actionConfigFile + ".txt"))
+            using (TextWriter writer = File.CreateText(resourePath + "Config/Chars/" + characterName + "/" + config.actionConfigFile + ".txt"))
             {
                 writer.Write(strWriter.ToString());
             }

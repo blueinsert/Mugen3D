@@ -193,11 +193,12 @@ namespace Mugen3D.Tools
                 UpdateUI();
             });
 
-            labelNormalizedTime.onValueChanged.AddListener((normalizedTime) =>
+            labelNormalizedTime.onEndEdit.AddListener((normalizedTime) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                sliderNormalizedTime.value = float.Parse(normalizedTime);
+                UnityEngine.Debug.Log(normalizedTime);
+                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = float.Parse(normalizedTime).ToNumber();
                 UpdateUI();
             });
             sliderNormalizedTime.onValueChanged.AddListener((normalizedTime) => {
