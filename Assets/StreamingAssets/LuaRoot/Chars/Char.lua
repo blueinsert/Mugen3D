@@ -19,6 +19,14 @@ function M.new(csObjChar, fsm)
 	return obj
 end
 
+function M:getEnemy()
+	for _, char in pairs(CHAR_FSMS) do
+		if char.slot ~= self.slot then
+			return char
+		end
+	end 
+end
+
 function M:update()
 	if self.fsm == nil or self.fsm[self.stateNo] == nil then
 		return

@@ -40,6 +40,11 @@ public class AnimationController {
        
     }
 
+    public bool IsAnimExist(int anim)
+    {
+        return m_actions.ContainsKey(anim);
+    }
+
     public AnimationController(Action[] actions, Unit owner)
     {
         this.m_owner = owner;

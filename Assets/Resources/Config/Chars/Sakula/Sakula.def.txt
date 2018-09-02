@@ -1,6 +1,6 @@
-scaleX: 0.01
-scaleY: 0.01
-scaleZ: 0.01 
+scaleX: 1
+scaleY: 1
+scaleZ: 1 
 modelFile: Sakula
 actionConfigFile: Sakula.act
 cmdConfigFile: Sakula.cmd

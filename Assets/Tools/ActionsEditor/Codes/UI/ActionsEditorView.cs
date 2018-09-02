@@ -197,7 +197,7 @@ namespace Mugen3D.Tools
             {
                 if (!isResponseToUIEvent)
                     return;
-                UnityEngine.Debug.Log(normalizedTime);
+                //UnityEngine.Debug.Log(normalizedTime);
                 this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = float.Parse(normalizedTime).ToNumber();
                 UpdateUI();
             });

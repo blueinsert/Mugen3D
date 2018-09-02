@@ -55,10 +55,11 @@ namespace Mugen3D
                 lastPosition = m_char.position;
                 this.transform.position = new Vector3(lastPosition.x.AsFloat(), lastPosition.y.AsFloat(), 0);
             }
-            if (lastScale != m_char.scale)
+            if (!lastScale.Equals(m_char.scale))
             {
-                lastScale = m_char.scale;
-                this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), 0);
+                lastScale = new Vector(m_char.scale.x, m_char.scale.y);
+                UnityEngine.Debug.Log("lastScale:" + lastScale.ToString());
+                this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.y.AsFloat());
             }
         }
 

@@ -234,7 +234,7 @@ public struct Vector : IEquatable<Vector> {
     }
 
     public bool Equals(Vector other) {
-        return this == other;
+        return this.x == other.x && this.y == other.y;
     }
 
     public override int GetHashCode() {

@@ -3,64 +3,457 @@ actions:
   animLength: 30
   frames:
   - duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
   - normalizeTime: 0.1
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
   - normalizeTime: 0.2
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
   - normalizeTime: 0.3
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+  - normalizeTime: 0.4
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+  - normalizeTime: 0.5
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+  - normalizeTime: 0.6
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+  - normalizeTime: 0.69
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+  - normalizeTime: 0.8
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+  - normalizeTime: 0.89
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.27
+      y1: 0.01
+      x2: 0.31
+      y2: 1.62
+- animNo: 5
+  animName: Turn_Stand
+  animLength: 15
+  frames:
+  - duration: 3
+    clsns: []
+  - normalizeTime: 0.2
     duration: 3
     clsns: []
   - normalizeTime: 0.4
     duration: 3
     clsns: []
-  - normalizeTime: 0.5
-    duration: 3
-    clsns: []
   - normalizeTime: 0.6
-    duration: 3
-    clsns: []
-  - normalizeTime: 0.69
     duration: 3
     clsns: []
   - normalizeTime: 0.8
     duration: 3
     clsns: []
-  - normalizeTime: 0.89
-    duration: 3
-    clsns: []
+  loopStartIndex: 4
 - animNo: 20
   animName: Walk_Forward_No_Translate
   animLength: 50
   frames:
   - duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.1
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.2
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.3
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.4
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.5
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.6
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.69
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.8
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
   - normalizeTime: 0.89
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.28
+      y2: 1.63
+- animNo: 21
+  animName: Walk_Backward_No_Translate
+  animLength: 50
+  frames:
+  - duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.1
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.2
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.3
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.4
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.5
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.6
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.69
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.8
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+  - normalizeTime: 0.89
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.01
+      x2: 0.26
+      y2: 1.63
+- animNo: 40
+  animName: Jump_Start
+  animLength: 4
+  frames:
+  - duration: 2
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.32
+      y2: 1.53
+  - duration: 1
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.32
+      y2: 1.53
+  - duration: 1
+    clsns:
+    - type: 1
+      x1: -0.2
+      x2: 0.32
+      y2: 1.53
+- animNo: 41
+  animName: Jump_Up
+  animLength: 20
+  frames:
+  - duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.1
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.2
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.3
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.4
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.5
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.6
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.69
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.8
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  - normalizeTime: 0.89
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.65
+      x2: 0.21
+      y2: 1.61
+  loopStartIndex: 9
+- animNo: 42
+  animName: Jump_Down
+  animLength: 20
+  frames:
+  - duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.1
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.2
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.3
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.4
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.5
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.6
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.69
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.8
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  - normalizeTime: 0.89
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.6
+      x2: 0.35
+      y2: 1.77
+  loopStartIndex: 9
+- animNo: 47
+  animName: Jump_Land
+  animLength: 4
+  frames:
+  - duration: 4
+    clsns:
+    - type: 1
+      x1: -0.25
+      y1: 0.01
+      x2: 0.31
+      y2: 1.51

@@ -73,8 +73,7 @@ namespace Mugen3D
             string commands = ResourceLoader.LoadText(prefix + config.cmdConfigFile);
             config.SetActions(actionsConfig.actions.ToArray());
             config.SetCommand(commands);
-            Character p = new Character(characterName, config, isLocal);
-            p.SetSlot(slot);
+            Character p = new Character(characterName, config, slot, isLocal);
             this.world.AddEntity(p);
             return p;
         }

@@ -71,11 +71,10 @@ namespace Mugen3D.Core
    
         public void ChangeFacing(int facing)
         {
-            if (this.facing != facing)
-            {
-                this.facing = facing;
-                this.scale = new Vector(Math.Abs(scale.x)*facing, scale.y);
-            }
+            UnityEngine.Debug.Log("facing:" + facing);
+            this.facing = facing;
+            this.scale = new Vector(Math.Abs(scale.x)*facing, scale.y);
+            UnityEngine.Debug.Log("P1 scale:" + scale.ToString());
         }
 
         public bool IsPause()
@@ -86,11 +85,6 @@ namespace Mugen3D.Core
         public void Pause(int duration)
         {
             pauseTime = duration;
-        }
-
-        public void ChangeState(int stateNo, System.Action onExit)
-        {
-            fsmMgr.ChangeState(stateNo);
         }
 
         public void ChangeAnim(int animNo)

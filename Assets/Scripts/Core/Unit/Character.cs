@@ -12,21 +12,18 @@ namespace Mugen3D.Core
         public CharacterConfig config;
         public bool isLocal;
 
-        public Character(string characterName, CharacterConfig config, bool isLocal)
+        public Character(string characterName, CharacterConfig config, int slot, bool isLocal)
         {
             this.characterName = characterName;
             this.config = config;
+            this.slot = slot;
             this.isLocal = isLocal;
+            this.scale = new Vector(config.scaleX, config.scaleY);
             moveCtr = new PlayerMoveCtrl(this);
             string prefix = "Chars/" + characterName;
             animCtr = new AnimationController(config.actions, this);
             cmdMgr = new CmdManager(config.commandContent, this);
             fsmMgr = new FsmManager(prefix + config.fsmConfigFile, this);
-        }
-
-        public void SetSlot(int slot)
-        {
-            this.slot = slot;
         }
 
         public override void OnUpdate(Number deltaTime)

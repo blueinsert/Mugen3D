@@ -18,6 +18,10 @@ function M:ChangeAnim(animNo)
     controller.ChangeAnim(self.charFsm.csObjChar, animNo)
 end
 
+function M:ChangeFacing(facing)
+    controller.ChangeFacing(self.charFsm.csObjChar, facing)
+end
+
 function M:PhysicsSet(physics)
     controller.PhysicsSet(self.charFsm.csObjChar, physics)
 end

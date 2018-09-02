@@ -13,6 +13,7 @@ namespace Mugen3D.Core
             var define = new NameFuncPair[] {
                 new NameFuncPair("ChangeState", ChangeState),
                 new NameFuncPair("ChangeAnim", ChangeAnim),
+                new NameFuncPair("ChangeFacing", ChangeFacing),
                 new NameFuncPair("PhysicsSet", PhysicsSet),
                 new NameFuncPair("MoveTypeSet", MoveTypeSet),
                 new NameFuncPair("VelSet", VelSet),
@@ -25,6 +26,15 @@ namespace Mugen3D.Core
 
         public static int ChangeState(ILuaState lua)
         {
+            return 0;
+        }
+
+        public static int ChangeFacing(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int facing = lua.L_CheckInteger(2);
+            c.ChangeFacing(facing);
             return 0;
         }
 

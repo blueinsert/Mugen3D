@@ -15,6 +15,10 @@ function M:CommandTest(commandName)
    return res
 end
 
+function M:Facing()
+    return trigger.Facing(self.charFsm.csObjChar)
+end
+
 function M:MoveType()
     return trigger.MoveType(self.charFsm.csObjChar)
 end
@@ -41,6 +45,10 @@ function M:Anim()
     return trigger.Anim(self.charFsm.csObjChar)
 end
 
+function M:AnimExist(anim)
+    return trigger.AnimExist(self.charFsm.csObjChar, anim)
+end
+
 function M:AnimTime()
     return trigger.AnimTime(self.charFsm.csObjChar)
 end
@@ -59,6 +67,11 @@ end
 
 function M:Vel()
     local x,y = trigger.Vel(self.charFsm.csObjChar)
+    return {x = x, y = y}
+end
+
+function M:Pos()
+    local x,y = trigger.Pos(self.charFsm.csObjChar)
     return {x = x, y = y}
 end
 

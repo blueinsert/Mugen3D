@@ -17,6 +17,24 @@ M[] = {
 }
 --]]
 
+local function handleChangeFacing(char)
+	--print("handleChangeFacing")
+	local enemy = char:getEnemy()
+	if not enemy then
+		print("enemy is null")
+		return
+	end
+	local enemyPos = enemy.env:Pos()
+	local myPos = char.env:Pos()
+	local facing = 1
+	if enemyPos.x < myPos.x then
+		facing = -1
+	end
+	if char.env:StateNo() ~= 5 and char.env:Facing() ~= facing then
+       char.ctl:ChangeState(5)
+	end
+end
+
 M[-1] = {
     onEnter = function(char)
 	end,
@@ -33,6 +51,7 @@ M[-1] = {
 			char.ctl:ChangeState(40) --jump
 			return
 		end
+		handleChangeFacing(char)
 	end,
 }
 
@@ -46,6 +65,43 @@ M[0] = {
 	onUpdate = function(char)
 	    if char.env:Anim() ~= 0 then
 	   	   char.ctl:ChangeAnim(0)
+	    end
+	end,
+}
+
+local function changeFacing(char)
+	--print("handleChangeFacing")
+	local enemy = char:getEnemy()
+	if not enemy then
+		print("enemy is null")
+		return
+	end
+	local enemyPos = enemy.env:Pos()
+	local myPos = char.env:Pos()
+	local facing = 1
+	if enemyPos.x < myPos.x then
+		facing = -1
+	end
+	if char.env:Facing() ~= facing then
+       char.ctl:ChangeFacing(facing)
+	end
+end
+
+M[5] = {
+	onEnter = function(char)
+	    print("enter 5")
+	    if char.env:AnimExist(5) then
+	        char.ctl:ChangeAnim(5)
+	    end
+	end,
+	
+	onExit = function(char)
+	    changeFacing(char)
+	end,
+	
+	onUpdate = function(char)
+	    if char.env:LeftAnimTime() <= 0 then
+	        char.ctl:ChangeState(0)
 	    end
 	end,
 }

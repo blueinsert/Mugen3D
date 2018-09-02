@@ -7,9 +7,6 @@ public static class CSharpCallLuaConfig {
     public static List<System.Type> TYPES = new List<System.Type> {
         typeof(LuaMonoBehaviour.MonoBehaviourEvent),
         typeof(LuaMonoBehaviour.LuaBehaviourInit),
-        typeof(Mugen3D.Core.FsmManager.DelegateFsmChangeState),
-        typeof(Mugen3D.Core.FsmManager.DelegateFsmConstruct),
-        typeof(Mugen3D.Core.FsmManager.DelegateFsmUpdate),
         typeof(UnityEngine.Events.UnityAction),
         typeof(System.Action<XLua.LuaTable>),
         typeof(System.Action<XLua.LuaTable, int>),

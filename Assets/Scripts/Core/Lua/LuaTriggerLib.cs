@@ -13,18 +13,20 @@ namespace Mugen3D.Core
         {
             var define = new NameFuncPair[] {
                 new NameFuncPair("CommandTest", CommandTest),
+                new NameFuncPair("Facing", Facing),
                 new NameFuncPair("MoveType", GetMoveType),
                 new NameFuncPair("PhysicsType", GetPhysicsType),
                 new NameFuncPair("JustOnGround", IsJustOnGround),
                 new NameFuncPair("StateNo", GetStateNo),
                 new NameFuncPair("StateTime", GetStateTime),
                 new NameFuncPair("Anim", GetAnim),
+                new NameFuncPair("AnimExist", IsAnimExist),
                 new NameFuncPair("AnimTime", GetAnimTime),
                 new NameFuncPair("AnimElem", GetAnimElem),
                 new NameFuncPair("AnimElemTime", GetAnimElemTime),
                 new NameFuncPair("LeftAnimTime", GetLeftAnimTime),
                 new NameFuncPair("Vel", GetVel),
-
+                new NameFuncPair("Pos", GetPos),
             };
             lua.L_NewLib(define);
             return 1;
@@ -37,6 +39,15 @@ namespace Mugen3D.Core
             string command = lua.L_CheckString(2);
             bool res = c.cmdMgr.CommandIsActive(command);
             lua.PushBoolean(res);
+            return 1;
+        }
+
+        public static int Facing(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int facing = c.facing;
+            lua.PushInteger(facing);
             return 1;
         }
 
@@ -92,6 +103,16 @@ namespace Mugen3D.Core
             return 1;
         }
 
+        public static int IsAnimExist(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int animNo = lua.L_CheckInteger(2);
+            var isExist = c.animCtr.IsAnimExist(animNo);
+            lua.PushBoolean(isExist);
+            return 1;
+        }
+
         public static int GetAnimTime(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
@@ -138,7 +159,15 @@ namespace Mugen3D.Core
             return 2;
         }
 
-       
+        public static int GetPos(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            var pos = c.position;
+            lua.PushNumber(pos.x.AsFloat());
+            lua.PushNumber(pos.y.AsFloat());
+            return 2;
+        }
 
     }
 }
