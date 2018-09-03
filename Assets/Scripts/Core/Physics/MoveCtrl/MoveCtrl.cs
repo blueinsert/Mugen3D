@@ -34,7 +34,7 @@ namespace Mugen3D.Core
         protected Vector m_velocity = Vector.zero;
         protected Vector m_acceleratedVelocity = Vector.zero;
         protected Vector m_deltaPos = Vector.zero;
-        protected Vector m_gravity = new Vector(0, -10);
+        protected Vector m_gravity = new Vector(0, -10, 0);
         protected Number mass = 70;
         protected Vector m_externalForce = Vector.zero;
         protected Number groundFrictionFactor = 3;
@@ -55,27 +55,29 @@ namespace Mugen3D.Core
             //Log.Info("force:" + m_externalForce.ToString());
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
-                m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-velocity.normalized) + new Vector(m_externalForce.x, 0) / mass;
+                m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-velocity.normalized) + m_externalForce / mass;
             }
             else if (m_owner.status.physicsType == PhysicsType.A)
             {
                 m_acceleratedVelocity = m_gravity + m_externalForce / mass;
             }
             //Log.Info("accler:" + m_acceleratedVelocity.ToString());
+         
             m_velocity += deltaTime * m_acceleratedVelocity;
             if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
             {
                 m_velocity = StabilizeVel(velocity);
             }
-            AddPos(velocity * deltaTime);
+            AddPos(m_velocity * deltaTime);
         }
 
         private Vector StabilizeVel(Vector v)
         {
-            Number x, y;
+            Number x, y, z;
             x = Math.Abs(v.x) < TINY ? 0 : v.x;
             y = Math.Abs(v.y) < TINY ? 0 : v.y;
-            return new Vector(x, y);
+            z = Math.Abs(v.z) < TINY ? 0 : v.z;
+            return new Vector(x, y, z);
         }
 
         public Vector AddPos(Vector deltaPos)
@@ -90,7 +92,7 @@ namespace Mugen3D.Core
 
         public void VelSet(Number velx, Number vely)
         {
-            this.m_velocity = new Vector(velx, vely);
+            this.m_velocity = new Vector(velx * m_owner.facing, vely, 0);
         }
 
         public void VelAdd(Number deltaX, Number deltaY)
@@ -101,7 +103,7 @@ namespace Mugen3D.Core
 
         public void PosSet(Number x, Number y)
         {
-            m_owner.position = new Vector(x, y);
+            m_owner.position = new Vector(x, y, 0);
         }
 
         public void PosAdd(Number deltaX, Number deltaY)
@@ -114,7 +116,7 @@ namespace Mugen3D.Core
 
         public void SetGravity(Number x, Number y)
         {
-            m_gravity = new Vector(x, y);
+            m_gravity = new Vector(x, y, 0);
         }
 
         public void SetForce(Vector force)
@@ -158,15 +160,15 @@ namespace Mugen3D.Core
                {
                    if (clsn.type == 1 && clsn2.type == 1)
                    {
-                       Rect rect1 = new Rect(new Vector(clsn.x1, clsn.y1), new Vector(clsn.x2, clsn.y2));
-                       rect1.position += new Vector(m_owner.position.x, m_owner.position.y);
-                       Rect rect2 = new Rect(new Vector(clsn2.x1, clsn2.y1), new Vector(clsn2.x2, clsn2.y2));
-                       rect2.position += new Vector(enemy.position.x, enemy.position.y);
+                       Rect rect1 = new Rect(new Vector(clsn.x1, clsn.y1, 0), new Vector(clsn.x2, clsn.y2, 0));
+                       rect1.position += new Vector(m_owner.position.x, m_owner.position.y, 0);
+                       Rect rect2 = new Rect(new Vector(clsn2.x1, clsn2.y1, 0), new Vector(clsn2.x2, clsn2.y2, 0));
+                       rect2.position += new Vector(enemy.position.x, enemy.position.y, 0);
                        if (PhysicsUtils.RectRectTest(rect1, rect2))
                        {
                            Vector dir = (rect1.position - rect2.position).normalized;
                            Number distX = (rect1.width + rect2.width) / 2 - Math.Abs(rect1.position.x - rect2.position.x);
-                           m_deltaPos += new Vector(distX * new Number(1) / new Number(4) * (dir.x > 0 ? 1 : -1), 0);
+                           m_deltaPos += new Vector(distX * new Number(1) / new Number(4) * (dir.x > 0 ? 1 : -1), 0, 0);
                        }
                        findIntersect = true;
                        break;

@@ -57,9 +57,8 @@ namespace Mugen3D
             }
             if (!lastScale.Equals(m_char.scale))
             {
-                lastScale = new Vector(m_char.scale.x, m_char.scale.y);
-                UnityEngine.Debug.Log("lastScale:" + lastScale.ToString());
-                this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.y.AsFloat());
+                lastScale = new Vector(m_char.scale.x, m_char.scale.y, m_char.scale.z);
+                this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.z.AsFloat());
             }
         }
 
@@ -74,7 +73,7 @@ namespace Mugen3D
                     foreach (var clsn in curActionFrame.clsns)
                     {
                         var pos = m_char.position;
-                        Core.Rect rect = new Core.Rect(new Vector(clsn.x1, clsn.y1) + pos, new Vector(clsn.x2, clsn.y2) + pos);
+                        Core.Rect rect = new Core.Rect(new Vector(clsn.x1, clsn.y1, 0) + pos, new Vector(clsn.x2, clsn.y2, 0) + pos);
                         Color c = Color.blue;
                         if (clsn.type == 1)
                         {

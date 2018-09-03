@@ -30,8 +30,12 @@ local function handleChangeFacing(char)
 	if enemyPos.x < myPos.x then
 		facing = -1
 	end
-	if char.env:StateNo() ~= 5 and char.env:Facing() ~= facing then
-       char.ctl:ChangeState(5)
+	if char.env:StateNo() == 0 and char.env:Facing() ~= facing then
+	   if facing == 1 and char.env:StateNo() ~= 6 then
+           char.ctl:ChangeState(6)
+       elseif facing == -1 and char.env:StateNo() ~= 5 then
+       	   char.ctl:ChangeState(5)
+       end
 	end
 end
 
@@ -69,34 +73,41 @@ M[0] = {
 	end,
 }
 
-local function changeFacing(char)
-	--print("handleChangeFacing")
-	local enemy = char:getEnemy()
-	if not enemy then
-		print("enemy is null")
-		return
-	end
-	local enemyPos = enemy.env:Pos()
-	local myPos = char.env:Pos()
-	local facing = 1
-	if enemyPos.x < myPos.x then
-		facing = -1
-	end
-	if char.env:Facing() ~= facing then
-       char.ctl:ChangeFacing(facing)
-	end
-end
-
+--right to left
 M[5] = {
 	onEnter = function(char)
 	    print("enter 5")
 	    if char.env:AnimExist(5) then
 	        char.ctl:ChangeAnim(5)
+	    else
+	    	char.ctl:ChangeState(0)
 	    end
 	end,
 	
 	onExit = function(char)
-	    changeFacing(char)
+	    char.ctl:ChangeFacing(-1)
+	end,
+	
+	onUpdate = function(char)
+	    if char.env:LeftAnimTime() <= 0 then
+	        char.ctl:ChangeState(0)
+	    end
+	end,
+}
+
+--left to right
+M[6] = {
+	onEnter = function(char)
+	    print("enter 6")
+	    if char.env:AnimExist(5) then
+	        char.ctl:ChangeAnim(5)
+	    else
+	    	char.ctl:ChangeState(0)
+	    end
+	end,
+	
+	onExit = function(char)
+	    char.ctl:ChangeFacing(1)
 	end,
 	
 	onUpdate = function(char)

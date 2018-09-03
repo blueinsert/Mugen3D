@@ -18,7 +18,7 @@ namespace Mugen3D.Core
             this.config = config;
             this.slot = slot;
             this.isLocal = isLocal;
-            this.scale = new Vector(config.scaleX, config.scaleY);
+            this.scale = new Vector(config.scaleX, config.scaleY, config.scaleZ);
             moveCtr = new PlayerMoveCtrl(this);
             string prefix = "Chars/" + characterName;
             animCtr = new AnimationController(config.actions, this);
@@ -29,7 +29,6 @@ namespace Mugen3D.Core
         public override void OnUpdate(Number deltaTime)
         {
             base.OnUpdate(deltaTime);
-            //
         }
 
 

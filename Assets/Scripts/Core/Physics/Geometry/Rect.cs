@@ -16,7 +16,7 @@ namespace Mugen3D.Core
         {
             get
             {
-                return position + new Vector(-width / 2, height / 2);
+                return position + new Vector(-width / 2, height / 2, position.z);
             }
         }
 
@@ -24,7 +24,7 @@ namespace Mugen3D.Core
         {
             get
             {
-                return position + new Vector(width / 2, height / 2);
+                return position + new Vector(width / 2, height / 2, position.z);
             }
         }
 
@@ -32,7 +32,7 @@ namespace Mugen3D.Core
         {
             get
             {
-                return position + new Vector(width / 2, -height / 2);
+                return position + new Vector(width / 2, -height / 2, position.z);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Mugen3D.Core
         {
             get
             {
-                return position + new Vector(-width / 2, -height / 2);
+                return position + new Vector(-width / 2, -height / 2, position.z);
             }
         }
 

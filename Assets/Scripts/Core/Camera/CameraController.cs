@@ -27,7 +27,7 @@ namespace Mugen3D.Core
             m_target1 = char1;
             m_target2 = char2;
             viewportRect = new Rect(Vector.zero, 1, 1);
-            position = new Vector((m_target1.position.x + m_target2.position.x) / 2, (m_target1.position.y + m_target2.position.y) / 2 + yOffset);
+            position = new Vector((m_target1.position.x + m_target2.position.x) / 2, (m_target1.position.y + m_target2.position.y) / 2 + yOffset, depth);
             CalcViewportRect();
         }
 
@@ -35,7 +35,7 @@ namespace Mugen3D.Core
         {
             if (m_target1 == null || m_target2 == null)
                 return;
-            Vector newPos = new Vector((m_target1.position.x + m_target2.position.x) / 2, (m_target1.position.y + m_target2.position.y) / 2 + yOffset);
+            Vector newPos = new Vector((m_target1.position.x + m_target2.position.x) / 2, (m_target1.position.y + m_target2.position.y) / 2 + yOffset, depth);
             position = Vector.Lerp(position, newPos, deltaTime * dumpRatio);
             CalcViewportRect();
         }
@@ -44,7 +44,7 @@ namespace Mugen3D.Core
         {
             Number h = Math.Tan(fieldOfView / 2 / 180 * Math.Pi) * Math.Abs(depth) * 2;
             Number w = aspect * h;
-            viewportRect.position = new Vector(position.x, position.y);
+            viewportRect.position = new Vector(position.x, position.y, 0);
             viewportRect.width = w;
             viewportRect.height = h;
         }

@@ -71,10 +71,8 @@ namespace Mugen3D.Core
    
         public void ChangeFacing(int facing)
         {
-            UnityEngine.Debug.Log("facing:" + facing);
             this.facing = facing;
-            this.scale = new Vector(Math.Abs(scale.x)*facing, scale.y);
-            UnityEngine.Debug.Log("P1 scale:" + scale.ToString());
+            this.scale = new Vector(Math.Abs(scale.x)*facing, scale.y, scale.z);
         }
 
         public bool IsPause()
