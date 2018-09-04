@@ -33,6 +33,7 @@ namespace Mugen3D.Core
             Lua.L_OpenLibs();
             Lua.L_RequireF(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
             Lua.L_RequireF(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
+            Lua.L_RequireF(LuaDebugLib.LIB_NAME, LuaDebugLib.OpenLib, false);
             mInstance.Env = Lua;
         }
 

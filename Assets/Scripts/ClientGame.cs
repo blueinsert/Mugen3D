@@ -58,6 +58,10 @@ namespace Mugen3D
             Core.Debug.LogError = Log.Error;
             Core.Debug.Assert = Log.Assert;
             Core.LuaMgr.SetPathHook(this.LuaPathHook);
+            if (GUIDebug.Instance != null)
+            {
+                Core.Debug.AddGUIDebugMsg = GUIDebug.Instance.AddMsg;
+            }
         }
 
         protected void InitGame()
@@ -96,6 +100,7 @@ namespace Mugen3D
         protected virtual void Update()
         {
             OnUpdate();
+            Debug();
         }
 
         protected virtual void OnUpdate() { }
@@ -103,6 +108,20 @@ namespace Mugen3D
         protected void Step()
         {
             this.world.Update();
+        }
+
+        void Debug()
+        {
+            if (GUIDebug.Instance != null)
+            {
+                var debuger = GUIDebug.Instance;
+                var player  = world.localPlayer;
+                debuger.AddMsg("anim", player.animCtr.anim.ToString());
+                debuger.AddMsg("animTime", player.animCtr.animTime.ToString());
+                debuger.AddMsg("animElem", player.animCtr.animElem.ToString());
+                debuger.AddMsg("animElemTime", player.animCtr.animElemTime.ToString());
+                debuger.AddMsg("facing", player.facing.ToString());
+            }
         }
     }
 }

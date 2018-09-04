@@ -1,5 +1,6 @@
 local Ctl = require "Chars/controller"
 local Env = require "Chars/environment"
+local guiDebug = require "debug.cs"
 
 local M = {}
 
@@ -9,7 +10,7 @@ local function init(self, csObjChar, fsm)
 	self.ctl = Ctl.new(self)
 	self.fsm = fsm
 	self.stateNo = 0
-	self.stateTime = -1
+	self.stateTime = 0
 end
 
 function M.new(csObjChar, fsm)
@@ -42,6 +43,7 @@ function M:update()
     else
     	print("stateNo:" .. self.stateNo .. " don't not have update Func")
     end
+    self:debug()
 end
 
 function M:changeState(stateNo)
@@ -55,7 +57,7 @@ function M:changeState(stateNo)
     	print("stateNo:" .. self.stateNo .. "don't not have onExit Func")
     end
 	self.stateNo = stateNo
-	self.stateTime = -1
+	self.stateTime = 0
 	if self.fsm[self.stateNo].onEnter then
 	    self.fsm[self.stateNo].onEnter(self)
 	else
@@ -82,25 +84,12 @@ local function toString(obj)
 	end
 end
 
---[[
+
 function M:debug()
-	local guiDebug = CS.GUIDebug.Instance
-	if guiDebug == nil then
-		return
-	end
-	local index = self.player.slot
-	guiDebug:AddMsg(index, "moveType", self.env:moveType())
-    guiDebug:AddMsg(index, "physicsType", self.env:physicsType())
-    guiDebug:AddMsg(index, "stateNo", toString(self.env:stateNo()))
-    guiDebug:AddMsg(index, "stateTime", toString(self.env:stateTime()))
-    guiDebug:AddMsg(index, "anim", toString(self.env:anim()))
-    guiDebug:AddMsg(index, "animTime", toString(self.env:animTime()))
-    guiDebug:AddMsg(index, "leftAnimTime", toString(self.env:leftAnimTime()))
-    guiDebug:AddMsg(index, "animElem", toString(self.env:animElem())) 
-    guiDebug:AddMsg(index, "animElemTime", toString(self.env:animElemTime()))
-    guiDebug:AddMsg(index, "activeCommands", self.player.cmdMgr:GetActiveCommandName())
-    guiDebug:AddMsg(index, "vel", toString(self.env:vel()))
+	local index  = self.slot
+    guiDebug.AddMsg(index, "stateNo", toString(self.stateNo))
+    guiDebug.AddMsg(index, "stateTime", toString(self.stateTime))
 end
---]]
+
 
 return M

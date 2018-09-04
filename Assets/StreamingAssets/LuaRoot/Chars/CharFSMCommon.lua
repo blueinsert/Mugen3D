@@ -30,12 +30,13 @@ local function handleChangeFacing(char)
 	if enemyPos.x < myPos.x then
 		facing = -1
 	end
-	if char.env:StateNo() == 0 and char.env:Facing() ~= facing then
-	   if facing == 1 and char.env:StateNo() ~= 6 then
-           char.ctl:ChangeState(6)
-       elseif facing == -1 and char.env:StateNo() ~= 5 then
+	if char.env:Facing() ~= facing then
+	    if char.env:StateNo() == 0 and char.env:StateNo() ~= 5 then
        	   char.ctl:ChangeState(5)
-       end
+        end
+        if char.env:StateNo() == 11 and char.env:StateNo() ~= 6 then
+       	   char.ctl:ChangeState(6)
+        end
 	end
 end
 
@@ -56,27 +57,29 @@ M[-1] = {
 			return
 		end
 		handleChangeFacing(char)
+		if (char.env:StateNo() == 0 or char.env:StateNo() == 20) and char.env:CommandTest("holddown")  then
+			char.ctl:ChangeState(10)
+			return
+		end
 	end,
 }
 
 M[0] = {
     onEnter = function(char)
+        char.ctl:ChangeAnim(0)
 	end,
 	
 	onExit = function(char)
 	end,
 	
 	onUpdate = function(char)
-	    if char.env:Anim() ~= 0 then
-	   	   char.ctl:ChangeAnim(0)
-	    end
+	    
 	end,
 }
 
---right to left
+--turn stand
 M[5] = {
 	onEnter = function(char)
-	    print("enter 5")
 	    if char.env:AnimExist(5) then
 	        char.ctl:ChangeAnim(5)
 	    else
@@ -85,7 +88,8 @@ M[5] = {
 	end,
 	
 	onExit = function(char)
-	    char.ctl:ChangeFacing(-1)
+	    local curFacing = char.env:Facing()
+	    char.ctl:ChangeFacing(-curFacing)
 	end,
 	
 	onUpdate = function(char)
@@ -95,24 +99,87 @@ M[5] = {
 	end,
 }
 
---left to right
+--turn stand
 M[6] = {
 	onEnter = function(char)
-	    print("enter 6")
-	    if char.env:AnimExist(5) then
-	        char.ctl:ChangeAnim(5)
+	    if char.env:AnimExist(6) then
+	        char.ctl:ChangeAnim(6)
 	    else
 	    	char.ctl:ChangeState(0)
 	    end
 	end,
 	
 	onExit = function(char)
-	    char.ctl:ChangeFacing(1)
+	    local curFacing = char.env:Facing()
+	    char.ctl:ChangeFacing(-curFacing)
 	end,
 	
 	onUpdate = function(char)
 	    if char.env:LeftAnimTime() <= 0 then
-	        char.ctl:ChangeState(0)
+	        char.ctl:ChangeState(11)
+	    end
+	end,
+}
+
+--stand to crouch
+M[10] = {
+	onEnter = function(char)
+	    if char.env:AnimExist(10) then
+	        char.ctl:ChangeAnim(10)
+	    else
+	    	char.ctl:ChangeState(0)
+	    end
+	end,
+	
+	onExit = function(char)
+	   
+	end,
+	
+	onUpdate = function(char)
+	    if char.env:LeftAnimTime() <= 0 then
+	        char.ctl:ChangeState(11)
+	    end
+	end,
+}
+
+--crouch
+M[11] = {
+	onEnter = function(char)
+	    if char.env:AnimExist(11) then
+	        char.ctl:ChangeAnim(11)
+	    else
+	    	char.ctl:ChangeState(0)
+	    end
+	end,
+	
+	onExit = function(char)
+	   
+	end,
+	
+	onUpdate = function(char)
+	    if not char.env:CommandTest("holddown") then
+	    	char.ctl:ChangeState(12)
+	    end
+	end,
+}
+
+--crouch to stand
+M[12] = {
+    onEnter = function(char)
+	    if char.env:AnimExist(12) then
+	        char.ctl:ChangeAnim(12)
+	    else
+	    	char.ctl:ChangeState(0)
+	    end
+	end,
+	
+	onExit = function(char)
+	   
+	end,
+	
+	onUpdate = function(char)
+	     if char.env:LeftAnimTime() <= 0 then
+	    	char.ctl:ChangeState(0)
 	    end
 	end,
 }

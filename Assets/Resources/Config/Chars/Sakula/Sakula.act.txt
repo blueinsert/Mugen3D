@@ -100,6 +100,79 @@ actions:
     duration: 3
     clsns: []
   loopStartIndex: 4
+- animNo: 6
+  animName: Turn_Crouch
+  animLength: 12
+  frames:
+  - duration: 2
+    clsns: []
+  - normalizeTime: 0.2
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.4
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.6
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 2
+    clsns: []
+  loopStartIndex: 5
+- animNo: 10
+  animName: Stand_To_Crouch
+  animLength: 6
+  frames:
+  - duration: 1
+    clsns: []
+  - normalizeTime: 0.2
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.4
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.6
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 5
+- animNo: 11
+  animName: Crouch
+  animLength: 10
+  frames:
+  - normalizeTime: 1
+    duration: 10
+    clsns: []
+- animNo: 12
+  animName: Crouch_To_Stand
+  animLength: 6
+  frames:
+  - duration: 1
+    clsns: []
+  - normalizeTime: 0.2
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.4
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.6
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 5
 - animNo: 20
   animName: Walk_Forward_No_Translate
   animLength: 50
