@@ -48,6 +48,10 @@ M[-1] = {
 	end,
 	
 	onUpdate = function(char)
+	    if (char.env:StateNo() == 0 or char.env:StateNo() == 20) and char.env:CommandTest("FF") then
+			char.ctl:ChangeState(100)
+			return
+		end
 	    if (char.env:CommandTest("holdfwd") or char.env:CommandTest("holdback")) and char.env:StateNo() == 0 then
 			char.ctl:ChangeState(20) --walk
 			return
@@ -262,6 +266,9 @@ M[42] = {
     onEnter = function(char)
         char.ctl:ChangeAnim(42, "Once")
     end,
+    onExit = function(char)
+		
+	end,
     onUpdate = function(char)
         if char.env:JustOnGround() then
         	char.ctl:ChangeState(47)
@@ -279,11 +286,53 @@ M[47] = {
 		char.ctl:ChangeAnim(47)
 		char.ctl:VelSet(0, 0)
 	end,
+	onExit = function(char)
+		
+	end,
 	onUpdate = function(char)
 		if char.env:LeftAnimTime() <= 0 then
 			char.ctl:ChangeState(0)
 		end
 	end
+}
+
+--run
+M[100] = {
+	onEnter = function(char)
+		char.ctl:MoveTypeSet(MoveType.I)
+		char.ctl:PhysicsSet(PhysicsType.S)
+		char.ctl:CtrlSet(true)
+		char.ctl:ChangeAnim(100)	
+	end,
+	onExit = function(char)
+		
+	end,
+	onUpdate = function(char)
+		char.ctl:VelSet(5, 0)
+		if not char.env:CommandTest("holdfwd") then
+			char.ctl:ChangeState(101)
+		end
+	end,
+}
+
+--run stop
+M[101] = {
+	onEnter = function(char)
+	    --char.ctl:VelSet(0, 0)
+		if char.env:AnimExist(101) then
+			char.ctl:ChangeAnim(101)
+		else
+			char.ctl:ChangeState(0)
+		end
+	end,
+	onExit = function(char)
+		
+	end,
+	onUpdate = function(char)
+		if char.env:LeftAnimTime() <= 0 then
+			char.ctl:ChangeState(0)
+		end
+	end,
 }
 
 --[[
