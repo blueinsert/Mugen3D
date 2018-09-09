@@ -8,14 +8,14 @@ using Number = Mugen3D.Core.Number;
 namespace Mugen3D.Core
 {
     public class World
-    {     
+    {
         public int gameTime = -1;
         public Number deltaTime;
         public WorldConfig config;
         private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
-        public List<Entity> entities  { get; private set; }
+        public List<Entity> entities { get; private set; }
         public List<Character> characters = new List<Character>();
         public CameraController camCtl { get; private set; }
         public TeamInfo teamInfo = new TeamInfo();
@@ -28,7 +28,7 @@ namespace Mugen3D.Core
         {
             config = cfg;
             this.logicFPS = logicFPS;
-            this.deltaTime = new Number(1000/logicFPS) / new Number(1000);
+            this.deltaTime = new Number(1000 / logicFPS) / new Number(1000);
             entities = new List<Entity>();
             Time.Clear();
         }
@@ -36,7 +36,7 @@ namespace Mugen3D.Core
         public void CreateWorld()
         {
             if (onCreateWorld != null)
-                onCreateWorld(config); 
+                onCreateWorld(config);
         }
 
         public void CreateCamera()
@@ -67,13 +67,14 @@ namespace Mugen3D.Core
             }
         }
 
-        private void DoAddEntity(Entity e){
-            entities.Add(e);    
+        private void DoAddEntity(Entity e)
+        {
+            entities.Add(e);
         }
 
         private void DoRemoveEntity(Entity e)
         {
-            entities.Remove(e);           
+            entities.Remove(e);
             //GameObject.Destroy(e.gameObject);
         }
 
@@ -103,7 +104,40 @@ namespace Mugen3D.Core
             {
                 DoRemoveEntity(ent);
             }
-            m_destroyedEntities.Clear();      
+            m_destroyedEntities.Clear();
+        }
+
+        public int OverlapBox(Rect rect, System.Func<Character, bool> filter = null)
+        {
+            foreach (var character in characters)
+            {
+                if (!filter(character))
+                    continue;
+                var animCtl = character.animCtr;
+                if (animCtl.m_actions.ContainsKey(animCtl.anim))
+                {
+                    var curAction = animCtl.m_actions[animCtl.anim];
+                    if (curAction.frames.Count != 0)
+                    {
+                        var curActionFrame = curAction.frames[animCtl.animElem];
+                        foreach (var clsn in curActionFrame.clsns)
+                        {
+                            if (clsn.type == 1)
+                            {
+                                Vector center = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
+                                center.x = center.x * character.facing;
+                                center += character.position;
+                                Core.Rect rect2 = new Core.Rect(center, Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2));
+                                if (rect.IsOverlap(rect2))
+                                {
+                                    return character.slot;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return -1;
         }
 
     }

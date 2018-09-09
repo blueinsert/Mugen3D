@@ -15,6 +15,11 @@ function M:CommandTest(commandName)
    return res
 end
 
+function M:AttackCheck()
+    local res = trigger.AttackCheck(self.charFsm.csObjChar)
+    return res
+end
+
 function M:Facing()
     return trigger.Facing(self.charFsm.csObjChar)
 end

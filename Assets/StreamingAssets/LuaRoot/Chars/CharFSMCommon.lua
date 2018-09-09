@@ -335,6 +335,44 @@ M[101] = {
 	end,
 }
 
+
+--stand get-hit(shaking)
+M[5000] = {
+	onEnter = function(char)
+		char.ctl:MoveTypeSet(MoveType.I)
+		char.ctl:PhysicsSet(PhysicsType.S)
+		char.ctl:CtrlSet(false)
+		char.ctl:ChangeAnim(5000)
+	end,
+	onExit = function(char)
+		
+	end,
+	onUpdate = function(char)
+	    --freeze anim
+		char.ctl:ChangeAnim(5000)
+        if char.env:StateTime() > char.hitDefData.hitPauseTime[2] then
+        	char.ctl:ChangeState(5001)
+        end
+	end,
+}
+
+M[5001] = {
+	onEnter = function(char)
+		char.ctl:MoveTypeSet(MoveType.I)
+		char.ctl:PhysicsSet(PhysicsType.S)
+		char.ctl:CtrlSet(false)
+		char.ctl:VelSet(char.hitDefData.groundVel.x, char.hitDefData.groundVel.y)
+	end,
+	onExit = function(char)
+		
+	end,
+	onUpdate = function(char)
+		if char.env:StateTime() > char.hitDefData.hitSlideTime then
+			char.ctl:ChangeState(0)
+		end
+	end,
+}
+--]]
 --[[
 M[-1] = {
 	onUpdate = function(char)

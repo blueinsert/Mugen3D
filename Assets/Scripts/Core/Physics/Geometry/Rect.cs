@@ -97,6 +97,15 @@ namespace Mugen3D.Core
             this.height = rect.height;
         }
 
+        public static bool IsOverlap(Rect rect1, Rect rect2){
+            return !((rect1.xMin > rect2.xMax || rect2.xMin > rect1.xMax) || (rect1.yMin > rect2.yMax || rect2.yMin > rect1.yMax));
+        }
+
+        public bool IsOverlap(Rect rect)
+        {
+            return IsOverlap(this, rect);
+        }
+
     }
 }
 

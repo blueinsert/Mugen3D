@@ -75,6 +75,7 @@ namespace Mugen3D
                 debuger.AddMsg(player.slot, "animElemTime", player.animCtr.animElemTime.ToString());
                 debuger.AddMsg(player.slot, "facing", player.facing.ToString());
                 debuger.AddMsg(player.slot, "vel", player.moveCtr.velocity.ToString());
+                debuger.AddMsg(player.slot, "command", player.cmdMgr.GetActiveCommandName());
             }
         }
 
@@ -89,7 +90,7 @@ namespace Mugen3D
                     foreach (var clsn in curActionFrame.clsns)
                     {
                         var pos = m_char.position;
-                        Core.Rect rect = new Core.Rect(new Vector(clsn.x1, clsn.y1, 0) + pos, new Vector(clsn.x2, clsn.y2, 0) + pos);
+                        Core.Rect rect = new Core.Rect(new Vector(clsn.x1 * m_char.facing, clsn.y1, 0) + pos, new Vector(clsn.x2 * m_char.facing, clsn.y2, 0) + pos);
                         Color c = Color.blue;
                         if (clsn.type == 1)
                         {

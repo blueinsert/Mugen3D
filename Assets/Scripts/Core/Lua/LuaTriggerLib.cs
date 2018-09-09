@@ -13,6 +13,7 @@ namespace Mugen3D.Core
         {
             var define = new NameFuncPair[] {
                 new NameFuncPair("CommandTest", CommandTest),
+                new NameFuncPair("AttackCheck", AttackCheck),
                 new NameFuncPair("Facing", Facing),
                 new NameFuncPair("MoveType", GetMoveType),
                 new NameFuncPair("PhysicsType", GetPhysicsType),
@@ -39,6 +40,16 @@ namespace Mugen3D.Core
             string command = lua.L_CheckString(2);
             bool res = c.cmdMgr.CommandIsActive(command);
             lua.PushBoolean(res);
+            return 1;
+        }
+
+
+        public static int AttackCheck(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int tarSlot = c.AttackCheck();
+            lua.PushInteger(tarSlot);
             return 1;
         }
 

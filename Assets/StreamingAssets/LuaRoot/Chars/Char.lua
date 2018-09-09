@@ -28,6 +28,12 @@ function M:getEnemy()
 	end 
 end
 
+function M:beHit(hitDef)
+	print(self.slot .. " beHit")
+	self.hitDefData = hitDef
+	self:changeState(5000)
+end
+
 function M:update()
 	if self.fsm == nil or self.fsm[self.stateNo] == nil then
 		return
