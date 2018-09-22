@@ -829,28 +829,8 @@ actions:
       y2: 1.61
 - animNo: 5000
   animName: BeHit_Stand_High_Light
-  animLength: 11
+  animLength: 7
   frames:
-  - duration: 1
-    clsns:
-    - type: 1
-      x1: -0.3
-      x2: 0.21
-      y2: 1.57
-  - normalizeTime: 0.2
-    duration: 1
-    clsns:
-    - type: 1
-      x1: -0.3
-      x2: 0.21
-      y2: 1.57
-  - normalizeTime: 0.4
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.3
-      x2: 0.21
-      y2: 1.57
   - normalizeTime: 0.5
     duration: 3
     clsns:
@@ -881,16 +861,8 @@ actions:
       y2: 1.57
 - animNo: 5001
   animName: BeHit_Stand_High_Heavy
-  animLength: 10
+  animLength: 8
   frames:
-  - normalizeTime: 0.25
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.31
-      y1: -0.02
-      x2: 0.11
-      y2: 1.61
   - normalizeTime: 0.54
     duration: 3
     clsns:
@@ -933,15 +905,8 @@ actions:
       y2: 1.61
 - animNo: 5010
   animName: BeHit_Stand_Low_Light
-  animLength: 9
+  animLength: 7
   frames:
-  - normalizeTime: 0.18
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.2
-      x2: 0.17
-      y2: 1.61
   - normalizeTime: 0.53
     duration: 3
     clsns:
@@ -972,22 +937,8 @@ actions:
       y2: 1.61
 - animNo: 5011
   animName: BeHit_Stand_Low_Heavy
-  animLength: 15
+  animLength: 10
   frames:
-  - normalizeTime: 0.2
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.26
-      x2: 0.12
-      y2: 1.56
-  - normalizeTime: 0.41
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.26
-      x2: 0.12
-      y2: 1.56
   - normalizeTime: 0.6
     duration: 3
     clsns:
@@ -1018,23 +969,8 @@ actions:
       y2: 1.56
 - animNo: 5020
   animName: BeHit_Crouch_Light
-  animLength: 8
+  animLength: 5
   frames:
-  - normalizeTime: 0.18
-    duration: 1
-    clsns:
-    - type: 1
-      x1: -0.17
-      x2: 0.34
-      y2: 1.16
-  - normalizeTime: 0.43
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.17
-      x2: 0.34
-      y2: 1.16
-    xOffset: 2
   - normalizeTime: 0.57
     duration: 2
     clsns:
@@ -1065,24 +1001,8 @@ actions:
       y2: 1.16
 - animNo: 5021
   animName: BeHit_Crouch_Heavy
-  animLength: 15
+  animLength: 10
   frames:
-  - normalizeTime: 0.16
-    duration: 1
-    clsns:
-    - type: 1
-      x1: -0.17
-      y1: -0.01
-      x2: 0.29
-      y2: 1.19
-  - normalizeTime: 0.32
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.17
-      y1: -0.01
-      x2: 0.29
-      y2: 1.19
   - normalizeTime: 0.47
     duration: 3
     clsns:
@@ -1100,7 +1020,7 @@ actions:
       x2: 0.29
       y2: 1.19
   - normalizeTime: 0.76
-    duration: 3
+    duration: 2
     clsns:
     - type: 1
       x1: -0.17
@@ -1108,7 +1028,7 @@ actions:
       x2: 0.29
       y2: 1.19
   - normalizeTime: 0.86
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.17
