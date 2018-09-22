@@ -19,7 +19,6 @@ namespace Mugen3D
     public class ClientGame : MonoBehaviour
     {
         public static ClientGame Instance;
-
         public Core.World world;
         public ViewWorld viewWorld;
 
