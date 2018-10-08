@@ -769,6 +769,19 @@ actions:
       x2: 0.29
       y2: 1.66
   loopStartIndex: 5
+- animNo: 130
+  animName: Guard_Stand
+  animLength: 1
+  frames:
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+- animNo: 131
+  animName: Guard_Crouch
+  animLength: 1
+  frames:
+  - duration: 1
+    clsns: []
 - animNo: 200
   animName: Punch_Light_Stand
   animLength: 11

@@ -22,6 +22,10 @@ function M:ChangeFacing(facing)
     controller.ChangeFacing(self.charFsm.csObjChar, facing)
 end
 
+function M:HitDefSet(hitDef)
+    controller.HitDefSet(self.charFsm.csObjChar, hitDef)
+end
+
 function M:PhysicsSet(physics)
     controller.PhysicsSet(self.charFsm.csObjChar, physics)
 end

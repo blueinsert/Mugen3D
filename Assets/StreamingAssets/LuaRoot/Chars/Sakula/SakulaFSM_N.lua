@@ -20,29 +20,23 @@ M[200] = {
 	end,
 	onUpdate = function(char)
         if char.env:AnimElem() == 2 and not char.hasHit then
-            local tarSlot = char.env:AttackCheck()
-            local enemy = CHAR_FSMS[tarSlot]
-            if enemy then
-                enemy:beHit({
-                    attackType = "A", -- attack or throw
-                    attackPart = "Hand_L",
-                    attackLevel = 0, 
-                    hitFlag = "M",
-                    guardFlag = "M",
-                    --p1StateNo = 0,
-                    --p2StateNo = 0,
-                    hitDamage = 10,
-                    guardDamage = 1,
-                    hitPauseTime = {11, 13},
-                    hitSlideTime = 9,
-                    guardPauseTilme = {11, 13},
-                    guardSlideTime = 9, 
-                    groundVel = {x = -5, y = 0},
-                    airVel = {x = -10, y = 8},
-                })
-                char.hasHit = true
-                char.ctl:Pause(11)
-            end
+            char.ctl:HitDefSet({
+                attackType = "A", -- attack or throw
+                attackPart = "Hand_L",
+                attackLevel = 0, 
+                hitFlag = "M",
+                guardFlag = "M",
+                --p1StateNo = 0,
+                --p2StateNo = 0,
+                hitDamage = 10,
+                guardDamage = 1,
+                hitPauseTime = {11, 13},
+                hitSlideTime = 9,
+                guardPauseTilme = {11, 13},
+                guardSlideTime = 9, 
+                groundVel = {x = -5, y = 0},
+                airVel = {x = -10, y = 8},
+            })      
         end
 	    if char.env:LeftAnimTime() == 0 then
 			char.ctl:ChangeState(0)

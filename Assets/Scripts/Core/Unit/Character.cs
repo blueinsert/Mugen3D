@@ -59,30 +59,6 @@ namespace Mugen3D.Core
             m_hp = hp;
         }
 
-
-        public int AttackCheck()
-        {
-            if (this.animCtr.m_actions.ContainsKey(this.animCtr.anim))
-            {
-                var curAction = this.animCtr.m_actions[this.animCtr.anim];
-                if (curAction.frames.Count != 0)
-                {
-                    var curActionFrame = curAction.frames[this.animCtr.animElem];
-                    foreach (var clsn in curActionFrame.clsns)
-                    {
-                        if (clsn.type == 2)
-                        {
-                            Vector center = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
-                            center.x = center.x * this.facing;
-                            center += this.position;
-                            Core.Rect rect = new Core.Rect(center, Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2));
-                            return this.world.OverlapBox(rect, (character) => { return character != this; });
-                        }
-                    }
-                }
-            }
-            return -1;
-        }
     }
 
 }

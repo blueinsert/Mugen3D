@@ -33,6 +33,21 @@ namespace Mugen3D.Core
         public int animNo = -1;
     }
 
+    public class HitDef
+    {
+        public int attackType;
+        public int hitDamage;
+        public int guardDamage;
+        public int hitPauseTimeP1;
+        public int hitPauseTimeP2;
+        public int hitSlideTime;
+        public int guardPauseTimeP1;
+        public int guardPauseTimeP2;
+        public int guardSlideTime;
+        public Vector groundVel;
+        public Vector airVel;
+    }
+
     public abstract class Unit : Entity
     {
         
@@ -42,7 +57,7 @@ namespace Mugen3D.Core
         public MoveCtrl moveCtr;
        
         public Status status = new Status();
-
+        public HitDef hitDefData {get; private set;}
         public int facing = 1;
         private int pauseTime = 0;
         private int input;
@@ -91,41 +106,10 @@ namespace Mugen3D.Core
             this.animCtr.ChangeAnim(animNo);
         }
 
-        /*
-        public bool IsHitOthers(HitPart activePart, out Unit hitTarget)
+        public void SetHitDefData(HitDef hitDef)
         {
-            hitTarget = null;
-            HitBox attackBox = this.decisionBoxes.GetHitBox(activePart);
-            HitBox[] attackBoxes = new HitBox[] { attackBox};
-            bool hit = false;
-            foreach (var e in World.Instance.entities)
-            {
-                if (!(e is Unit))
-                    continue;
-                if ((e is Unit) && ((e as Unit).teamId == this.teamId))
-                    continue;
-                var u = e as Unit;
-                Collider[] defenceBoxes = u.decisionBoxes.defenceBoxes.ToArray();
-                for (int i = 0; i < attackBoxes.Length; i++)
-                {
-                    for (int j = 0; j < defenceBoxes.Length; j++)
-                    {
-                        if (PhysicsUtils.GeometryOverlapTest(attackBoxes[i].collider.GetGeometry(), defenceBoxes[j].GetGeometry()))
-                        {
-                            hit = true;
-                            hitTarget = u;
-                            break;
-                        }                   
-                    }
-                    if (hit == true)
-                        break;
-                }
-                if (hit == true)
-                    break;
-            }
-            Debug.Log("ishit:" + hit);
-            return hit;
+            this.hitDefData = hitDef;
         }
-         */
+
     }
 }

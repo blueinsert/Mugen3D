@@ -54,11 +54,11 @@ namespace Mugen3D.Tools
             int id = 0;
             if (actions.Count > 0)
             {
-                id = actions[actions.Count - 1].animNo + 1;
+                id = actions[this.curActionIndex].animNo + 1;
             }
             Action a = new Action(id);
-            actions.Add(a);
-            curActionIndex = actions.Count - 1;
+            actions.Insert(this.curActionIndex + 1, a);
+            curActionIndex = this.curActionIndex + 1;
         }
 
         public void DeleteAction()

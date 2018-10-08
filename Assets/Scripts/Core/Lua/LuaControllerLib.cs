@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UniLua;
 
@@ -14,6 +15,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("ChangeState", ChangeState),
                 new NameFuncPair("ChangeAnim", ChangeAnim),
                 new NameFuncPair("ChangeFacing", ChangeFacing),
+                new NameFuncPair("HitDefSet", HitDefSet),
                 new NameFuncPair("PhysicsSet", PhysicsSet),
                 new NameFuncPair("MoveTypeSet", MoveTypeSet),
                 new NameFuncPair("VelSet", VelSet),
@@ -44,6 +46,26 @@ namespace Mugen3D.Core
             Character c = (Character)lua.ToUserData(1);
             int anim = lua.L_CheckInteger(2);
             c.animCtr.ChangeAnim(anim);
+            return 0;
+        }
+
+        static HitDef GetHitDef(ILuaState lua)
+        {
+            if(!lua.IsTable(-1))
+                throw new Exception("get hitDef is not table");
+            HitDef hitDef = new HitDef { 
+                hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage"),
+                guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage"),
+            };
+            return hitDef;
+        }
+
+        public static int HitDefSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            HitDef hitDef = GetHitDef(lua);
+            c.SetHitDefData(hitDef);
             return 0;
         }
 

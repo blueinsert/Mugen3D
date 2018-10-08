@@ -149,6 +149,7 @@
     <None Include="Assets\Resources\Lua\test.lua.txt" />
     <None Include="Assets\Resources\Lua\utils.lua.txt" />
     <None Include="Assets\XLua\CHANGELOG.txt" />
+    <None Include="Assets\XLua\Gen\link.xml" />
     <None Include="Assets\XLua\Resources\perf\memory.lua.txt" />
     <None Include="Assets\XLua\Resources\perf\profiler.lua.txt" />
     <None Include="Assets\XLua\Resources\tdr\tdr.lua.txt" />

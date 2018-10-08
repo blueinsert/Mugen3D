@@ -9,7 +9,6 @@ namespace Mugen3D.Core
 {
     public class World
     {
-        public int gameTime = -1;
         public Number deltaTime;
         public WorldConfig config;
         private int m_maxEntityId = 0;
@@ -83,10 +82,8 @@ namespace Mugen3D.Core
             entities.Clear();
         }
 
-        public void Update()
+        private void EntityUpdate()
         {
-            Time.Update(deltaTime);
-            gameTime++;
             foreach (var e in m_addedEntities)
             {
                 DoAddEntity(e);
@@ -107,38 +104,52 @@ namespace Mugen3D.Core
             m_destroyedEntities.Clear();
         }
 
-        public int OverlapBox(Rect rect, System.Func<Character, bool> filter = null)
+        private void HitResolve() 
         {
-            foreach (var character in characters)
+            foreach (var attacker in characters)
             {
-                if (!filter(character))
-                    continue;
-                var animCtl = character.animCtr;
-                if (animCtl.m_actions.ContainsKey(animCtl.anim))
+                foreach (var target in characters)
                 {
-                    var curAction = animCtl.m_actions[animCtl.anim];
-                    if (curAction.frames.Count != 0)
+                    if (attacker == target)
+                        continue;
+                    if (attacker.status.moveType != MoveType.Attack)
+                        continue;
+                    var clsns1 = attacker.animCtr.curActionFrame.clsns;
+                    var clsns2 = attacker.animCtr.curActionFrame.clsns;
+                    if (clsns1 != null && clsns2 != null && clsns1.Count != 0 && clsns2.Count != 0)
                     {
-                        var curActionFrame = curAction.frames[animCtl.animElem];
-                        foreach (var clsn in curActionFrame.clsns)
+                        foreach (var attackClsn in clsns1)
                         {
-                            if (clsn.type == 1)
+                            foreach (var defenseClsn in clsns2)
                             {
-                                Vector center = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
-                                center.x = center.x * character.facing;
-                                center += character.position;
-                                Core.Rect rect2 = new Core.Rect(center, Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2));
-                                if (rect.IsOverlap(rect2))
+                                if (attackClsn.type == 2 && defenseClsn.type == 1)
                                 {
-                                    return character.slot;
+                                    Vector center = new Vector((attackClsn.x1 + attackClsn.x2) / 2, (attackClsn.y1 + attackClsn.y2) / 2, 0);
+                                    center.x = center.x * attacker.facing;
+                                    center += attacker.position;
+                                    Core.Rect rect1 = new Core.Rect(center, Math.Abs(attackClsn.x1 - attackClsn.x2), Math.Abs(attackClsn.y1 - attackClsn.y2));
+                                    center = new Vector((defenseClsn.x1 + defenseClsn.x2) / 2, (defenseClsn.y1 + defenseClsn.y2) / 2, 0);
+                                    center.x = center.x * target.facing;
+                                    center += target.position;
+                                    Core.Rect rect2 = new Core.Rect(center, Math.Abs(defenseClsn.x1 - defenseClsn.x2), Math.Abs(defenseClsn.y1 - defenseClsn.y2));
+                                    if (rect1.IsOverlap(rect2))
+                                    {
+
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-            return -1;
         }
 
+        public void Update()
+        {
+            Time.Update(deltaTime);
+            EntityUpdate();
+            HitResolve();
+        }
+ 
     }
 }
