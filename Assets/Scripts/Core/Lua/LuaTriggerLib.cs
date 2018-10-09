@@ -27,6 +27,9 @@ namespace Mugen3D.Core
                 new NameFuncPair("LeftAnimTime", GetLeftAnimTime),
                 new NameFuncPair("Vel", GetVel),
                 new NameFuncPair("Pos", GetPos),
+                new NameFuncPair("P2Dist", P2Dist),
+                new NameFuncPair("GetHitVar", GetHitVar),
+                new NameFuncPair("HitPauseTime", HitPauseTime),
             };
             lua.L_NewLib(define);
             return 1;
@@ -169,6 +172,52 @@ namespace Mugen3D.Core
             lua.PushNumber(pos.x.AsFloat());
             lua.PushNumber(pos.y.AsFloat());
             return 2;
+        }
+
+        public static int P2Dist(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            Character enemy = c.world.teamInfo.GetEnemy(c);
+            var dist = enemy.position - c.position;
+            lua.PushNumber(dist.x.AsDouble());
+            lua.PushNumber(dist.y.AsDouble());
+            return 2;
+        }
+
+        public static int GetHitVar(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            string type = lua.L_CheckString(2);
+            int resNum = 0;
+            switch (type)
+            {
+                case "hitSlideTime":
+                    var hitSlideTime = c.beHitDefData.hitSlideTime;
+                    lua.PushInteger(hitSlideTime); resNum = 1;
+                    break;
+                case "hitShakeTime":
+                    var hitShakeTime = c.beHitDefData.hitPauseTime[1];
+                    lua.PushInteger(hitShakeTime); resNum = 1;
+                    break;
+                case "groundVel":
+                    var vel = c.beHitDefData.groundVel;
+                    lua.PushInteger(vel.x.AsInt());
+                    lua.PushInteger(vel.y.AsInt());
+                    resNum = 2;
+                    break;
+            }
+            return resNum;
+        }
+
+        public static int HitPauseTime(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int pauseTime = c.hitDefData.hitPauseTime[0];
+            lua.PushInteger(pauseTime);
+            return 1;
         }
 
     }

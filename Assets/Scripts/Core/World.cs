@@ -7,6 +7,7 @@ using Number = Mugen3D.Core.Number;
 
 namespace Mugen3D.Core
 {
+
     public class World
     {
         public Number deltaTime;
@@ -106,6 +107,7 @@ namespace Mugen3D.Core
 
         private void HitResolve()
         {
+            Dictionary<Character, Character> hitResults = new Dictionary<Character, Character>();
             foreach (var attacker in characters)
             {
                 foreach (var target in characters)
@@ -134,7 +136,8 @@ namespace Mugen3D.Core
                                     Core.Rect rect2 = new Core.Rect(center, Math.Abs(defenseClsn.x1 - defenseClsn.x2), Math.Abs(defenseClsn.y1 - defenseClsn.y2));
                                     if (rect1.IsOverlap(rect2))
                                     {
-
+                                        if (!hitResults.ContainsKey(target))
+                                            hitResults[target] = attacker;
                                     }
                                 }
                             }
@@ -142,12 +145,30 @@ namespace Mugen3D.Core
                     }
                 }
             }
+
+            foreach (var hitResult in hitResults)
+            {
+                var attacker = hitResult.Value;
+                var target = hitResult.Key;
+                attacker.Pause(attacker.hitDefData.hitPauseTime[0]);
+                target.SetBeHitDefData(attacker.hitDefData);
+                target.fsmMgr.ChangeState(5000);
+            }
         }
 
         void ProcessChangeState()
         {
-            foreach(var character in characters){
+            foreach (var character in characters)
+            {
                 character.fsmMgr.ProcessChangeState();
+            }
+        }
+
+        void UpdateView()
+        {
+            foreach (var character in characters)
+            {
+                character.SendEvent(new Event() { type = EventType.SampleAnim, data = null });
             }
         }
 
@@ -157,6 +178,7 @@ namespace Mugen3D.Core
             EntityUpdate();
             HitResolve();
             ProcessChangeState();
+            UpdateView();
             Debug();
         }
 

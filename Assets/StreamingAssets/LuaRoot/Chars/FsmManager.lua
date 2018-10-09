@@ -14,24 +14,30 @@ local controllers = {
 }
 
 local triggers = {
-	{name = "CommandTest", func = trigger.CommandTest},
-	{name = "Facing", func = trigger.Facing},
-	{name = "MoveType", func = trigger.MoveType},
-	{name = "PhysicsType", func = trigger.PhysicsType},
-	{name = "StateNo", func = trigger.StateNo},
-	{name = "StateTime", func = trigger.StateTime},
-	{name = "Anim", func = trigger.Anim},
-	{name = "AnimExist", func = trigger.AnimExist},
-	{name = "AnimTime", func = trigger.AnimTime},
-	{name = "AnimElem", func = trigger.AnimElem},
+	{name = "CommandTest",  func = trigger.CommandTest},
+	{name = "Facing",       func = trigger.Facing},
+	{name = "MoveType",     func = trigger.MoveType},
+	{name = "PhysicsType",  func = trigger.PhysicsType},
+	{name = "StateNo",      func = trigger.StateNo},
+	{name = "StateTime",    func = trigger.StateTime},
+	{name = "Anim",         func = trigger.Anim},
+	{name = "AnimExist",    func = trigger.AnimExist},
+	{name = "AnimTime",     func = trigger.AnimTime},
+	{name = "AnimElem",     func = trigger.AnimElem},
 	{name = "AnimElemTime", func = trigger.AnimElemTime},
 	{name = "LeftAnimTime", func = trigger.LeftAnimTime},
-	{name = "Vel", func =  function(...)
-		local x,y = trigger.Vel(...)
+	{name = "Vel",          func =  function(...)
+        local x,y = trigger.Vel(...)
 		return {x = x, y = y}
 	end},
-	{name = "Pos", func = trigger.Pos},
+	{name = "Pos",          func = trigger.Pos},
 	{name = "JustOnGround", func = trigger.JustOnGround},
+	{name = "P2Dist",       func =  function(...)
+		local x,y = trigger.P2Dist(...)
+		return {x = x, y = y}
+	end},
+	{name = "GetHitVar",    func = trigger.GetHitVar},
+	{name = "HitPauseTime", func = trigger.HitPauseTime},
 }
 
 local function setCommonENVVars(env)

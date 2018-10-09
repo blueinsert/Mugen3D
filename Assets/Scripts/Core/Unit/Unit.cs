@@ -38,7 +38,7 @@ namespace Mugen3D.Core
         public int attackType;
         public int hitDamage;
         public int guardDamage;
-        public Vector hitPauseTime;
+        public int[] hitPauseTime;
         public int hitSlideTime;
         public Vector guardPauseTime;
         public int guardSlideTime;
@@ -56,6 +56,8 @@ namespace Mugen3D.Core
        
         public Status status = new Status();
         public HitDef hitDefData {get; private set;}
+        public HitDef beHitDefData { get; private set; }
+
         public int facing = 1;
         private int pauseTime = 0;
         private int input;
@@ -109,5 +111,9 @@ namespace Mugen3D.Core
             this.hitDefData = hitDef;
         }
 
+        public void SetBeHitDefData(HitDef hitDef)
+        {
+            this.beHitDefData = hitDef;
+        }
     }
 }

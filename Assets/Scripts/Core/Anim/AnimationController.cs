@@ -80,11 +80,8 @@ public class AnimationController {
                 animElem++;
                 animElemTime = 0;
             }
-        }
-        m_owner.SendEvent(new Event(){type = EventType.SampleAnim, data = null});
+        } 
     }
-
-   
 
     public void  ChangeAnim(int anim)
     {

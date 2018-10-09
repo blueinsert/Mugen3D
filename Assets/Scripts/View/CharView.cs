@@ -33,7 +33,7 @@ namespace Mugen3D
             m_char.onEvent += (entity, e) => {
                 if (e.type == Core.EventType.SampleAnim)
                 {
-                    SampleAnim();
+                    //SampleAnim();
                 }
             };
         }
@@ -60,6 +60,7 @@ namespace Mugen3D
                 lastScale = new Vector(m_char.scale.x, m_char.scale.y, m_char.scale.z);
                 this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.z.AsFloat());
             }
+            SampleAnim();
         }
     
         private void DebugDraw()

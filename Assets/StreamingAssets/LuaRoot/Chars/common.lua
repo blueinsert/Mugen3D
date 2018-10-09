@@ -12,25 +12,17 @@ M[] = {
 }
 --]]
 
-local function handleChangeFacing(char)
-	--print("handleChangeFacing")
-	local enemy = char:getEnemy()
-	if not enemy then
-		print("enemy is null")
-		return
-	end
-	local enemyPos = enemy.env:Pos()
-	local myPos = char.env:Pos()
+local function handleChangeFacing(_ENV)
 	local facing = 1
-	if enemyPos.x < myPos.x then
+	if P2Dist().x < 0 then
 		facing = -1
 	end
-	if char.env:Facing() ~= facing then
-	    if char.env:StateNo() == 0 and char.env:StateNo() ~= 5 then
-       	   char.ctl:ChangeState(5)
+	if Facing() ~= facing then
+	    if StateNo() == 0 and StateNo() ~= 5 then
+       	   ChangeState(5)
         end
-        if char.env:StateNo() == 11 and char.env:StateNo() ~= 6 then
-       	   char.ctl:ChangeState(6)
+        if StateNo() == 11 and StateNo() ~= 6 then
+       	   ChangeState(6)
         end
 	end
 end
@@ -49,7 +41,7 @@ M[-1] = {
 			ChangeState(20) --walk
 			return
 		end
-		--handleChangeFacing(char)
+		handleChangeFacing(_ENV)
 		if (StateNo() == 0 or StateNo() == 20) and CommandTest("holddown")  then
 			ChangeState(10)
 			return
@@ -85,13 +77,13 @@ M[5] = {
 	end,
 }
 
---turn stand
+--turn crouch
 M[6] = {
 	onEnter = function(_ENV)
 	    if AnimExist(6) then
 	        ChangeAnim(6)
 	    else
-	    	ChangeState(0)
+	    	ChangeState(11)
 	    end
 	end,
 	
@@ -286,7 +278,7 @@ M[5000] = {
 	onUpdate = function(_ENV)
 	    --freeze anim
 		ChangeAnim(5000)
-        if StateTime() > char.hitDefData.hitPauseTime[2] then
+        if StateTime() > GetHitVar("hitShakeTime") then
         	ChangeState(5001)
         end
 	end,
@@ -297,10 +289,11 @@ M[5001] = {
 		MoveTypeSet(Enums.MoveType.I)
 		PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
-		VelSet(char.hitDefData.groundVel.x, char.hitDefData.groundVel.y)
+		local vx, vy = GetHitVar("groundVel")
+		VelSet(vx, vy)
 	end,
 	onUpdate = function(_ENV)
-		if StateTime() > hitSlideTime then
+		if StateTime() > GetHitVar("hitSlideTime") then
 			ChangeState(0)
 		end
 	end,

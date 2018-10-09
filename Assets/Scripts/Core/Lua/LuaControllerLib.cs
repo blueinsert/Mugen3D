@@ -62,7 +62,10 @@ namespace Mugen3D.Core
             {
                 hitDef.hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage");
                 hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
-                hitDef.hitPauseTime = LuaUtil.GetTableFieldVector(lua, "hitPauseTime");
+                hitDef.hitPauseTime = new int[2];
+                var hitPauseTime = LuaUtil.GetTableFieldVector(lua, "hitPauseTime");
+                hitDef.hitPauseTime[0] = hitPauseTime.x.AsInt();
+                hitDef.hitPauseTime[1] = hitPauseTime.y.AsInt();
                 hitDef.hitSlideTime = LuaUtil.GetTableFieldInt(lua, "hitSlideTime");
                 hitDef.groundVel = LuaUtil.GetTableFieldVector(lua, "groundVel");
             }
@@ -134,7 +137,6 @@ namespace Mugen3D.Core
             c.Pause(duration);
             return 0;
         }
-
-        
+  
     }
 }

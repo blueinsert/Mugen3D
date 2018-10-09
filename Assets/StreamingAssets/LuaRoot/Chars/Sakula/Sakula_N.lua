@@ -1,3 +1,5 @@
+local Enums = require "Chars/enums"
+
 local M = {}
 
 M[-2] = {
@@ -11,13 +13,12 @@ M[-2] = {
 M[200] = {
 	onEnter = function(_ENV)
 	   ChangeAnim(200)
-	   PhysicsSet(PhysicsType.S)
+	   PhysicsSet(Enums.PhysicsType.S)
 	   CtrlSet(false)
-	   MoveTypeSet(MoveType.A)
-       _ENV.hasHit = false
+	   MoveTypeSet(Enums.MoveType.A)
 	end,
 	onUpdate = function(_ENV)
-        if AnimElem() == 2 and not _ENV.hasHit then
+        if AnimElem() == 2 then
             HitDefSet({
                 hitDamage = 10,
                 guardDamage = 1,
