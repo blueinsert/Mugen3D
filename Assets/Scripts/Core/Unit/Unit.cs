@@ -38,11 +38,9 @@ namespace Mugen3D.Core
         public int attackType;
         public int hitDamage;
         public int guardDamage;
-        public int hitPauseTimeP1;
-        public int hitPauseTimeP2;
+        public Vector hitPauseTime;
         public int hitSlideTime;
-        public int guardPauseTimeP1;
-        public int guardPauseTimeP2;
+        public Vector guardPauseTime;
         public int guardSlideTime;
         public Vector groundVel;
         public Vector airVel;

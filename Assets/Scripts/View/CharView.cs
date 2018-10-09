@@ -50,7 +50,6 @@ namespace Mugen3D
         void Update()
         {
             DebugDraw();
-            Debug();
             if (lastPosition != m_char.position)
             {
                 lastPosition = m_char.position;
@@ -62,23 +61,7 @@ namespace Mugen3D
                 this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.z.AsFloat());
             }
         }
-
-        void Debug()
-        {
-            if (GUIDebug.Instance != null)
-            {
-                var debuger = GUIDebug.Instance;
-                var player = this.m_char;
-                debuger.AddMsg(player.slot, "anim", player.animCtr.anim.ToString());
-                debuger.AddMsg(player.slot, "animTime", player.animCtr.animTime.ToString());
-                debuger.AddMsg(player.slot, "animElem", player.animCtr.animElem.ToString());
-                debuger.AddMsg(player.slot, "animElemTime", player.animCtr.animElemTime.ToString());
-                debuger.AddMsg(player.slot, "facing", player.facing.ToString());
-                debuger.AddMsg(player.slot, "vel", player.moveCtr.velocity.ToString());
-                debuger.AddMsg(player.slot, "command", player.cmdMgr.GetActiveCommandName());
-            }
-        }
-
+    
         private void DebugDraw()
         {
             if (m_animCtl.m_actions.ContainsKey(m_animCtl.anim))

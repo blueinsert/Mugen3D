@@ -80,17 +80,19 @@ namespace Mugen3D.Core
 
         public static int GetStateNo(ILuaState lua)
         {
-            //lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-           // Character c = (Character)lua.ToUserData(1);
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int stateNo = c.fsmMgr.stateNo;
+            lua.PushInteger(stateNo);
             return 1;
         }
 
         public static int GetStateTime(ILuaState lua)
         {
-
-            //lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            //Character c = (Character)lua.ToUserData(1);
-       
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int stateTime = c.fsmMgr.stateTime;
+            lua.PushInteger(stateTime);
             return 1;
         }
 

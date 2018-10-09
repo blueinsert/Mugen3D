@@ -1,11 +1,21 @@
-local Char = require "Chars/Char"
-local fsm = require "Chars/Sakula/SakulaFSM"
-fsm.__loadall()
+local FSMS = {
+    "Chars/Common",
+    "Chars/Sakula/Sakula_N",
+    "Chars/Sakula/Sakula_H",
+}
 
-local M = {} 
+local M = {}
 
-function M.new(csObjChar)
-	return Char.new(csObjChar, fsm)
+function __loadall()
+    for _, name in pairs(FSMS) do
+        local t = require(name)
+        for k, v in pairs(t) do
+            M[k] = v
+        end
+    end
 end
 
+__loadall()
+
 return M
+

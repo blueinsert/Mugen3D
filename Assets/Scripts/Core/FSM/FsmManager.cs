@@ -8,47 +8,90 @@ namespace Mugen3D.Core
     public class FsmManager
     {
         private Character m_owner;
-  
-        public FsmManager(string fsmFile, Character owner)
+        private int refUpdate;
+        private int refChangeState;
+        private int m_stateNoToChange = -1;
+
+        public int stateNo { get; private set; }
+        public int stateTime { get; private set; }
+
+        void CreateFSM()
         {
-            m_owner = owner;
             var env = LuaMgr.Instance.Env;
-            var status = env.L_DoString("return (require('Chars/CharFsmManager'))");
+            var status = env.L_DoString("return (require('Chars/FsmManager'))");
             if (status != ThreadStatus.LUA_OK)
             {
                 throw new Exception(env.ToString(-1));
             }
             if (!env.IsTable(-1))
             {
-                throw new Exception("framework main's return value is not a table");
+                throw new Exception("FsmManager's return value is not a table");
             }
             env.GetField(-1, "create");
             if (!env.IsFunction(-1))
             {
                 throw new Exception(string.Format("method {0} not found!", env));
             }
-            env.PushInteger(m_owner.slot);
             env.PushString(m_owner.config.fsmConfigFile);
             env.PushLightUserData(m_owner);
-            status = env.PCall(3, 1, 0);
+            status = env.PCall(2, 1, 0);
             if (status != ThreadStatus.LUA_OK)
             {
                 Debug.LogError(env.ToString(-1));
             }
             if (!env.IsTable(-1))
             {
-                throw new Exception("framework main's return value is not a table");
+                throw new Exception("createFSM's return value is not a table");
             }
             refUpdate = StoreMethod(env, "update");
-            env.Pop(env.GetTop());
+            refChangeState = StoreMethod(env, "changeState");
         }
 
-        int refUpdate;
+        public FsmManager(string fsmFile, Character owner)
+        {
+            m_owner = owner;
+            CreateFSM();
+            Init();
+        }
+
+        private void Init()
+        {
+            stateNo = 0;
+            stateTime = 0;
+        }
+
+        void CallMethod(int refFunc)
+        {
+            var env = LuaMgr.Instance.Env;
+            env.RawGetI(LuaDef.LUA_REGISTRYINDEX, refFunc);
+            env.PushInteger(this.stateNo);
+            var status = env.PCall(1, 0, 0);
+            if (status != ThreadStatus.LUA_OK)
+            {
+                Debug.LogError(env.ToString(-1));
+            }
+        }
+
+        public void ChangeState(int stateNo)
+        {
+            this.m_stateNoToChange = stateNo;
+        }
+
+        public void ProcessChangeState()
+        {
+            if (this.m_stateNoToChange != -1)
+            {
+                this.stateNo = this.m_stateNoToChange;
+                this.stateTime = 0;
+                CallMethod(this.refChangeState);
+                this.m_stateNoToChange = -1;
+            }
+        }
 
         public void Update()
         {
-           
-            CallMethod(LuaMgr.Instance.Env, refUpdate);
+            CallMethod(this.refUpdate);
+            this.stateTime++;
         }
 
         public int StoreMethod(UniLua.ILuaState env, string name)
@@ -61,6 +104,7 @@ namespace Mugen3D.Core
             return env.L_Ref(LuaDef.LUA_REGISTRYINDEX);
         }
 
+        /*
         public void CallMethod(UniLua.ILuaState env, int funcRef)
         {
             env.RawGetI(LuaDef.LUA_REGISTRYINDEX, funcRef);
@@ -98,7 +142,7 @@ namespace Mugen3D.Core
             }
             return 1;
         }
-
+        */
     }
 
 }

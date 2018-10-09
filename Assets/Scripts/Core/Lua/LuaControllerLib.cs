@@ -28,6 +28,10 @@ namespace Mugen3D.Core
 
         public static int ChangeState(ILuaState lua)
         {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Character c = (Character)lua.ToUserData(1);
+            int stateNo = lua.L_CheckInteger(2);
+            c.fsmMgr.ChangeState(stateNo);
             return 0;
         }
 
@@ -53,10 +57,19 @@ namespace Mugen3D.Core
         {
             if(!lua.IsTable(-1))
                 throw new Exception("get hitDef is not table");
-            HitDef hitDef = new HitDef { 
-                hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage"),
-                guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage"),
-            };
+            HitDef hitDef = new HitDef();
+            try
+            {
+                hitDef.hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage");
+                hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
+                hitDef.hitPauseTime = LuaUtil.GetTableFieldVector(lua, "hitPauseTime");
+                hitDef.hitSlideTime = LuaUtil.GetTableFieldInt(lua, "hitSlideTime");
+                hitDef.groundVel = LuaUtil.GetTableFieldVector(lua, "groundVel");
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("get hitDef field error:" + e.Message);
+            }
             return hitDef;
         }
 

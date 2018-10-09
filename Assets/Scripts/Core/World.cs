@@ -104,7 +104,7 @@ namespace Mugen3D.Core
             m_destroyedEntities.Clear();
         }
 
-        private void HitResolve() 
+        private void HitResolve()
         {
             foreach (var attacker in characters)
             {
@@ -144,12 +144,36 @@ namespace Mugen3D.Core
             }
         }
 
+        void ProcessChangeState()
+        {
+            foreach(var character in characters){
+                character.fsmMgr.ProcessChangeState();
+            }
+        }
+
         public void Update()
         {
             Time.Update(deltaTime);
             EntityUpdate();
             HitResolve();
+            ProcessChangeState();
+            Debug();
         }
- 
+
+        void Debug()
+        {
+            foreach (var character in characters)
+            {
+                Core.Debug.AddGUIDebugMsg(character.slot, "stateNo", character.fsmMgr.stateNo.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "stateTime", character.fsmMgr.stateTime.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "anim", character.animCtr.anim.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "animTime", character.animCtr.animTime.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "animElem", character.animCtr.animElem.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "animElemTime", character.animCtr.animElemTime.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "facing", character.facing.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "vel", character.moveCtr.velocity.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "command", character.cmdMgr.GetActiveCommandName());
+            }
+        }
     }
 }
