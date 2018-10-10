@@ -114,7 +114,9 @@ namespace Mugen3D.Core
                 {
                     if (attacker == target)
                         continue;
-                    if (attacker.status.moveType != MoveType.Attack)
+                    if (attacker.status.moveType != MoveType.Attack || attacker.hitDefData == null)
+                        continue;
+                    if (target.status.moveType == MoveType.BeingHitted && target.beHitDefData != null && target.beHitDefData.id == attacker.hitDefData.id)
                         continue;
                     var clsns1 = attacker.animCtr.curActionFrame.clsns;
                     var clsns2 = attacker.animCtr.curActionFrame.clsns;
@@ -136,8 +138,7 @@ namespace Mugen3D.Core
                                     Core.Rect rect2 = new Core.Rect(center, Math.Abs(defenseClsn.x1 - defenseClsn.x2), Math.Abs(defenseClsn.y1 - defenseClsn.y2));
                                     if (rect1.IsOverlap(rect2))
                                     {
-                                        if (!hitResults.ContainsKey(target))
-                                            hitResults[target] = attacker;
+                                        hitResults[target] = attacker;
                                     }
                                 }
                             }
@@ -150,7 +151,8 @@ namespace Mugen3D.Core
             {
                 var attacker = hitResult.Value;
                 var target = hitResult.Key;
-                attacker.Pause(attacker.hitDefData.hitPauseTime[0]);
+                if (!hitResults.ContainsKey(attacker))
+                    attacker.Pause(attacker.hitDefData.hitPauseTime[0]);
                 target.SetBeHitDefData(attacker.hitDefData);
                 target.fsmMgr.ChangeState(5000);
             }
@@ -195,6 +197,8 @@ namespace Mugen3D.Core
                 Core.Debug.AddGUIDebugMsg(character.slot, "facing", character.facing.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "vel", character.moveCtr.velocity.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "command", character.cmdMgr.GetActiveCommandName());
+                Core.Debug.AddGUIDebugMsg(character.slot, "isPause", character.IsPause().ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "pauseTime", character.pauseTime.ToString());
             }
         }
     }

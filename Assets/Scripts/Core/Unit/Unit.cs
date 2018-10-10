@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using XLua;
 using Math = Mugen3D.Core.Math;
 using Vector = Mugen3D.Core.Vector;
 using Number = Mugen3D.Core.Number;
@@ -31,10 +30,14 @@ namespace Mugen3D.Core
         public bool pushTest = true;
         public bool ctrl = true;
         public int animNo = -1;
+        public bool moveHit = false;
+        public bool moveGuard = false;
+        public bool moveContact = false;
     }
 
     public class HitDef
     {
+        public int id;
         public int attackType;
         public int hitDamage;
         public int guardDamage;
@@ -47,8 +50,7 @@ namespace Mugen3D.Core
     }
 
     public abstract class Unit : Entity
-    {
-        
+    {  
         public AnimationController animCtr;
         public CmdManager cmdMgr;
         public FsmManager fsmMgr;
@@ -59,7 +61,7 @@ namespace Mugen3D.Core
         public HitDef beHitDefData { get; private set; }
 
         public int facing = 1;
-        private int pauseTime = 0;
+        public int pauseTime { get; private set; }
         private int input;
 
         public Unit()

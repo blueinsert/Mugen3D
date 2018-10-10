@@ -1,13 +1,13 @@
-local Enums = require "Chars/enums"
+local Enums = require "Chars/Enums"
 local M = {}
 
 --[[
 M[] = {
 	onEnter = function(_ENV)
-		
+	  --to do	
 	end,
-	onUpdate = function(_ENV)
-		
+	onUpdate = function(_ENV)	
+	  --to do
 	end,
 }
 --]]
@@ -31,26 +31,25 @@ M[-1] = {
 	onUpdate = function(_ENV)
 	    if (StateNo() == 0 or StateNo() == 20) and CommandTest("FF") then
 			ChangeState(100)
-			return
 		end
 		if CommandTest("holdup") and (StateNo() == 0 or StateNo() == 20 or StateNo() == 100) then
 			ChangeState(40) --jump
-			return
 		end
 	    if (CommandTest("holdfwd") or CommandTest("holdback")) and StateNo() == 0 then
 			ChangeState(20) --walk
-			return
 		end
 		handleChangeFacing(_ENV)
 		if (StateNo() == 0 or StateNo() == 20) and CommandTest("holddown")  then
 			ChangeState(10)
-			return
 		end
 	end,
 }
 
 M[0] = {
     onEnter = function(_ENV)
+        MoveTypeSet(Enums.MoveType.I)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(true)
         ChangeAnim(0)
 	end,
 	onUpdate = function(_ENV)
@@ -270,7 +269,7 @@ M[101] = {
 --stand get-hit(shaking)
 M[5000] = {
 	onEnter = function(_ENV)
-		MoveTypeSet(Enums.MoveType.I)
+		MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
 		ChangeAnim(5000)
@@ -286,7 +285,7 @@ M[5000] = {
 
 M[5001] = {
 	onEnter = function(_ENV)
-		MoveTypeSet(Enums.MoveType.I)
+		MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
 		local vx, vy = GetHitVar("groundVel")

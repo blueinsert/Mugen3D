@@ -55,8 +55,6 @@ public class AnimationController {
         }
     }
 
-    
-
     public void Update()
     {
         UpdateSample();

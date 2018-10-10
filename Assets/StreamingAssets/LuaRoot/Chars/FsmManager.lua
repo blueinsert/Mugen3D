@@ -67,7 +67,7 @@ local function createFSM(scriptName, csObjUnit)
 	local env = createENV(csObjUnit)
 	local res = {
         update = function(stateNo)
-        	if fsm == nil or fsm[stateNo] == nil then
+        	if fsm == nil then
 		        return
 	        end
             for i = -3, -1 do
@@ -75,12 +75,12 @@ local function createFSM(scriptName, csObjUnit)
 		            fsm[i].onUpdate(env)
 	            end
             end
-	        if fsm[stateNo].onUpdate then
+	        if fsm[stateNo] and fsm[stateNo].onUpdate then
 	            fsm[stateNo].onUpdate(env)
             end
         end,
         changeState = function(stateNo)
-	        if fsm[stateNo].onEnter then
+	        if fsm[stateNo] and fsm[stateNo].onEnter then
 	            fsm[stateNo].onEnter(env)
             end
         end

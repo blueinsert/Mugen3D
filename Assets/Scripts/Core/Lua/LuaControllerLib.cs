@@ -60,6 +60,7 @@ namespace Mugen3D.Core
             HitDef hitDef = new HitDef();
             try
             {
+                hitDef.id = LuaUtil.GetTableFieldInt(lua, "id");
                 hitDef.hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage");
                 hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
                 hitDef.hitPauseTime = new int[2];

@@ -1,4 +1,4 @@
-local Enums = require "Chars/enums"
+local Enums = require "Chars/Enums"
 
 local M = {}
 
@@ -20,6 +20,7 @@ M[200] = {
 	onUpdate = function(_ENV)
         if AnimElem() == 2 then
             HitDefSet({
+                id = 200,
                 hitDamage = 10,
                 guardDamage = 1,
                 hitPauseTime = {11, 13},
