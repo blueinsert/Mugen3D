@@ -22,12 +22,12 @@ namespace Mugen3D.Tools
         {
             config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText("Config/Chars/" + characterName + "/" + characterName + ".def"));
 
-            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/Chars/" + config.modelFile);
+            UnityEngine.Object prefab = ResourceLoader.Load(config.prefab);
 
             GameObject go = GameObject.Instantiate(prefab, playerRoot) as GameObject;
             go.transform.position = Vector3.zero;
 
-            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText("Config/Chars/" + characterName + "/" + config.actionConfigFile));
+            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(config.action));
             if (actionsConfig == null)
                 actionsConfig = new ActionsConfig();
             module = new ActionsEditorModule(actionsConfig.actions);
@@ -53,7 +53,7 @@ namespace Mugen3D.Tools
             }
             serializer.Serialize(strWriter, actionConfig);
 
-            using (TextWriter writer = File.CreateText(resourePath + "Config/Chars/" + characterName + "/" + config.actionConfigFile + ".txt"))
+            using (TextWriter writer = File.CreateText(resourePath + config.action + ".txt"))
             {
                 writer.Write(strWriter.ToString());
             }

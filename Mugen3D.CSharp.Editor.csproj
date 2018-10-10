@@ -129,9 +129,6 @@
     <Compile Include="Assets\XLua\Src\Editor\TemplateRef.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Resources\Config\Chars\Origin\Origin.act.txt" />
-    <None Include="Assets\Resources\Config\Chars\Origin\Origin.cmd.txt" />
-    <None Include="Assets\Resources\Config\Chars\Origin\Origin.def.txt" />
     <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.act.txt" />
     <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.cmd.txt" />
     <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.def.txt" />

@@ -63,7 +63,7 @@ local function createENV(csObjUnit)
 end
 
 local function createFSM(scriptName, csObjUnit)
-	local fsm = require ("Chars/" .. scriptName .. "/"  .. scriptName)
+	local fsm = require(scriptName)
 	local env = createENV(csObjUnit)
 	local res = {
         update = function(stateNo)

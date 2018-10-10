@@ -9,7 +9,7 @@ public struct Vector : IEquatable<Vector> {
 #region Private Fields
 
     private static Vector zeroVector = new Vector(0, 0, 0);
-    private static Vector oneVector = new Vector(1, 1, 0);
+    private static Vector oneVector = new Vector(1, 1, 1);
 
     private static Vector rightVector = new Vector(1, 0, 0);
     private static Vector leftVector = new Vector(-1, 0, 0);

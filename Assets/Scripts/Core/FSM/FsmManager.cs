@@ -7,7 +7,7 @@ namespace Mugen3D.Core
 {
     public class FsmManager
     {
-        private Character m_owner;
+        private Unit m_owner;
         private int refUpdate;
         private int refChangeState;
         private int m_stateNoToChange = -1;
@@ -32,7 +32,7 @@ namespace Mugen3D.Core
             {
                 throw new Exception(string.Format("method {0} not found!", env));
             }
-            env.PushString(m_owner.config.fsmConfigFile);
+            env.PushString((m_owner.config as UnitConfig).fsm);
             env.PushLightUserData(m_owner);
             status = env.PCall(2, 1, 0);
             if (status != ThreadStatus.LUA_OK)
@@ -47,7 +47,7 @@ namespace Mugen3D.Core
             refChangeState = StoreMethod(env, "changeState");
         }
 
-        public FsmManager(string fsmFile, Character owner)
+        public FsmManager(string fsmFile, Unit owner)
         {
             m_owner = owner;
             CreateFSM();

@@ -8,7 +8,7 @@ using Number = Mugen3D.Core.Number;
 namespace Mugen3D.Core
 {
 
-    public abstract class MoveCtrl
+    public class MoveCtrl
     {
         public Vector gravity
         {

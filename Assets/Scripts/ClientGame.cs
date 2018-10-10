@@ -70,12 +70,7 @@ namespace Mugen3D
 
         protected Character CreateCharacter(string characterName, int slot, bool isLocal)
         {
-            string prefix = "Config/Chars/" + characterName + "/";
-            CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText(prefix + characterName + ".def"));
-            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(prefix + config.actionConfigFile));
-            string commands = ResourceLoader.LoadText(prefix + config.cmdConfigFile);
-            config.SetActions(actionsConfig.actions.ToArray());
-            config.SetCommand(commands);
+            CharacterConfig config = ConfigHelper.ReadCharacterConfig(characterName);
             Character p = new Character(characterName, config, slot, isLocal);
             this.world.AddEntity(p);
             return p;

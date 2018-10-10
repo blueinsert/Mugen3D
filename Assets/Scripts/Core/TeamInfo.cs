@@ -24,15 +24,24 @@ namespace Mugen3D.Core
             return m_chars[slot];
         }
 
-        public Character GetEnemy(Character c)
+        public Character GetEnemy(Unit u)
         {
-            foreach (var character in m_chars.Values)
+            if (u is Character)
             {
-                if (character.slot != c.slot)
+                var c = u as Character;
+                foreach (var character in m_chars.Values)
                 {
-                    return character;
+                    if (character.slot != c.slot)
+                    {
+                        return character;
+                    }
                 }
             }
+            else if (u is Helper)
+            {
+
+            }
+            
             return null;
         }
         

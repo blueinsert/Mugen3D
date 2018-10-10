@@ -29,7 +29,7 @@ namespace Mugen3D.Core
         public static int ChangeState(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             int stateNo = lua.L_CheckInteger(2);
             c.fsmMgr.ChangeState(stateNo);
             return 0;
@@ -38,7 +38,7 @@ namespace Mugen3D.Core
         public static int ChangeFacing(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             int facing = lua.L_CheckInteger(2);
             c.ChangeFacing(facing);
             return 0;
@@ -47,7 +47,7 @@ namespace Mugen3D.Core
         public static int ChangeAnim(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             int anim = lua.L_CheckInteger(2);
             c.animCtr.ChangeAnim(anim);
             return 0;
@@ -63,10 +63,7 @@ namespace Mugen3D.Core
                 hitDef.id = LuaUtil.GetTableFieldInt(lua, "id");
                 hitDef.hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage");
                 hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
-                hitDef.hitPauseTime = new int[2];
-                var hitPauseTime = LuaUtil.GetTableFieldVector(lua, "hitPauseTime");
-                hitDef.hitPauseTime[0] = hitPauseTime.x.AsInt();
-                hitDef.hitPauseTime[1] = hitPauseTime.y.AsInt();
+                hitDef.hitPauseTime = LuaUtil.GetTableFieldIntArray(lua, "hitPauseTime", 2);
                 hitDef.hitSlideTime = LuaUtil.GetTableFieldInt(lua, "hitSlideTime");
                 hitDef.groundVel = LuaUtil.GetTableFieldVector(lua, "groundVel");
             }
@@ -80,7 +77,7 @@ namespace Mugen3D.Core
         public static int HitDefSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             HitDef hitDef = GetHitDef(lua);
             c.SetHitDefData(hitDef);
             return 0;
@@ -89,7 +86,7 @@ namespace Mugen3D.Core
         public static int PhysicsSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             int physics = lua.L_CheckInteger(2);
             PhysicsType physicsType = (PhysicsType)physics;
             c.status.physicsType = physicsType;
@@ -99,7 +96,7 @@ namespace Mugen3D.Core
         public static int MoveTypeSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             int moveType = lua.L_CheckInteger(2);
             MoveType move = (MoveType)moveType;
             c.status.moveType = move;
@@ -114,7 +111,7 @@ namespace Mugen3D.Core
         public static int VelSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             double velX = lua.L_CheckNumber(2);
             double velY = lua.L_CheckNumber(3);
             c.moveCtr.VelSet(ToNumber(velX), ToNumber(velY));
@@ -124,7 +121,7 @@ namespace Mugen3D.Core
         public static int CtrlSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             bool ctrl = lua.ToBoolean(2);
             c.status.ctrl = ctrl;
             return 0;
@@ -133,7 +130,7 @@ namespace Mugen3D.Core
         public static int Pause(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Character c = (Character)lua.ToUserData(1);
+            Unit c = (Unit)lua.ToUserData(1);
             int duration = lua.L_CheckInteger(2);
             c.Pause(duration);
             return 0;

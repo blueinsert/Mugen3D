@@ -29,10 +29,9 @@ namespace Mugen3D.Core
         public PhysicsType physicsType = PhysicsType.S;
         public bool pushTest = true;
         public bool ctrl = true;
-        public int animNo = -1;
         public bool moveHit = false;
         public bool moveGuard = false;
-        public bool moveContact = false;
+        public bool moveContact { get { return moveHit || moveGuard; } }
     }
 
     public class HitDef
@@ -43,29 +42,31 @@ namespace Mugen3D.Core
         public int guardDamage;
         public int[] hitPauseTime;
         public int hitSlideTime;
-        public Vector guardPauseTime;
+        public int[] guardPauseTime;
         public int guardSlideTime;
         public Vector groundVel;
         public Vector airVel;
     }
 
-    public abstract class Unit : Entity
-    {  
-        public AnimationController animCtr;
-        public CmdManager cmdMgr;
-        public FsmManager fsmMgr;
-        public MoveCtrl moveCtr;
+    public abstract class Unit : Entity, IHealth
+    {
+        public MoveCtrl moveCtr { get; protected set; }
+        public AnimationController animCtr { get; protected set; }  
+        public FsmManager fsmMgr { get; protected set; }
        
         public Status status = new Status();
         public HitDef hitDefData {get; private set;}
         public HitDef beHitDefData { get; private set; }
 
         public int facing = 1;
-        public int pauseTime { get; private set; }
-        private int input;
+        public int pauseTime { get; private set; } 
 
-        public Unit()
+        public Unit(UnitConfig config)
         {
+            SetConfig(config);
+            moveCtr = new MoveCtrl(this);
+            animCtr = new AnimationController(config.actions, this);
+            fsmMgr = new FsmManager(config.fsm, this);
         }
 
         public override void OnUpdate(Number deltaTime)
@@ -75,17 +76,11 @@ namespace Mugen3D.Core
                 pauseTime--;
                 return;
             }
-            fsmMgr.Update();
             moveCtr.Update(deltaTime);
             animCtr.Update();
-            cmdMgr.Update(input);
+            fsmMgr.Update();   
         }
 
-        public void UpdateInput(int input)
-        {
-            this.input = input;
-        }
-   
         public void ChangeFacing(int facing)
         {
             this.facing = facing;
@@ -102,12 +97,6 @@ namespace Mugen3D.Core
             pauseTime = duration;
         }
 
-        public void ChangeAnim(int animNo)
-        {
-           
-            this.animCtr.ChangeAnim(animNo);
-        }
-
         public void SetHitDefData(HitDef hitDef)
         {
             this.hitDefData = hitDef;
@@ -116,6 +105,33 @@ namespace Mugen3D.Core
         public void SetBeHitDefData(HitDef hitDef)
         {
             this.beHitDefData = hitDef;
+        }
+
+        private int m_maxHP = 100;
+        private int m_hp = 100;
+
+        public int GetHP()
+        {
+            return m_hp;
+        }
+
+        public int GetMaxHP()
+        {
+            return m_maxHP;
+        }
+
+        public void AddHP(int hpAdd)
+        {
+            m_hp += hpAdd;
+            if (m_hp <= 0)
+            {
+                SendEvent(new Event { type = EventType.Dead });
+            }
+        }
+
+        public void SetHP(int hp)
+        {
+            m_hp = hp;
         }
     }
 }

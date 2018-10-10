@@ -25,14 +25,14 @@ namespace Mugen3D.Core
         public Vector scale;
         public World world;
         public Action<Entity, Event> onEvent;
-
+        public EntityConfig config { get; private set; }
         public abstract void OnUpdate(Number deltaTime);
 
         public bool isDestroyed = false;
 
         public Entity()
         {
-          
+            this.scale = Vector.one;
         }
 
         public void SetEntityId(int id)
@@ -56,6 +56,11 @@ namespace Mugen3D.Core
         public void Destroy()
         {
             isDestroyed = true;
+        }
+
+        public void SetConfig(EntityConfig config)
+        {
+            this.config = config;
         }
     }
 }

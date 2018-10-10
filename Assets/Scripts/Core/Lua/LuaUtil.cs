@@ -18,6 +18,26 @@ namespace Mugen3D.Core
             return result;
         }
 
+        public static int[] GetTableFieldIntArray(ILuaState lua, string key, int arrayLength)
+        {
+            if (!lua.IsTable(-1))
+                throw new Exception("GetTableFieldVector: is not table");
+            lua.GetField(-1, key);
+            if (!lua.IsTable(-1))
+                throw new Exception("Get Vector: is not table");
+            int[] res = new int[arrayLength];
+            for (int i = 1; i <= arrayLength; i++)
+            {
+                lua.PushInteger(1);
+                lua.GetTable(-2);
+                var value = lua.ToInteger(-1);
+                lua.Pop(1);
+                res[i-1] = value;
+            }
+            lua.Pop(1);
+            return res;
+        }
+
         public static string GetTableFieldString(ILuaState lua, string key)
         {
             if (!lua.IsTable(-1))

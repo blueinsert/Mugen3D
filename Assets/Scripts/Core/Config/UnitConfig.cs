@@ -86,28 +86,49 @@ namespace Mugen3D.Core
         public List<Core.Action> actions { get; set; }
     }
 
-    public class CharacterConfig
+    public class EntityConfig
     {
-        public Number scaleX { get; set; }
-        public Number scaleY { get; set; }
-        public Number scaleZ { get; set; }
-        public string modelFile { get; set; }
-        public string actionConfigFile { get; set; }
-        public string cmdConfigFile { get; set; }
-        public string fsmConfigFile { get; set; }
+        //public Vector scale { get; set; }
+    }
 
-        public string commandContent { get; private set; }
+    public class UnitConfig : EntityConfig
+    {   
+        public string prefab { get; set; }
+        public string action { get; set; }
+        public string fsm { get; set; }
+
         public Action[] actions { get; private set; }
+
+        public UnitConfig()
+        {
+        }
 
         public void SetActions(Action[] actions)
         {
             this.actions = actions;
-        }
+        }   
+    }
+
+    public class HelperConfig : UnitConfig
+    {
+
+    }
+
+    public class CharacterConfig: UnitConfig
+    {
+        public string characterName { get; set; }
+        public string command { get; set; }
+
+        public string commandContent { get; private set; }
 
         public void SetCommand(string content)
         {
             this.commandContent = content;
         }
-       
+    }
+
+    public class PlayerConfig : CharacterConfig
+    {
+        public string playerName { get; set; }
     }
 }

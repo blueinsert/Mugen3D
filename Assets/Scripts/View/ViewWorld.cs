@@ -37,7 +37,7 @@ namespace Mugen3D
         private EntityView OnCreateCharacter(Core.Entity entity)
         {
             var c = entity as Core.Character;
-            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/Chars/" + c.config.modelFile);
+            UnityEngine.Object prefab = ResourceLoader.Load((c.config as Core.UnitConfig).prefab);
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform.Find("Players")) as GameObject;
             var view = go.AddComponent<CharView>();
             view.Init(c);
