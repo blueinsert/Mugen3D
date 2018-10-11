@@ -10,17 +10,17 @@ namespace Mugen3D.Core
 
     public class World
     {
-        public Number deltaTime;
-        public WorldConfig config;
+        private int logicFPS;
+        private Number deltaTime;
         private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
-        public List<Entity> entities { get; private set; }
+        private List<Entity> entities = new List<Entity>();
         public List<Character> characters = new List<Character>();
         public TeamInfo teamInfo = new TeamInfo();
         public System.Action<Entity> onCreateEntity;
-        public Character localPlayer;
-        public int logicFPS;
+        public Character localPlayer { get; private set; }
+        public WorldConfig config { get; private set; }
 
         public World(WorldConfig cfg, int logicFPS)
         {
@@ -61,11 +61,6 @@ namespace Mugen3D.Core
         {
             entities.Remove(e);
             //GameObject.Destroy(e.gameObject);
-        }
-
-        public void Clear()
-        {
-            entities.Clear();
         }
 
         private void EntityUpdate()
