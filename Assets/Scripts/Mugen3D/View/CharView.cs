@@ -30,7 +30,8 @@ namespace Mugen3D
         {
             this.m_char = c;
             this.m_animCtl = c.animCtr;
-            m_char.onEvent += (entity, e) => {
+            m_char.onEvent += (entity, e) =>
+            {
                 if (e.type == Core.EventType.SampleAnim)
                 {
                     //SampleAnim();
@@ -62,34 +63,32 @@ namespace Mugen3D
             }
             SampleAnim();
         }
-    
+
         private void DebugDraw()
         {
-            if (m_animCtl.m_actions.ContainsKey(m_animCtl.anim))
+            var curAction = m_animCtl.curAction;
+            if (curAction.frames.Count != 0)
             {
-                var curAction = m_animCtl.m_actions[m_animCtl.anim];
-                if (curAction.frames.Count != 0)
+                var curActionFrame = curAction.frames[m_animCtl.animElem];
+                foreach (var clsn in curActionFrame.clsns)
                 {
-                    var curActionFrame = curAction.frames[m_animCtl.animElem];
-                    foreach (var clsn in curActionFrame.clsns)
+                    var pos = m_char.position;
+                    Core.Rect rect = new Core.Rect(new Vector(clsn.x1 * m_char.GetFacing(), clsn.y1, 0) + pos, new Vector(clsn.x2 * m_char.GetFacing(), clsn.y2, 0) + pos);
+                    Color c = Color.blue;
+                    if (clsn.type == 1)
                     {
-                        var pos = m_char.position;
-                        Core.Rect rect = new Core.Rect(new Vector(clsn.x1 * m_char.facing, clsn.y1, 0) + pos, new Vector(clsn.x2 * m_char.facing, clsn.y2, 0) + pos);
-                        Color c = Color.blue;
-                        if (clsn.type == 1)
-                        {
-                            c = Color.blue;
-                        }
-                        else if (clsn.type == 2)
-                        {
-                            c = Color.red;
-                        }
-                        Log.DrawRect(rect.LeftUp.ToVector2(), rect.RightUp.ToVector2(), rect.RightDown.ToVector2(), rect.LeftDown.ToVector2(), c, UnityEngine.Time.deltaTime);
+                        c = Color.blue;
                     }
+                    else if (clsn.type == 2)
+                    {
+                        c = Color.red;
+                    }
+                    Log.DrawRect(rect.LeftUp.ToVector2(), rect.RightUp.ToVector2(), rect.RightDown.ToVector2(), rect.LeftDown.ToVector2(), c, UnityEngine.Time.deltaTime);
                 }
             }
+
         }
-        
+
     }
 
 }

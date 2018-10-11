@@ -78,7 +78,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            int facing = c.facing;
+            int facing = c.GetFacing();
             lua.PushInteger(facing);
             return 1;
         }
@@ -87,7 +87,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            int res = (int)c.status.moveType;
+            int res = (int)c.GetMoveType();
             lua.PushInteger(res);
             return 1;
         }
@@ -96,7 +96,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            var physicsType = (int)c.status.moveType;
+            var physicsType = (int)c.GetPhysicsType();
             lua.PushInteger(physicsType);
             return 1;
         }
@@ -223,15 +223,15 @@ namespace Mugen3D.Core
             switch (type)
             {
                 case "hitSlideTime":
-                    var hitSlideTime = c.beHitDefData.hitSlideTime;
+                    var hitSlideTime = c.GetBeHitDefData().hitSlideTime;
                     lua.PushInteger(hitSlideTime); resNum = 1;
                     break;
                 case "hitShakeTime":
-                    var hitShakeTime = c.beHitDefData.hitPauseTime[1];
+                    var hitShakeTime = c.GetBeHitDefData().hitPauseTime[1];
                     lua.PushInteger(hitShakeTime); resNum = 1;
                     break;
                 case "groundVel":
-                    var vel = c.beHitDefData.groundVel;
+                    var vel = c.GetBeHitDefData().groundVel;
                     lua.PushInteger(vel.x.AsInt());
                     lua.PushInteger(vel.y.AsInt());
                     resNum = 2;
@@ -244,7 +244,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            int pauseTime = c.hitDefData.hitPauseTime[0];
+            int pauseTime = c.GetHitDefData().hitPauseTime[0];
             lua.PushInteger(pauseTime);
             return 1;
         }

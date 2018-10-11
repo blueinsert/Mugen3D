@@ -6,12 +6,11 @@ namespace Mugen3D.Core
 
 public class AnimationController {
     private Unit m_owner;
-
-    public Dictionary<int, Action> m_actions;
-    public int anim;
-    public int animTime;
-    public int animElem;
-    public int animElemTime;
+    private Dictionary<int, Action> m_actions;
+    public int anim { get; private set; }
+    public int animTime { get; private set; }
+    public int animElem { get; private set; }
+    public int animElemTime { get; private set; }
 
     public int animLength
     {

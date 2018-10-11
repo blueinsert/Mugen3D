@@ -21,18 +21,7 @@ namespace Mugen3D.Core
         S = 1,
         C,
         A,
-    }
-
-    public class Status
-    {
-        public MoveType moveType = MoveType.Idle;
-        public PhysicsType physicsType = PhysicsType.S;
-        public bool pushTest = true;
-        public bool ctrl = true;
-        public bool moveHit = false;
-        public bool moveGuard = false;
-        public bool moveContact { get { return moveHit || moveGuard; } }
-    }
+    } 
 
     public class HitDef
     {
@@ -48,18 +37,28 @@ namespace Mugen3D.Core
         public Vector airVel;
     }
 
-    public abstract class Unit : Entity, IHealth
+    public class Status
+    {
+        public MoveType moveType = MoveType.Idle;
+        public PhysicsType physicsType = PhysicsType.S;
+        public bool pushTest = true;
+        public bool ctrl = true;
+        public bool moveHit = false;
+        public bool moveGuard = false;
+        public bool moveContact { get { return moveHit || moveGuard; } }
+        public int facing = 1;
+        public int pauseTime;
+        public HitDef hitDefData;
+        public HitDef beHitDefData;
+    }
+
+    public class Unit : Entity, IHealth
     {
         public MoveCtrl moveCtr { get; protected set; }
         public AnimationController animCtr { get; protected set; }  
         public FsmManager fsmMgr { get; protected set; }
-       
-        public Status status = new Status();
-        public HitDef hitDefData {get; private set;}
-        public HitDef beHitDefData { get; private set; }
 
-        public int facing = 1;
-        public int pauseTime { get; private set; } 
+        private Status status = new Status();
 
         public Unit(UnitConfig config)
         {
@@ -73,39 +72,92 @@ namespace Mugen3D.Core
         {
             if (IsPause())
             {
-                pauseTime--;
+                this.status.pauseTime--;
                 return;
             }
             moveCtr.Update(deltaTime);
             animCtr.Update();
             fsmMgr.Update();   
-        }
+        }        
 
-        public void ChangeFacing(int facing)
-        {
-            this.facing = facing;
-            this.scale = new Vector(Math.Abs(scale.x)*facing, scale.y, scale.z);
-        }
-
+        #region status get/set
         public bool IsPause()
         {
-            return pauseTime > 0;
+            return status.pauseTime > 0;
         }
 
         public void Pause(int duration)
         {
-            pauseTime = duration;
+            status.pauseTime = duration;
+        }
+
+        public int GetPauseTime()
+        {
+            return status.pauseTime;
+        }
+
+        public int GetFacing()
+        {
+            return this.status.facing;
+        }
+
+        public void ChangeFacing(int facing)
+        {
+            this.status.facing = facing;
+            SetScale(new Vector(Math.Abs(scale.x) * facing, scale.y, scale.z));
         }
 
         public void SetHitDefData(HitDef hitDef)
         {
-            this.hitDefData = hitDef;
+            this.status.hitDefData = hitDef;
+        }
+
+        public HitDef GetHitDefData()
+        {
+            return this.status.hitDefData;
         }
 
         public void SetBeHitDefData(HitDef hitDef)
         {
-            this.beHitDefData = hitDef;
+            this.status.beHitDefData = hitDef;
         }
+
+        public HitDef GetBeHitDefData()
+        {
+            return this.status.beHitDefData;
+        }
+
+        public void SetPhysicsType(PhysicsType type)
+        {
+            this.status.physicsType = type;
+        }
+
+        public PhysicsType GetPhysicsType()
+        {
+            return this.status.physicsType;
+        }
+
+        public void SetMoveType(MoveType type)
+        {
+            this.status.moveType = type;
+        }
+
+        public MoveType GetMoveType()
+        {
+            return this.status.moveType;
+        }
+
+        public void SetCtrl(bool ctrl)
+        {
+            this.status.ctrl = ctrl;
+        }
+
+        public bool CanCtrl()
+        {
+            return this.status.ctrl;
+        }
+
+        #endregion
 
         private int m_maxHP = 100;
         private int m_hp = 100;

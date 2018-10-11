@@ -11,18 +11,11 @@ namespace Mugen3D.Core
 
         public CmdManager(string cmdDef, Unit owner)
         {
-            SetOwner(owner);
+            m_owner = owner;
             LoadCmdFile(cmdDef);
         }
 
-        public CmdManager() { }
-
-        public void SetOwner(Unit owner)
-        {
-            m_owner = owner;
-        }
-
-        public void LoadCmdFile(string content)
+        private void LoadCmdFile(string content)
         {
             Log.Info("cmd parse begin");
             CommandParse parser = new CommandParse();
@@ -33,7 +26,7 @@ namespace Mugen3D.Core
             Log.Info("cmd parse end");
         }
 
-        void InitCommandStates(List<Command> commands)
+        private void InitCommandStates(List<Command> commands)
         {
             for (int i = 0; i < commands.Count; i++)
             {

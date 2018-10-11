@@ -18,17 +18,15 @@ namespace Mugen3D.Core
         public object data;
     }
 
-    public abstract class Entity
+    public class Entity
     {
-        public int id;
-        public Vector position;
-        public Vector scale;
-        public World world;
-        public Action<Entity, Event> onEvent;
+        public int id { get; private set; }
+        public Vector position { get; private set; }
+        public Vector scale { get; private set; }
+        public World world { get; private set; }
         public EntityConfig config { get; private set; }
-        public abstract void OnUpdate(Number deltaTime);
-
-        public bool isDestroyed = false;
+        public bool isDestroyed { get; private set; }
+        public Action<Entity, Event> onEvent;
 
         public Entity()
         {
@@ -38,6 +36,16 @@ namespace Mugen3D.Core
         public void SetEntityId(int id)
         {
             this.id = id;
+        }
+
+        public void SetPosition(Vector pos)
+        {
+            this.position = pos;
+        }
+
+        public void SetScale(Vector scale)
+        {
+            this.scale = scale;
         }
 
         public void SetWorld(World w)
@@ -53,14 +61,16 @@ namespace Mugen3D.Core
             }
         }
 
-        public void Destroy()
-        {
-            isDestroyed = true;
-        }
-
-        public void SetConfig(EntityConfig config)
+        protected void SetConfig(EntityConfig config)
         {
             this.config = config;
         }
+
+        public virtual void OnUpdate(Number deltaTime) { }
+
+        public void Destroy()
+        {
+            isDestroyed = true;
+        }     
     }
 }

@@ -10,27 +10,12 @@ namespace Mugen3D.Core
 
     public class MoveCtrl
     {
-        public Vector gravity
-        {
-            get
-            {
-                return m_gravity;
-            }
-        }
-
-        public Vector velocity
-        {
-            get
-            {
-                return m_velocity;
-            }
-        }
-       
-        public bool isOnGround = true;
-        public bool justOnGround = false;
+        public Vector gravity { get { return m_gravity; } }
+        public Vector velocity { get { return m_velocity; } }
+        public bool isOnGround { get; private set; }
+        public bool justOnGround { get; private set; }
 
         protected Unit m_owner;
-
         protected Vector m_velocity = Vector.zero;
         protected Vector m_acceleratedVelocity = Vector.zero;
         protected Vector m_deltaPos = Vector.zero;
@@ -42,6 +27,8 @@ namespace Mugen3D.Core
         private static Number TINY = new Number(2) / new Number(10);
 
         public MoveCtrl(Unit unit) {
+            isOnGround = true;
+            justOnGround = false;
             m_owner = unit;
         }
 
@@ -52,19 +39,16 @@ namespace Mugen3D.Core
                 isOnGround = true;
                 justOnGround = false;
             }
-            //Log.Info("force:" + m_externalForce.ToString());
-            if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
+            if (m_owner.GetPhysicsType() == PhysicsType.S || m_owner.GetPhysicsType() == PhysicsType.C)
             {
                 m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-velocity.normalized) + m_externalForce / mass;
             }
-            else if (m_owner.status.physicsType == PhysicsType.A)
+            else if (m_owner.GetPhysicsType() == PhysicsType.A)
             {
                 m_acceleratedVelocity = m_gravity + m_externalForce / mass;
             }
-            //Log.Info("accler:" + m_acceleratedVelocity.ToString());
-         
             m_velocity += deltaTime * m_acceleratedVelocity;
-            if (m_owner.status.physicsType == PhysicsType.S || m_owner.status.physicsType == PhysicsType.C)
+            if (m_owner.GetPhysicsType() == PhysicsType.S || m_owner.GetPhysicsType() == PhysicsType.C)
             {
                 m_velocity = StabilizeVel(velocity);
             }
@@ -86,13 +70,13 @@ namespace Mugen3D.Core
             CollideTest();
             var pos = m_owner.position;
             pos += m_deltaPos;
-            m_owner.position = pos;
+            m_owner.SetPosition(pos);
             return m_deltaPos;
         }
 
         public void VelSet(Number velx, Number vely)
         {
-            this.m_velocity = new Vector(velx * m_owner.facing, vely, 0);
+            this.m_velocity = new Vector(velx * m_owner.GetFacing(), vely, 0);
         }
 
         public void VelAdd(Number deltaX, Number deltaY)
@@ -103,7 +87,7 @@ namespace Mugen3D.Core
 
         public void PosSet(Number x, Number y)
         {
-            m_owner.position = new Vector(x, y, 0);
+            m_owner.SetPosition(new Vector(x, y, 0));
         }
 
         public void PosAdd(Number deltaX, Number deltaY)
@@ -111,7 +95,7 @@ namespace Mugen3D.Core
             var pos = m_owner.position;
             pos.x += deltaX;
             pos.y += deltaY;
-            m_owner.position = pos;
+            m_owner.SetPosition(pos);
         }
 
         public void SetGravity(Number x, Number y)

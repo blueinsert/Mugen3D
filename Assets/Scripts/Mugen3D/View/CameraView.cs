@@ -8,44 +8,26 @@ using Number = Mugen3D.Core.Number;
 namespace Mugen3D
 {
     [RequireComponent(typeof(Camera))]
-    public class CameraView : EntityView
+    public class CameraView : MonoBehaviour
     {
         private CameraController m_camCtl;
         private Camera m_camera;
-        private Vector m_position;
-        private Number m_fieldOfView;
-        private Number m_depth;
-        private Number m_aspect;
-
-        void Awake()
-        {
-            m_camera = this.GetComponent<Camera>();
-        }
+        private Core.Vector m_position;
 
         public void Init(CameraController camCtl)
         {
             this.m_camCtl = camCtl;
+            m_camera = this.GetComponent<Camera>();
+            m_camera.aspect = m_camCtl.config.aspect.AsFloat();
+            m_camera.fieldOfView = m_camCtl.config.fieldOfView.AsFloat();
         }
 
         public void Update()
         {
-            if (m_depth != m_camCtl.depth) {
-                m_depth = m_camCtl.depth;
-            }
             if (m_position != m_camCtl.position)
             {
                 m_position = m_camCtl.position;
-                m_camera.transform.position = new Vector3(m_position.x.AsFloat(), m_position.y.AsFloat(), m_depth.AsFloat());
-            }
-            if (m_fieldOfView != m_camCtl.fieldOfView)
-            {
-                m_fieldOfView = m_camCtl.fieldOfView;
-                m_camera.fieldOfView = m_fieldOfView.AsFloat();
-            }
-            if (m_aspect != m_camCtl.aspect)
-            {
-                m_aspect = m_camCtl.aspect;
-                m_camera.aspect = m_aspect.AsFloat();
+                m_camera.transform.position = new Vector3(m_position.x.AsFloat(), m_position.y.AsFloat(), m_position.z.AsFloat());
             }
             DebugDraw();
         }

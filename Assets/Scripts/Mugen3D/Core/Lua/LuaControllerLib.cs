@@ -88,8 +88,7 @@ namespace Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             int physics = lua.L_CheckInteger(2);
-            PhysicsType physicsType = (PhysicsType)physics;
-            c.status.physicsType = physicsType;
+            c.SetPhysicsType((PhysicsType)physics);
             return 0;
         }
 
@@ -98,8 +97,7 @@ namespace Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             int moveType = lua.L_CheckInteger(2);
-            MoveType move = (MoveType)moveType;
-            c.status.moveType = move;
+            c.SetMoveType((MoveType)moveType);
             return 0;
         }
 
@@ -123,7 +121,7 @@ namespace Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             bool ctrl = lua.ToBoolean(2);
-            c.status.ctrl = ctrl;
+            c.SetCtrl(ctrl);
             return 0;
         }
 

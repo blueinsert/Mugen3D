@@ -13,4 +13,5 @@ cameraConfig:
   fieldOfView: 34
   yOffset: 1
   aspect: 1.33
+  dumpRatio: 2
   

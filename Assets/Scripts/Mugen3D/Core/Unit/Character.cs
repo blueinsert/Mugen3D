@@ -7,9 +7,9 @@ namespace Mugen3D.Core
 {
     public class Character : Unit
     {
-        public string characterName;
-        public int slot;
-        public bool isLocal;
+        public string characterName { get; private set; }
+        public int slot { get; private set; }
+        public bool isLocal { get; private set; }
         public CmdManager cmdMgr { get; protected set; }
         private int input;
 

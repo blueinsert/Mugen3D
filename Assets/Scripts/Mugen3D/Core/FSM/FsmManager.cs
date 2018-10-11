@@ -97,7 +97,7 @@ namespace Mugen3D.Core
             this.stateTime++;
         }
 
-        public int StoreMethod(UniLua.ILuaState env, string name)
+        private int StoreMethod(UniLua.ILuaState env, string name)
         {
             env.GetField(-1, name);
             if (!env.IsFunction(-1))
@@ -108,7 +108,7 @@ namespace Mugen3D.Core
         }
 
         /*
-        public void CallMethod(UniLua.ILuaState env, int funcRef)
+        private void CallMethod(UniLua.ILuaState env, int funcRef)
         {
             env.RawGetI(LuaDef.LUA_REGISTRYINDEX, funcRef);
 

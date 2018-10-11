@@ -19,6 +19,7 @@ namespace Mugen3D.Core
         public List<Character> characters = new List<Character>();
         public CameraController camCtl { get; private set; }
         public TeamInfo teamInfo = new TeamInfo();
+        public System.Action<CameraController> onCreateCameraController;
         public System.Action<Entity> onCreateEntity;
         public System.Action<WorldConfig> onCreateWorld;
         public Character localPlayer;
@@ -42,8 +43,11 @@ namespace Mugen3D.Core
         public void CreateCamera()
         {
             var cameraController = new CameraController(config.stageConfig.cameraConfig, teamInfo.GetCharacter(0), teamInfo.GetCharacter(1));
-            AddEntity(cameraController);
             this.camCtl = cameraController;
+            if (onCreateCameraController != null)
+            {
+                onCreateCameraController(this.camCtl);
+            }
         }
 
         public void AddEntity(Entity e)
@@ -114,9 +118,9 @@ namespace Mugen3D.Core
                 {
                     if (attacker == target)
                         continue;
-                    if (attacker.status.moveType != MoveType.Attack || attacker.hitDefData == null)
+                    if (attacker.GetMoveType() != MoveType.Attack || attacker.GetHitDefData() == null)
                         continue;
-                    if (target.status.moveType == MoveType.BeingHitted && target.beHitDefData != null && target.beHitDefData.id == attacker.hitDefData.id)
+                    if (target.GetMoveType() == MoveType.BeingHitted && target.GetBeHitDefData() != null && target.GetBeHitDefData().id == attacker.GetHitDefData().id)
                         continue;
                     var clsns1 = attacker.animCtr.curActionFrame.clsns;
                     var clsns2 = attacker.animCtr.curActionFrame.clsns;
@@ -129,11 +133,11 @@ namespace Mugen3D.Core
                                 if (attackClsn.type == 2 && defenseClsn.type == 1)
                                 {
                                     Vector center = new Vector((attackClsn.x1 + attackClsn.x2) / 2, (attackClsn.y1 + attackClsn.y2) / 2, 0);
-                                    center.x = center.x * attacker.facing;
+                                    center.x = center.x * attacker.GetFacing();
                                     center += attacker.position;
                                     Core.Rect rect1 = new Core.Rect(center, Math.Abs(attackClsn.x1 - attackClsn.x2), Math.Abs(attackClsn.y1 - attackClsn.y2));
                                     center = new Vector((defenseClsn.x1 + defenseClsn.x2) / 2, (defenseClsn.y1 + defenseClsn.y2) / 2, 0);
-                                    center.x = center.x * target.facing;
+                                    center.x = center.x * target.GetFacing();
                                     center += target.position;
                                     Core.Rect rect2 = new Core.Rect(center, Math.Abs(defenseClsn.x1 - defenseClsn.x2), Math.Abs(defenseClsn.y1 - defenseClsn.y2));
                                     if (rect1.IsOverlap(rect2))
@@ -152,8 +156,8 @@ namespace Mugen3D.Core
                 var attacker = hitResult.Value;
                 var target = hitResult.Key;
                 if (!hitResults.ContainsKey(attacker))
-                    attacker.Pause(attacker.hitDefData.hitPauseTime[0]);
-                target.SetBeHitDefData(attacker.hitDefData);
+                    attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
+                target.SetBeHitDefData(attacker.GetHitDefData());
                 target.fsmMgr.ChangeState(5000);
             }
         }
@@ -181,6 +185,7 @@ namespace Mugen3D.Core
             HitResolve();
             ProcessChangeState();
             UpdateView();
+            camCtl.Update(deltaTime);
             Debug();
         }
 
@@ -194,11 +199,11 @@ namespace Mugen3D.Core
                 Core.Debug.AddGUIDebugMsg(character.slot, "animTime", character.animCtr.animTime.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "animElem", character.animCtr.animElem.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "animElemTime", character.animCtr.animElemTime.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "facing", character.facing.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "facing", character.GetFacing().ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "vel", character.moveCtr.velocity.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "command", character.cmdMgr.GetActiveCommandName());
                 Core.Debug.AddGUIDebugMsg(character.slot, "isPause", character.IsPause().ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "pauseTime", character.pauseTime.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "pauseTime", character.GetPauseTime().ToString());
             }
         }
     }

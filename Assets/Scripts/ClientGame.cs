@@ -84,10 +84,7 @@ namespace Mugen3D
             worldConfig.SetStageConfig(stageConfig);
             worldConfig.SetInputConfig(inputConfig);
             world = new World(worldConfig, logicFPS);
-            viewWorld = new ViewWorld();
-            viewWorld.InitScene(this.gameObject);
-            world.onCreateEntity += viewWorld.OnCreateEntity;
-            world.onCreateWorld += viewWorld.OnCreateWorld;
+            viewWorld = new ViewWorld(world, this.gameObject); 
             world.CreateWorld();
         }
 

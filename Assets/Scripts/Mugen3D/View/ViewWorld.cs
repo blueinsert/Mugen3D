@@ -9,18 +9,30 @@ namespace Mugen3D
     public class ViewWorld
     {
         public delegate EntityView ViewCreater(Core.Entity entity);
-        private Dictionary<Type, ViewCreater> m_viewCreater = new Dictionary<Type, ViewCreater>();
+        private Dictionary<Type, ViewCreater> m_viewCreater = new Dictionary<Type, ViewCreater>() { };
+        public Core.World world { get; private set; }
         private GameObject m_rootScene;
 
-        public ViewWorld()
+        private void OnCreateEntity(Core.Entity e)
         {
-            m_viewCreater[typeof(Core.Character)] = OnCreateCharacter;
-            m_viewCreater[typeof(Core.CameraController)] = OnCreateCamera;
+            ViewCreater creater;
+            if (m_viewCreater.TryGetValue(e.GetType(), out creater))
+            {
+                creater(e);
+            }
+            else
+            {
+                Debug.LogError("can get view creater");
+            }
         }
 
-        public void InitScene(GameObject rootScene)
+        private void Init()
         {
+            m_viewCreater[typeof(Core.Character)] = OnCreateCharacter;
+        }
 
+        private void InitScene(GameObject rootScene)
+        {
             this.m_rootScene = rootScene;
             GameObject stage = new GameObject("Stage");
             stage.transform.parent = rootScene.transform;
@@ -28,10 +40,14 @@ namespace Mugen3D
             players.transform.parent = rootScene.transform;
         }
 
-        public void OnCreateWorld(Core.WorldConfig config)
+        public ViewWorld(Core.World world, GameObject root)
         {
-            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Prefabs/Stage/" + config.stageConfig.stage);
-            GameObject goStage = GameObject.Instantiate(prefabStage, m_rootScene.transform.Find("Stage")) as GameObject;
+            Init();
+            this.world = world;
+            world.onCreateEntity += OnCreateEntity;
+            world.onCreateWorld += OnCreateStage;
+            world.onCreateCameraController += OnCreateCamera;
+            InitScene(root);
         }
 
         private EntityView OnCreateCharacter(Core.Entity entity)
@@ -44,26 +60,21 @@ namespace Mugen3D
             return view;
         }
 
-        private EntityView OnCreateCamera(Core.Entity entity)
+        public void OnCreateStage(Core.WorldConfig config)
         {
-            Core.CameraController camCtl = entity as Core.CameraController;
+            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Prefabs/Stage/" + config.stageConfig.stage);
+            GameObject goStage = GameObject.Instantiate(prefabStage, m_rootScene.transform.Find("Stage")) as GameObject;
+        }
+
+        private void OnCreateCamera(Core.CameraController camCtl)
+        {
             UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/BattleCamera");
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
             var view = go.AddComponent<CameraView>();
             view.Init(camCtl);
-            return view;
         }
 
-        public void OnCreateEntity(Core.Entity e)
-        {
-            ViewCreater creater;
-            if (m_viewCreater.TryGetValue(e.GetType(), out creater))
-            {
-                creater(e);
-            } else {
-                Debug.LogError("can get view creater");
-            }
-        }
+        
 
        
     }
