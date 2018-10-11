@@ -11,11 +11,12 @@ namespace Mugen3D.Core
 
     public class CameraConfig
     {  
-        public Number fieldOfView { get; set; }
         public Number depth { get; set; }
         public Number yOffset { get; set; }
         public Number maxPlayerDist { get; set; }
         public Number dumpRatio { get; set; }
+        public Number minFiledOfView { get; set; }
+        public Number maxFiledOfView { get; set; }
     }
 
     public class StageConfig

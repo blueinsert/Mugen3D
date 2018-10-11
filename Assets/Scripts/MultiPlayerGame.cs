@@ -27,7 +27,6 @@ namespace Mugen3D
             CreateWorld(stageName, logicFPS);
             CreateCharacter(p1CharacterName, 0, true);
             CreateCharacter(p2CharacterName, 1, false);
-            world.CreateCamera();
             StartCoroutine(SendProgress());
         }
 

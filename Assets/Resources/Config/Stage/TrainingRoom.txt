@@ -10,8 +10,9 @@ initPos :
   y: 0
 cameraConfig:
   depth: -6
-  fieldOfView: 34
   yOffset: 1
-  aspect: 1.33
-  dumpRatio: 2
+  dumpRatio: 4
+  maxPlayerDist: 3.3
+  minFiledOfView: 25
+  maxFiledOfView: 25
   

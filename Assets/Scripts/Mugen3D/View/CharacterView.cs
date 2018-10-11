@@ -8,7 +8,7 @@ using Number = Mugen3D.Core.Number;
 namespace Mugen3D
 {
     [RequireComponent(typeof(Animation))]
-    public class CharView : EntityView
+    public class CharacterView : EntityView
     {
         private Animation m_anim;
         private Character m_char;

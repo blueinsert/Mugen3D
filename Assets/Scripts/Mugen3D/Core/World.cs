@@ -17,11 +17,8 @@ namespace Mugen3D.Core
         private List<Entity> m_destroyedEntities = new List<Entity>();
         public List<Entity> entities { get; private set; }
         public List<Character> characters = new List<Character>();
-        public CameraController camCtl { get; private set; }
         public TeamInfo teamInfo = new TeamInfo();
-        public System.Action<CameraController> onCreateCameraController;
         public System.Action<Entity> onCreateEntity;
-        public System.Action<WorldConfig> onCreateWorld;
         public Character localPlayer;
         public int logicFPS;
 
@@ -32,22 +29,6 @@ namespace Mugen3D.Core
             this.deltaTime = new Number(1000 / logicFPS) / new Number(1000);
             entities = new List<Entity>();
             Time.Clear();
-        }
-
-        public void CreateWorld()
-        {
-            if (onCreateWorld != null)
-                onCreateWorld(config);
-        }
-
-        public void CreateCamera()
-        {
-            var cameraController = new CameraController(config.stageConfig.cameraConfig, teamInfo.GetCharacter(0), teamInfo.GetCharacter(1));
-            this.camCtl = cameraController;
-            if (onCreateCameraController != null)
-            {
-                onCreateCameraController(this.camCtl);
-            }
         }
 
         public void AddEntity(Entity e)
@@ -185,7 +166,6 @@ namespace Mugen3D.Core
             HitResolve();
             ProcessChangeState();
             UpdateView();
-            camCtl.Update(deltaTime);
             Debug();
         }
 

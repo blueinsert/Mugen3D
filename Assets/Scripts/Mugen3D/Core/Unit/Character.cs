@@ -18,7 +18,8 @@ namespace Mugen3D.Core
             this.characterName = characterName;
             this.slot = slot;
             this.isLocal = isLocal;       
-            cmdMgr = new CmdManager(config.commandContent, this); 
+            cmdMgr = new CmdManager(config.commandContent, this);
+            moveCtr = new CharacterMoveCtrl(this);
         }
 
         public override void OnUpdate(Number deltaTime)
@@ -30,6 +31,12 @@ namespace Mugen3D.Core
         public void UpdateInput(int input)
         {
             this.input = input;
+        }
+
+        public Vector GetP2Dist()
+        {
+            var enemy = this.world.teamInfo.GetEnemy(this);
+            return enemy.position - this.position;
         }
 
     }

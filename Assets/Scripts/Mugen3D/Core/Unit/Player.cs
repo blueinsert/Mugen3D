@@ -9,7 +9,7 @@ namespace Mugen3D.Core
         public Player(string playerName, string characterName, CharacterConfig config, int slot, bool isLocal)
             : base(characterName, config, slot, isLocal)
         {
-            this.playerName = playerName;
+            this.playerName = playerName;  
         }
     }
 }

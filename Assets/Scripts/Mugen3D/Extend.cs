@@ -12,6 +12,11 @@ public static class Extend {
         return new Vector2(v.x.AsFloat(), v.y.AsFloat());
     }
 
+    public static Vector3 ToVector3(this Mugen3D.Core.Vector v)
+    {
+        return new Vector3(v.x.AsFloat(), v.y.AsFloat(), v.z.AsFloat());
+    }
+
     public static Mugen3D.Core.Number ToNumber(this float v)
     {
         return new Number((int)(v * 100)) / new Number(100);

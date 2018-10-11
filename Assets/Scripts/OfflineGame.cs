@@ -20,6 +20,7 @@ namespace Mugen3D
 
         private float m_gameTimeResidual = 0;
         private float m_gameDeltaTime; //core update period
+
         private Character p1;
         private Character p2;
 
@@ -36,7 +37,7 @@ namespace Mugen3D
             CreateWorld(stageName, logicFPS);
             p1 = CreateCharacter(p1CharacterName, 0, true);
             p2 = CreateCharacter(p2CharacterName, 1, false);
-            world.CreateCamera();
+            viewWorld.CreateCamera(this.world.config.stageConfig.cameraConfig, p1, p2);
         }
 
         protected override void OnUpdate()

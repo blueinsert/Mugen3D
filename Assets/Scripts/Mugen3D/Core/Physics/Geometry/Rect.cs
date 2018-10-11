@@ -6,7 +6,7 @@ using Number = Mugen3D.Core.Number;
 namespace Mugen3D.Core
 {
     [System.Serializable]
-    public class Rect : Geometry
+    public class Rect
     {
         public Vector position;
         public Number width;
