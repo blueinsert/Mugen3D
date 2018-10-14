@@ -272,11 +272,25 @@ M[5000] = {
 		MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
-		ChangeAnim(5000)
+		local anim = 5000
+		if GetHitVar("hitType") == Enums.HitType.KnockBack then
+			if PhysicsType() == Enums.PhysicsType.S then
+				anim = 5000 + 10*GetHitVar("knockBackType") + GetHitVar("knockBackForceLevel")
+		    elseif PhysicsType() == Enums.PhysicsType.C then
+		    	anim = 5020 + GetHitVar("knockBackForceLevel")
+		    else
+		    	anim = 5030
+		    end	
+		elseif GetHitVar("hitType") == Enums.HitType.KnockAway then
+			anim = 5030
+		end
+		print(GetHitVar("hitType"))
+		print(anim)
+		ChangeAnim(anim)
 	end,
 	onUpdate = function(_ENV)
 	    --freeze anim
-		ChangeAnim(5000)
+		ChangeAnim(Anim())
         if StateTime() > GetHitVar("hitShakeTime") then
         	ChangeState(5001)
         end

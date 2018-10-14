@@ -26,7 +26,10 @@ namespace Mugen3D.Core
     public class HitDef
     {
         public int id;
-        public int attackType;
+        public int hitType;
+        public int knockBackType;
+        public int knockBackForceLevel;
+        public int knockAwayType;
         public int hitDamage;
         public int guardDamage;
         public int[] hitPauseTime;

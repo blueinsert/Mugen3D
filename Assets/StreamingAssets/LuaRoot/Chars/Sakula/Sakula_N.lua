@@ -21,14 +21,18 @@ M[200] = {
         if AnimElem() == 2 then
             HitDefSet({
                 id = 200,
+                hitType = Enums.HitType.KnockBack,
+                knockBackType = Enums.KnockBackType.Low,
+                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
                 hitDamage = 10,
-                guardDamage = 1,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
-                guardPauseTilme = {11, 13},
-                guardSlideTime = 9, 
                 groundVel = {-5, 0},
                 airVel = {-10, 8},
+
+                guardDamage = 1,
+                guardPauseTilme = {11, 13},
+                guardSlideTime = 9,        
             })      
         end
 	    if LeftAnimTime() == 0 then

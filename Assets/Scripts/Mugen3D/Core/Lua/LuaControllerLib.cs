@@ -61,6 +61,10 @@ namespace Mugen3D.Core
             try
             {
                 hitDef.id = LuaUtil.GetTableFieldInt(lua, "id");
+                hitDef.hitType = LuaUtil.GetTableFieldInt(lua, "hitType");
+                hitDef.knockBackType = LuaUtil.GetTableFieldInt(lua, "knockBackType");
+                hitDef.knockBackForceLevel = LuaUtil.GetTableFieldInt(lua, "knockBackForceLevel");
+                hitDef.knockAwayType = LuaUtil.GetTableFieldInt(lua, "knockAwayType");
                 hitDef.hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage");
                 hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
                 hitDef.hitPauseTime = LuaUtil.GetTableFieldIntArray(lua, "hitPauseTime", 2);

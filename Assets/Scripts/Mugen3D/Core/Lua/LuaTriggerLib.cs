@@ -222,6 +222,22 @@ namespace Mugen3D.Core
             int resNum = 0;
             switch (type)
             {
+                case "hitType":
+                    var hitType = c.GetBeHitDefData().hitType;
+                    lua.PushInteger(hitType); resNum = 1;
+                    break;
+                case "knockBackType":
+                    var knockBackType = c.GetBeHitDefData().knockBackType;
+                    lua.PushInteger(knockBackType); resNum = 1;
+                    break;
+                case "knockBackForceLevel":
+                    var level = c.GetBeHitDefData().knockBackForceLevel;
+                    lua.PushInteger(level); resNum = 1;
+                    break;
+                case "knockAwayType":
+                    var knockAwayType = c.GetBeHitDefData().knockAwayType;
+                    lua.PushInteger(knockAwayType); resNum = 1;
+                    break;
                 case "hitSlideTime":
                     var hitSlideTime = c.GetBeHitDefData().hitSlideTime;
                     lua.PushInteger(hitSlideTime); resNum = 1;
@@ -235,6 +251,9 @@ namespace Mugen3D.Core
                     lua.PushInteger(vel.x.AsInt());
                     lua.PushInteger(vel.y.AsInt());
                     resNum = 2;
+                    break;
+                default:
+                    Debug.LogError("get hitvar undefined type");
                     break;
             }
             return resNum;

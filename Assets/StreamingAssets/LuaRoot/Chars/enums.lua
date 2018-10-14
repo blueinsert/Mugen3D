@@ -12,4 +12,32 @@ local PhysicsType = {
 	["A"] = 3,
 }
 
-return {MoveType = MoveType, PhysicsType = PhysicsType}
+local HitType = {
+	["KnockBack"] = 1,
+	["KnockAway"] = 2,
+	["Throw"] = 3,
+}
+
+local KnockAwayType = {
+	["Trip"] = 1,
+}
+
+local KnockBackType = {
+	["High"] = 0,
+	["Low"] = 1,
+}
+
+local KnockBackForceLevel = {
+	["Light"] = 0,
+	["Medium"] = 1,
+	["Heavy"] = 2,
+}
+
+return {
+    MoveType = MoveType, 
+    PhysicsType = PhysicsType,
+    HitType = HitType,
+    KnockBackType = KnockBackType,
+    KnockBackForceLevel = KnockBackForceLevel,
+    KnockAwayType = KnockAwayType,
+}
