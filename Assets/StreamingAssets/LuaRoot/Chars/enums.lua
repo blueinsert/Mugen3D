@@ -19,6 +19,7 @@ local HitType = {
 }
 
 local KnockAwayType = {
+    ["Type1"] = 0,
 	["Trip"] = 1,
 }
 

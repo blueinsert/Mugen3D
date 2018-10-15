@@ -358,10 +358,45 @@ M[5040] = {
 --knock away type 1
 M[5050] = {
 	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.A)
+		ChangeAnim(5050)
+		VelSet(GetHitVar("airVel"))
 	end,
 	onUpdate = function(_ENV)
-		
+		if JustOnGround() then
+	    	ChangeState(5100)
+	    end
 	end
+}
+
+--hit ground
+M[5100] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.C)
+		ChangeAnim(5100)
+		VelSet(0,0)
+	end,
+	onUpdate = function(_ENV)
+		if LeftAnimTime() <= 0 and StateTime() > 30 then
+			ChangeState(5120)
+		end
+	end
+}
+
+M[5120] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+		ChangeAnim(5120)
+		VelSet(0,0)
+	end,
+	onUpdate = function(_ENV)
+	    if LeftAnimTime() == 0 then
+	    	ChangeState(0)
+	    end
+    end
 }
 
 return M
