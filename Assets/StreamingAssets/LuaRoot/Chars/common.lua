@@ -98,6 +98,7 @@ M[6] = {
 --stand to crouch
 M[10] = {
 	onEnter = function(_ENV)
+	    PhysicsSet(Enums.PhysicsType.S)
 	    if AnimExist(10) then
 	        ChangeAnim(10)
 	    else
@@ -114,6 +115,7 @@ M[10] = {
 --crouch
 M[11] = {
 	onEnter = function(_ENV)
+	    PhysicsSet(Enums.PhysicsType.C)
 	    if AnimExist(11) then
 	        ChangeAnim(11)
 	    else
@@ -130,6 +132,7 @@ M[11] = {
 --crouch to stand
 M[12] = {
     onEnter = function(_ENV)
+        PhysicsSet(Enums.PhysicsType.S)
 	    if AnimExist(12) then
 	        ChangeAnim(12)
 	    else
@@ -266,50 +269,99 @@ M[101] = {
 }
 
 
---stand get-hit(shaking)
+--get-hit(shaking)
 M[5000] = {
 	onEnter = function(_ENV)
+	    local physicsType = PhysicsType()
+	    print(physicsType)
 		MoveTypeSet(Enums.MoveType.H)
-		PhysicsSet(Enums.PhysicsType.S)
+		PhysicsSet(Enums.PhysicsType.N)
 		CtrlSet(false)
+		local _nextState = -1
 		local anim = 5000
 		if GetHitVar("hitType") == Enums.HitType.KnockBack then
-			if PhysicsType() == Enums.PhysicsType.S then
+			if physicsType == Enums.PhysicsType.S then
 				anim = 5000 + 10*GetHitVar("knockBackType") + GetHitVar("knockBackForceLevel")
-		    elseif PhysicsType() == Enums.PhysicsType.C then
+				_nextState = 5010
+		    elseif physicsType == Enums.PhysicsType.C then
 		    	anim = 5020 + GetHitVar("knockBackForceLevel")
-		    else
-		    	anim = 5030
+		    	_nextState = 5020
+		    elseif physicsType == Enums.PhysicsType.A then
+		    	anim = 5040
+		    	_nextState = 5040
 		    end	
 		elseif GetHitVar("hitType") == Enums.HitType.KnockAway then
-			anim = 5030
+			anim = 5050 + GetHitVar("knockAwayType")
+			_nextState = 5050
 		end
-		print(GetHitVar("hitType"))
-		print(anim)
 		ChangeAnim(anim)
+		_ENV._nextState = _nextState
+		print(_nextState)
 	end,
 	onUpdate = function(_ENV)
 	    --freeze anim
 		ChangeAnim(Anim())
         if StateTime() > GetHitVar("hitShakeTime") then
-        	ChangeState(5001)
+        	if _ENV._nextState ~= -1 then
+        		ChangeState(_ENV._nextState)
+        	end
         end
 	end,
 }
 
-M[5001] = {
+--ground stand knock back
+M[5010] = {
 	onEnter = function(_ENV)
 		MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
-		local vx, vy = GetHitVar("groundVel")
-		VelSet(vx, vy)
+		VelSet(GetHitVar("groundVel"))
 	end,
 	onUpdate = function(_ENV)
 		if StateTime() > GetHitVar("hitSlideTime") then
 			ChangeState(0)
 		end
 	end,
+}
+
+--ground crouch knock back
+M[5020] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.C)
+		CtrlSet(false)
+		VelSet(GetHitVar("groundVel"))
+		ChangeAnim(5020)
+	end,
+	onUpdate = function(_ENV)
+		if StateTime() > GetHitVar("hitSlideTime") then
+			ChangeState(11)
+		end
+	end,
+}
+
+--air knock back
+M[5040] = {
+	onEnter = function (_ENV)
+		MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.A)
+		ChangeAnim(5040)
+		VelSet(GetHitVar("airVel"))
+	end,
+	onUpdate = function(_ENV)
+	    if JustOnGround() then
+	    	ChangeState(47)
+	    end
+	end,
+}
+
+--knock away type 1
+M[5050] = {
+	onEnter = function(_ENV)
+	end,
+	onUpdate = function(_ENV)
+		
+	end
 }
 
 return M

@@ -34,6 +34,8 @@ namespace Mugen3D.Core
 
         public virtual void Update(Number deltaTime)
         {
+            if (m_owner.GetPhysicsType() == PhysicsType.N)
+                return;
             if (justOnGround)
             {
                 isOnGround = true;

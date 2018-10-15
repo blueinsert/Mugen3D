@@ -33,6 +33,14 @@ public class GUIDebug : MonoBehaviour
 
     void OnGUI()
     {
+        if (GUI.Button(new Rect(200, 50, 100, 50), "next"))
+        {
+            m_curIndex++;
+            if (m_curIndex >= m_msg.Count)
+            {
+                m_curIndex = 0;
+            }
+        }
         if (m_msg.Count != 0 && m_msg.ContainsKey(m_curIndex))
         {
             GUI.color = Color.blue;
@@ -48,6 +56,7 @@ public class GUIDebug : MonoBehaviour
             GUILayout.EndArea();
             GUILayout.EndScrollView();
         }
+        
     }
 }
 

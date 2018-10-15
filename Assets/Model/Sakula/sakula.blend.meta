@@ -438,6 +438,10 @@ ModelImporter:
     7400046: BeHit_Stand_Low_Light
     7400048: BeHit_Crouch_Heavy
     7400050: BeHit_Crouch_Light
+    7400052: AirRecover
+    7400054: KnockAway1
+    7400056: GetUp_Face_Up
+    7400058: HitGround_Face_Up
     9500000: //RootNode
     11100000: //RootNode
     13700000: Body

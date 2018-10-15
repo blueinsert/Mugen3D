@@ -840,6 +840,7 @@ actions:
       y1: -0.02
       x2: 0.23
       y2: 1.61
+  loopStartIndex: 4
 - animNo: 5000
   animName: BeHit_Stand_High_Light
   animLength: 7
@@ -872,6 +873,7 @@ actions:
       x1: -0.3
       x2: 0.21
       y2: 1.57
+  loopStartIndex: 3
 - animNo: 5001
   animName: BeHit_Stand_High_Heavy
   animLength: 8
@@ -916,6 +918,7 @@ actions:
       y1: -0.02
       x2: 0.11
       y2: 1.61
+  loopStartIndex: 4
 - animNo: 5010
   animName: BeHit_Stand_Low_Light
   animLength: 7
@@ -948,6 +951,7 @@ actions:
       x1: -0.2
       x2: 0.17
       y2: 1.61
+  loopStartIndex: 3
 - animNo: 5011
   animName: BeHit_Stand_Low_Heavy
   animLength: 10
@@ -980,6 +984,7 @@ actions:
       x1: -0.26
       x2: 0.12
       y2: 1.56
+  loopStartIndex: 3
 - animNo: 5020
   animName: BeHit_Crouch_Light
   animLength: 5
@@ -1012,6 +1017,7 @@ actions:
       x1: -0.17
       x2: 0.34
       y2: 1.16
+  loopStartIndex: 3
 - animNo: 5021
   animName: BeHit_Crouch_Heavy
   animLength: 10
@@ -1056,3 +1062,234 @@ actions:
       y1: -0.01
       x2: 0.29
       y2: 1.19
+  loopStartIndex: 4
+- animNo: 5040
+  animName: AirRecover
+  animLength: 40
+  frames:
+  - duration: 5
+    clsns:
+    - type: 1
+      x1: -0.48
+      y1: 0.31
+      x2: 0.02
+      y2: 1.49
+  - normalizeTime: 0.11
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.48
+      y1: 0.31
+      x2: 0.02
+      y2: 1.49
+  - normalizeTime: 0.19
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.48
+      y1: 0.31
+      x2: 0.02
+      y2: 1.49
+  - normalizeTime: 0.32
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.48
+      y1: 0.31
+      x2: 0.02
+      y2: 1.49
+  - normalizeTime: 0.54
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.31
+      y1: 0.59
+      x2: 0.06
+      y2: 1.51
+  - normalizeTime: 0.68
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.31
+      y1: 0.59
+      x2: 0.16
+      y2: 1.55
+  - normalizeTime: 0.86
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.35
+      y1: 0.36
+      x2: 0.27
+      y2: 1.56
+  - normalizeTime: 1
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: 0.22
+      x2: 0.27
+      y2: 1.56
+  loopStartIndex: 7
+- animNo: 5050
+  animName: KnockAway1
+  animLength: 29
+  frames:
+  - duration: 5
+    clsns:
+    - type: 1
+      x1: -0.42
+      y1: 0.02
+      x2: 0.11
+      y2: 1.53
+  - normalizeTime: 0.19
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.42
+      y1: 0.02
+      x2: 0.11
+      y2: 1.53
+  - normalizeTime: 0.31
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.42
+      y1: 0.02
+      x2: 0.11
+      y2: 1.53
+  - normalizeTime: 0.48
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.54
+      y1: 0.73
+      y2: 1.37
+  - normalizeTime: 0.66
+    duration: 5
+    clsns:
+    - type: 1
+      x1: -0.66
+      y1: 0.87
+      y2: 1.37
+  - normalizeTime: 0.77
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.66
+      y1: 0.87
+      x2: 0.17
+      y2: 1.37
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.66
+      y1: 0.87
+      x2: 0.17
+      y2: 1.37
+  loopStartIndex: 6
+- animNo: 5100
+  animName: HitGround_Face_Up
+  animLength: 6
+  frames:
+  - duration: 3
+    clsns:
+    - type: 1
+      x1: -0.61
+      y1: 0.11
+      x2: 0.44
+      y2: 0.63
+  - normalizeTime: 1
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.8
+      y1: -0.02
+      x2: 0.32
+      y2: 0.43
+  loopStartIndex: 1
+- animNo: 5120
+  animName: GetUp_Face_Up
+  animLength: 30
+  frames:
+  - duration: 3
+    clsns:
+    - type: 1
+      x1: -0.84
+      y1: -0.01
+      x2: 0.51
+      y2: 0.37
+  - normalizeTime: 0.13
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.84
+      y1: -0.01
+      x2: 0.51
+      y2: 0.37
+  - normalizeTime: 0.25
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.84
+      y1: -0.01
+      x2: 0.51
+      y2: 0.37
+  - normalizeTime: 0.33
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.84
+      y1: -0.01
+      x2: 0.51
+      y2: 0.37
+  - normalizeTime: 0.45
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.44
+      y1: 0.05
+      x2: 0.21
+      y2: 0.63
+  - normalizeTime: 0.58
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.44
+      y1: 0.05
+      x2: 0.21
+      y2: 0.63
+  - normalizeTime: 0.72
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.44
+      y1: 0.05
+      x2: 0.21
+      y2: 0.63
+  - normalizeTime: 0.86
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.44
+      y1: 0.05
+      x2: 0.16
+      y2: 0.91
+  - normalizeTime: 0.92
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.02
+      x2: 0.16
+      y2: 1.37
+  - normalizeTime: 1
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.02
+      x2: 0.16
+      y2: 1.37
+  loopStartIndex: 9

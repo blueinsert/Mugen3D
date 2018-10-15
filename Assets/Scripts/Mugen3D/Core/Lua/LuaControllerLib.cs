@@ -70,6 +70,7 @@ namespace Mugen3D.Core
                 hitDef.hitPauseTime = LuaUtil.GetTableFieldIntArray(lua, "hitPauseTime", 2);
                 hitDef.hitSlideTime = LuaUtil.GetTableFieldInt(lua, "hitSlideTime");
                 hitDef.groundVel = LuaUtil.GetTableFieldVector(lua, "groundVel");
+                hitDef.airVel = LuaUtil.GetTableFieldVector(lua, "airVel");
             }
             catch (Exception e)
             {

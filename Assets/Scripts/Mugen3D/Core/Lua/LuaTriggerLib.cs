@@ -252,8 +252,14 @@ namespace Mugen3D.Core
                     lua.PushInteger(vel.y.AsInt());
                     resNum = 2;
                     break;
+                case "airVel":
+                    var airVel = c.GetBeHitDefData().airVel;
+                    lua.PushInteger(airVel.x.AsInt());
+                    lua.PushInteger(airVel.y.AsInt());
+                    resNum = 2;
+                    break;
                 default:
-                    Debug.LogError("get hitvar undefined type");
+                    Debug.LogError("get hitvar undefined type:" + type);
                     break;
             }
             return resNum;
