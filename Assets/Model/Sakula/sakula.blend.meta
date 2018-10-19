@@ -442,6 +442,21 @@ ModelImporter:
     7400054: KnockAway1
     7400056: GetUp_Face_Up
     7400058: HitGround_Face_Up
+    7400060: Kick_Heavy_Stand
+    7400062: Kick_Light_Stand
+    7400064: Punch_Heavy_Stand
+    7400066: Punch_Heavy_Stand_Near
+    7400068: Punch_Light_Stand_Near
+    7400070: Kick_Heavy_Crouch
+    7400072: Kick_Heavy_Stand_Near
+    7400074: Kick_Light_Crouch
+    7400076: Punch_Heavy_Crouch
+    7400078: Punch_Light_Crouch
+    7400080: Punch_Heavy_Air
+    7400082: Punch_Heavy_Air_2
+    7400084: Punch_Light_Air
+    7400086: Kick_Heavy_Air
+    7400088: Kick_Light_Air
     9500000: //RootNode
     11100000: //RootNode
     13700000: Body

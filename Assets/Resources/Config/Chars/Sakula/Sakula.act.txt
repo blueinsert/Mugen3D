@@ -841,6 +841,177 @@ actions:
       x2: 0.23
       y2: 1.61
   loopStartIndex: 4
+- animNo: 205
+  animName: Punch_Light_Stand_Near
+  animLength: 13
+  frames:
+  - normalizeTime: 0.15
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.54
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.64
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.77
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.88
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.93
+    duration: 2
+    clsns: []
+  loopStartIndex: 5
+- animNo: 220
+  animName: Kick_Light_Stand
+  animLength: 11
+  frames:
+  - normalizeTime: 0.28
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.54
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.7
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.81
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 4
+- animNo: 240
+  animName: Punch_Heavy_Stand
+  animLength: 21
+  frames:
+  - normalizeTime: 0.14
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.26
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.38
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.52
+    duration: 7
+    clsns: []
+  - normalizeTime: 0.66
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.78
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.9
+    duration: 3
+    clsns: []
+  loopStartIndex: 6
+- animNo: 245
+  animName: Punch_Heavy_Stand_Near
+  animLength: 19
+  frames:
+  - normalizeTime: 0.19
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.29
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.38
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.51
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.55
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.65
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.76
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.85
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.92
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 9
+- animNo: 260
+  animName: Kick_Heavy_Stand
+  animLength: 31
+  frames:
+  - normalizeTime: 0.08
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.14
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.3
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.49
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.62
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.7
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.84
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.94
+    duration: 3
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 8
+- animNo: 265
+  animName: Kick_Heavy_Stand_Near
+  animLength: 23
+  frames:
+  - normalizeTime: 0.11
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.21
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.28
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.45
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.7
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.78
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.87
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.9
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 9
 - animNo: 5000
   animName: BeHit_Stand_High_Light
   animLength: 7
