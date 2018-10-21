@@ -168,6 +168,7 @@ namespace Mugen3D.Core
         {
             foreach (var character in characters)
             {
+                Core.Debug.AddGUIDebugMsg(character.slot, "pos", character.position.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "stateNo", character.fsmMgr.stateNo.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "stateTime", character.fsmMgr.stateTime.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "anim", character.animCtr.anim.ToString());
@@ -179,6 +180,7 @@ namespace Mugen3D.Core
                 Core.Debug.AddGUIDebugMsg(character.slot, "command", character.cmdMgr.GetActiveCommandName());
                 Core.Debug.AddGUIDebugMsg(character.slot, "isPause", character.IsPause().ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "pauseTime", character.GetPauseTime().ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "p2dist", character.GetP2Dist().ToString());
             }
         }
     }

@@ -31,16 +31,20 @@ namespace Mugen3D
             Vector3 pos = targetPos.ToVector3();
             Vector3 position = Vector3.Lerp(this.transform.position, pos, UnityEngine.Time.deltaTime * config.dumpRatio.AsFloat());
             this.transform.position = position;
-            float filedOfView = CalcFieldOfView();
-            filedOfView = Mathf.Clamp(filedOfView, config.minFiledOfView.AsFloat(), config.maxFiledOfView.AsFloat());
-            m_camera.fieldOfView = filedOfView;
+            m_camera.fieldOfView = CalcFieldOfView();
         }
 
         private float CalcFieldOfView()
         {
+            /*
             float w = Mathf.Abs((p2.position.x - p1.position.x).AsFloat()) + 1.4f;
             float h = w / m_camera.aspect;
             float filedOfView = Mathf.Atan(h / 2 / Mathf.Abs(config.depth.AsFloat())) / Mathf.PI * 180 * 2;
+            return filedOfView;
+             */
+            var dist = p1.position - p2.position;
+            float radio = Mathf.Abs(dist.x.AsFloat()) / config.maxPlayerDist.AsFloat();
+            float filedOfView = Mathf.Lerp(config.minFiledOfView.AsFloat(), config.maxFiledOfView.AsFloat(), radio);
             return filedOfView;
         }
 

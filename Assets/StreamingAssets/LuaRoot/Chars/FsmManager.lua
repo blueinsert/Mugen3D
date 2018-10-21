@@ -14,6 +14,7 @@ local controllers = {
 }
 
 local triggers = {
+    {name = "Ctrl",         func = trigger.Ctrl},
 	{name = "CommandTest",  func = trigger.CommandTest},
 	{name = "Facing",       func = trigger.Facing},
 	{name = "MoveType",     func = trigger.MoveType},
@@ -43,6 +44,7 @@ local triggers = {
 local function setCommonENVVars(env)
 	env.print = print
 	env.pairs = pairs
+	env.math = math
 end
 
 local function createENV(csObjUnit)

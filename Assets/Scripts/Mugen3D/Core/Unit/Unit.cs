@@ -84,6 +84,13 @@ namespace Mugen3D.Core
         }        
 
         #region status get/set
+        public Vector GetP2Dist()
+        {
+            Unit enemy = this.world.teamInfo.GetEnemy(this);
+            var dist = enemy.position - this.position;
+            return dist;
+        }
+
         public bool IsPause()
         {
             return status.pauseTime > 0;

@@ -847,22 +847,72 @@ actions:
   frames:
   - normalizeTime: 0.15
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.03
+      x2: 0.31
+      y2: 1.6
   - normalizeTime: 0.54
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.03
+      x2: 0.31
+      y2: 1.6
+    - type: 1
+      x1: -0.03
+      y1: 1.11
+      x2: 0.65
+      y2: 1.39
+    - type: 2
+      x1: -0.06
+      y1: 1.17
+      x2: 0.74
+      y2: 1.4
   - normalizeTime: 0.64
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.03
+      x2: 0.31
+      y2: 1.6
+    - type: 1
+      x1: -0.01
+      y1: 1.09
+      x2: 0.62
+      y2: 1.36
   - normalizeTime: 0.77
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.03
+      x2: 0.31
+      y2: 1.6
+    - type: 1
+      x1: -0.01
+      y1: 1.09
+      x2: 0.49
+      y2: 1.32
   - normalizeTime: 0.88
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.03
+      x2: 0.31
+      y2: 1.6
   - normalizeTime: 0.93
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.03
+      x2: 0.31
+      y2: 1.6
   loopStartIndex: 5
 - animNo: 220
   animName: Kick_Light_Stand
@@ -870,19 +920,55 @@ actions:
   frames:
   - normalizeTime: 0.28
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.09
+      x2: 0.3
+      y2: 1.64
   - normalizeTime: 0.54
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.09
+      x2: 0.3
+      y2: 1.64
+    - type: 1
+      x1: 0.09
+      y1: 0.46
+      x2: 0.89
+      y2: 0.92
+    - type: 2
+      x1: 0.1
+      y1: 0.32
+      x2: 1.14
+      y2: 0.95
   - normalizeTime: 0.7
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.09
+      x2: 0.3
+      y2: 1.64
+    - type: 1
+      x1: 0.12
+      y1: 0.32
+      x2: 0.6
+      y2: 0.65
   - normalizeTime: 0.81
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.09
+      x2: 0.3
+      y2: 1.64
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.18
+      y1: 0.02
+      x2: 0.3
+      y2: 1.64
   loopStartIndex: 4
 - animNo: 240
   animName: Punch_Heavy_Stand
@@ -890,25 +976,73 @@ actions:
   frames:
   - normalizeTime: 0.14
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.23
+      y2: 1.6
   - normalizeTime: 0.26
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.23
+      y2: 1.6
   - normalizeTime: 0.38
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.38
+      y2: 1.59
+    - type: 1
+      x1: -0.27
+      y1: 1.1
+      x2: 0.68
+      y2: 1.41
   - normalizeTime: 0.52
     duration: 7
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.38
+      y2: 1.59
+    - type: 1
+      x1: -0.27
+      y1: 1.1
+      x2: 0.81
+      y2: 1.44
+    - type: 2
+      x1: 0.3
+      y1: 1.07
+      x2: 1.11
+      y2: 1.47
   - normalizeTime: 0.66
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.38
+      y2: 1.59
+    - type: 1
+      x1: -0.27
+      y1: 1.1
+      x2: 0.81
+      y2: 1.44
   - normalizeTime: 0.78
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.38
+      y2: 1.59
   - normalizeTime: 0.9
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.19
+      x2: 0.27
+      y2: 1.6
   loopStartIndex: 6
 - animNo: 245
   animName: Punch_Heavy_Stand_Near
@@ -916,34 +1050,114 @@ actions:
   frames:
   - normalizeTime: 0.19
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
   - normalizeTime: 0.29
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
   - normalizeTime: 0.38
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
+    - type: 1
+      x1: 0.08
+      y1: 1.1
+      x2: 0.7
+      y2: 1.45
+    - type: 2
+      x1: 0.1
+      y1: 1.12
+      x2: 0.77
+      y2: 1.5
   - normalizeTime: 0.51
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
+    - type: 1
+      x1: -0.03
+      y1: 1.19
+      x2: 0.5
+      y2: 1.68
+    - type: 2
+      x1: 0.09
+      y1: 1.22
+      x2: 0.56
+      y2: 1.65
   - normalizeTime: 0.55
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
+    - type: 1
+      x1: -0.03
+      y1: 1.19
+      x2: 0.5
+      y2: 1.68
+    - type: 2
+      x1: -0.03
+      y1: 1.19
+      x2: 0.45
+      y2: 1.76
   - normalizeTime: 0.65
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
+    - type: 1
+      x1: -0.03
+      y1: 1.19
+      x2: 0.41
+      y2: 1.67
   - normalizeTime: 0.76
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
+    - type: 1
+      x1: -0.03
+      y1: 1.19
+      x2: 0.44
+      y2: 1.66
   - normalizeTime: 0.85
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
   - normalizeTime: 0.92
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.13
+      x2: 0.36
+      y2: 1.55
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.22
+      y2: 1.61
   loopStartIndex: 9
 - animNo: 260
   animName: Kick_Heavy_Stand
@@ -951,31 +1165,86 @@ actions:
   frames:
   - normalizeTime: 0.08
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.25
+      y2: 1.63
   - normalizeTime: 0.14
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.25
+      y2: 1.63
   - normalizeTime: 0.3
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.35
+      y2: 1.6
   - normalizeTime: 0.49
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.13
+      y1: 0.04
+      x2: 0.64
+      y2: 1.56
+    - type: 1
+      x1: 0.55
+      y1: 0.88
+      x2: 1.44
+      y2: 1.23
+    - type: 2
+      x1: 0.44
+      y1: 0.92
+      x2: 1.67
+      y2: 1.18
   - normalizeTime: 0.62
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.13
+      y1: 0.04
+      x2: 0.64
+      y2: 1.56
+    - type: 1
+      x1: 0.49
+      y1: 0.82
+      x2: 1.16
+      y2: 1.12
   - normalizeTime: 0.7
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.13
+      y1: 0.04
+      x2: 0.64
+      y2: 1.56
   - normalizeTime: 0.84
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x2: 0.44
+      y2: 1.69
   - normalizeTime: 0.94
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: -0.03
+      x2: 0.25
+      y2: 1.67
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.24
+      y1: 0.01
+      x2: 0.18
+      y2: 1.67
   loopStartIndex: 8
 - animNo: 265
   animName: Kick_Heavy_Stand_Near
@@ -983,59 +1252,167 @@ actions:
   frames:
   - normalizeTime: 0.11
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.05
+      x2: 0.42
+      y2: 1.61
   - normalizeTime: 0.21
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.55
+      y2: 1.6
   - normalizeTime: 0.28
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.67
+      y2: 1.61
   - normalizeTime: 0.45
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.67
+      y2: 1.61
+    - type: 1
+      x1: 0.49
+      y1: 0.31
+      x2: 1.05
+      y2: 1.08
   - normalizeTime: 0.7
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.67
+      y2: 1.61
+    - type: 1
+      x1: 0.46
+      y1: 0.99
+      x2: 1.17
+      y2: 2.03
+    - type: 2
+      x1: 0.58
+      y1: -0.05
+      x2: 1.29
+      y2: 2.07
   - normalizeTime: 0.78
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.67
+      y2: 1.61
+    - type: 1
+      x1: 0.55
+      y1: 0.79
+      x2: 1.43
+      y2: 1.13
   - normalizeTime: 0.8
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.67
+      y2: 1.61
+    - type: 1
+      x1: 0.48
+      y1: 0.34
+      x2: 1.19
+      y2: 0.92
   - normalizeTime: 0.87
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.67
+      y2: 1.61
   - normalizeTime: 0.9
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: 0.19
+      x2: 0.53
+      y2: 1.62
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.25
+      x2: 0.24
+      y2: 1.6
   loopStartIndex: 9
 - animNo: 400
   animName: Punch_Light_Crouch
   animLength: 12
   frames:
   - duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
   - normalizeTime: 0.31
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
+    - type: 2
+      x1: 0.13
+      y1: 0.68
+      x2: 0.96
+      y2: 1.04
+    - type: 1
+      x1: 0.09
+      y1: 0.69
+      x2: 0.69
+      y2: 1.06
   - normalizeTime: 0.49
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
+    - type: 1
+      x1: 0.1
+      y1: 0.7
+      x2: 0.7
+      y2: 0.97
   - normalizeTime: 0.59
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
   - normalizeTime: 0.76
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
   - normalizeTime: 0.89
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.06
+      x2: 0.48
+      y2: 1.09
   loopStartIndex: 6
 - animNo: 420
   animName: Kick_Light_Crouch
@@ -1043,19 +1420,64 @@ actions:
   frames:
   - normalizeTime: 0.37
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.1
+      y1: -0.04
+      x2: 0.47
+      y2: 1.11
   - normalizeTime: 0.71
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.1
+      y1: -0.04
+      x2: 0.47
+      y2: 1.11
+    - type: 2
+      x1: 0.13
+      y1: -0.04
+      x2: 1.12
+      y2: 0.39
+    - type: 1
+      x1: 0.26
+      y1: -0.04
+      x2: 0.76
+      y2: 0.44
   - normalizeTime: 0.79
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.1
+      y1: -0.04
+      x2: 0.47
+      y2: 1.11
+    - type: 1
+      x1: 0.26
+      y1: -0.04
+      x2: 0.76
+      y2: 0.44
   - normalizeTime: 0.88
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.1
+      y1: -0.04
+      x2: 0.47
+      y2: 1.11
+    - type: 1
+      x1: 0.13
+      y1: -0.04
+      x2: 0.74
+      y2: 0.48
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.1
+      y1: -0.04
+      x2: 0.47
+      y2: 1.11
   loopStartIndex: 4
 - animNo: 440
   animName: Punch_Heavy_Crouch
@@ -1063,25 +1485,73 @@ actions:
   frames:
   - normalizeTime: 0.19
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.42
+      y2: 1.12
   - normalizeTime: 0.39
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.42
+      y2: 1.12
   - normalizeTime: 0.76
     duration: 7
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.58
+      y2: 1.14
+    - type: 1
+      x1: 0.4
+      y1: 0.82
+      x2: 0.77
+      y2: 1.24
+    - type: 2
+      x1: 0.38
+      y1: 0.57
+      x2: 0.89
+      y2: 1.59
   - normalizeTime: 0.83
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.58
+      y2: 1.14
+    - type: 1
+      x1: 0.4
+      y1: 0.82
+      x2: 0.84
+      y2: 1.11
   - normalizeTime: 0.87
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.58
+      y2: 1.14
+    - type: 1
+      x1: 0.36
+      y1: 0.68
+      x2: 0.78
+      y2: 0.98
   - normalizeTime: 0.93
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.58
+      y2: 1.14
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.15
+      x2: 0.58
+      y2: 1.14
   loopStartIndex: 6
 - animNo: 460
   animName: Kick_Heavy_Crouch
@@ -1089,28 +1559,80 @@ actions:
   frames:
   - normalizeTime: 0.21
     duration: 7
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
   - normalizeTime: 0.48
     duration: 8
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
+    - type: 1
+      x1: 0.02
+      y1: 0.36
+      x2: 0.7
+      y2: 0.95
+    - type: 2
+      x1: 0.01
+      y1: 0.22
+      x2: 1.19
+      y2: 0.78
   - normalizeTime: 0.63
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
+    - type: 1
+      x1: 0.02
+      y1: 0.36
+      x2: 0.6
+      y2: 0.88
   - normalizeTime: 0.69
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
+    - type: 1
+      x1: 0.02
+      y1: 0.36
+      x2: 0.49
+      y2: 0.87
   - normalizeTime: 0.83
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
   - normalizeTime: 0.87
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
   - normalizeTime: 0.91
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      x2: 0.34
+      y2: 1.03
   loopStartIndex: 7
 - animNo: 600
   animName: Punch_Light_Air
@@ -1118,25 +1640,65 @@ actions:
   frames:
   - normalizeTime: 0.22
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
   - normalizeTime: 0.48
     duration: 8
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
+    - type: 2
+      x1: -0.02
+      y1: 0.89
+      x2: 0.83
+      y2: 1.51
   - normalizeTime: 0.59
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
   - normalizeTime: 0.71
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
   - normalizeTime: 0.8
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
   - normalizeTime: 0.9
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.23
+      y1: 0.44
+      x2: 0.33
+      y2: 1.85
   loopStartIndex: 6
 - animNo: 620
   animName: Kick_Light_Air
@@ -1144,56 +1706,156 @@ actions:
   frames:
   - normalizeTime: 0.31
     duration: 5
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.77
+      x2: 0.36
+      y2: 1.8
   - normalizeTime: 0.66
     duration: 10
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.77
+      x2: 0.36
+      y2: 1.8
+    - type: 1
+      x1: -0.05
+      y1: 0.93
+      x2: 0.7
+      y2: 1.34
+    - type: 2
+      x1: -0.15
+      y1: 0.88
+      x2: 1.15
+      y2: 1.25
   - normalizeTime: 0.75
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.77
+      x2: 0.36
+      y2: 1.8
+    - type: 1
+      x1: -0.05
+      y1: 0.86
+      x2: 0.68
+      y2: 1.14
   - normalizeTime: 0.83
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.77
+      x2: 0.36
+      y2: 1.8
   - normalizeTime: 0.91
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.77
+      x2: 0.36
+      y2: 1.8
   - normalizeTime: 1
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.32
+      y1: 0.77
+      x2: 0.36
+      y2: 1.8
   loopStartIndex: 5
 - animNo: 640
   animName: Punch_Heavy_Air
   animLength: 31
   frames:
   - duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.08
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.2
     duration: 10
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
+    - type: 2
+      x1: -0.06
+      y1: 1.23
+      x2: 0.95
+      y2: 1.74
   - normalizeTime: 0.37
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.54
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.67
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.83
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.88
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.43
+      y2: 1.88
   - normalizeTime: 0.94
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.29
+      y2: 1.7
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.58
+      x2: 0.23
+      y2: 1.79
   loopStartIndex: 9
 - animNo: 660
   animName: Kick_Heavy_Air
@@ -1201,31 +1863,81 @@ actions:
   frames:
   - normalizeTime: 0.19
     duration: 2
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
   - normalizeTime: 0.32
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
   - normalizeTime: 0.39
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
   - normalizeTime: 0.5
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
   - normalizeTime: 0.59
     duration: 15
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
+    - type: 2
+      x1: 0.04
+      y1: 0.32
+      x2: 0.8
+      y2: 1.4
   - normalizeTime: 0.68
     duration: 4
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
   - normalizeTime: 0.79
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.5
+      y2: 1.89
   - normalizeTime: 0.9
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.2
+      y1: 0.53
+      x2: 0.33
+      y2: 1.73
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.29
+      y1: 0.58
+      x2: 0.25
+      y2: 1.67
   loopStartIndex: 8
 - animNo: 5000
   animName: BeHit_Stand_High_Light

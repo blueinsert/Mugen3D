@@ -12,6 +12,7 @@ namespace Mugen3D.Core
         public static int OpenLib(ILuaState lua)
         {
             var define = new NameFuncPair[] {
+                new NameFuncPair("Ctrl", IsCtrl),
                 new NameFuncPair("CommandTest", CommandTest),
                 new NameFuncPair("Facing", Facing),
                 new NameFuncPair("MoveType", GetMoveType),
@@ -32,6 +33,15 @@ namespace Mugen3D.Core
                 new NameFuncPair("HitPauseTime", HitPauseTime),
             };
             lua.L_NewLib(define);
+            return 1;
+        }
+
+        public static int IsCtrl(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            bool ctrl = u.CanCtrl();
+            lua.PushBoolean(ctrl);
             return 1;
         }
 

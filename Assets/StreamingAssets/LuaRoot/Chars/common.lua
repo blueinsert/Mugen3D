@@ -199,7 +199,7 @@ M[41] = {
 		MoveTypeSet(Enums.MoveType.I)
 		CtrlSet(true)
 		ChangeAnim(41)
-		VelSet(_ENV.jumpDir*2, 7)
+		VelSet(_ENV.jumpDir*2, 6)
 	end,
 	onUpdate = function(_ENV)
 		if Vel().y <= 0 then
