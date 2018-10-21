@@ -1012,6 +1012,221 @@ actions:
     duration: 1
     clsns: []
   loopStartIndex: 9
+- animNo: 400
+  animName: Punch_Light_Crouch
+  animLength: 12
+  frames:
+  - duration: 2
+    clsns: []
+  - normalizeTime: 0.31
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.49
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.59
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.76
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.89
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 6
+- animNo: 420
+  animName: Kick_Light_Crouch
+  animLength: 9
+  frames:
+  - normalizeTime: 0.37
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.71
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.79
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.88
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 4
+- animNo: 440
+  animName: Punch_Heavy_Crouch
+  animLength: 22
+  frames:
+  - normalizeTime: 0.19
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.39
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.76
+    duration: 7
+    clsns: []
+  - normalizeTime: 0.83
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.87
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.93
+    duration: 3
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 6
+- animNo: 460
+  animName: Kick_Heavy_Crouch
+  animLength: 27
+  frames:
+  - normalizeTime: 0.21
+    duration: 7
+    clsns: []
+  - normalizeTime: 0.48
+    duration: 8
+    clsns: []
+  - normalizeTime: 0.63
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.69
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.83
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.87
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.91
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 7
+- animNo: 600
+  animName: Punch_Light_Air
+  animLength: 20
+  frames:
+  - normalizeTime: 0.22
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.48
+    duration: 8
+    clsns: []
+  - normalizeTime: 0.59
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.71
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.9
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 6
+- animNo: 620
+  animName: Kick_Light_Air
+  animLength: 28
+  frames:
+  - normalizeTime: 0.31
+    duration: 5
+    clsns: []
+  - normalizeTime: 0.66
+    duration: 10
+    clsns: []
+  - normalizeTime: 0.75
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.83
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.91
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 4
+    clsns: []
+  loopStartIndex: 5
+- animNo: 640
+  animName: Punch_Heavy_Air
+  animLength: 31
+  frames:
+  - duration: 2
+    clsns: []
+  - normalizeTime: 0.08
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.2
+    duration: 10
+    clsns: []
+  - normalizeTime: 0.37
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.54
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.67
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.83
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.88
+    duration: 1
+    clsns: []
+  - normalizeTime: 0.94
+    duration: 1
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 9
+- animNo: 660
+  animName: Kick_Heavy_Air
+  animLength: 39
+  frames:
+  - normalizeTime: 0.19
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.32
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.39
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.5
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.59
+    duration: 15
+    clsns: []
+  - normalizeTime: 0.68
+    duration: 4
+    clsns: []
+  - normalizeTime: 0.79
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.9
+    duration: 3
+    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns: []
+  loopStartIndex: 8
 - animNo: 5000
   animName: BeHit_Stand_High_Light
   animLength: 7

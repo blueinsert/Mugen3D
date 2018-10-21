@@ -30,7 +30,7 @@ namespace Mugen3D.Tools
         public void OnDrag(PointerEventData eventData)
         {
 
-            this.transform.position = ActionsEditorController.Instance.view.uiCamera.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 100));
+            this.transform.position = ActionsEditor.Instance.view.uiCamera.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 100));
             if (onDrag != null)
                 onDrag(this.transform.position);
         }

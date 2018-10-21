@@ -7,18 +7,44 @@ namespace Mugen3D.Tools
 {
     public class ActionsEditorModule
     {
-        public List<Action> actions;
-        public int curActionIndex; 
-        public int curActionElemIndex;
-        public System.Action doSave;
+        public List<Action> actions { get; private set; }
+        public int curActionIndex { get; private set; }
+        public int curActionElemIndex { get; private set; }
+        public Action curAction
+        {
+            get
+            {
+                return actions[curActionIndex];
+            }
+        }
+        public ActionFrame curActionFrame
+        {
+            get
+            {
+                return curAction.frames[curActionElemIndex];
+            }
+        }
 
-        public ActionsEditorModule(List<Action> actions)
+
+        public ActionsEditorModule() { }
+
+        public void Init(List<Action> actions)
         {
             this.actions = actions;
             curActionIndex = 0;
             curActionElemIndex = 0;
         }
 
+        public void SetActionIndex(int actionIndex)
+        {
+            curActionIndex = actionIndex;
+        }
+
+        public void SetActionElemIndex(int actionElemIndex)
+        {
+            curActionElemIndex = actionElemIndex;
+        }
+       
         public void GoNextAction()
         {
             if(actions != null && actions.Count != 0){
@@ -188,12 +214,5 @@ namespace Mugen3D.Tools
             }
         }
 
-        public void Save()
-        {
-            if (doSave != null)
-            {
-                doSave();
-            }
-        }
     }
 }

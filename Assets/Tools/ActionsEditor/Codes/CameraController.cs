@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine;
+
 namespace Mugen3D.Tools
 {
-    public class ActionsEditorCameraController : MonoBehaviour
+    public class CameraController : MonoBehaviour
     {
         public Camera camera;
 

@@ -9,15 +9,26 @@ namespace Mugen3D.Tools
 {
     public class ActionsEditorView : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {
-        private List<string> animNames;
-        private ActionsEditorModule module;
-        private ActionsEditorAnimController animCtl;
-        public ActionsEditorCameraController cameraController;
+        private List<string> animNames = new List<string>();
         private bool isResponseToUIEvent = true;
-
+        private ActionsEditorController controller;
+        private CharacterAnimController m_animController;
+        public CharacterAnimController animController
+        {
+            get
+            {
+                if (m_animController == null)
+                {
+                    m_animController = this.GetComponentInChildren<CharacterAnimController>();
+                }
+                return m_animController;
+            }
+        }
+        public CameraController cameraController;
         public Camera sceneCamera;
         public Camera uiCamera;
-        public Canvas cancas;
+        public Canvas canvas;
+        public Button btnLoad;
         public Button btnSave;
         public Button btnPlay;
         public Button btnPause;
@@ -41,7 +52,6 @@ namespace Mugen3D.Tools
         public InputField labelXOffset;
         public InputField labelYOffset;
         public Toggle toggleLoopStart;
-
         public Transform rootClsns;
         public GameObject prefabClsn;
         public Button btnAddClsn1;
@@ -50,10 +60,37 @@ namespace Mugen3D.Tools
         public Button btnUseLastClsn;
         public Clsn curSelectedClsn;
 
-        // Use this for initialization
-        void Start()
+        void Awake()
         {
+            RegisterEventInternal();
+        }
 
+        public Vector3 ScenePosToUIPos(Vector3 wPos)
+        {
+            Vector3 screenPos = sceneCamera.WorldToScreenPoint(wPos);
+            screenPos.z =  canvas.planeDistance;
+            var uiPos = canvas.worldCamera.ScreenToWorldPoint(screenPos);
+            return uiPos;
+        }
+
+        public Vector3 UIPosToScenePos(Vector3 uiPos)
+        {
+            var screenPos = canvas.worldCamera.WorldToScreenPoint(uiPos);
+            var wPos =sceneCamera.ScreenToWorldPoint(screenPos);
+            return wPos;
+        }
+
+        //return ui rectTransform size unit / world size unit
+        public float GetUISceneLenRadio()
+        {
+            if (sceneCamera.orthographic)
+            {
+                return 768.0f / (sceneCamera.orthographicSize * 2);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         // Update is called once per frame
@@ -67,11 +104,7 @@ namespace Mugen3D.Tools
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
                 cameraController.ZoomIn();
-            }
-            if (animCtl != null)
-            {
-                animCtl.Update();
-            }
+            }   
         }
 
         public void OnPointerDown(PointerEventData eventData)
@@ -88,161 +121,161 @@ namespace Mugen3D.Tools
         {
         }
 
+        private void Load()
+        {
+            if (controller.Load())
+            {
+                this.Init();
+            }
+        }
+
         private void RegisterEventInternal()
         {
+            btnLoad.onClick.AddListener(() => {
+                Load();
+            });
             btnSave.onClick.AddListener(() =>
             {
-                this.module.Save();
+                controller.Save();
             });
             btnPause.onClick.AddListener(() => {
-                animCtl.Stop();
+                this.animController.Stop();
             });
             btnPlay.onClick.AddListener(() => {
-                animCtl.Play(this.module.actions[this.module.curActionIndex]);
+                animController.Play(this.controller.module.curAction);
             });
-
             btnCreateAction.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.AddAction();
+                this.controller.module.AddAction();
                 UpdateUI();
             });
             btnDeleAction.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.DeleteAction();
+                this.controller.module.DeleteAction();
                 UpdateUI();
             });
             btnGoLeftAction.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.GoPrevAction();
+                this.controller.module.GoPrevAction();
                 UpdateUI();
             });
             btnGoRightAction.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.GoNextAction();
+                this.controller.module.GoNextAction();
                 UpdateUI();
-            });
-         
-            
+            });   
             scrollActionList.onValueChanged.AddListener((value) => {
                 if (!isResponseToUIEvent)
                     return;
                 var step = scrollActionList.numberOfSteps;
                 int index = (int)(value * (step - 1));
-                this.module.curActionIndex = index;
+                this.controller.module.SetActionIndex(index);
                 UpdateUI();
             });  
             dropdownAnimName.onValueChanged.AddListener((animNameIndex) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].animName = animNames[animNameIndex];
+                this.controller.module.curAction.animName = animNames[animNameIndex];
                 UpdateUI();
             });
             labelAnimNo.onValueChanged.AddListener((animNo) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].animNo = int.Parse(animNo);
+                this.controller.module.curAction.animNo = int.Parse(animNo);
             });
-
             btnGoLeftActionElem.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.GoPrevActionElem();
-                UpdateUI();
-                
+                this.controller.module.GoPrevActionElem();
+                UpdateUI();     
             });
             btnGoRightActionElem.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.GoNextActionElem();
+                this.controller.module.GoNextActionElem();
                 UpdateUI();
-            });
-            
+            });  
             scrollActionElemList.onValueChanged.AddListener((value) => {
                 if (!isResponseToUIEvent)
                     return;
                 var step = scrollActionElemList.numberOfSteps;
                 int index = (int)(value * (step - 1));
-                this.module.curActionElemIndex = index;
+                this.controller.module.SetActionElemIndex(index);
                 UpdateUI();
-            });
-            
+            });           
             btnCreateActionElem.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.CreateActionElem();
+                this.controller.module.CreateActionElem();
                 UpdateUI();
             });
             btnDeleActionElem.onClick.AddListener(() =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.DeleteActionElem();
+                this.controller.module.DeleteActionElem();
                 UpdateUI();
             });
-
             labelNormalizedTime.onEndEdit.AddListener((normalizedTime) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                //UnityEngine.Debug.Log(normalizedTime);
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = float.Parse(normalizedTime).ToNumber();
+                this.controller.module.curActionFrame.normalizeTime = float.Parse(normalizedTime).ToNumber();
                 UpdateUI();
             });
             sliderNormalizedTime.onValueChanged.AddListener((normalizedTime) => {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].normalizeTime = normalizedTime.ToNumber();
+                this.controller.module.curActionFrame.normalizeTime = normalizedTime.ToNumber();
                 UpdateUI();
             });
             labelDurationTime.onValueChanged.AddListener((duration) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].duration = int.Parse(duration);
+                this.controller.module.curActionFrame.duration = int.Parse(duration);
             });
             labelXOffset.onValueChanged.AddListener((xoffset) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].xOffset = float.Parse(xoffset).ToNumber();
+                this.controller.module.curActionFrame.xOffset = float.Parse(xoffset).ToNumber();
                 UpdateUI();
             });
             labelYOffset.onValueChanged.AddListener((yoffset) =>
             {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.actions[this.module.curActionIndex].frames[this.module.curActionElemIndex].yOffset = float.Parse(yoffset).ToNumber();
+                this.controller.module.curActionFrame.yOffset = float.Parse(yoffset).ToNumber();
                 UpdateUI();
             });
-
             toggleLoopStart.onValueChanged.AddListener((value) =>
             {
                 if (!isResponseToUIEvent)
                     return;
                 if (value == true)
                 {
-                    this.module.actions[this.module.curActionIndex].loopStartIndex = this.module.curActionElemIndex;
+                    this.controller.module.curAction.loopStartIndex = this.controller.module.curActionElemIndex;
                 }
             });
-
             btnAddClsn1.onClick.AddListener(() => {
                 print("click addclsn1");
                 if (!isResponseToUIEvent)
                     return;
-                this.module.CreateClsn(1);
+                this.controller.module.CreateClsn(1);
                 UpdateUI();
             });
             btnAddClsn2.onClick.AddListener(() =>
@@ -250,7 +283,7 @@ namespace Mugen3D.Tools
                 print("click addclsn1");
                 if (!isResponseToUIEvent)
                     return;
-                this.module.CreateClsn(2);
+                this.controller.module.CreateClsn(2);
                 UpdateUI();
             });
             btnDeleteClsn.onClick.AddListener(() =>
@@ -259,45 +292,32 @@ namespace Mugen3D.Tools
                     return;
                 if (curSelectedClsn == null)
                     return;
-                this.module.DeleteClsn(curSelectedClsn);
+                this.controller.module.DeleteClsn(curSelectedClsn);
                 UpdateUI();
             });
             btnUseLastClsn.onClick.AddListener(() => {
                 if (!isResponseToUIEvent)
                     return;
-                this.module.UseLastClsns();
+                this.controller.module.UseLastClsns();
                 UpdateUI();
             });
         }
 
-        public void OnDrawGizmos()
+        public void SetController(ActionsEditorController controller)
         {
-            Vector3 v00 = new Vector3(-1,-1,0);
-            Vector3 v01 = new Vector3(-1,1,0);
-            Vector3 v02 = new Vector3(1, 1, 0);
-            Vector3 v03 = new Vector3(1,-1,0);
-            Gizmos.DrawLine(v00, v01);
-            Gizmos.DrawLine(v01, v02);
-            Gizmos.DrawLine(v02, v03);
-            Gizmos.DrawLine(v03, v00);
+            this.controller = controller;
         }
 
-        
-
-        public void Init(ActionsEditorModule module, ActionsEditorAnimController animCtl)
-        {
-            this.animCtl = animCtl;
-            animNames = new List<string>();
-            foreach (AnimationState state in animCtl.m_anim)
+        private void Init()
+        {       
+            animNames.Clear();
+            foreach (AnimationState state in animController.anim)
             {
                 animNames.Add(state.name);
             }
             dropdownAnimName.AddOptions(animNames);
-            this.module = module;
-            UpdateUI();
-            RegisterEventInternal();   
+            UpdateUI(); 
         }
-
 
         void UpdateClsns(ActionFrame frame)
         {
@@ -334,35 +354,36 @@ namespace Mugen3D.Tools
         public void UpdateUI()
         {
             isResponseToUIEvent = false;
-            if (this.module.actions != null && this.module.actions.Count != 0)
+            var module = this.controller.module;
+            if (module.actions != null && module.actions.Count != 0)
             {
-                var curAction = this.module.actions[this.module.curActionIndex];
-                this.scrollActionList.numberOfSteps = this.module.actions.Count;
-                this.scrollActionList.size = 1 / (float)(this.module.actions.Count);
-                if (this.module.actions.Count > 1)
-                    this.scrollActionList.value = this.module.curActionIndex / (float)(this.module.actions.Count - 1);
+                var curAction = module.curAction;
+                this.scrollActionList.numberOfSteps = module.actions.Count;
+                this.scrollActionList.size = 1 / (float)(module.actions.Count);
+                if (module.actions.Count > 1)
+                    this.scrollActionList.value = module.curActionIndex / (float)(module.actions.Count - 1);
                 else
                     this.scrollActionList.value = 0;
                 this.dropdownAnimName.value = animNames.IndexOf(curAction.animName);
                 this.labelAnimNo.text = curAction.animNo.ToString();
-                this.labelCurActionNo.text = this.module.curActionIndex + "/" + this.module.actions.Count;
+                this.labelCurActionNo.text = module.curActionIndex + "/" + module.actions.Count;
                 if (curAction.frames != null && curAction.frames.Count != 0)
                 {
-                    var curActionElem = curAction.frames[this.module.curActionElemIndex];
+                    var curActionElem = curAction.frames[module.curActionElemIndex];
                     this.scrollActionElemList.numberOfSteps = curAction.frames.Count;
                     this.scrollActionElemList.size = 1 / (float)(curAction.frames.Count);
                     if (curAction.frames.Count > 1)
-                        this.scrollActionElemList.value = this.module.curActionElemIndex / (float)(curAction.frames.Count - 1);
+                        this.scrollActionElemList.value = module.curActionElemIndex / (float)(curAction.frames.Count - 1);
                     else
                         this.scrollActionElemList.value = 0;
-                    this.labelCurActionElemNo.text = this.module.curActionElemIndex + "/" + curAction.frames.Count + "-" + curActionElem.duration + "ticks";
+                    this.labelCurActionElemNo.text = module.curActionElemIndex + "/" + curAction.frames.Count + "-" + curActionElem.duration + "ticks";
                     this.labelNormalizedTime.text = curActionElem.normalizeTime.ToString();
                     this.sliderNormalizedTime.value = curActionElem.normalizeTime.AsFloat();
                     this.labelDurationTime.text = curActionElem.duration.ToString();
                     this.labelXOffset.text = curActionElem.xOffset.ToString();
                     this.labelYOffset.text = curActionElem.yOffset.ToString();
-                    this.toggleLoopStart.isOn = this.module.curActionElemIndex == curAction.loopStartIndex;
-                    animCtl.Sample(curAction.animName, curActionElem.normalizeTime.AsFloat());
+                    this.toggleLoopStart.isOn = module.curActionElemIndex == curAction.loopStartIndex;
+                    this.animController.Sample(curAction.animName, curActionElem.normalizeTime.AsFloat());
                     UpdateClsns(curActionElem);
                 }
                 else

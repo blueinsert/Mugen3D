@@ -1,55 +1,66 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEditor;
+using YamlDotNet.Serialization;
+using Mugen3D.Core;
+
 namespace Mugen3D.Tools
 {
-    public class ActionsEditorController
+    public class ActionsEditorController : MonoBehaviour
     {
-        private static ActionsEditorController m_instance;
-        public static ActionsEditorController Instance
+        private ActionsEditorModule m_module;
+        public ActionsEditorModule module { get { return m_module; } }
+
+        public void SetModule(ActionsEditorModule module) {
+            this.m_module = module;
+        }
+
+        private CharacterConfig m_characterConfig;
+
+        public bool Load()
         {
-            get
+            bool res = false;
+            string filePath = EditorUtility.OpenFilePanel("Choose Character Def", "Assets/Resources/Config/Chars", "def.txt");
+            if (string.IsNullOrEmpty(filePath) == false)
             {
-                if (m_instance == null)
+                TextReader reader = File.OpenText(filePath);
+                var deserializer = new Deserializer();
+                this.m_characterConfig = deserializer.Deserialize<CharacterConfig>(reader.ReadToEnd());
+                if (this.m_characterConfig != null)
                 {
-                    m_instance = new ActionsEditorController();
+                    UnityEngine.Object prefab = ResourceLoader.Load(m_characterConfig.prefab);
+                    GameObject go = GameObject.Instantiate(prefab, this.transform.Find("Scene/Player")) as GameObject;
+                    go.AddComponent<CharacterAnimController>();
+                    go.transform.position = Vector3.zero;
+                    ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(m_characterConfig.action));
+                    if (actionsConfig == null)
+                        actionsConfig = new ActionsConfig();
+                    this.module.Init(actionsConfig.actions);
+                    res = true;
                 }
-                return m_instance;
             }
-        }
-        public ActionsEditorModule module;
-        public ActionsEditorView view;
-        private ActionsEditorController() { }
-
-
-        public Vector3 ScenePosToUIPos(Vector3 wPos)
-        {
-            Vector3 screenPos = m_instance.view.sceneCamera.WorldToScreenPoint(wPos);
-            var canvas = m_instance.view.cancas;
-            screenPos.z = canvas.planeDistance;
-            var uiPos = canvas.worldCamera.ScreenToWorldPoint(screenPos);
-            return uiPos;
+            return res;
         }
 
-        public Vector3 UIPosToScenePos(Vector3 uiPos)
+        public void Save()
         {
-            var canvas = m_instance.view.cancas;
-            var screenPos = canvas.worldCamera.WorldToScreenPoint(uiPos);
-            var wPos = m_instance.view.sceneCamera.ScreenToWorldPoint(screenPos);
-            return wPos;
-        }
-
-        //return ui rectTransform size unit / world size unit
-        public float GetUISceneLenRadio()
-        {
-            if (m_instance.view.sceneCamera.orthographic)
+            YamlDotNet.Serialization.Serializer serializer = new Serializer();
+            StringWriter strWriter = new StringWriter();
+            ActionsConfig actionConfig = new ActionsConfig();
+            actionConfig.actions = module.actions;
+            foreach (var action in actionConfig.actions)
             {
-                return 768.0f / (m_instance.view.sceneCamera.orthographicSize * 2);
+                action.CalculateAnimLength();
             }
-            else
+            serializer.Serialize(strWriter, actionConfig);
+            using (TextWriter writer = File.CreateText("Assets/Resources/" + m_characterConfig.action + ".txt"))
             {
-                return 1;
+                writer.Write(strWriter.ToString());
             }
+            print("save success");
         }
+        
     }
 }

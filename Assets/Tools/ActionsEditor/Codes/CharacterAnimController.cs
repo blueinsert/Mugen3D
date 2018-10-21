@@ -11,28 +11,24 @@ namespace Mugen3D.Tools
         Stop,
     }
     
-    public class ActionsEditorAnimController
+    [RequireComponent(typeof(Animation))]
+    public class CharacterAnimController : MonoBehaviour
     {
-        public Animation m_anim;
-
-        protected Action action;
-        public int animTime;
-        public int animElem;
-        public int animElemTime;
-
+        public Animation anim { get { return m_anim; } }
+        private Animation m_anim;
+        private Action action;
+        private int animTime;
+        private int animElem;
+        private int animElemTime;
         private AnimState state = AnimState.Stop;
 
-        private void Init()
+        void Awake()
         {
+            m_anim = this.GetComponent<Animation>();
             foreach (AnimationState state in this.m_anim)
             {
                 state.enabled = false;
             }
-        }
-
-        public ActionsEditorAnimController(Animation anim)
-        {
-            this.m_anim = anim;  
         }
 
         public void Update()
