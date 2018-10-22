@@ -99,7 +99,7 @@ namespace Mugen3D.Core
                     if (target.GetMoveType() == MoveType.BeingHitted && target.GetBeHitDefData() != null && target.GetBeHitDefData().id == attacker.GetHitDefData().id)
                         continue;
                     var clsns1 = attacker.animCtr.curActionFrame.clsns;
-                    var clsns2 = attacker.animCtr.curActionFrame.clsns;
+                    var clsns2 = target.animCtr.curActionFrame.clsns;
                     if (clsns1 != null && clsns2 != null && clsns1.Count != 0 && clsns2.Count != 0)
                     {
                         foreach (var attackClsn in clsns1)
@@ -154,9 +154,17 @@ namespace Mugen3D.Core
             }
         }
 
+        void ClearHitDefData() {
+            foreach (var character in characters)
+            {
+                character.SetHitDefData(null);
+            }
+        }
+
         public void Update()
         {
             Time.Update(deltaTime);
+            ClearHitDefData();
             EntityUpdate();
             HitResolve();
             ProcessChangeState();

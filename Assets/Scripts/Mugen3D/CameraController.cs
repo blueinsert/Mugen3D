@@ -27,10 +27,10 @@ namespace Mugen3D
         {
             if (p1 == null || p2 == null)
                 return;
-            Vector targetPos = new Vector((p1.position.x + p2.position.x) / 2, (p1.position.y + p2.position.y) / 2 + config.yOffset, config.depth);
-            Vector3 pos = targetPos.ToVector3();
-            Vector3 position = Vector3.Lerp(this.transform.position, pos, UnityEngine.Time.deltaTime * config.dumpRatio.AsFloat());
-            this.transform.position = position;
+            Vector3 center = ((p1.position + p2.position) / 2).ToVector3();
+            float targetX = Mathf.Lerp(this.transform.position.x, center.x, UnityEngine.Time.deltaTime * config.dumpRatio.AsFloat());
+            this.transform.position = new Vector3(targetX, config.yOffset.AsFloat(), config.depth.AsFloat());   
+            m_camera.transform.LookAt(new Vector3(targetX, center.y + config.yOffset.AsFloat(), center.z));
             m_camera.fieldOfView = CalcFieldOfView();
         }
 

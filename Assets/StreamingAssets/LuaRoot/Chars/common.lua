@@ -51,6 +51,7 @@ M[0] = {
         PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(true)
         ChangeAnim(0)
+        VelSet(0,0)
 	end,
 	onUpdate = function(_ENV)
 	    

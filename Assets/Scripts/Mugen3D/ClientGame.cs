@@ -16,7 +16,7 @@ namespace Mugen3D
         SingleVS,
     }
 
-    public class ClientGame : MonoBehaviour
+    public abstract class ClientGame : MonoBehaviour
     {
         public static ClientGame Instance;
         public Core.World world;
