@@ -43,15 +43,20 @@ namespace Mugen3D.Core
                 {
                     if (clsn.type == 1 && clsn2.type == 1)
                     {
-                        Rect rect1 = new Rect(new Vector(clsn.x1, clsn.y1, 0), new Vector(clsn.x2, clsn.y2, 0));
-                        rect1.position += new Vector(m_owner.position.x, m_owner.position.y, 0);
-                        Rect rect2 = new Rect(new Vector(clsn2.x1, clsn2.y1, 0), new Vector(clsn2.x2, clsn2.y2, 0));
-                        rect2.position += new Vector(enemy.position.x, enemy.position.y, 0);
-                        if (PhysicsUtils.RectRectTest(rect1, rect2))
+                        Vector clsnCenter = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
+                        clsnCenter.x = clsnCenter.x * m_owner.GetFacing();
+                        clsnCenter += m_owner.position;
+                        Core.Rect rect1 = new Core.Rect(clsnCenter, Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2));
+
+                        clsnCenter = new Vector((clsn2.x1 + clsn2.x2) / 2, (clsn2.y1 + clsn2.y2) / 2, 0);
+                        clsnCenter.x = clsnCenter.x * enemy.GetFacing();
+                        clsnCenter += enemy.position;
+                        Core.Rect rect2 = new Core.Rect(clsnCenter, Math.Abs(clsn2.x1 - clsn2.x2), Math.Abs(clsn2.y1 - clsn2.y2));
+                        if (rect1.IsOverlap(rect2))
                         {
                             Vector dir = (rect1.position - rect2.position).normalized;
                             Number distX = (rect1.width + rect2.width) / 2 - Math.Abs(rect1.position.x - rect2.position.x);
-                            m_deltaPos += new Vector(distX * new Number(1) / new Number(4) * (dir.x > 0 ? 1 : -1), 0, 0);
+                            m_deltaPos += new Vector(distX * new Number(9) / new Number(10) * (dir.x > 0 ? 1 : -1), 0, 0);
                         }
                         findIntersect = true;
                         break;

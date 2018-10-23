@@ -20,6 +20,14 @@ public class AnimationController {
         }
     }
 
+    public int leftAnimTime
+    {
+        get
+        {
+            return animLength - animTime;
+        }
+    }
+
     public Action curAction {
         get {
             return m_actions[anim];
@@ -63,7 +71,7 @@ public class AnimationController {
         animTime++;
         animElemTime++;
         var animElemDuration = curAction.frames[animElem].duration;
-        if (animElemTime > animElemDuration)
+        if (animElemTime >= animElemDuration)
         {
             if (animElem >= curAction.frames.Count - 1 && curAction.loopStartIndex != -1)
             {

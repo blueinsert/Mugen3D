@@ -161,6 +161,10 @@ namespace Mugen3D.Core
             }
         }
 
+        void PushTest() { 
+
+        }
+
         public void Update()
         {
             Time.Update(deltaTime);
@@ -183,6 +187,7 @@ namespace Mugen3D.Core
                 Core.Debug.AddGUIDebugMsg(character.slot, "animTime", character.animCtr.animTime.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "animElem", character.animCtr.animElem.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "animElemTime", character.animCtr.animElemTime.ToString());
+                Core.Debug.AddGUIDebugMsg(character.slot, "leftAnimTime", character.animCtr.leftAnimTime.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "facing", character.GetFacing().ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "vel", character.moveCtr.velocity.ToString());
                 Core.Debug.AddGUIDebugMsg(character.slot, "command", character.cmdMgr.GetActiveCommandName());

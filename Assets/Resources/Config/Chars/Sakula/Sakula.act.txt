@@ -1248,17 +1248,16 @@ actions:
   loopStartIndex: 8
 - animNo: 265
   animName: Kick_Heavy_Stand_Near
-  animLength: 23
+  animLength: 28
   frames:
-  - normalizeTime: 0.11
-    duration: 1
+  - duration: 1
     clsns:
     - type: 1
       x1: -0.05
       x2: 0.42
       y2: 1.61
-  - normalizeTime: 0.21
-    duration: 2
+  - normalizeTime: 0.14
+    duration: 1
     clsns:
     - type: 1
       x1: 0.19
@@ -1271,7 +1270,7 @@ actions:
       x1: 0.19
       x2: 0.67
       y2: 1.61
-  - normalizeTime: 0.45
+  - normalizeTime: 0.34
     duration: 2
     clsns:
     - type: 1
@@ -1283,7 +1282,7 @@ actions:
       y1: 0.31
       x2: 1.05
       y2: 1.08
-  - normalizeTime: 0.7
+  - normalizeTime: 0.6
     duration: 5
     clsns:
     - type: 1
@@ -1300,7 +1299,7 @@ actions:
       y1: -0.05
       x2: 1.29
       y2: 2.07
-  - normalizeTime: 0.78
+  - normalizeTime: 0.72
     duration: 4
     clsns:
     - type: 1
@@ -1312,8 +1311,8 @@ actions:
       y1: 0.79
       x2: 1.43
       y2: 1.13
-  - normalizeTime: 0.8
-    duration: 3
+  - normalizeTime: 0.78
+    duration: 4
     clsns:
     - type: 1
       x1: 0.19
@@ -1324,20 +1323,27 @@ actions:
       y1: 0.34
       x2: 1.19
       y2: 0.92
-  - normalizeTime: 0.87
-    duration: 2
+  - normalizeTime: 0.85
+    duration: 3
     clsns:
     - type: 1
       x1: 0.19
       x2: 0.67
       y2: 1.61
   - normalizeTime: 0.9
-    duration: 2
+    duration: 3
     clsns:
     - type: 1
       x1: 0.19
       x2: 0.53
       y2: 1.62
+  - normalizeTime: 0.94
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.25
+      x2: 0.24
+      y2: 1.6
   - normalizeTime: 1
     duration: 1
     clsns:
@@ -1345,7 +1351,7 @@ actions:
       x1: -0.25
       x2: 0.24
       y2: 1.6
-  loopStartIndex: 9
+  loopStartIndex: 10
 - animNo: 400
   animName: Punch_Light_Crouch
   animLength: 12
@@ -1636,7 +1642,7 @@ actions:
   loopStartIndex: 7
 - animNo: 600
   animName: Punch_Light_Air
-  animLength: 20
+  animLength: 32
   frames:
   - normalizeTime: 0.22
     duration: 4
@@ -1647,7 +1653,7 @@ actions:
       x2: 0.33
       y2: 1.85
   - normalizeTime: 0.48
-    duration: 8
+    duration: 20
     clsns:
     - type: 1
       x1: -0.23
@@ -1702,7 +1708,7 @@ actions:
   loopStartIndex: 6
 - animNo: 620
   animName: Kick_Light_Air
-  animLength: 28
+  animLength: 43
   frames:
   - normalizeTime: 0.31
     duration: 5
@@ -1713,7 +1719,7 @@ actions:
       x2: 0.36
       y2: 1.8
   - normalizeTime: 0.66
-    duration: 10
+    duration: 25
     clsns:
     - type: 1
       x1: -0.32
@@ -1770,7 +1776,7 @@ actions:
   loopStartIndex: 5
 - animNo: 640
   animName: Punch_Heavy_Air
-  animLength: 31
+  animLength: 46
   frames:
   - duration: 2
     clsns:
@@ -1788,7 +1794,7 @@ actions:
       x2: 0.43
       y2: 1.88
   - normalizeTime: 0.2
-    duration: 10
+    duration: 25
     clsns:
     - type: 1
       x1: -0.21
