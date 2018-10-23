@@ -116,7 +116,9 @@ M[10] = {
 --crouch
 M[11] = {
 	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.I)
 	    PhysicsSet(Enums.PhysicsType.C)
+	    VelSet(0, 0)
 	    if AnimExist(11) then
 	        ChangeAnim(11)
 	    else
@@ -274,7 +276,6 @@ M[101] = {
 M[5000] = {
 	onEnter = function(_ENV)
 	    local physicsType = PhysicsType()
-	    print(physicsType)
 		MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.N)
 		CtrlSet(false)
@@ -297,7 +298,6 @@ M[5000] = {
 		end
 		ChangeAnim(anim)
 		_ENV._nextState = _nextState
-		print(_nextState)
 	end,
 	onUpdate = function(_ENV)
 	    --freeze anim
