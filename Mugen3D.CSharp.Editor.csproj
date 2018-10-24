@@ -136,7 +136,6 @@
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula.lua.txt" />
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_H.lua.txt" />
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_N.lua.txt" />
-    <None Include="Assets\Resources\Config\Chars\common.cmd.txt" />
     <None Include="Assets\Resources\Config\Input.txt" />
     <None Include="Assets\Resources\Config\Stage\TrainingRoom.txt" />
     <None Include="Assets\Resources\Lua\UI\MainMenu\ViewCharacterSelect.lua.txt" />
