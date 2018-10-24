@@ -1,4 +1,4 @@
-local Enums = require "Chars/Enums"
+local Enums = require "System/Enums"
 local M = {}
 
 --[[

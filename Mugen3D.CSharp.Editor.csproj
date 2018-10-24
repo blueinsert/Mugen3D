@@ -129,9 +129,13 @@
     <Compile Include="Assets\XLua\Src\Editor\TemplateRef.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.act.txt" />
-    <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.cmd.txt" />
-    <None Include="Assets\Resources\Config\Chars\Sakula\Sakula.def.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Sakula.act.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Sakula.cmd.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Sakula.def.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Scripts\Cfg.lua.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula.lua.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_H.lua.txt" />
+    <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_N.lua.txt" />
     <None Include="Assets\Resources\Config\Chars\common.cmd.txt" />
     <None Include="Assets\Resources\Config\Input.txt" />
     <None Include="Assets\Resources\Config\Stage\TrainingRoom.txt" />
@@ -145,6 +149,9 @@
     <None Include="Assets\Resources\Lua\spreadsheet.lua.txt" />
     <None Include="Assets\Resources\Lua\test.lua.txt" />
     <None Include="Assets\Resources\Lua\utils.lua.txt" />
+    <None Include="Assets\Resources\System\Common.lua.txt" />
+    <None Include="Assets\Resources\System\Enums.lua.txt" />
+    <None Include="Assets\Resources\System\FsmManager.lua.txt" />
     <None Include="Assets\XLua\CHANGELOG.txt" />
     <None Include="Assets\XLua\Gen\link.xml" />
     <None Include="Assets\XLua\Resources\perf\memory.lua.txt" />

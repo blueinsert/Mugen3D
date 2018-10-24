@@ -1,4 +1,0 @@
-prefab: Prefabs/Chars/Sakula
-action: Config/Chars/Sakula/Sakula.act
-command: Config/Chars/Sakula/Sakula.cmd
-fsm: Chars/Sakula/Sakula

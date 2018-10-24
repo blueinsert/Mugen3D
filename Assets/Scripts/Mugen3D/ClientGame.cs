@@ -45,9 +45,21 @@ namespace Mugen3D
             }
         }
 
-        private string LuaPathHook(string fileName)
+        private static byte[] LuaLoader(ref string fileName)
         {
-            return Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), fileName);
+            /*
+            string path = Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), fileName);
+            var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader reader = new StreamReader(file, System.Text.Encoding.UTF8);
+            var bytes = System.Text.Encoding.UTF8.GetBytes(reader.ReadToEnd());
+            return bytes;
+            */
+            var code = Resources.Load(fileName, typeof(TextAsset)) as TextAsset;
+            if (code != null)
+            {
+                return code.bytes;
+            }
+            return null;
         }
 
         private void InitCore()
@@ -56,7 +68,7 @@ namespace Mugen3D
             Core.Debug.LogWarn = Log.Warn;
             Core.Debug.LogError = Log.Error;
             Core.Debug.Assert = Log.Assert;
-            Core.LuaMgr.SetPathHook(this.LuaPathHook);
+            Core.LuaMgr.AddLoader(LuaLoader);
             if (GUIDebug.Instance != null)
             {
                 Core.Debug.AddGUIDebugMsg = GUIDebug.Instance.AddMsg;

@@ -7,10 +7,7 @@ namespace Mugen3D.Core
 {
     public class LuaMgr
     {
-        public static System.Func<string, string> pathHook;
         private static LuaMgr mInstance;
-
-        private LuaMgr() { }
 
         public static LuaMgr Instance
         {
@@ -18,7 +15,7 @@ namespace Mugen3D.Core
             {
                 if (mInstance == null)
                 {
-                    Init();
+                    mInstance = new LuaMgr();
                 }
                 return mInstance;
             }
@@ -26,25 +23,17 @@ namespace Mugen3D.Core
 
         public UniLua.ILuaState Env { get; private set; }
 
-        private static void Init()
-        {
-            mInstance = new LuaMgr();
-            var Lua = LuaAPI.NewState();
-            Lua.L_OpenLibs();
-            Lua.L_RequireF(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
-            Lua.L_RequireF(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
-            Lua.L_RequireF(LuaDebugLib.LIB_NAME, LuaDebugLib.OpenLib, false);
-            mInstance.Env = Lua;
+        private LuaMgr() {
+            Env = LuaAPI.NewState();
+            Env.L_OpenLibs();
+            Env.L_RequireF(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
+            Env.L_RequireF(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
+            Env.L_RequireF(LuaDebugLib.LIB_NAME, LuaDebugLib.OpenLib, false);
         }
-
-        public static void Deinit()
+  
+        public static void AddLoader(CustomLoader loader)
         {
-
-        }
-
-        public static void SetPathHook(PathHook hook)
-        {
-            LuaFile.SetPathHook(hook);
+            LuaFile.AddLoader(loader);
         }
  
     }

@@ -4,45 +4,117 @@ using System.Collections.Generic;
 
 namespace UniLua
 {
-	public delegate string PathHook(string filename);
+    public delegate byte[] CustomLoader(ref string filepath);
+
 	public class LuaFile
 	{
-		//private static readonly string LUA_ROOT = System.IO.Path.Combine(Application.streamingAssetsPath, "LuaRoot");
-        private static PathHook pathhook;
-		public static void SetPathHook(PathHook hook) {
-			pathhook = hook;
-		}
+        private static List<CustomLoader> customLoaders = new List<CustomLoader>();
 
-		public static FileLoadInfo OpenFile( string filename )
+        public static void AddLoader(CustomLoader loader)
+        {
+            customLoaders.Add(loader);
+        }
+
+        public static FileLoadInfo OpenFile(string filename)
 		{
-			//var path = System.IO.Path.Combine(LUA_ROOT, filename);
-			var path = pathhook(filename);
-			return new FileLoadInfo( File.Open( path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) );
+            foreach (var loader in customLoaders)
+            {
+                byte[] bytes = loader(ref filename);
+                if (bytes != null)
+                {
+                    return new FileLoadInfo(bytes);
+                }
+            }
+            return null;
+			
 		}
 
 		public static bool Readable( string filename )
 		{
-			//var path = System.IO.Path.Combine(LUA_ROOT, filename);
-			var path = pathhook(filename);
-			try {
-				using( var stream = File.Open( path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite ) ) {
-					return true;
-				}
-			}
-			catch( Exception ) {
-				return false;
-			}
+            foreach (var loader in customLoaders)
+            {
+                byte[] bytes = loader(ref filename);
+                if (bytes != null)
+                {
+                    return true;
+                }
+            }
+            return false;
 		}
 	}
 
+    public class FileLoadInfo : ILoadInfo, IDisposable
+    {
+        private Queue<byte> Buf;
+
+        public FileLoadInfo(byte[] bytes) {
+            Buf = new Queue<byte>(bytes);
+        }
+
+        public int ReadByte()
+        {
+            if (Buf.Count > 0)
+                return (int)Buf.Dequeue();
+            else
+                return -1;
+        }
+
+        public int PeekByte()
+        {
+            if (Buf.Count > 0)
+                return (int)Buf.Peek();
+            else
+                return -1;
+        }
+
+        public void Dispose()
+        {
+           
+        }
+    }
+    /*
 	public class FileLoadInfo : ILoadInfo, IDisposable
 	{
+        private const string UTF8_BOM = "\u00EF\u00BB\u00BF";
+        private FileStream Stream;
+        private StreamReader Reader;
+        private Queue<char> Buf;
+
 		public FileLoadInfo( FileStream stream )
 		{
 			Stream = stream;
-      Reader = new StreamReader(Stream, System.Text.Encoding.UTF8);
+            Reader = new StreamReader(Stream, System.Text.Encoding.UTF8);
 			Buf = new Queue<char>();
+            SkipComment();
 		}
+
+        private void Save(char b)
+        {
+            Buf.Enqueue(b);
+        }
+
+        private void Clear()
+        {
+            Buf.Clear();
+        }
+
+        private void SkipComment()
+        {
+            var c = Reader.Read();//SkipBOM();
+            // first line is a comment (Unix exec. file)?
+            if (c == '#')
+            {
+                do
+                {
+                    c = Reader.Read();
+                } while (c != -1 && c != '\n');
+                Save((char)'\n'); // fix line number
+            }
+            else if (c != -1)
+            {
+                Save((char)c);
+            }
+        }
 
 		public int ReadByte()
 		{
@@ -68,24 +140,11 @@ namespace UniLua
 
 		public void Dispose()
 		{
-      Reader.Dispose();
+            Reader.Dispose();
 			Stream.Dispose();
 		}
 
-		private const string UTF8_BOM = "\u00EF\u00BB\u00BF";
-		private FileStream 	Stream;
-		private StreamReader 	Reader;
-		private Queue<char>	Buf;
-
-		private void Save( char b )
-		{
-			Buf.Enqueue( b );
-		}
-
-		private void Clear()
-		{
-			Buf.Clear();
-		}
+		
 
 #if false
 		private int SkipBOM()
@@ -103,24 +162,8 @@ namespace UniLua
 		}
 #endif
 
-		public void SkipComment()
-		{
-			var c = Reader.Read();//SkipBOM();
-
-			// first line is a comment (Unix exec. file)?
-			if( c == '#' )
-			{
-				do {
-					c = Reader.Read();
-				} while( c != -1 && c != '\n' );
-				Save( (char)'\n' ); // fix line number
-			}
-			else if( c != -1 )
-			{
-				Save( (char)c );
-			}
-		}
+		
 	}
-
+    */
 }
 

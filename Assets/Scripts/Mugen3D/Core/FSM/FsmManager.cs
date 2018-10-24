@@ -18,7 +18,7 @@ namespace Mugen3D.Core
         void CreateFSM()
         {
             var env = LuaMgr.Instance.Env;
-            var status = env.L_DoString("return (require('Chars/FsmManager'))");
+            var status = env.L_DoString("return (require('System/FsmManager'))");
             if (status != ThreadStatus.LUA_OK)
             {
                 throw new Exception(env.ToString(-1));

@@ -463,7 +463,7 @@ namespace UniLua
 			{
 				using( var loadinfo = LuaFile.OpenFile( filename ) )
 				{
-					loadinfo.SkipComment();
+					//loadinfo.SkipComment();
 					status = API.Load( loadinfo, API.ToString(-1), mode );
 				}
 			}

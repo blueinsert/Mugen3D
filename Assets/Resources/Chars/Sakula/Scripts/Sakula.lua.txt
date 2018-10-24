@@ -1,7 +1,7 @@
 local FSMS = {
-    "Chars/Common",
-    "Chars/Sakula/Sakula_N",
-    "Chars/Sakula/Sakula_H",
+    "System/Common",
+    "Chars/Sakula/Scripts/Sakula_N",
+    "Chars/Sakula/Scripts/Sakula_H",
 }
 
 local M = {}
