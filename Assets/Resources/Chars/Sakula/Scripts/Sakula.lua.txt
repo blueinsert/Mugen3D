@@ -1,3 +1,5 @@
+local Enums = require "System/Enums"
+
 local FSMS = {
     "System/Common",
     "Chars/Sakula/Scripts/Sakula_N",
@@ -16,6 +18,65 @@ function __loadall()
 end
 
 __loadall()
+
+M[-2] = {
+    onUpdate = function(_ENV)
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("623A") or CommandTest("623B")) then
+        	ChangeState(1200)
+        end
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("24X") or CommandTest("24Y")) then
+        	ChangeState(1400)
+        end  
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("26A") or CommandTest("26B")) then
+        	ChangeState(1000)
+        end
+        if (StateNo() == 0 or StateNo() == 20) and CommandTest("a") and math.abs(P2Dist().x) > 0.8 then
+            ChangeState(200)
+        end
+        if (StateNo() == 0 or StateNo() == 20) and CommandTest("a") and math.abs(P2Dist().x) <= 0.8 then
+            ChangeState(205)
+        end
+        if (StateNo() == 0 or StateNo() == 20) and CommandTest("x") then
+            ChangeState(220)
+        end
+        if (StateNo() == 0 or StateNo() == 20) and CommandTest("b") and math.abs(P2Dist().x) > 0.8 then
+            ChangeState(240)
+        end
+         if (StateNo() == 0 or StateNo() == 20) and CommandTest("b") and math.abs(P2Dist().x) <= 0.8 then
+            ChangeState(245)
+        end
+         if (StateNo() == 0 or StateNo() == 20) and CommandTest("y") and math.abs(P2Dist().x) > 0.8 then
+            ChangeState(260)
+        end
+        if (StateNo() == 0 or StateNo() == 20) and CommandTest("y") and math.abs(P2Dist().x) <= 0.8 then
+            ChangeState(265)
+        end
+        if (StateNo() == 11) and CommandTest("a") then
+            ChangeState(400)
+        end
+        if (StateNo() == 11) and CommandTest("x") then
+            ChangeState(420)
+        end
+        if (StateNo() == 11) and CommandTest("b") then
+            ChangeState(440)
+        end
+        if (StateNo() == 11) and CommandTest("y") then
+            ChangeState(460)
+        end
+        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("a") then
+            ChangeState(600)
+        end
+        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("x") then
+            ChangeState(620)
+        end
+        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("b") then
+            ChangeState(640)
+        end
+        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("y") then
+            ChangeState(660)
+        end
+    end
+}
 
 return M
 

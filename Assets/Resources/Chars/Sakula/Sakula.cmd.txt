@@ -1,29 +1,56 @@
 command.time = 15
-command.buffer.time = 1
+command.buffer.time = 5
 
 [Command]
-name = "426A"
-command = B, DB, $D, DF, F, a
-time = 20    
+name = "623A"
+command = $F, $D, DF, a
+time = 25
+buffer.time = 8
 
 [Command]
-name = "426A"
-command = B, $D, F, a
-time = 20
+name = "623B"
+command = $F, $D, DF, b
+time = 25
+buffer.time = 8
 
 [Command]
-name = "426A"
-command = DB, F, a
-time = 20
-
-[Command]
-name = "63A"
-command = D, DF, a
+name = "26A"
+command = $D, DF, F, a
 time = 20
 
 [Command]
 name = "26A"
-command = D, F, a
+command = $D, F, a
+time = 20
+
+[Command]
+name = "26B"
+command = $D, DF, F, b
+time = 20
+
+[Command]
+name = "26B"
+command = $D, F, b
+time = 20
+
+[Command]
+name = "24X"
+command = $D, DB, B, x
+time = 20
+
+[Command]
+name = "24X"
+command = $D, B, x
+time = 20
+
+[Command]
+name = "24Y"
+command = $D, DB, B, y
+time = 20
+
+[Command]
+name = "24Y"
+command = $D, B, y
 time = 20
 
 [Command]
@@ -77,6 +104,36 @@ command = /$D
 time = 1
 
 [Command]
+name = "holdx"
+command = /x
+time = 1
+
+[Command]
+name = "holdy"
+command = /y
+time = 1
+
+[Command]
+name = "holdz"
+command = /z
+time = 1
+
+[Command]
+name = "holda"
+command = /a
+time = 1
+
+[Command]
+name = "holdb"
+command = /b
+time = 1
+
+[Command]
+name = "holdc"
+command = /c
+time = 1
+
+[Command]
 name = "UF"
 command = U + F
 time = 1
@@ -118,12 +175,12 @@ time = 1
 
 [Command]
 name = "x"
-command = $x
+command = x
 time = 1
 
 [Command]
 name = "y"
-command = $y
+command = y
 time = 1
 
 [Command]
@@ -133,12 +190,12 @@ time = 1
 
 [Command]
 name = "a"
-command = $a
+command = a
 time = 1
 
 [Command]
 name = "b"
-command = $b
+command = b
 time = 1
 
 [Command]

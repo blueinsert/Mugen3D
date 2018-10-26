@@ -1,3 +1,101 @@
+local Enums = require "System/Enums"
+
 local M = {}
+
+--波动拳 蓄力
+M[1000] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+        ChangeAnim(1000)
+        VelSet(0,0)
+	end,
+	onUpdate = function(_ENV)
+	    if not CommandTest("holda") and not CommandTest("holdb") and not CommandTest("holdc") then
+	   	    ChangeState(1001)
+	   	end
+	end,
+}
+
+--波动拳 释放
+M[1001] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+        ChangeAnim(1001)
+        VelSet(0,0)
+	end,
+	onUpdate = function(_ENV)
+	    if LeftAnimTime() <= 0 then
+	   	    ChangeState(0)
+	   	end
+	end,
+}
+
+
+--升龙拳
+M[1200] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+        ChangeAnim(1200)
+        --VelSet(5,0)
+	end,
+    onUpdate = function(_ENV)
+    	VelSet(3,0)
+    	if LeftAnimTime() <= 0 then
+    		ChangeState(1201)
+    	end
+    end
+}
+
+M[1201] = {
+    onEnter = function(_ENV)
+    	MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.A)
+		CtrlSet(false)
+        ChangeAnim(1201)
+        VelSet(1, 5)
+    end,
+    onUpdate = function(_ENV)
+        if JustOnGround() then
+            ChangeState(47)
+        end
+    end
+}
+
+--旋风脚
+M[1400] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+        ChangeAnim(1400)
+        VelSet(0, 0)
+	end,
+    onUpdate = function(_ENV)
+    	if LeftAnimTime() <= 0 then
+    		VelSet(3, 5.5)
+    		ChangeState(1401)
+    	end
+    end
+}
+
+M[1401] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.A)
+		CtrlSet(false)
+        ChangeAnim(1401)  
+	end,
+	onUpdate = function(_ENV)
+        if JustOnGround() then
+            ChangeState(47)
+        end
+    end
+}
 
 return M

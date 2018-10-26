@@ -22,7 +22,7 @@ namespace Mugen3D.Tools
         public bool Load()
         {
             bool res = false;
-            string filePath = EditorUtility.OpenFilePanel("Choose Character Def", "Assets/Resources/Config/Chars", "def.txt");
+            string filePath = EditorUtility.OpenFilePanel("Choose Character Def", "Assets/Resources/Chars", "def.txt");
             if (string.IsNullOrEmpty(filePath) == false)
             {
                 TextReader reader = File.OpenText(filePath);

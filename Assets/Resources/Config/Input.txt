@@ -6,10 +6,10 @@ playerInputs:
   right: 100
   a: 106
   b: 107
-  c: 107
+  c: 108
   x: 117
   y: 105
-  z: 122
+  z: 111
 - slot: 1
   up: 273
   down: 274

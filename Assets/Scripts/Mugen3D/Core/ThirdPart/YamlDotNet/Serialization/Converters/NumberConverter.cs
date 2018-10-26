@@ -49,30 +49,15 @@ namespace YamlDotNet.Serialization.Converters
                 Mugen3D.Core.Number result = int.Parse(value.Replace(".", ""));
                 for (int i = 0; i < n ; i++) {
                     result = result / 10;
-                }
-#if DEBUG
-            if(n > 2 || result > 10000) {
-                throw new Exception("number bigger than 1000 and decimal precision bigger than 2 would have risk to loss determinable between deserialization and serialization");
-            }
-#endif                
+                }     
                 return result;
             }
-
             return (Mugen3D.Core.Number)int.Parse(value);
         }
 
         public void WriteYaml(Core.IEmitter emitter, object value, System.Type type)
         {
             var v = (Mugen3D.Core.Number)value;
-#if DEBUG
-            string result = v.ToString();
-            if(result.IndexOf(".") >= 0) {
-                int n = result.Length - result.IndexOf(".") - 1;
-                if(v > 10000 || n > 2) {
-                    throw new Exception("number bigger than 1000 and decimal precision bigger than 2 would have risk to loss determinable between deserialization and serialization " + v.ToString() + " " + n.ToString());                
-                }                
-            }
-#endif
             emitter.Emit(new Core.Events.Scalar(null, null, v.ToString(),  ScalarStyle.Any, true, false));
         }
     }

@@ -2,56 +2,6 @@ local Enums = require "System/Enums"
 
 local M = {}
 
-M[-2] = {
-    onUpdate = function(_ENV)
-        if (StateNo() == 0 or StateNo() == 20) and CommandTest("x") and math.abs(P2Dist().x) > 0.8 then
-            ChangeState(200)
-        end
-        if (StateNo() == 0 or StateNo() == 20) and CommandTest("x") and math.abs(P2Dist().x) <= 0.8 then
-            ChangeState(205)
-        end
-        if (StateNo() == 0 or StateNo() == 20) and CommandTest("a") then
-            ChangeState(220)
-        end
-        if (StateNo() == 0 or StateNo() == 20) and CommandTest("y") and math.abs(P2Dist().x) > 0.8 then
-            ChangeState(240)
-        end
-         if (StateNo() == 0 or StateNo() == 20) and CommandTest("y") and math.abs(P2Dist().x) <= 0.8 then
-            ChangeState(245)
-        end
-         if (StateNo() == 0 or StateNo() == 20) and CommandTest("b") and math.abs(P2Dist().x) > 0.8 then
-            ChangeState(260)
-        end
-        if (StateNo() == 0 or StateNo() == 20) and CommandTest("b") and math.abs(P2Dist().x) <= 0.8 then
-            ChangeState(265)
-        end
-        if (StateNo() == 11) and CommandTest("x") then
-            ChangeState(400)
-        end
-        if (StateNo() == 11) and CommandTest("a") then
-            ChangeState(420)
-        end
-        if (StateNo() == 11) and CommandTest("y") then
-            ChangeState(440)
-        end
-        if (StateNo() == 11) and CommandTest("b") then
-            ChangeState(460)
-        end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("x") then
-            ChangeState(600)
-        end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("a") then
-            ChangeState(620)
-        end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("y") then
-            ChangeState(640)
-        end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("b") then
-            ChangeState(660)
-        end
-    end
-}
-
 M[200] = {
 	onEnter = function(_ENV)
 	   ChangeAnim(200)
