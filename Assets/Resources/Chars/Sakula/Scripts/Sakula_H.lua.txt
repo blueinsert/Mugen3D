@@ -61,6 +61,22 @@ M[1201] = {
         VelSet(1, 5)
     end,
     onUpdate = function(_ENV)
+        if true then
+            HitDefSet({
+                id = 1201 + AnimElem(),
+                hitType = Enums.HitType.KnockAway,
+                knockAwayType = Enums.KnockAwayType.Type1,
+                hitDamage = 10,
+                hitPauseTime = {7, 13},
+                hitSlideTime = 9,
+                groundVel = {-1, 5},
+                airVel = {-1, 5},
+
+                guardDamage = 1,
+                guardPauseTilme = {11, 13},
+                guardSlideTime = 9,    
+            })     
+        end 
         if JustOnGround() then
             ChangeState(47)
         end
@@ -92,6 +108,22 @@ M[1401] = {
         ChangeAnim(1401)  
 	end,
 	onUpdate = function(_ENV)
+	    if true then
+            HitDefSet({
+                id = 1401 + AnimElem(),
+                hitType = Enums.HitType.KnockAway,
+                knockAwayType = Enums.KnockAwayType.Type1,
+                hitDamage = 10,
+                hitPauseTime = {11, 13},
+                hitSlideTime = 9,
+                groundVel = {-2, 5},
+                airVel = {-2, 5},
+
+                guardDamage = 1,
+                guardPauseTilme = {11, 13},
+                guardSlideTime = 9,    
+            })     
+        end 
         if JustOnGround() then
             ChangeState(47)
         end
