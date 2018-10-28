@@ -21,8 +21,11 @@ __loadall()
 
 M[-2] = {
     onUpdate = function(_ENV)
-        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("623A") or CommandTest("623B")) then
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("623A")) then
         	ChangeState(1200)
+        end
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("623B")) then
+        	ChangeState(1210)
         end
         if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("24X") or CommandTest("24Y")) then
         	ChangeState(1400)

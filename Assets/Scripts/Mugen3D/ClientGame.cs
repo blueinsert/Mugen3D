@@ -21,6 +21,7 @@ namespace Mugen3D
         public static ClientGame Instance;
         public Core.World world;
         public ViewWorld viewWorld;
+        private bool isPuase = false;
 
         private void Awake()
         {
@@ -103,7 +104,22 @@ namespace Mugen3D
 
         protected virtual void Update()
         {
-            OnUpdate();
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                this.isPuase = !this.isPuase;
+            }
+            if (isPuase)
+            {
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    OnUpdate();
+                }
+            }
+            else
+            {
+                OnUpdate();
+            }
+            
         }
 
         protected virtual void OnUpdate() { }

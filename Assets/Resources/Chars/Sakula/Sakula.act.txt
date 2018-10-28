@@ -1998,7 +1998,7 @@ actions:
       x2: 0.202
       y2: 1.441
   loopStartIndex: 3
-- animNo: 1001
+- animNo: 1005
   animName: QiGongWave
   animLength: 35
   frames:
@@ -2100,6 +2100,161 @@ actions:
   loopStartIndex: 9
 - animNo: 1200
   animName: Shoryuken
+  animLength: 5
+  frames:
+  - normalizeTime: 0.148
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.135
+      y1: 0.038
+      x2: 0.505
+      y2: 1.662
+  - normalizeTime: 0.258
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.135
+      y1: 0.038
+      x2: 0.483
+      y2: 1.56
+  - normalizeTime: 0.5
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.135
+      y1: 0.038
+      x2: 0.483
+      y2: 1.56
+    - type: 2
+      x1: 0.214
+      y1: 0.932
+      x2: 0.837
+      y2: 1.261
+  loopStartIndex: 2
+- animNo: 1205
+  animName: Shoryuken
+  animLength: 41
+  frames:
+  - normalizeTime: 0.5
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+    - type: 2
+      x1: 0.231
+      y1: 0.91
+      x2: 0.84
+      y2: 1.256
+  - normalizeTime: 0.588
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+    - type: 2
+      x1: 0.266
+      y1: 1.187
+      x2: 0.836
+      y2: 1.783
+  - normalizeTime: 0.643
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+    - type: 2
+      x1: 0.183
+      y1: 1.403
+      x2: 0.715
+      y2: 2.089
+  - normalizeTime: 0.709
+    duration: 10
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+    - type: 2
+      x1: 0.06
+      y1: 1.37
+      x2: 0.559
+      y2: 2.154
+  - normalizeTime: 0.808
+    duration: 4
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 0.863
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 0.895
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 0.91
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 0.93
+    duration: 4
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 0.949
+    duration: 4
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 0.97
+    duration: 4
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.015
+      y1: 0.026
+      x2: 0.44
+      y2: 1.539
+  loopStartIndex: 11
+- animNo: 1210
+  animName: Shoryuken
   animLength: 10
   frames:
   - normalizeTime: 0.066
@@ -2180,7 +2335,7 @@ actions:
       x2: 0.837
       y2: 1.261
   loopStartIndex: 8
-- animNo: 1201
+- animNo: 1215
   animName: Shoryuken
   animLength: 41
   frames:

@@ -19,7 +19,7 @@ namespace Mugen3D.Core
         protected Vector m_velocity = Vector.zero;
         protected Vector m_acceleratedVelocity = Vector.zero;
         protected Vector m_deltaPos = Vector.zero;
-        protected Vector m_gravity = new Vector(0, -14, 0);
+        protected Vector m_gravity = new Vector(0, -16, 0);
         protected Number mass = 70;
         protected Vector m_externalForce = Vector.zero;
         protected Number groundFrictionFactor = 3;
