@@ -27,9 +27,18 @@ M[-2] = {
         if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("623B")) then
         	ChangeState(1210)
         end
-        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("24X") or CommandTest("24Y")) then
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("24X")) then
         	ChangeState(1400)
         end  
+         if Ctrl() and PhysicsType() == Enums.PhysicsType.A and (CommandTest("24X")) then
+        	ChangeState(1405)
+        end  
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("24Y")) then
+        	ChangeState(1410)
+        end 
+        if Ctrl() and PhysicsType() == Enums.PhysicsType.A and (CommandTest("24Y")) then
+        	ChangeState(1415)
+        end 
         if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("26A") or CommandTest("26B")) then
         	ChangeState(1000)
         end

@@ -12,6 +12,19 @@ local PhysicsType = {
 	["A"] = 3,
 }
 
+local HitFlag = {
+	["H"] = 1,
+	["L"] = 2,
+	["A"] = 4,
+	["F"] = 8,
+	["D"] = 16,
+}
+
+local GuardFlag = {
+	["H"] = 1,
+	["S"] = 2, 
+}
+
 local HitType = {
 	["KnockBack"] = 1,
 	["KnockAway"] = 2,
@@ -41,4 +54,5 @@ return {
     KnockBackType = KnockBackType,
     KnockBackForceLevel = KnockBackForceLevel,
     KnockAwayType = KnockAwayType,
+    HitFlag = HitFlag,
 }

@@ -60,7 +60,8 @@ namespace Mugen3D.Core
             HitDef hitDef = new HitDef();
             try
             {
-                hitDef.id = LuaUtil.GetTableFieldInt(lua, "id");
+                hitDef.hitFlag = LuaUtil.GetTableFieldInt(lua, "hitFlag");
+                hitDef.guardFlag = LuaUtil.GetTableFieldInt(lua, "guardFlag");
                 hitDef.hitType = LuaUtil.GetTableFieldInt(lua, "hitType");
                 hitDef.knockBackType = LuaUtil.GetTableFieldInt(lua, "knockBackType");
                 hitDef.knockBackForceLevel = LuaUtil.GetTableFieldInt(lua, "knockBackForceLevel");

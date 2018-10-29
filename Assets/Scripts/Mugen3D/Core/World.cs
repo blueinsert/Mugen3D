@@ -96,8 +96,6 @@ namespace Mugen3D.Core
                         continue;
                     if (attacker.GetMoveType() != MoveType.Attack || attacker.GetHitDefData() == null)
                         continue;
-                    if (target.GetMoveType() == MoveType.BeingHitted && target.GetBeHitDefData() != null && target.GetBeHitDefData().id == attacker.GetHitDefData().id)
-                        continue;
                     var clsns1 = attacker.animCtr.curActionFrame.clsns;
                     var clsns2 = target.animCtr.curActionFrame.clsns;
                     if (clsns1 != null && clsns2 != null && clsns1.Count != 0 && clsns2.Count != 0)
@@ -130,12 +128,46 @@ namespace Mugen3D.Core
             foreach (var hitResult in hitResults)
             {
                 var attacker = hitResult.Value;
-                var target = hitResult.Key;
-                if (!hitResults.ContainsKey(attacker))
-                    attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
-                target.SetBeHitDefData(attacker.GetHitDefData());
-                target.fsmMgr.ChangeState(5000);
+                var target = hitResult.Key;  
+                var hitDef = attacker.GetHitDefData();
+                if (CanAttack(hitDef, target))
+                {
+                    if (!hitResults.ContainsKey(attacker))
+                        attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
+                    attacker.SetHitDefData(null);
+                    target.SetBeHitDefData(hitDef);
+                    target.fsmMgr.ChangeState(5000);
+                } 
             }
+        }
+
+        bool CanAttack(HitDef hitDef, Unit enemy)
+        {
+            int hitFlag = hitDef.hitFlag;
+            if ((hitFlag & (int)HitFlag.H) != 0)
+            {
+                if (enemy.GetPhysicsType() == PhysicsType.S)
+                    return true;
+            }
+            if ((hitFlag & (int)HitFlag.L) != 0)
+            {
+                if (enemy.GetPhysicsType() == PhysicsType.C)
+                    return true;
+            }
+            if ((hitFlag & (int)HitFlag.A) != 0)      
+            {
+                if (enemy.GetPhysicsType() == PhysicsType.A && (enemy.fsmMgr.stateNo != 5050))
+                    return true;
+            }
+            if ((hitFlag & (int)HitFlag.F) != 0)
+            {
+                if (enemy.GetPhysicsType() == PhysicsType.A && (enemy.fsmMgr.stateNo == 5050))
+                    return true;
+            }
+            if ((hitFlag & (int)HitFlag.D) != 0)
+            {
+            }
+            return false;
         }
 
         void ProcessChangeState()
@@ -154,13 +186,6 @@ namespace Mugen3D.Core
             }
         }
 
-        void ClearHitDefData() {
-            foreach (var character in characters)
-            {
-                character.SetHitDefData(null);
-            }
-        }
-
         void PushTest() { 
 
         }
@@ -168,7 +193,6 @@ namespace Mugen3D.Core
         public void Update()
         {
             Time.Update(deltaTime);
-            ClearHitDefData();
             EntityUpdate();
             HitResolve();
             ProcessChangeState();

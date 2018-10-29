@@ -10,9 +10,9 @@ M[200] = {
 	   MoveTypeSet(Enums.MoveType.A)
 	end,
 	onUpdate = function(_ENV)
-        if AnimElem() == 2 then
+        if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 200,
+                hitFlag = Enums.HitFlag.H + Enums.HitFlag.L + Enums.HitFlag.A + Enums.HitFlag.F,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -41,9 +41,8 @@ M[205] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 205,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -72,9 +71,8 @@ M[220] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 220,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -103,9 +101,8 @@ M[240] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 3 then
+        if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 240,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -134,9 +131,8 @@ M[245] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 3 then
+        if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 245,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -165,9 +161,8 @@ M[260] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 3 then
+        if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 260,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -196,9 +191,8 @@ M[265] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 4 then
+        if AnimElem() == 4 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 265,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -227,9 +221,8 @@ M[400] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 400,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -258,9 +251,8 @@ M[420] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 420,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -289,9 +281,8 @@ M[440] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 2 then
+        if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 440,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -320,9 +311,8 @@ M[460] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 460,
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -350,9 +340,8 @@ M[600] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 600,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -381,9 +370,8 @@ M[620] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 1 then
+        if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 620,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -412,9 +400,8 @@ M[640] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 2 then
+        if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 640,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -443,9 +430,8 @@ M[660] = {
        MoveTypeSet(Enums.MoveType.A)
     end,
     onUpdate = function(_ENV)
-        if AnimElem() == 4 then
+        if AnimElem() == 4 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 660,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,

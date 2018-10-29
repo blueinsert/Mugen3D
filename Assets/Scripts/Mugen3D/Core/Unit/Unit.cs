@@ -21,11 +21,26 @@ namespace Mugen3D.Core
         S = 1,
         C,
         A,
-    } 
+    }
+
+    public enum GuardFlag { 
+        H = 1 << 0,
+        L = 1 << 1,
+    }
+
+    public enum HitFlag
+    {
+        H = 1 << 0,
+        L = 1 << 1,
+        A = 1 << 2,
+        F = 1 << 3,
+        D = 1 << 4,
+    }
 
     public class HitDef
     {
-        public int id;
+        public int hitFlag;
+        public int guardFlag;
         public int hitType;
         public int knockBackType;
         public int knockBackForceLevel;
@@ -38,6 +53,10 @@ namespace Mugen3D.Core
         public int guardSlideTime;
         public Vector groundVel;
         public Vector airVel;
+
+        public HitDef()
+        {
+        }
     }
 
     public class Status
@@ -53,6 +72,11 @@ namespace Mugen3D.Core
         public int pauseTime;
         public HitDef hitDefData;
         public HitDef beHitDefData;
+
+        public void Clear()
+        {
+
+        }
     }
 
     public class Unit : Entity, IHealth
@@ -78,6 +102,7 @@ namespace Mugen3D.Core
                 this.status.pauseTime--;
                 return;
             }
+            this.status.Clear();
             moveCtr.Update(deltaTime);
             animCtr.Update();
             fsmMgr.Update();   

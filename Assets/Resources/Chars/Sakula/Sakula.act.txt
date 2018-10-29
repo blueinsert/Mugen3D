@@ -2508,50 +2508,50 @@ actions:
       x2: 0.204
       y2: 1.642
   loopStartIndex: 5
-- animNo: 1401
+- animNo: 1405
   animName: WhirlKick
-  animLength: 65
+  animLength: 22
   frames:
   - normalizeTime: 0.241
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.323
+      y1: 0.668
+      x2: 0.226
+      y2: 1.518
   - normalizeTime: 0.307
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.323
+      y1: 0.668
+      x2: 0.226
+      y2: 1.518
   - normalizeTime: 0.34
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.323
+      y1: 0.668
+      x2: 0.226
+      y2: 1.518
   - normalizeTime: 0.373
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.323
+      y1: 0.668
+      x2: 0.226
+      y2: 1.518
   - normalizeTime: 0.405
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.181
+      y1: 0.736
+      x2: 0.26
+      y2: 1.558
     - type: 1
       x1: 0.015
       y1: 0.734
@@ -2561,10 +2561,10 @@ actions:
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.125
+      y1: 0.634
+      x2: 0.266
+      y2: 1.433
     - type: 1
       x1: -0.054
       y1: 0.727
@@ -2579,26 +2579,26 @@ actions:
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.159
+      y1: 0.759
+      x2: 0.226
+      y2: 1.456
   - normalizeTime: 0.559
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.17
+      y1: 0.657
+      x2: 0.266
+      y2: 1.467
   - normalizeTime: 0.603
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.261
+      y1: 0.622
+      x2: 0.226
+      y2: 1.427
     - type: 1
       x1: -0.441
       y1: 0.759
@@ -2608,10 +2608,10 @@ actions:
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.278
+      y1: 0.696
+      x2: 0.203
+      y2: 1.456
     - type: 1
       x1: -0.597
       y1: 0.81
@@ -2626,279 +2626,196 @@ actions:
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.317
+      y1: 0.679
+      x2: 0.203
+      y2: 1.416
     - type: 1
       x1: -0.472
       y1: 0.844
       x2: -0.026
       y2: 1.167
-  - normalizeTime: 0.372
+  loopStartIndex: 3
+- animNo: 1410
+  animName: WhirlKick
+  animLength: 12
+  frames:
+  - duration: 2
+    clsns:
+    - type: 1
+      x1: -0.175
+      y1: -0.009
+      x2: 0.391
+      y2: 1.278
+  - normalizeTime: 0.055
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.394
+      x1: -0.175
+      y1: -0.009
+      x2: 0.391
+      y2: 1.278
+  - normalizeTime: 0.099
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: 0.056
-      y1: 0.81
-      x2: 0.517
-      y2: 1.078
-  - normalizeTime: 0.438
+      x1: -0.273
+      y1: -0.017
+      x2: 0.22
+      y2: 1.318
+  - normalizeTime: 0.154
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
+      x1: -0.273
+      y1: -0.017
+      x2: 0.22
+      y2: 1.318
+  - normalizeTime: 0.187
+    duration: 2
+    clsns:
     - type: 1
-      x1: 0.027
-      y1: 0.813
-      x2: 0.744
-      y2: 1.127
+      x1: -0.273
+      y1: -0.017
+      x2: 0.204
+      y2: 1.642
+  - normalizeTime: 0.242
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.273
+      y1: -0.017
+      x2: 0.204
+      y2: 1.642
+  loopStartIndex: 5
+- animNo: 1415
+  animName: WhirlKick
+  animLength: 22
+  frames:
+  - normalizeTime: 0.241
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.317
+      y1: 0.679
+      x2: 0.254
+      y2: 1.45
+  - normalizeTime: 0.307
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.317
+      y1: 0.679
+      x2: 0.254
+      y2: 1.45
+  - normalizeTime: 0.34
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.721
+      x2: 0.241
+      y2: 1.459
+  - normalizeTime: 0.373
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.21
+      y1: 0.721
+      x2: 0.241
+      y2: 1.459
+  - normalizeTime: 0.405
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.157
+      y1: 0.716
+      x2: 0.222
+      y2: 1.479
+    - type: 1
+      x1: 0.015
+      y1: 0.734
+      x2: 0.47
+      y2: 1.227
+  - normalizeTime: 0.449
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.205
+      y1: 0.692
+      x2: 0.265
+      y2: 1.43
+    - type: 1
+      x1: -0.054
+      y1: 0.727
+      x2: 0.674
+      y2: 1.213
     - type: 2
-      x1: 0.021
-      y1: 0.796
-      x2: 1.13
-      y2: 1.161
-  - normalizeTime: 0.515
+      x1: 0.028
+      y1: 0.803
+      x2: 1.137
+      y2: 1.202
+  - normalizeTime: 0.537
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: 0.027
-      y1: 0.813
-      x2: 0.427
-      y2: 1.159
+      x1: -0.132
+      y1: 0.706
+      x2: 0.28
+      y2: 1.435
   - normalizeTime: 0.559
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.581
+      x1: -0.147
+      y1: 0.711
+      x2: 0.285
+      y2: 1.454
+  - normalizeTime: 0.603
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.647
+      x1: -0.229
+      y1: 0.745
+      x2: 0.27
+      y2: 1.459
+    - type: 1
+      x1: -0.441
+      y1: 0.759
+      x2: 0.05
+      y2: 1.228
+  - normalizeTime: 0.669
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: -0.639
-      y1: 0.796
-      x2: 0.007999999
-      y2: 1.109
-    - type: 2
-      x1: -1.01
-      y1: 0.782
-      x2: 0.0009999999
-      y2: 1.175
-  - normalizeTime: 0.713
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.372
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.394
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: 0.063
-      y1: 0.81
-      x2: 0.421
-      y2: 1.078
-  - normalizeTime: 0.47
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: -0.164
-      y1: 0.865
-      x2: 0.545
-      y2: 1.12
-    - type: 2
-      x1: 0.0009999999
-      y1: 0.789
-      x2: 1.081
-      y2: 1.202
-  - normalizeTime: 0.514
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: -0.012
-      y1: 0.803
-      x2: 0.379
-      y2: 1.12
-  - normalizeTime: 0.558
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.58
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.657
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: -0.501
+      x1: -0.259
       y1: 0.769
-      x2: -0.019
-      y2: 1.161
+      x2: 0.173
+      y2: 1.44
+    - type: 1
+      x1: -0.597
+      y1: 0.81
+      x2: -0.026
+      y2: 1.167
     - type: 2
-      x1: -0.983
+      x1: -0.955
       y1: 0.789
-      x2: 0.021
-      y2: 1.182
-  - normalizeTime: 0.712
+      x2: 0.014
+      y2: 1.189
+  - normalizeTime: 0.691
     duration: 2
     clsns:
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.745
-    duration: 2
-    clsns:
+      x1: -0.317
+      y1: 0.726
+      x2: 0.217
+      y2: 1.435
     - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.766
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: 0.042
-      y1: 0.817
-      x2: 0.448
-      y2: 1.12
-  - normalizeTime: 0.833
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: -0.04
-      y1: 0.831
-      x2: 0.6
-      y2: 1.147
-    - type: 2
-      x1: -0.081
-      y1: 0.762
-      x2: 1.109
-      y2: 1.14
-  - normalizeTime: 0.921
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-    - type: 1
-      x1: -0.15
-      y1: 0.851
-      x2: 0.372
-      y2: 1.113
-  - normalizeTime: 0.943
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 0.976
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  - normalizeTime: 1
-    duration: 1
-    clsns:
-    - type: 1
-      x1: -0.256
-      y1: 0.063
-      x2: 0.253
-      y2: 1.699
-  loopStartIndex: 33
+      x1: -0.472
+      y1: 0.844
+      x2: -0.026
+      y2: 1.167
+  loopStartIndex: 3
 - animNo: 5000
   animName: BeHit_Stand_High_Light
   animLength: 7

@@ -94,9 +94,8 @@ M[1200] = {
 	end,
     onUpdate = function(_ENV)
     	VelSet(2,0)
-    	if true then
+    	if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 1200 + AnimElem(),
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -125,7 +124,7 @@ M[1205] = {
         VelSet(1, 5)
     end,
     onUpdate = function(_ENV)
-        if true then
+        if (AnimElem() == 1 and AnimElemTime() == 0) or (AnimElem() == 2 and AnimElemTime() == 0) or (AnimElem() == 3 and AnimElemTime() == 0) then
             HitDefSet({
                 id = 1201 + AnimElem(),
                 hitType = Enums.HitType.KnockAway,
@@ -158,7 +157,7 @@ M[1210] = {
 	end,
     onUpdate = function(_ENV)
     	VelSet(3,0)
-    	if true then
+    	if AnimElem() == 8 and AnimElemTime() == 0 then
             HitDefSet({
                 id = 1210 + AnimElem(),
                 hitType = Enums.HitType.KnockAway,
@@ -189,7 +188,7 @@ M[1215] = {
         VelSet(3, 6)
     end,
     onUpdate = function(_ENV)
-        if true then
+        if (AnimElem() == 1 and AnimElemTime() == 0) or (AnimElem() == 2 and AnimElemTime() == 0) or (AnimElem() == 3 and AnimElemTime() == 0) then
             HitDefSet({
                 id = 1201 + AnimElem(),
                 hitType = Enums.HitType.KnockAway,
@@ -211,7 +210,7 @@ M[1215] = {
     end
 }
 
---旋风脚
+--旋风脚 轻
 M[1400] = {
 	onEnter = function(_ENV)
 		MoveTypeSet(Enums.MoveType.A)
@@ -222,23 +221,68 @@ M[1400] = {
 	end,
     onUpdate = function(_ENV)
     	if LeftAnimTime() <= 0 then
-    		VelSet(3, 5.5)
-    		ChangeState(1401)
+    		VelSet(2, 4.5)
+    		ChangeState(1405)
     	end
     end
 }
 
-M[1401] = {
+M[1405] = {
 	onEnter = function(_ENV)
 		MoveTypeSet(Enums.MoveType.A)
         PhysicsSet(Enums.PhysicsType.A)
 		CtrlSet(false)
-        ChangeAnim(1401)  
+        ChangeAnim(1405)  
 	end,
 	onUpdate = function(_ENV)
-	    if true then
+	    if (AnimElem() == 5 and AnimElemTime() == 0) or (AnimElem() == 9 and AnimElemTime() == 0) then
             HitDefSet({
-                id = 1401 + AnimElem(),
+                hitType = Enums.HitType.KnockAway,
+                knockAwayType = Enums.KnockAwayType.Type1,
+                hitDamage = 10,
+                hitPauseTime = {11, 13},
+                hitSlideTime = 9,
+                groundVel = {-2, 5},
+                airVel = {-2, 5},
+
+                guardDamage = 1,
+                guardPauseTilme = {11, 13},
+                guardSlideTime = 9,    
+            })     
+        end  
+        if JustOnGround() then
+            ChangeState(47)
+        end
+    end
+}
+
+--旋风脚 重
+M[1410] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+        ChangeAnim(1410)
+        VelSet(0, 0)
+	end,
+    onUpdate = function(_ENV)
+    	if LeftAnimTime() <= 0 then
+    		VelSet(4, 6)
+    		ChangeState(1415)
+    	end
+    end
+}
+
+M[1415] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.A)
+		CtrlSet(false)
+        ChangeAnim(1415)  
+	end,
+	onUpdate = function(_ENV)
+	    if (AnimElem() == 5 and AnimElemTime() == 0) or (AnimElem() == 9 and AnimElemTime() == 0) then
+            HitDefSet({
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
