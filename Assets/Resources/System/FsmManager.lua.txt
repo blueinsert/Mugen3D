@@ -7,6 +7,7 @@ local controllers = {
 	{name = "ChangeState",  func = controller.ChangeState},
 	{name = "CtrlSet",      func = controller.CtrlSet},
 	{name = "HitDefSet",    func = controller.HitDefSet},
+	{name = "HitBy",        func = controller.HitBy},
 	{name = "MoveTypeSet",  func = controller.MoveTypeSet},
 	{name = "PhysicsSet",   func = controller.PhysicsSet},
 	{name = "VelSet",       func = controller.VelSet},

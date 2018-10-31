@@ -130,44 +130,22 @@ namespace Mugen3D.Core
                 var attacker = hitResult.Value;
                 var target = hitResult.Key;  
                 var hitDef = attacker.GetHitDefData();
-                if (CanAttack(hitDef, target))
+                if (target.CanBeHit(hitDef))
                 {
-                    if (!hitResults.ContainsKey(attacker))
-                        attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
-                    attacker.SetHitDefData(null);
-                    target.SetBeHitDefData(hitDef);
-                    target.fsmMgr.ChangeState(5000);
+                    if (target.CanBeGuard(hitDef) && (target.fsmMgr.stateNo >= 130 && target.fsmMgr.stateNo <= 140))
+                    {
+                        //be guarded
+                    }
+                    else
+                    {
+                        if (!hitResults.ContainsKey(attacker))
+                            attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
+                        attacker.SetHitDefData(null);
+                        target.SetBeHitDefData(hitDef);
+                        target.fsmMgr.ChangeState(5000);
+                    }   
                 } 
             }
-        }
-
-        bool CanAttack(HitDef hitDef, Unit enemy)
-        {
-            int hitFlag = hitDef.hitFlag;
-            if ((hitFlag & (int)HitFlag.H) != 0)
-            {
-                if (enemy.GetPhysicsType() == PhysicsType.S)
-                    return true;
-            }
-            if ((hitFlag & (int)HitFlag.L) != 0)
-            {
-                if (enemy.GetPhysicsType() == PhysicsType.C)
-                    return true;
-            }
-            if ((hitFlag & (int)HitFlag.A) != 0)      
-            {
-                if (enemy.GetPhysicsType() == PhysicsType.A && (enemy.fsmMgr.stateNo != 5050))
-                    return true;
-            }
-            if ((hitFlag & (int)HitFlag.F) != 0)
-            {
-                if (enemy.GetPhysicsType() == PhysicsType.A && (enemy.fsmMgr.stateNo == 5050))
-                    return true;
-            }
-            if ((hitFlag & (int)HitFlag.D) != 0)
-            {
-            }
-            return false;
         }
 
         void ProcessChangeState()

@@ -18,11 +18,13 @@ local HitFlag = {
 	["A"] = 4,
 	["F"] = 8,
 	["D"] = 16,
+	["HLAF"] = 15,
 }
 
 local GuardFlag = {
 	["H"] = 1,
-	["S"] = 2, 
+	["L"] = 2, 
+	["HL"] = 3,
 }
 
 local HitType = {
@@ -55,4 +57,5 @@ return {
     KnockBackForceLevel = KnockBackForceLevel,
     KnockAwayType = KnockAwayType,
     HitFlag = HitFlag,
+    GuardFlag = GuardFlag,
 }

@@ -12,7 +12,8 @@ M[200] = {
 	onUpdate = function(_ENV)
         if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
-                hitFlag = Enums.HitFlag.H + Enums.HitFlag.L + Enums.HitFlag.A + Enums.HitFlag.F,
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -43,6 +44,8 @@ M[205] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -73,6 +76,8 @@ M[220] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -103,6 +108,8 @@ M[240] = {
     onUpdate = function(_ENV)
         if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -133,6 +140,8 @@ M[245] = {
     onUpdate = function(_ENV)
         if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -163,6 +172,8 @@ M[260] = {
     onUpdate = function(_ENV)
         if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -193,6 +204,8 @@ M[265] = {
     onUpdate = function(_ENV)
         if AnimElem() == 4 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -223,6 +236,8 @@ M[400] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -253,6 +268,8 @@ M[420] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -283,6 +300,8 @@ M[440] = {
     onUpdate = function(_ENV)
         if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -313,6 +332,8 @@ M[460] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -342,6 +363,8 @@ M[600] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -372,6 +395,8 @@ M[620] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -402,6 +427,8 @@ M[640] = {
     onUpdate = function(_ENV)
         if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,
@@ -432,6 +459,8 @@ M[660] = {
     onUpdate = function(_ENV)
         if AnimElem() == 4 and AnimElemTime() == 0 then
             HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockBack,
                 knockBackType = Enums.KnockBackType.Low,
                 knockBackForceLevel = Enums.KnockBackForceLevel.Light,

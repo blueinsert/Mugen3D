@@ -15,6 +15,8 @@ namespace Mugen3D.Core
                 new NameFuncPair("ChangeState", ChangeState),
                 new NameFuncPair("ChangeAnim", ChangeAnim),
                 new NameFuncPair("ChangeFacing", ChangeFacing),
+                new NameFuncPair("HitBy", HitBy),
+                new NameFuncPair("NoHitBy", NoHitBy),
                 new NameFuncPair("HitDefSet", HitDefSet),
                 new NameFuncPair("PhysicsSet", PhysicsSet),
                 new NameFuncPair("MoveTypeSet", MoveTypeSet),
@@ -86,6 +88,42 @@ namespace Mugen3D.Core
             Unit c = (Unit)lua.ToUserData(1);
             HitDef hitDef = GetHitDef(lua);
             c.SetHitDefData(hitDef);
+            return 0;
+        }
+
+        public static int HitBy(ILuaState lua) {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            int duration = lua.L_CheckInteger(2);
+            int num = lua.L_CheckInteger(3);
+            List<HitInfo> hitInfos = new List<HitInfo>();
+            int index = 4;
+            for (int i = 0; i < num; i++)
+            {
+                int hitFlag = lua.L_CheckInteger(index++);
+                int hitType = lua.L_CheckInteger(index++);
+                HitInfo hitInfo = new HitInfo(hitType, hitFlag);
+                hitInfos.Add(hitInfo);
+            }
+            c.SetHitBy(hitInfos, duration);
+            return 0;
+        }
+
+        public static int NoHitBy(ILuaState lua) {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            int duration = lua.L_CheckInteger(2);
+            int num = lua.L_CheckInteger(3);
+            List<HitInfo> hitInfos = new List<HitInfo>();
+            int index = 4;
+            for (int i = 0; i < num; i++)
+            {
+                int hitFlag = lua.L_CheckInteger(index++);
+                int hitType = lua.L_CheckInteger(index++);
+                HitInfo hitInfo = new HitInfo(hitType, hitFlag);
+                hitInfos.Add(hitInfo);
+            }
+            c.SetNoHitBy(hitInfos, duration);
             return 0;
         }
 

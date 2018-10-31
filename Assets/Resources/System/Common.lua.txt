@@ -350,6 +350,7 @@ M[5040] = {
 		VelSet(GetHitVar("airVel"))
 	end,
 	onUpdate = function(_ENV)
+	    HitBy(2, 1, Enums.HitFlag.A, Enums.HitType.Throw)
 	    if JustOnGround() then
 	    	ChangeState(47)
 	    end

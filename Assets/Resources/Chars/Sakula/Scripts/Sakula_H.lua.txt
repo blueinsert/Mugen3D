@@ -63,7 +63,8 @@ M[1205] = {
     onUpdate = function(_ENV)
         if true then
             HitDefSet({
-                id = 1201 + AnimElem(),
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,  
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -96,6 +97,8 @@ M[1200] = {
     	VelSet(2,0)
     	if AnimElem() == 2 and AnimElemTime() == 0 then
             HitDefSet({
+            	hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,  
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -126,7 +129,8 @@ M[1205] = {
     onUpdate = function(_ENV)
         if (AnimElem() == 1 and AnimElemTime() == 0) or (AnimElem() == 2 and AnimElemTime() == 0) or (AnimElem() == 3 and AnimElemTime() == 0) then
             HitDefSet({
-                id = 1201 + AnimElem(),
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,  
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -159,7 +163,8 @@ M[1210] = {
     	VelSet(3,0)
     	if AnimElem() == 8 and AnimElemTime() == 0 then
             HitDefSet({
-                id = 1210 + AnimElem(),
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,                
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -190,7 +195,8 @@ M[1215] = {
     onUpdate = function(_ENV)
         if (AnimElem() == 1 and AnimElemTime() == 0) or (AnimElem() == 2 and AnimElemTime() == 0) or (AnimElem() == 3 and AnimElemTime() == 0) then
             HitDefSet({
-                id = 1201 + AnimElem(),
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -237,6 +243,8 @@ M[1405] = {
 	onUpdate = function(_ENV)
 	    if (AnimElem() == 5 and AnimElemTime() == 0) or (AnimElem() == 9 and AnimElemTime() == 0) then
             HitDefSet({
+            	hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
@@ -283,6 +291,8 @@ M[1415] = {
 	onUpdate = function(_ENV)
 	    if (AnimElem() == 5 and AnimElemTime() == 0) or (AnimElem() == 9 and AnimElemTime() == 0) then
             HitDefSet({
+            	hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.KnockAway,
                 knockAwayType = Enums.KnockAwayType.Type1,
                 hitDamage = 10,
