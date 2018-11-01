@@ -38,6 +38,7 @@ local triggers = {
 		local x,y = trigger.P2Dist(...)
 		return {x = x, y = y}
 	end},
+	{name = "P2MoveType", func = trigger.P2MoveType},
 	{name = "GetHitVar",    func = trigger.GetHitVar},
 	{name = "HitPauseTime", func = trigger.HitPauseTime},
 }

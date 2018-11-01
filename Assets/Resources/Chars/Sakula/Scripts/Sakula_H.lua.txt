@@ -74,8 +74,9 @@ M[1205] = {
                 airVel = {-1, 5},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
-                guardSlideTime = 9,    
+                guardPauseTime = {11, 13},
+                guardSlideTime = 9,   
+                guardVel = {-4, 0}, 
             })     
         end 
         if JustOnGround() then
@@ -108,8 +109,9 @@ M[1200] = {
                 airVel = {-1, 5},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
+                guardPauseTime = {11, 13},
                 guardSlideTime = 9,    
+                guardVel = {-4, 0},
             })     
         end 
     	if LeftAnimTime() <= 0 then
@@ -140,8 +142,9 @@ M[1205] = {
                 airVel = {-1, 5},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
+                guardPauseTime = {11, 13},
                 guardSlideTime = 9,    
+                guardVel = {-4, 0},
             })     
         end 
         if JustOnGround() then
@@ -170,12 +173,13 @@ M[1210] = {
                 hitDamage = 10,
                 hitPauseTime = {7, 7},
                 hitSlideTime = 9,
-                groundVel = {-1, 5},
-                airVel = {-1, 5},
+                groundVel = {-1, 6},
+                airVel = {-1, 6},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
-                guardSlideTime = 9,    
+                guardPauseTime = {11, 13},
+                guardSlideTime = 9,  
+                guardVel = {-4, 0},  
             })     
         end 
     	if LeftAnimTime() <= 0 then
@@ -202,12 +206,13 @@ M[1215] = {
                 hitDamage = 10,
                 hitPauseTime = {7, 7},
                 hitSlideTime = 9,
-                groundVel = {-1, 5},
-                airVel = {-1, 5},
+                groundVel = {-1, 6},
+                airVel = {-1, 6},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
+                guardPauseTime = {11, 13},
                 guardSlideTime = 9,    
+                guardVel = {-4, 0},
             })     
         end 
         if JustOnGround() then
@@ -254,8 +259,9 @@ M[1405] = {
                 airVel = {-2, 5},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
-                guardSlideTime = 9,    
+                guardPauseTime = {11, 13},
+                guardSlideTime = 9,   
+                guardVel = {-4, 0}, 
             })     
         end  
         if JustOnGround() then
@@ -302,8 +308,9 @@ M[1415] = {
                 airVel = {-2, 5},
 
                 guardDamage = 1,
-                guardPauseTilme = {11, 13},
-                guardSlideTime = 9,    
+                guardPauseTime = {11, 13},
+                guardSlideTime = 9, 
+                guardVel = {-4, 0},   
             })     
         end 
         if JustOnGround() then

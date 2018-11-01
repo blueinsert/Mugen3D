@@ -769,19 +769,182 @@ actions:
       x2: 0.29
       y2: 1.66
   loopStartIndex: 5
+- animNo: 120
+  animName: Guard_Stand
+  animLength: 4
+  frames:
+  - normalizeTime: 0.555
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.25
+      y1: 0.01
+      x2: 0.162
+      y2: 1.6
+  - normalizeTime: 0.765
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.25
+      y1: 0.01
+      x2: 0.162
+      y2: 1.6
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.319
+      y1: 0.032
+      x2: 0.057
+      y2: 1.53
+  loopStartIndex: 2
+- animNo: 121
+  animName: Guard_Crouch
+  animLength: 4
+  frames:
+  - normalizeTime: 0.299
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.078
+      y1: 0.016
+      x2: 0.397
+      y2: 1.117
+  - normalizeTime: 0.554
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.078
+      y1: 0.016
+      x2: 0.397
+      y2: 1.117
+  - normalizeTime: 0.753
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.078
+      y1: 0.016
+      x2: 0.397
+      y2: 1.117
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.078
+      y1: 0.016
+      x2: 0.397
+      y2: 1.117
+  loopStartIndex: 3
 - animNo: 130
   animName: Guard_Stand
   animLength: 1
   frames:
   - normalizeTime: 1
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.344
+      y1: -0.011
+      x2: 0.058
+      y2: 1.456
 - animNo: 131
   animName: Guard_Crouch
   animLength: 1
   frames:
-  - duration: 1
-    clsns: []
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.112
+      y1: 0.016
+      x2: 0.307
+      y2: 1.155
+- animNo: 140
+  animName: Guard_Stand
+  animLength: 4
+  frames:
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.333
+      y1: 0.005
+      x2: 0.058
+      y2: 1.467
+  - normalizeTime: 0.577
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.333
+      y1: 0.005
+      x2: 0.058
+      y2: 1.467
+  - normalizeTime: 0.154
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.191
+      y1: 0.005
+      x2: 0.177
+      y2: 1.518
+  loopStartIndex: 2
+- animNo: 141
+  animName: Guard_Crouch
+  animLength: 4
+  frames:
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.095
+      y1: 0.005
+      x2: 0.335
+      y2: 0.991
+  - normalizeTime: 0.711
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.095
+      y1: 0.005
+      x2: 0.335
+      y2: 0.991
+  - normalizeTime: 0.366
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.095
+      y1: 0.005
+      x2: 0.335
+      y2: 0.991
+  - normalizeTime: 0.099
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.095
+      y1: 0.005
+      x2: 0.335
+      y2: 0.991
+  loopStartIndex: 3
+- animNo: 150
+  animName: Guard_Stand
+  frames:
+  - normalizeTime: 1
+    clsns:
+    - type: 1
+      x1: -0.338
+      y1: -0.059
+      x2: 0.04
+      y2: 1.397
+- animNo: 151
+  animName: Guard_Crouch
+  frames:
+  - normalizeTime: 0.999
+    clsns:
+    - type: 1
+      x1: -0.105
+      y1: 0.027
+      x2: 0.295
+      y2: 0.989
 - animNo: 200
   animName: Punch_Light_Stand
   animLength: 11

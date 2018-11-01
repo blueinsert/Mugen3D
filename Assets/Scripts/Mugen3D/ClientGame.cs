@@ -110,7 +110,7 @@ namespace Mugen3D
             }
             if (isPuase)
             {
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+                if (Input.GetKeyDown(KeyCode.N))
                 {
                     OnUpdate();
                 }

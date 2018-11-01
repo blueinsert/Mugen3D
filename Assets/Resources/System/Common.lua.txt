@@ -42,6 +42,9 @@ M[-1] = {
 		if (StateNo() == 0 or StateNo() == 20) and CommandTest("holddown")  then
 			ChangeState(10)
 		end
+		if Ctrl() and MoveType() ~= Enums.MoveType.D and P2MoveType() == Enums.MoveType.A and math.abs(P2Dist().x) < 4 and CommandTest("holdback") then
+			ChangeState(120)
+		end
 	end,
 }
 
@@ -119,6 +122,7 @@ M[11] = {
 	    MoveTypeSet(Enums.MoveType.I)
 	    PhysicsSet(Enums.PhysicsType.C)
 	    VelSet(0, 0)
+	    CtrlSet(true)
 	    if AnimExist(11) then
 	        ChangeAnim(11)
 	    else
@@ -271,6 +275,182 @@ M[101] = {
 	end,
 }
 
+
+--start guard
+M[120] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.D)
+		CtrlSet(false)
+		if PhysicsType() == Enums.PhysicsType.S then
+		    ChangeAnim(120)
+		else
+			ChangeAnim(121)
+		end
+	end,
+	onUpdate = function(_ENV)
+	    if LeftAnimTime() <= 0 then
+		    if PhysicsType() == Enums.PhysicsType.S then
+		        ChangeState(130)
+		    else
+			    ChangeState(131)
+		    end
+	    end
+	end
+}
+
+--guarding stand
+M[130] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.D)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		ChangeAnim(130)
+		VelSet(0, 0)
+	end,
+	onUpdate = function(_ENV) 
+	    if CommandTest("holddown") then
+	    	ChangeState(131)
+	    end   
+	    if not CommandTest("holdback") or P2MoveType() ~= Enums.MoveType.A and StateTime() > 20 then
+			ChangeState(140)
+		end
+	end
+}
+
+--guarding crouch
+M[131] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.D)
+		PhysicsSet(Enums.PhysicsType.C)
+		CtrlSet(false)
+		ChangeAnim(131)
+		VelSet(0, 0)
+	end,
+	onUpdate = function(_ENV)
+	    if not CommandTest("holddown") then
+	    	ChangeState(130)
+	    end
+		if not CommandTest("holdback") or P2MoveType() ~= Enums.MoveType.A and StateTime() > 20 then
+			ChangeState(140)
+		end
+	end
+}
+
+--guard end
+M[140] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.D)
+		CtrlSet(false)
+		if PhysicsType() == Enums.PhysicsType.S then
+		    ChangeAnim(140)
+		else
+			ChangeAnim(141)
+		end
+	end,
+	onUpdate = function(_ENV)
+		if LeftAnimTime() <= 0 then
+			if PhysicsType() == Enums.PhysicsType.S then
+				ChangeState(0)
+			else
+				ChangeState(11)
+			end
+		end
+	end
+}
+
+--guard hit stand (shaking)
+M[150] = {
+    onEnter = function(_ENV)
+        PhysicsSet(Enums.PhysicsType.S)
+        MoveTypeSet(Enums.MoveType.D)
+		CtrlSet(false)
+    end,
+    onUpdate = function(_ENV)
+    	ChangeAnim(150)
+    	if PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.C)
+    	end
+    	if PhysicsType() == Enums.PhysicsType.C and not CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.S)
+    	end
+    	if StateTime() > GetHitVar("guardShakeTime") then
+    		if PhysicsType() == Enums.PhysicsType.S then
+    		    ChangeState(151)
+    		else
+    			ChangeState(157)
+    		end
+    	end
+    end	
+}
+
+--guard hit stand (knocked back)
+M[151] = {
+    onEnter = function(_ENV)
+        MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		VelSet(GetHitVar("guardVel"))
+		ChangeAnim(150)
+    end,
+    onUpdate = function(_ENV)
+        if PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.C)
+    	end
+    	if PhysicsType() == Enums.PhysicsType.C and not CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.S)
+    	end
+    	if StateTime() > GetHitVar("guardSlideTime") then
+    		ChangeState(130)
+    	end
+    end	
+}
+
+--guard hit crouch (shaking)
+M[156] = {
+	onEnter = function(_ENV)
+	    PhysicsSet(Enums.PhysicsType.C)
+        MoveTypeSet(Enums.MoveType.D)
+		CtrlSet(false)
+    end,
+    onUpdate = function(_ENV)
+        ChangeAnim(151)
+        if PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.C)
+    	end
+    	if PhysicsType() == Enums.PhysicsType.C and not CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.S)
+    	end
+    	if StateTime() > GetHitVar("guardShakeTime") then
+    		if PhysicsType() == Enums.PhysicsType.S then
+    		    ChangeState(151)
+    		else
+    			ChangeState(157)
+    		end
+    	end
+    end
+}
+
+--guard hit crouch (knocked back)
+M[157] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		VelSet(GetHitVar("guardVel"))
+		ChangeAnim(151)
+    end,
+    onUpdate = function(_ENV) 
+        if PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.C)
+    	end
+    	if PhysicsType() == Enums.PhysicsType.C and not CommandTest("holddown") then
+    		PhysicsSet(Enums.PhysicsType.S)
+    	end
+    	if StateTime() > GetHitVar("guardSlideTime") then
+    		ChangeState(131)
+    	end
+    end
+}
 
 --get-hit(shaking)
 M[5000] = {

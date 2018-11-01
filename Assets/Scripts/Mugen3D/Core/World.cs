@@ -131,10 +131,23 @@ namespace Mugen3D.Core
                 var target = hitResult.Key;  
                 var hitDef = attacker.GetHitDefData();
                 if (target.CanBeHit(hitDef))
-                {
-                    if (target.CanBeGuard(hitDef) && (target.fsmMgr.stateNo >= 130 && target.fsmMgr.stateNo <= 140))
+                {   
+                    if (target.CanBeGuard(hitDef) && (target.fsmMgr.stateNo >= 120 && target.fsmMgr.stateNo < 150))
                     {
-                        //be guarded
+                        int stateNo = 150;
+                        if (target.GetPhysicsType() == PhysicsType.S)
+                        {
+                            stateNo = 150;
+                        }
+                        else
+                        {
+                            stateNo = 156;
+                        }
+                        if (!hitResults.ContainsKey(attacker))
+                            attacker.Pause(attacker.GetHitDefData().guardPauseTime[0]);
+                        attacker.SetHitDefData(null);
+                        target.SetBeHitDefData(hitDef);
+                        target.fsmMgr.ChangeState(stateNo);
                     }
                     else
                     {

@@ -57,10 +57,9 @@ namespace Mugen3D.Core
 
         static HitDef GetHitDef(ILuaState lua)
         {
-            if(!lua.IsTable(-1))
+            if (!lua.IsTable(-1))
                 throw new Exception("get hitDef is not table");
             HitDef hitDef = new HitDef();
-            try
             {
                 hitDef.hitFlag = LuaUtil.GetTableFieldInt(lua, "hitFlag");
                 hitDef.guardFlag = LuaUtil.GetTableFieldInt(lua, "guardFlag");
@@ -68,16 +67,17 @@ namespace Mugen3D.Core
                 hitDef.knockBackType = LuaUtil.GetTableFieldInt(lua, "knockBackType");
                 hitDef.knockBackForceLevel = LuaUtil.GetTableFieldInt(lua, "knockBackForceLevel");
                 hitDef.knockAwayType = LuaUtil.GetTableFieldInt(lua, "knockAwayType");
+
                 hitDef.hitDamage = LuaUtil.GetTableFieldInt(lua, "hitDamage");
-                hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
                 hitDef.hitPauseTime = LuaUtil.GetTableFieldIntArray(lua, "hitPauseTime", 2);
                 hitDef.hitSlideTime = LuaUtil.GetTableFieldInt(lua, "hitSlideTime");
                 hitDef.groundVel = LuaUtil.GetTableFieldVector(lua, "groundVel");
                 hitDef.airVel = LuaUtil.GetTableFieldVector(lua, "airVel");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("get hitDef field error:" + e.Message);
+
+                hitDef.guardDamage = LuaUtil.GetTableFieldInt(lua, "guardDamage");
+                hitDef.guardPauseTime = LuaUtil.GetTableFieldIntArray(lua, "guardPauseTime", 2);
+                hitDef.guardSlideTime = LuaUtil.GetTableFieldInt(lua, "guardSlideTime");
+                hitDef.guardVel = LuaUtil.GetTableFieldVector(lua, "guardVel");
             }
             return hitDef;
         }

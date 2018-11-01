@@ -47,14 +47,17 @@ namespace Mugen3D.Core
         public int knockBackForceLevel;
         public int knockAwayType;
         public int hitDamage;
-        public int guardDamage;
+        
         public int[] hitPauseTime;
         public int hitSlideTime;
-        public int[] guardPauseTime;
-        public int guardSlideTime;
         public Vector groundVel;
         public Vector airVel;
 
+        public int guardDamage;
+        public int[] guardPauseTime;
+        public int guardSlideTime;
+        public Vector guardVel;
+        
         public HitDef()
         {
         }

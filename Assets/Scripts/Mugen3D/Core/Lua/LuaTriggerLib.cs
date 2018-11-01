@@ -29,6 +29,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("Vel", GetVel),
                 new NameFuncPair("Pos", GetPos),
                 new NameFuncPair("P2Dist", P2Dist),
+                new NameFuncPair("P2MoveType", P2MoveType),
                 new NameFuncPair("GetHitVar", GetHitVar),
                 new NameFuncPair("HitPauseTime", HitPauseTime),
             };
@@ -98,6 +99,16 @@ namespace Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             int res = (int)c.GetMoveType();
+            lua.PushInteger(res);
+            return 1;
+        }
+
+        public static int P2MoveType(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            var enemy = c.world.teamInfo.GetEnemy(c);
+            int res = (int)enemy.GetMoveType();
             lua.PushInteger(res);
             return 1;
         }
@@ -266,6 +277,20 @@ namespace Mugen3D.Core
                     var airVel = c.GetBeHitDefData().airVel;
                     lua.PushInteger(airVel.x.AsInt());
                     lua.PushInteger(airVel.y.AsInt());
+                    resNum = 2;
+                    break;
+                case "guardShakeTime":
+                    var guardShakeTime = c.GetBeHitDefData().guardPauseTime[1];
+                    lua.PushInteger(guardShakeTime); resNum = 1;
+                    break;
+                case "guardSlideTime":
+                    var guardSlideTime = c.GetBeHitDefData().guardSlideTime;
+                    lua.PushInteger(guardSlideTime); resNum = 1;
+                    break;
+                case "guardVel":
+                    var guardVel = c.GetBeHitDefData().guardVel;
+                    lua.PushInteger(guardVel.x.AsInt());
+                    lua.PushInteger(guardVel.y.AsInt());
                     resNum = 2;
                     break;
                 default:
