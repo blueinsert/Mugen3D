@@ -32,8 +32,28 @@ namespace Mugen3D.Core
                 new NameFuncPair("P2MoveType", P2MoveType),
                 new NameFuncPair("GetHitVar", GetHitVar),
                 new NameFuncPair("HitPauseTime", HitPauseTime),
+                new NameFuncPair("FrontEdgeDist", FrontEdgeDist),
+                new NameFuncPair("BackEdgeDist", BackEdgeDist),
             };
             lua.L_NewLib(define);
+            return 1;
+        }
+
+        public static int FrontEdgeDist(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            var dist = u.GetFrontEdgeDist();
+            lua.PushNumber(dist.AsDouble());
+            return 1;
+        }
+
+        public static int BackEdgeDist(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            var dist = u.GetBackEdgeDist();
+            lua.PushNumber(dist.AsDouble());
             return 1;
         }
 
@@ -269,14 +289,14 @@ namespace Mugen3D.Core
                     break;
                 case "groundVel":
                     var vel = c.GetBeHitDefData().groundVel;
-                    lua.PushInteger(vel.x.AsInt());
-                    lua.PushInteger(vel.y.AsInt());
+                    lua.PushNumber(vel.X().AsDouble());
+                    lua.PushNumber(vel.Y().AsInt());
                     resNum = 2;
                     break;
                 case "airVel":
                     var airVel = c.GetBeHitDefData().airVel;
-                    lua.PushInteger(airVel.x.AsInt());
-                    lua.PushInteger(airVel.y.AsInt());
+                    lua.PushNumber(airVel.X().AsDouble());
+                    lua.PushNumber(airVel.Y().AsDouble());
                     resNum = 2;
                     break;
                 case "guardShakeTime":
@@ -289,8 +309,8 @@ namespace Mugen3D.Core
                     break;
                 case "guardVel":
                     var guardVel = c.GetBeHitDefData().guardVel;
-                    lua.PushInteger(guardVel.x.AsInt());
-                    lua.PushInteger(guardVel.y.AsInt());
+                    lua.PushNumber(guardVel.X().AsInt());
+                    lua.PushNumber(guardVel.Y().AsInt());
                     resNum = 2;
                     break;
                 default:

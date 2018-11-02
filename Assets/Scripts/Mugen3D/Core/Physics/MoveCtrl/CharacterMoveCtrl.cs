@@ -56,7 +56,7 @@ namespace Mugen3D.Core
                         {
                             Vector dir = (rect1.position - rect2.position).normalized;
                             Number distX = (rect1.width + rect2.width) / 2 - Math.Abs(rect1.position.x - rect2.position.x);
-                            m_deltaPos += new Vector(distX * new Number(9) / new Number(10) * (dir.x > 0 ? 1 : -1), 0, 0);
+                            m_deltaPos += new Vector(distX * new Number(5) / new Number(10) * (dir.x > 0 ? 1 : -1), 0, 0);
                         }
                         findIntersect = true;
                         break;

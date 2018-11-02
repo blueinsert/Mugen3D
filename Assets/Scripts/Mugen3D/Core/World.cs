@@ -146,6 +146,11 @@ namespace Mugen3D.Core
                         if (!hitResults.ContainsKey(attacker))
                             attacker.Pause(attacker.GetHitDefData().guardPauseTime[0]);
                         attacker.SetHitDefData(null);
+                        //Corner push
+                        if (target.GetBackEdgeDist() < new Number(5) / new Number(10))
+                        {
+                            attacker.moveCtr.VelAdd(-Number.Abs(hitDef.guardVel.X())*hitDef.groundCornerPush, 0);
+                        }
                         target.SetBeHitDefData(hitDef);
                         target.fsmMgr.ChangeState(stateNo);
                     }
@@ -154,6 +159,14 @@ namespace Mugen3D.Core
                         if (!hitResults.ContainsKey(attacker))
                             attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
                         attacker.SetHitDefData(null);
+                        //Corner push
+                        if (target.GetBackEdgeDist() < new Number(5) / new Number(10))
+                        {
+                            if(attacker.GetPhysicsType() == PhysicsType.A)
+                                attacker.moveCtr.VelAdd(-Number.Abs(hitDef.airVel.X()) * hitDef.airCornerPush, 0);
+                            else
+                                attacker.moveCtr.VelAdd(-Number.Abs(hitDef.groundVel.X()) * hitDef.groundCornerPush, 0);
+                        }
                         target.SetBeHitDefData(hitDef);
                         target.fsmMgr.ChangeState(5000);
                     }   

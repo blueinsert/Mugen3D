@@ -21,7 +21,7 @@ M[200] = {
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
                 groundVel = {-5, 0},
-                airVel = {-2, 2},
+                --airVel = {-2, 2},
 
                 guardDamage = 1,
                 guardPauseTime = {11, 13},

@@ -50,13 +50,16 @@ namespace Mugen3D.Core
         
         public int[] hitPauseTime;
         public int hitSlideTime;
-        public Vector groundVel;
-        public Vector airVel;
+        public Number[] groundVel;
+        public Number[] airVel;
 
         public int guardDamage;
         public int[] guardPauseTime;
         public int guardSlideTime;
-        public Vector guardVel;
+        public Number[] guardVel;
+
+        public Number groundCornerPush;
+        public Number airCornerPush;
         
         public HitDef()
         {
@@ -196,6 +199,30 @@ namespace Mugen3D.Core
         }        
 
         #region status get/set
+        public Number GetFrontEdgeDist()
+        {
+            if (this.GetFacing() > 0)
+            {
+                return world.config.stageConfig.borderXMax - this.position.x;
+            }
+            else
+            {
+                return this.position.x - world.config.stageConfig.borderXMin;
+            }
+        }
+
+        public Number GetBackEdgeDist()
+        {
+            if (this.GetFacing() > 0)
+            {
+                return this.position.x - world.config.stageConfig.borderXMin;  
+            }
+            else
+            {
+                return world.config.stageConfig.borderXMax - this.position.x;
+            }
+        }
+
         public Vector GetP2Dist()
         {
             Unit enemy = this.world.teamInfo.GetEnemy(this);
