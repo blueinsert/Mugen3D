@@ -32,13 +32,7 @@ namespace Mugen3D.Core
         {
             this.input = input;
         }
-
-        public Vector GetP2Dist()
-        {
-            var enemy = this.world.teamInfo.GetEnemy(this);
-            return enemy.position - this.position;
-        }
-
+  
     }
 
 }

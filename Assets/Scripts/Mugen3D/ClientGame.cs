@@ -63,6 +63,11 @@ namespace Mugen3D
             return null;
         }
 
+        private static string FileRead(ref string fileName)
+        {
+            return ResourceLoader.LoadText(fileName);
+        }
+
         private void InitCore()
         {
             Core.Debug.Log = Log.Info;
@@ -70,6 +75,7 @@ namespace Mugen3D
             Core.Debug.LogError = Log.Error;
             Core.Debug.Assert = Log.Assert;
             Core.LuaMgr.AddLoader(LuaLoader);
+            Core.FileReader.AddReader(FileRead);
             if (GUIDebug.Instance != null)
             {
                 Core.Debug.AddGUIDebugMsg = GUIDebug.Instance.AddMsg;
