@@ -12,6 +12,7 @@ namespace Mugen3D.Core
         public static int OpenLib(ILuaState lua)
         {
             var define = new NameFuncPair[] {
+                new NameFuncPair("CreateHelper", CreateHelper),
                 new NameFuncPair("ChangeState", ChangeState),
                 new NameFuncPair("ChangeAnim", ChangeAnim),
                 new NameFuncPair("ChangeFacing", ChangeFacing),
@@ -26,6 +27,19 @@ namespace Mugen3D.Core
             };
             lua.L_NewLib(define);
             return 1;
+        }
+
+        public static int CreateHelper(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Character)
+            {
+                var c = u as Character;
+                var helperName = lua.L_CheckString(2);
+
+            }
+            return 0;
         }
 
         public static int ChangeState(ILuaState lua)

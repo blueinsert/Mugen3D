@@ -138,6 +138,9 @@
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_N.lua.txt" />
     <None Include="Assets\Resources\Config\Input.txt" />
     <None Include="Assets\Resources\Config\Stage\TrainingRoom.txt" />
+    <None Include="Assets\Resources\Helpers\QiGongBo\QiGongBo.act.txt" />
+    <None Include="Assets\Resources\Helpers\QiGongBo\QiGongBo.def.txt" />
+    <None Include="Assets\Resources\Helpers\QiGongBo\Scripts\QiGongBo.lua.txt" />
     <None Include="Assets\Resources\Lua\UI\MainMenu\ViewCharacterSelect.lua.txt" />
     <None Include="Assets\Resources\Lua\UI\MainMenu\ViewMainMenu.lua.txt" />
     <None Include="Assets\Resources\Lua\UI\UIDef.lua.txt" />

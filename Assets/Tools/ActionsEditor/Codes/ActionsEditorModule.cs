@@ -71,8 +71,7 @@ namespace Mugen3D.Tools
         }
 
         public void AddAction()
-        {   
-           
+        {       
             if (actions == null)
             {
                 actions = new List<Action>();
@@ -83,8 +82,16 @@ namespace Mugen3D.Tools
                 id = actions[this.curActionIndex].animNo + 1;
             }
             Action a = new Action(id);
-            actions.Insert(this.curActionIndex + 1, a);
-            curActionIndex = this.curActionIndex + 1;
+            if (actions.Count > 0)
+            {
+                actions.Insert(this.curActionIndex + 1, a);
+                curActionIndex = this.curActionIndex + 1;
+            }
+            else
+            {
+                actions.Add(a);
+                curActionIndex = 0;
+            }      
         }
 
         public void DeleteAction()

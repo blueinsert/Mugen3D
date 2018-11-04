@@ -12,7 +12,7 @@ namespace Mugen3D.Tools
     }
     
     [RequireComponent(typeof(Animation))]
-    public class CharacterAnimController : MonoBehaviour
+    public class AnimController : MonoBehaviour
     {
         public Animation anim { get { return m_anim; } }
         private Animation m_anim;
@@ -62,13 +62,13 @@ namespace Mugen3D.Tools
             Sample(action.animName, action.frames[animElem].normalizeTime.AsFloat());
         }
 
-        public void Sample(string nameName, float normalizeTime)
+        public void Sample(string animName, float normalizeTime)
         {
-            m_anim[nameName].enabled = true;
-            m_anim[nameName].normalizedTime = normalizeTime;
-            m_anim[nameName].weight = 1;
+            m_anim[animName].enabled = true;
+            m_anim[animName].normalizedTime = normalizeTime;
+            m_anim[animName].weight = 1;
             m_anim.Sample();
-            m_anim[nameName].enabled = false;
+            m_anim[animName].enabled = false;
         }
 
         public void Play(Action action)

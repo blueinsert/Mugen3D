@@ -1,0 +1,23 @@
+local Enums = require "System/Enums"
+local M = {}
+--move
+M[0] = {
+	onEnter = function(_ENV)
+	  --to do	
+	end,
+	onUpdate = function(_ENV)	
+	  --to do
+	end,
+}
+
+--destroy
+M[6] = {
+	onEnter = function(_ENV)
+	  --to do	
+	end,
+	onUpdate = function(_ENV)	
+	  --to do
+	end,
+}
+
+return M

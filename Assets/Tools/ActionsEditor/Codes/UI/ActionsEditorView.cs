@@ -12,14 +12,14 @@ namespace Mugen3D.Tools
         private List<string> animNames = new List<string>();
         private bool isResponseToUIEvent = true;
         private ActionsEditorController controller;
-        private CharacterAnimController m_animController;
-        public CharacterAnimController animController
+        private AnimController m_animController;
+        public AnimController animController
         {
             get
             {
                 if (m_animController == null)
                 {
-                    m_animController = this.GetComponentInChildren<CharacterAnimController>();
+                    m_animController = this.GetComponentInChildren<AnimController>();
                 }
                 return m_animController;
             }

@@ -1,0 +1,3 @@
+prefab: Helpers/QiGongBo/QiGongBo
+action: Helpers/QiGongBo/QiGongBo.act
+fsm: Helpers/QiGongBo/Scripts/QiGongBo
