@@ -206,22 +206,12 @@ namespace Mugen3D.Core
 
         void Debug()
         {
-            foreach (var character in characters)
+            foreach (var e in this.entities)
             {
-                Core.Debug.AddGUIDebugMsg(character.slot, "pos", character.position.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "stateNo", character.fsmMgr.stateNo.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "stateTime", character.fsmMgr.stateTime.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "anim", character.animCtr.anim.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "animTime", character.animCtr.animTime.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "animElem", character.animCtr.animElem.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "animElemTime", character.animCtr.animElemTime.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "leftAnimTime", character.animCtr.leftAnimTime.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "facing", character.GetFacing().ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "vel", character.moveCtr.velocity.ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "command", character.cmdMgr.GetActiveCommandName());
-                Core.Debug.AddGUIDebugMsg(character.slot, "isPause", character.IsPause().ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "pauseTime", character.GetPauseTime().ToString());
-                Core.Debug.AddGUIDebugMsg(character.slot, "p2dist", character.GetP2Dist().ToString());
+                if (e is Character || e is Helper)
+                {
+                    (e as Unit).PrintDebugInfo();
+                }
             }
         }
     }

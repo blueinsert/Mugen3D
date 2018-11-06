@@ -38,7 +38,12 @@ namespace Mugen3D.Core
             var helper = EntityFactory.CreateHelper(name, this);
             this.world.AddEntity(helper);
         }
-  
+
+        public override void PrintDebugInfo()
+        {
+            base.PrintDebugInfo();
+            Core.Debug.AddGUIDebugMsg(this.id, "command", this.cmdMgr.GetActiveCommandName());
+        } 
     }
 
 }

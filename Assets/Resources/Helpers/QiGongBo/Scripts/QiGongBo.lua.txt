@@ -1,12 +1,22 @@
 local Enums = require "System/Enums"
 local M = {}
+
 --move
 M[0] = {
-	onEnter = function(_ENV)
-	  --to do	
+	onEnter = function(_ENV)  
+
 	end,
 	onUpdate = function(_ENV)	
-	  --to do
+	  if StateTime() == 0 then
+	  	MoveTypeSet(Enums.MoveType.A)
+        PhysicsSet(Enums.PhysicsType.N)
+        ChangeAnim(0)   
+        local pos = parent.Pos()
+        local facing = parent.Facing() 
+        PosSet(pos.x + 1.1*facing, pos.y + 1.1)
+        ChangeFacing(facing)
+	  end
+	  VelSet(2,0)
 	end,
 }
 

@@ -39,9 +39,8 @@ namespace Mugen3D.Core
             }
             else if (u is Helper)
             {
-
-            }
-            
+                return GetEnemy((u as Helper).owner);
+            }        
             return null;
         }
         

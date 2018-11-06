@@ -41,6 +41,7 @@ local controllers = {
 	{name = "PhysicsSet",   func = controller.PhysicsSet},
 	{name = "VelSet",       func = controller.VelSet},
 	{name = "Pause",        func = controller.Pause},
+	{name = "PosSet",       func = controller.PosSet},
 }
 
 local triggers = {
@@ -61,7 +62,10 @@ local triggers = {
         local x,y = trigger.Vel(...)
 		return {x = x, y = y}
 	end},
-	{name = "Pos",          func = trigger.Pos},
+	{name = "Pos",          func = function( ... )
+		local x, y = trigger.Pos(...)
+		return {x = x, y = y}
+	end},
 	{name = "JustOnGround", func = trigger.JustOnGround},
 	{name = "P2Dist",       func =  function(...)
 		local x,y = trigger.P2Dist(...)
@@ -70,6 +74,10 @@ local triggers = {
 	{name = "P2MoveType", func = trigger.P2MoveType},
 	{name = "GetHitVar",    func = trigger.GetHitVar},
 	{name = "HitPauseTime", func = trigger.HitPauseTime},
+	{name = "ParentPos", func =  function(...)
+        local x,y = trigger.ParentPos(...)
+		return {x = x, y = y}
+	end},
 }
 
 local function setCommonENVVars(env)
@@ -91,6 +99,13 @@ local function createENV(csObjUnit)
 	end
 	for _, trigger in pairs(triggers) do
 		env[trigger.name] = warp(trigger.func)
+	end
+	print(trigger.Parent)
+	print(csObjUnit)
+	local parent = trigger.Parent(csObjUnit)
+	print(parent)
+	if parent then
+		env.parent = createENV(parent)
 	end
 	return env
 end

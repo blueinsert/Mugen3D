@@ -182,6 +182,8 @@ namespace Mugen3D.Core
             fsmMgr = new FsmManager(config.fsm, this);
         }
 
+        protected Unit() { }
+
         public override void OnUpdate(Number deltaTime)
         {
             if (IsPause())
@@ -397,5 +399,22 @@ namespace Mugen3D.Core
         {
             m_hp = hp;
         }
+
+        public virtual void PrintDebugInfo()
+        {
+            Core.Debug.AddGUIDebugMsg(this.id, "pos", this.position.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "stateNo", this.fsmMgr.stateNo.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "stateTime", this.fsmMgr.stateTime.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "anim", this.animCtr.anim.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "animTime", this.animCtr.animTime.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "animElem", this.animCtr.animElem.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "animElemTime", this.animCtr.animElemTime.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "leftAnimTime", this.animCtr.leftAnimTime.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "facing", this.GetFacing().ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "vel", this.moveCtr.velocity.ToString());     
+            Core.Debug.AddGUIDebugMsg(this.id, "isPause", this.IsPause().ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "pauseTime", this.GetPauseTime().ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "p2dist", this.GetP2Dist().ToString());
+        } 
     }
 }

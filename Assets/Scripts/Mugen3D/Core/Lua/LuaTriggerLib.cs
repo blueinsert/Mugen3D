@@ -12,6 +12,8 @@ namespace Mugen3D.Core
         public static int OpenLib(ILuaState lua)
         {
             var define = new NameFuncPair[] {
+                new NameFuncPair("IsHelper", IsHelper),
+                new NameFuncPair("Parent", GetParent),
                 new NameFuncPair("Ctrl", IsCtrl),
                 new NameFuncPair("CommandTest", CommandTest),
                 new NameFuncPair("Facing", Facing),
@@ -34,8 +36,43 @@ namespace Mugen3D.Core
                 new NameFuncPair("HitPauseTime", HitPauseTime),
                 new NameFuncPair("FrontEdgeDist", FrontEdgeDist),
                 new NameFuncPair("BackEdgeDist", BackEdgeDist),
+                new NameFuncPair("ParentPos", GetParentPos),
             };
             lua.L_NewLib(define);
+            return 1;
+        }
+
+        public static int IsHelper(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Helper)
+            {
+                lua.PushBoolean(true);
+            }
+            else
+            {
+                lua.PushBoolean(false);
+            }
+            return 1;
+        }
+
+        public static int GetParent(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Helper)
+            {
+                var h = u as Helper;
+                if (h.owner != null)
+                    lua.PushLightUserData(h.owner);
+                else
+                    lua.PushNil();
+            }
+            else
+            {
+                lua.PushNil();
+            }        
             return 1;
         }
 
@@ -242,6 +279,21 @@ namespace Mugen3D.Core
             lua.PushNumber(pos.x.AsFloat());
             lua.PushNumber(pos.y.AsFloat());
             return 2;
+        }
+
+        public static int GetParentPos(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            if (c is Helper)
+            {
+                var h = c as Helper;
+                var pos = h.owner.position;
+                lua.PushNumber(pos.x.AsFloat());
+                lua.PushNumber(pos.y.AsFloat());
+                return 2;
+            } 
+            return 0;
         }
 
         public static int P2Dist(ILuaState lua)

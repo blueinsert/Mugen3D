@@ -1,38 +1,88 @@
 actions:
-- animName: Sphere|Motion
+- animName: Motion
   animLength: 50
   frames:
   - duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.1
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.2
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.3
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.4
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.5
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.6
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.699
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.8
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
   - normalizeTime: 0.899
     duration: 5
-    clsns: []
+    clsns:
+    - type: 2
+      x1: -0.289
+      y1: -0.313
+      x2: 0.3
+      y2: 0.326
 - animNo: 6
-  animName: Sphere|Destroy
+  animName: Destroy
   animLength: 50
   frames:
   - duration: 5

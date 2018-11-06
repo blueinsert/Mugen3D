@@ -29,7 +29,7 @@ namespace Mugen3D
             var h = entity as Core.Helper;
             UnityEngine.Object prefab = ResourceLoader.Load((h.config as Core.HelperConfig).prefab);
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
-            var view = go.AddComponent<UnitView>();
+            var view = go.AddComponent<HelperView>();
             view.Init(h);
             return view;
         }

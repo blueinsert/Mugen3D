@@ -58,6 +58,7 @@ namespace Mugen3D.Core
         {
             stateNo = 0;
             stateTime = 0;
+            m_stateNoToChange = 0;
         }
 
         void CallMethod(int refFunc)

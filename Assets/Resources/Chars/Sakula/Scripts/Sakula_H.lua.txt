@@ -25,13 +25,15 @@ M[1005] = {
         PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
         ChangeAnim(1005)
-        VelSet(0,0)
-        CreateHelper("QiGongBo")
+        VelSet(0,0)    
 	end,
 	onUpdate = function(_ENV)
+        if AnimElem() == 4 and AnimElemTime() == 0 then
+            CreateHelper("QiGongBo")
+        end
 	    if LeftAnimTime() <= 0 then
 	   	    ChangeState(0)
-	   	end
+	   	end  
 	end,
 }
 

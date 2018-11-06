@@ -7,9 +7,13 @@ namespace Mugen3D.Core
     {
         public Character owner { get; private set; }
 
-        public Helper(HelperConfig config, Character owner) : base(config) 
+        public Helper(HelperConfig config, Character owner)
         {
             this.owner = owner;
+            SetConfig(config);
+            moveCtr = new MoveCtrl(this);
+            animCtr = new AnimationController(config.actions, this);
+            fsmMgr = new FsmManager(config.fsm, this);
         }
     }
 

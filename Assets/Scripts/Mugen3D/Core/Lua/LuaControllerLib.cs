@@ -23,6 +23,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("MoveTypeSet", MoveTypeSet),
                 new NameFuncPair("VelSet", VelSet),
                 new NameFuncPair("CtrlSet", CtrlSet),
+                new NameFuncPair("PosSet", PosSet),
                 new NameFuncPair("Pause", Pause),
             };
             lua.L_NewLib(define);
@@ -160,18 +161,23 @@ namespace Mugen3D.Core
             return 0;
         }
 
-        private static Number ToNumber(double v)
-        {
-            return new Number((int)(v * 1000)) / new Number(1000);
-        }
-
         public static int VelSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             double velX = lua.L_CheckNumber(2);
             double velY = lua.L_CheckNumber(3);
-            c.moveCtr.VelSet(ToNumber(velX), ToNumber(velY));
+            c.moveCtr.VelSet(velX.ToNumber(), velY.ToNumber());
+            return 0;
+        }
+
+        public static int PosSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            double x = lua.L_CheckNumber(2);
+            double y = lua.L_CheckNumber(3);
+            c.moveCtr.PosSet(x.ToNumber(), y.ToNumber());
             return 0;
         }
 

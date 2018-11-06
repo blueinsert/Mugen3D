@@ -33,9 +33,7 @@ namespace Mugen3D.Core
         }
 
         public virtual void Update(Number deltaTime)
-        {
-            if (m_owner.GetPhysicsType() == PhysicsType.N)
-                return;
+        {      
             if (justOnGround)
             {
                 isOnGround = true;
@@ -48,6 +46,10 @@ namespace Mugen3D.Core
             else if (m_owner.GetPhysicsType() == PhysicsType.A)
             {
                 m_acceleratedVelocity = m_gravity + m_externalForce / mass;
+            }
+            else
+            {
+                m_acceleratedVelocity = Vector.zero;
             }
             m_velocity += deltaTime * m_acceleratedVelocity;
             if (m_owner.GetPhysicsType() == PhysicsType.S || m_owner.GetPhysicsType() == PhysicsType.C)
