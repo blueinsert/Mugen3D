@@ -32,6 +32,12 @@ namespace Mugen3D.Core
         {
             this.input = input;
         }
+
+        public void CreateHelper(string name)
+        {
+            var helper = EntityFactory.CreateHelper(name, this);
+            this.world.AddEntity(helper);
+        }
   
     }
 

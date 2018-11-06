@@ -23,6 +23,7 @@ local DefaultHitDef = {
 }
 
 local controllers = {
+    {name = "CreateHelper", func = controller.CreateHelper},
 	{name = "ChangeAnim",   func = controller.ChangeAnim},
 	{name = "ChangeFacing", func = controller.ChangeFacing},
 	{name = "ChangeState",  func = controller.ChangeState},

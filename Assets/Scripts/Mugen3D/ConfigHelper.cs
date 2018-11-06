@@ -9,8 +9,8 @@ namespace Mugen3D
     {
         public static CharacterConfig ReadCharacterConfig(string characterName)
         {
-            CharacterConfig config = ConfigReader.Read<CharacterConfig>(ResourceLoader.LoadText("Chars/" + characterName + "/" + characterName + ".def"));
-            ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(config.action));
+            CharacterConfig config = ConfigReader.Parse<CharacterConfig>(ResourceLoader.LoadText("Chars/" + characterName + "/" + characterName + ".def"));
+            ActionsConfig actionsConfig = ConfigReader.Parse<ActionsConfig>(ResourceLoader.LoadText(config.action));
             string commands = ResourceLoader.LoadText(config.command);
             config.SetActions(actionsConfig.actions.ToArray());
             config.SetCommand(commands);

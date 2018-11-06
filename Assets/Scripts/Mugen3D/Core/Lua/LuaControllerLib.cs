@@ -37,7 +37,7 @@ namespace Mugen3D.Core
             {
                 var c = u as Character;
                 var helperName = lua.L_CheckString(2);
-
+                c.CreateHelper(helperName);
             }
             return 0;
         }

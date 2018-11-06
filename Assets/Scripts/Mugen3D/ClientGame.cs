@@ -89,16 +89,15 @@ namespace Mugen3D
 
         protected Character CreateCharacter(string characterName, int slot, bool isLocal)
         {
-            CharacterConfig config = ConfigHelper.ReadCharacterConfig(characterName);
-            Character p = new Character(characterName, config, slot, isLocal);
+            Character p = EntityFactory.CreateCharacter(characterName, slot, isLocal);
             this.world.AddEntity(p);
             return p;
         }
 
         protected void CreateWorld(string stageName, int logicFPS)
         {
-            StageConfig stageConfig = ConfigReader.Read<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + stageName));
-            InputConfig inputConfig = ConfigReader.Read<InputConfig>(ResourceLoader.LoadText("Config/Input"));
+            StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + stageName));
+            InputConfig inputConfig = ConfigReader.Parse<InputConfig>(ResourceLoader.LoadText("Config/Input"));
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.SetStageConfig(stageConfig);
             worldConfig.SetInputConfig(inputConfig);

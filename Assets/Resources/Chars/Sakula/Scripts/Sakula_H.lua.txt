@@ -26,6 +26,7 @@ M[1005] = {
 		CtrlSet(false)
         ChangeAnim(1005)
         VelSet(0,0)
+        CreateHelper("QiGongBo")
 	end,
 	onUpdate = function(_ENV)
 	    if LeftAnimTime() <= 0 then

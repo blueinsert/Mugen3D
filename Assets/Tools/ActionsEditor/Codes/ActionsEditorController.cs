@@ -34,7 +34,7 @@ namespace Mugen3D.Tools
                     GameObject go = GameObject.Instantiate(prefab, this.transform.Find("Scene/Player")) as GameObject;
                     go.AddComponent<AnimController>();
                     go.transform.position = Vector3.zero;
-                    ActionsConfig actionsConfig = ConfigReader.Read<ActionsConfig>(ResourceLoader.LoadText(m_characterConfig.action));
+                    ActionsConfig actionsConfig = ConfigReader.Parse<ActionsConfig>(ResourceLoader.LoadText(m_characterConfig.action));
                     if (actionsConfig == null)
                         actionsConfig = new ActionsConfig();
                     this.module.Init(actionsConfig.actions);

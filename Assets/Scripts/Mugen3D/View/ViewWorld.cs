@@ -7,55 +7,22 @@ namespace Mugen3D
 {
 
     public class ViewWorld
-    {
-       
-        private delegate EntityView ViewCreater(Core.Entity entity);
-        private Dictionary<Type, ViewCreater> m_viewCreater = new Dictionary<Type, ViewCreater>() { };
-
+    { 
         public Core.World world { get; private set; }
         private Dictionary<int, EntityView> m_entityViews = new Dictionary<int, EntityView>();
         public CameraController cameraController { get; private set; }
         private GameObject m_rootScene;
 
-        private void OnCreateEntity(Core.Entity e)
-        {
-            ViewCreater creater;
-            if (m_viewCreater.TryGetValue(e.GetType(), out creater))
-            {
-                var view = creater(e);
-                m_entityViews.Add(e.id, view);
-            }
-            else
-            {
-                Debug.LogError("can get view creater");
-            }
-        }
-
-        private void Init()
-        {
-            m_viewCreater[typeof(Core.Character)] = OnCreateCharacter;
-        }
-
         public ViewWorld(Core.World world)
         {
-            Init();
             this.world = world;
-            world.onCreateEntity += OnCreateEntity;
-        }
-
-        public EntityView GetView(int id)
-        {
-            return m_entityViews[id];
-        }
-
-        private EntityView OnCreateCharacter(Core.Entity entity)
-        {
-            var c = entity as Core.Character;
-            UnityEngine.Object prefab = ResourceLoader.Load((c.config as Core.UnitConfig).prefab);
-            GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform.Find("Players")) as GameObject;
-            var view = go.AddComponent<CharacterView>();
-            view.Init(c);
-            return view;
+            world.onCreateEntity += (e) => {
+                var entityView = ViewCreater.CreateView(e, m_rootScene.transform.Find("Players"));
+                if (entityView != null)
+                {
+                    this.m_entityViews.Add(e.id, entityView);
+                }
+            };
         }
 
         public void InitScene(GameObject rootScene)
@@ -77,9 +44,15 @@ namespace Mugen3D
         {
             UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/BattleCamera");
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
-            cameraController = go.AddComponent<CameraController>();
+            var cameraController = go.AddComponent<CameraController>();
             cameraController.Init(config, p1, p2);
         }
+
+        public EntityView GetView(int id)
+        {
+            return m_entityViews[id];
+        }
+       
     
     }
 

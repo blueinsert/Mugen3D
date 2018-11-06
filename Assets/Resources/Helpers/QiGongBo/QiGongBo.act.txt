@@ -31,7 +31,8 @@ actions:
   - normalizeTime: 0.899
     duration: 5
     clsns: []
-- animName: Sphere|Destroy
+- animNo: 6
+  animName: Sphere|Destroy
   animLength: 50
   frames:
   - duration: 5

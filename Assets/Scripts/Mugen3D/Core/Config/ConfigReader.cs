@@ -12,7 +12,7 @@ namespace Mugen3D.Core
                .WithNamingConvention(new CamelCaseNamingConvention())
                .Build();
 
-        public static T Read<T>(string content)
+        public static T Parse<T>(string content)
         {
             StringReader strReader = new StringReader(content);
             var result = deserializer.Deserialize<T>(strReader);
