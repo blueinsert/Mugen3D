@@ -13,6 +13,7 @@ namespace Mugen3D.Core
         {
             var define = new NameFuncPair[] {
                 new NameFuncPair("CreateHelper", CreateHelper),
+                new NameFuncPair("DestroySelf", DestroySelf),
                 new NameFuncPair("ChangeState", ChangeState),
                 new NameFuncPair("ChangeAnim", ChangeAnim),
                 new NameFuncPair("ChangeFacing", ChangeFacing),
@@ -22,6 +23,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("PhysicsSet", PhysicsSet),
                 new NameFuncPair("MoveTypeSet", MoveTypeSet),
                 new NameFuncPair("VelSet", VelSet),
+                new NameFuncPair("VelAdd", VelAdd),
                 new NameFuncPair("CtrlSet", CtrlSet),
                 new NameFuncPair("PosSet", PosSet),
                 new NameFuncPair("Pause", Pause),
@@ -39,6 +41,17 @@ namespace Mugen3D.Core
                 var c = u as Character;
                 var helperName = lua.L_CheckString(2);
                 c.CreateHelper(helperName);
+            }
+            return 0;
+        }
+
+        public static int DestroySelf(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Helper)
+            {
+                u.Destroy();
             }
             return 0;
         }
@@ -168,6 +181,16 @@ namespace Mugen3D.Core
             double velX = lua.L_CheckNumber(2);
             double velY = lua.L_CheckNumber(3);
             c.moveCtr.VelSet(velX.ToNumber(), velY.ToNumber());
+            return 0;
+        }
+
+        public static int VelAdd(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            double velX = lua.L_CheckNumber(2);
+            double velY = lua.L_CheckNumber(3);
+            c.moveCtr.VelAdd(velX.ToNumber(), velY.ToNumber());
             return 0;
         }
 

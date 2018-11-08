@@ -36,7 +36,9 @@ namespace Mugen3D.Core
                 new NameFuncPair("HitPauseTime", HitPauseTime),
                 new NameFuncPair("FrontEdgeDist", FrontEdgeDist),
                 new NameFuncPair("BackEdgeDist", BackEdgeDist),
-                new NameFuncPair("ParentPos", GetParentPos),
+                new NameFuncPair("MoveContact", MoveContact),
+                new NameFuncPair("MoveGuarded", MoveGuarded),
+                new NameFuncPair("MoveHit", MoveHit),
             };
             lua.L_NewLib(define);
             return 1;
@@ -281,21 +283,6 @@ namespace Mugen3D.Core
             return 2;
         }
 
-        public static int GetParentPos(ILuaState lua)
-        {
-            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            Unit c = (Unit)lua.ToUserData(1);
-            if (c is Helper)
-            {
-                var h = c as Helper;
-                var pos = h.owner.position;
-                lua.PushNumber(pos.x.AsFloat());
-                lua.PushNumber(pos.y.AsFloat());
-                return 2;
-            } 
-            return 0;
-        }
-
         public static int P2Dist(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
@@ -381,5 +368,49 @@ namespace Mugen3D.Core
             return 1;
         }
 
+        public static int MoveContact(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            bool res = false;
+            if (c.GetHitDefData() == null)
+                res = false;
+            else
+            {
+                res = c.GetHitDefData().moveContact;
+            }
+            lua.PushBoolean(res);
+            return 1;
+        }
+
+        public static int MoveGuarded(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            bool res = false;
+            if (c.GetHitDefData() == null)
+                res = false;
+            else
+            {
+                res = c.GetHitDefData().moveGuarded;
+            }
+            lua.PushBoolean(res);
+            return 1;
+        }
+
+        public static int MoveHit(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            bool res = false;
+            if (c.GetHitDefData() == null)
+                res = false;
+            else
+            {
+                res = c.GetHitDefData().moveHit;
+            }
+            lua.PushBoolean(res);
+            return 1;
+        }
     }
 }

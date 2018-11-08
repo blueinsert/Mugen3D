@@ -24,6 +24,7 @@ local DefaultHitDef = {
 
 local controllers = {
     {name = "CreateHelper", func = controller.CreateHelper},
+    {name = "DestroySelf",  func = controller.DestroySelf},
 	{name = "ChangeAnim",   func = controller.ChangeAnim},
 	{name = "ChangeFacing", func = controller.ChangeFacing},
 	{name = "ChangeState",  func = controller.ChangeState},
@@ -40,6 +41,7 @@ local controllers = {
 	{name = "MoveTypeSet",  func = controller.MoveTypeSet},
 	{name = "PhysicsSet",   func = controller.PhysicsSet},
 	{name = "VelSet",       func = controller.VelSet},
+	{name = "VelAdd",       func = controller.VelAdd},
 	{name = "Pause",        func = controller.Pause},
 	{name = "PosSet",       func = controller.PosSet},
 }
@@ -78,6 +80,9 @@ local triggers = {
         local x,y = trigger.ParentPos(...)
 		return {x = x, y = y}
 	end},
+	{name = "MoveContact", func = trigger.MoveContact},
+	{name = "MoveGuarded", func = trigger.MoveGuarded},
+	{name = "MoveHit",     func = trigger.MoveHit},
 }
 
 local function setCommonENVVars(env)
@@ -100,10 +105,7 @@ local function createENV(csObjUnit)
 	for _, trigger in pairs(triggers) do
 		env[trigger.name] = warp(trigger.func)
 	end
-	print(trigger.Parent)
-	print(csObjUnit)
 	local parent = trigger.Parent(csObjUnit)
-	print(parent)
 	if parent then
 		env.parent = createENV(parent)
 	end
@@ -114,7 +116,7 @@ local function createFSM(scriptName, csObjUnit)
 	local fsm = require(scriptName)
 	local env = createENV(csObjUnit)
 	local res = {
-        update = function(stateNo)
+        update = function(stateNo, stateTime)
         	if fsm == nil then
 		        return
 	        end
@@ -123,13 +125,13 @@ local function createFSM(scriptName, csObjUnit)
 		            fsm[i].onUpdate(env)
 	            end
             end
+            if stateTime == 0 then
+            	if fsm[stateNo] and fsm[stateNo].onEnter then
+	            fsm[stateNo].onEnter(env)
+            end
+            end
 	        if fsm[stateNo] and fsm[stateNo].onUpdate then
 	            fsm[stateNo].onUpdate(env)
-            end
-        end,
-        changeState = function(stateNo)
-	        if fsm[stateNo] and fsm[stateNo].onEnter then
-	            fsm[stateNo].onEnter(env)
             end
         end
     }

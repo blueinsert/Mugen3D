@@ -1,3 +1,4 @@
+name: Sakula
 prefab: Chars/Sakula/Sakula
 action: Chars/Sakula/Sakula.act
 command: Chars/Sakula/Sakula.cmd

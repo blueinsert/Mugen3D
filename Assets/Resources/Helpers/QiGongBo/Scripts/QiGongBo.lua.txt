@@ -4,29 +4,56 @@ local M = {}
 --move
 M[0] = {
 	onEnter = function(_ENV)  
-
-	end,
-	onUpdate = function(_ENV)	
-	  if StateTime() == 0 then
-	  	MoveTypeSet(Enums.MoveType.A)
+        MoveTypeSet(Enums.MoveType.A)
         PhysicsSet(Enums.PhysicsType.N)
         ChangeAnim(0)   
         local pos = parent.Pos()
         local facing = parent.Facing() 
         PosSet(pos.x + 1.1*facing, pos.y + 1.1)
         ChangeFacing(facing)
-	  end
-	  VelSet(2,0)
+        VelSet(2,0) 
+	end,
+	onUpdate = function(_ENV)	 
+	    if AnimElem() == 1 and AnimElemTime() == 0 then
+            HitDefSet({
+                hitFlag = Enums.HitFlag.HLAF,
+                guardFlag = Enums.GuardFlag.HL,
+                hitType = Enums.HitType.KnockBack,
+                knockBackType = Enums.KnockBackType.Low,
+                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitDamage = 10,
+                hitPauseTime = {11, 13},
+                hitSlideTime = 9,
+                groundVel = {-5, 0},
+                airVel = {-2, 2},
+
+                guardDamage = 1,
+                guardPauseTime = {11, 13},
+                guardSlideTime = 9,   
+                guardVel = {-4, 0},     
+            })      
+        end
+        if MoveContact() == true then
+        	ChangeState(6)
+        end 
+	    if StateTime() >= 50 then
+            ChangeState(6)
+	    end
 	end,
 }
 
 --destroy
 M[6] = {
 	onEnter = function(_ENV)
-	  --to do	
+	    MoveTypeSet(Enums.MoveType.I)
+        PhysicsSet(Enums.PhysicsType.N)
+        ChangeAnim(6)   
+        VelSet(0,0)
 	end,
-	onUpdate = function(_ENV)	
-	  --to do
+	onUpdate = function(_ENV)
+	    if LeftAnimTime() <= 0 then
+	    	DestroySelf()
+	    end
 	end,
 }
 

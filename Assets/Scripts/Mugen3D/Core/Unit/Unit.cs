@@ -60,6 +60,10 @@ namespace Mugen3D.Core
 
         public Number groundCornerPush;
         public Number airCornerPush;
+
+        public bool moveHit = false;
+        public bool moveGuarded = false;
+        public bool moveContact = false;
         
         public HitDef()
         {
@@ -72,14 +76,10 @@ namespace Mugen3D.Core
         public PhysicsType physicsType = PhysicsType.S;
         public bool pushTest = true;
         public bool ctrl = true;
-        public bool moveHit = false;
-        public bool moveGuard = false;
-        public bool moveContact { get { return moveHit || moveGuard; } }
         public int facing = 1;
         public int pauseTime;
         public HitDef hitDefData;
         public HitDef beHitDefData;
-
     }
 
     public class HitInfo
@@ -402,6 +402,7 @@ namespace Mugen3D.Core
 
         public virtual void PrintDebugInfo()
         {
+            Core.Debug.AddGUIDebugMsg(this.id, "name", this.config.name);
             Core.Debug.AddGUIDebugMsg(this.id, "pos", this.position.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "stateNo", this.fsmMgr.stateNo.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "stateTime", this.fsmMgr.stateTime.ToString());

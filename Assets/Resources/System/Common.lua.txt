@@ -458,6 +458,7 @@ M[5000] = {
 	    local physicsType = PhysicsType()
 		MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.N)
+		VelSet(0, 0)
 		CtrlSet(false)
 		local _nextState = -1
 		local anim = 5000

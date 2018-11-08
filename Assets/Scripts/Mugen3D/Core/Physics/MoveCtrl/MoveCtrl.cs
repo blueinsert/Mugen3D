@@ -85,7 +85,7 @@ namespace Mugen3D.Core
 
         public void VelAdd(Number deltaX, Number deltaY)
         {
-            this.m_velocity.x += deltaX;
+            this.m_velocity.x += deltaX * m_owner.GetFacing();
             this.m_velocity.y += deltaY;
         }
 

@@ -18,7 +18,8 @@ namespace Mugen3D.Core
         private List<Entity> entities = new List<Entity>();
         public List<Character> characters = new List<Character>();
         public TeamInfo teamInfo = new TeamInfo();
-        public System.Action<Entity> onCreateEntity;
+        public System.Action<Entity> onAddEntity;
+        public System.Action<Entity> onRemoveEntity;
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
 
@@ -42,25 +43,26 @@ namespace Mugen3D.Core
                 {
                     this.localPlayer = c;
                 }
-                characters.Add(c);
+                this.characters.Add(c);
             }
             e.SetEntityId(m_maxEntityId++);
-            e.SetWorld(this);
-            if (onCreateEntity != null)
-            {
-                onCreateEntity(e);
-            }
+            e.SetWorld(this);      
         }
 
         private void DoAddEntity(Entity e)
         {
+            if (onAddEntity != null)
+            {
+                onAddEntity(e);
+            }
             entities.Add(e);
         }
 
         private void DoRemoveEntity(Entity e)
-        {
+        {   
+            if (onRemoveEntity != null)
+                onRemoveEntity(e);
             entities.Remove(e);
-            //GameObject.Destroy(e.gameObject);
         }
 
         private void EntityUpdate()
@@ -85,16 +87,22 @@ namespace Mugen3D.Core
             m_destroyedEntities.Clear();
         }
 
-        private void HitResolve()
-        {
-            Dictionary<Character, Character> hitResults = new Dictionary<Character, Character>();
-            foreach (var attacker in characters)
+        private Dictionary<Unit, Unit> hitResults = new Dictionary<Unit, Unit>(10);
+        private void GetHitResults() {
+            hitResults.Clear();
+            foreach (var e1 in entities)
             {
-                foreach (var target in characters)
+                foreach (var e2 in entities)
                 {
-                    if (attacker == target)
+                    if (e1 == e2)
                         continue;
-                    if (attacker.GetMoveType() != MoveType.Attack || attacker.GetHitDefData() == null)
+                    if (!(e1 is Unit) || !(e2 is Unit))
+                        continue;
+                    var attacker = e1 as Unit;
+                    var target = e2 as Unit;
+                    if (attacker.GetMoveType() != MoveType.Attack || attacker.GetHitDefData() == null || attacker.GetHitDefData().moveContact == true)
+                        continue;
+                    if (attacker is Helper && (attacker as Helper).owner == target)
                         continue;
                     var clsns1 = attacker.animCtr.curActionFrame.clsns;
                     var clsns2 = target.animCtr.curActionFrame.clsns;
@@ -124,51 +132,49 @@ namespace Mugen3D.Core
                     }
                 }
             }
+        }
 
+        private void HitResolve()
+        {
+            GetHitResults();
             foreach (var hitResult in hitResults)
             {
                 var attacker = hitResult.Value;
                 var target = hitResult.Key;  
                 var hitDef = attacker.GetHitDefData();
                 if (target.CanBeHit(hitDef))
-                {   
+                {
+                    bool isBeGuarded = false;
                     if (target.CanBeGuard(hitDef) && (target.fsmMgr.stateNo >= 120 && target.fsmMgr.stateNo < 150))
                     {
-                        int stateNo = 150;
-                        if (target.GetPhysicsType() == PhysicsType.S)
-                        {
-                            stateNo = 150;
-                        }
-                        else
-                        {
-                            stateNo = 156;
-                        }
-                        if (!hitResults.ContainsKey(attacker))
-                            attacker.Pause(attacker.GetHitDefData().guardPauseTime[0]);
-                        attacker.SetHitDefData(null);
-                        //Corner push
-                        if (target.GetBackEdgeDist() < new Number(5) / new Number(10))
-                        {
-                            attacker.moveCtr.VelAdd(-Number.Abs(hitDef.guardVel.X())*hitDef.groundCornerPush, 0);
-                        }
-                        target.SetBeHitDefData(hitDef);
-                        target.fsmMgr.ChangeState(stateNo);
+                        isBeGuarded = true;
                     }
-                    else
+                    hitDef.moveContact = true;
+                    hitDef.moveGuarded = isBeGuarded;
+                    hitDef.moveHit = !isBeGuarded;
+                    //1 for attacker
+                    //Corner push
+                    if (target is Character && target.GetBackEdgeDist() < new Number(5) / new Number(10))
                     {
-                        if (!hitResults.ContainsKey(attacker))
-                            attacker.Pause(attacker.GetHitDefData().hitPauseTime[0]);
-                        attacker.SetHitDefData(null);
-                        //Corner push
-                        if (target.GetBackEdgeDist() < new Number(5) / new Number(10))
-                        {
-                            if(attacker.GetPhysicsType() == PhysicsType.A)
-                                attacker.moveCtr.VelAdd(-Number.Abs(hitDef.airVel.X()) * hitDef.airCornerPush, 0);
-                            else
-                                attacker.moveCtr.VelAdd(-Number.Abs(hitDef.groundVel.X()) * hitDef.groundCornerPush, 0);
-                        }
+                        Number velX = 0;
+                        if (isBeGuarded)
+                            velX = hitDef.guardVel.X();
+                        else if(target.GetPhysicsType() == PhysicsType.A)
+                            velX = hitDef.airVel.X();
+                        else
+                            velX = hitDef.groundVel.X();
+                        if (attacker.GetPhysicsType() == PhysicsType.A)
+                            attacker.moveCtr.VelAdd(-Number.Abs(velX) * hitDef.airCornerPush, 0);
+                        else
+                            attacker.moveCtr.VelAdd(-Number.Abs(velX) * hitDef.groundCornerPush, 0);
+                    }       
+                    if (!hitResults.ContainsKey(attacker))
+                        attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
+                    //2 for target
+                    if (target is Character)
+                    {
                         target.SetBeHitDefData(hitDef);
-                        target.fsmMgr.ChangeState(5000);
+                        target.fsmMgr.ChangeState(isBeGuarded ? (target.GetPhysicsType() == PhysicsType.S ? 150 : 156) : 5000);  
                     }   
                 } 
             }
@@ -176,32 +182,26 @@ namespace Mugen3D.Core
 
         void ProcessChangeState()
         {
-            foreach (var character in characters)
+            foreach (var e in entities)
             {
-                character.fsmMgr.ProcessChangeState();
+                if (e is Unit)
+                {
+                    var u = e as Unit;
+                    u.fsmMgr.ProcessChangeState();
+                }           
             }
         }
 
         void UpdateView()
         {
-            foreach (var character in characters)
+            foreach (var e in entities)
             {
-                character.SendEvent(new Event() { type = EventType.SampleAnim, data = null });
+                e.SendEvent(new Event() { type = EventType.SampleAnim, data = null });
             }
         }
 
         void PushTest() { 
 
-        }
-
-        public void Update()
-        {
-            Time.Update(deltaTime);
-            EntityUpdate();
-            HitResolve();
-            ProcessChangeState();
-            UpdateView();
-            Debug();
         }
 
         void Debug()
@@ -214,5 +214,16 @@ namespace Mugen3D.Core
                 }
             }
         }
+
+        public void Update()
+        {
+            Time.Update(deltaTime);
+            EntityUpdate();
+            HitResolve();
+            ProcessChangeState();
+            UpdateView();
+            Debug();
+        }
+        
     }
 }

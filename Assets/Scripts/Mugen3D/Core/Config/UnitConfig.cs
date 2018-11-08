@@ -88,7 +88,7 @@ namespace Mugen3D.Core
 
     public class EntityConfig
     {
-        //public Vector scale { get; set; }
+        public string name { get; set; }
     }
 
     public class UnitConfig : EntityConfig

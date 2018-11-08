@@ -16,11 +16,18 @@ namespace Mugen3D
         public ViewWorld(Core.World world)
         {
             this.world = world;
-            world.onCreateEntity += (e) => {
+            world.onAddEntity += (e) => {
                 var entityView = ViewCreater.CreateView(e, m_rootScene.transform.Find("Players"));
                 if (entityView != null)
                 {
                     this.m_entityViews.Add(e.id, entityView);
+                }
+            };
+            world.onRemoveEntity += (e) => { 
+                EntityView view;
+                if (m_entityViews.TryGetValue(e.id, out view))
+                {
+                    GameObject.Destroy(view.gameObject);
                 }
             };
         }

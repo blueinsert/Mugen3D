@@ -9,7 +9,7 @@ namespace Mugen3D.Core
     {
         private Unit m_owner;
         private int refUpdate;
-        private int refChangeState;
+
         private int m_stateNoToChange = -1;
 
         public int stateNo { get; private set; }
@@ -44,7 +44,6 @@ namespace Mugen3D.Core
                 throw new Exception("createFSM's return value is not a table");
             }
             refUpdate = StoreMethod(env, "update");
-            refChangeState = StoreMethod(env, "changeState");
         }
 
         public FsmManager(string fsmFile, Unit owner)
@@ -61,18 +60,6 @@ namespace Mugen3D.Core
             m_stateNoToChange = 0;
         }
 
-        void CallMethod(int refFunc)
-        {
-            var env = LuaMgr.Instance.Env;
-            env.RawGetI(LuaDef.LUA_REGISTRYINDEX, refFunc);
-            env.PushInteger(this.stateNo);
-            var status = env.PCall(1, 0, 0);
-            if (status != ThreadStatus.LUA_OK)
-            {
-                Debug.LogError(env.ToString(-1));
-            }
-        }
-
         public void ChangeState(int stateNo)
         {
             if (this.m_stateNoToChange == -1)
@@ -87,14 +74,24 @@ namespace Mugen3D.Core
             {
                 this.stateNo = this.m_stateNoToChange;
                 this.stateTime = 0;
-                CallMethod(this.refChangeState);
                 this.m_stateNoToChange = -1;
             }
         }
 
         public void Update()
         {
-            CallMethod(this.refUpdate);
+            //call lua method
+            {
+                var env = LuaMgr.Instance.Env;
+                env.RawGetI(LuaDef.LUA_REGISTRYINDEX, this.refUpdate);
+                env.PushInteger(this.stateNo);
+                env.PushInteger(this.stateTime);
+                var status = env.PCall(2, 0, 0);
+                if (status != ThreadStatus.LUA_OK)
+                {
+                    Debug.LogError(env.ToString(-1));
+                }
+            }
             this.stateTime++;
         }
 
@@ -108,45 +105,6 @@ namespace Mugen3D.Core
             return env.L_Ref(LuaDef.LUA_REGISTRYINDEX);
         }
 
-        /*
-        private void CallMethod(UniLua.ILuaState env, int funcRef)
-        {
-            env.RawGetI(LuaDef.LUA_REGISTRYINDEX, funcRef);
-
-            // insert `traceback' function
-            var b = env.GetTop();
-            env.PushCSharpFunction(Traceback);
-            env.Insert(b);
-
-            var status = env.PCall(0, 0, b);
-            if (status != ThreadStatus.LUA_OK)
-            {
-                Debug.LogError(env.ToString(-1));
-            }
-
-            // remove `traceback' function
-            env.Remove(b);
-        }
-
-        private static int Traceback(ILuaState lua)
-        {
-            var msg = lua.ToString(1);
-            if (msg != null)
-            {
-                lua.L_Traceback(lua, msg, 1);
-            }
-            // is there an error object?
-            else if (!lua.IsNoneOrNil(1))
-            {
-                // try its `tostring' metamethod
-                if (!lua.L_CallMeta(1, "__tostring"))
-                {
-                    lua.PushString("(no error message)");
-                }
-            }
-            return 1;
-        }
-        */
     }
 
 }
