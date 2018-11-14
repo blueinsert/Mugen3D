@@ -31,7 +31,7 @@ public class InspectorSpriteList : Editor {
     {
         var go = m_target.gameObject;
         var prefabGo = GetPrefabInstanceParent(go);
-        var prefabAsset = PrefabUtility.GetPrefabParent(prefabGo);
+        var prefabAsset = PrefabUtility.GetCorrespondingObjectFromSource(prefabGo);
         PrefabUtility.ReplacePrefab(prefabGo, prefabAsset, ReplacePrefabOptions.ConnectToPrefab);
         AssetDatabase.SaveAssets();
         Debug.Log("save "+prefabGo.name+" to " + prefabAsset.name);
