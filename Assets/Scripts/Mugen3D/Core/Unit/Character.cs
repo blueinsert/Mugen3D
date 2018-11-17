@@ -12,6 +12,8 @@ namespace Mugen3D.Core
         public bool isLocal { get; private set; }
         public CmdManager cmdMgr { get; protected set; }
         private int input;
+        private int m_aiLevel = 0;
+        public int AILevel {get {return m_aiLevel;}}
 
         public Character(string characterName, CharacterConfig config, int slot, bool isLocal) : base(config)
         {
@@ -39,6 +41,10 @@ namespace Mugen3D.Core
             this.world.AddEntity(helper);
         }
 
+        public void SetAILevel(int aiLevel) {
+            this.m_aiLevel = aiLevel;
+        }
+ 
         public override void PrintDebugInfo()
         {
             base.PrintDebugInfo();

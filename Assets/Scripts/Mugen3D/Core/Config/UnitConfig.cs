@@ -92,7 +92,7 @@ namespace Mugen3D.Core
     }
 
     public class UnitConfig : EntityConfig
-    {   
+    {
         public string prefab { get; set; }
         public string action { get; set; }
         public string fsm { get; set; }
@@ -106,12 +106,15 @@ namespace Mugen3D.Core
         public void SetActions(Action[] actions)
         {
             this.actions = actions;
-        }   
+        }
     }
 
     public class HelperConfig : UnitConfig
     {
 
+    }
+
+    public class ProjectileConfig : HelperConfig {
     }
 
     public class CharacterConfig: UnitConfig

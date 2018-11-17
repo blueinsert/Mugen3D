@@ -64,7 +64,11 @@ namespace Mugen3D.Core
         public bool moveHit = false;
         public bool moveGuarded = false;
         public bool moveContact = false;
-        
+
+        public int p1StateNo;
+        public int p2StateNo;
+        public Unit target;
+
         public HitDef()
         {
         }
