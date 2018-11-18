@@ -134,6 +134,11 @@ command = /c
 time = 1
 
 [Command]
+name = "throw"
+command = a + x
+time = 1
+
+[Command]
 name = "UF"
 command = U + F
 time = 1

@@ -461,6 +461,8 @@ ModelImporter:
     7400096: Throw1
     7400098: Throw1_Empty
     7400100: BeThrow1
+    7400102: BeThrow1_0
+    7400104: BeThrow1_1
     9500000: //RootNode
     11100000: //RootNode
     13700000: Body

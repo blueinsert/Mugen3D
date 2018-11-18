@@ -497,4 +497,63 @@ M[660] = {
     end,
 }
 
+--throw
+M[800] = {
+    onEnter = function(_ENV)
+       ChangeAnim(800)
+       PhysicsSet(Enums.PhysicsType.S)
+       CtrlSet(false)
+       MoveTypeSet(Enums.MoveType.A)
+    end,
+    onUpdate = function(_ENV)
+        if LeftAnimTime() <= 0 then
+            ChangeState(0)
+        end
+    end
+}
+
+--throw success
+M[801] = {
+    onEnter = function(_ENV)
+        ChangeAnim(801)
+        PhysicsSet(Enums.PhysicsType.S)
+        CtrlSet(false)
+        MoveTypeSet(Enums.MoveType.A)
+    end,
+    onUpdate = function(_ENV)
+        if LeftAnimTime() <= 0 then
+            ChangeState(0)
+        end
+    end
+}
+
+--be throwed 1
+M[802] = {
+    onEnter = function(_ENV)
+        MoveTypeSet(Enums.MoveType.H)
+        PhysicsSet(Enums.PhysicsType.N)
+        ChangeAnim(802)
+    end,
+    onUpdate = function(_ENV)
+        if LeftAnimTime() <= 0 then
+            ChangeState(803)
+        end
+    end
+}
+
+--be throwed 2
+M[803] = {
+    onEnter = function(_ENV)
+        MoveTypeSet(Enums.MoveType.H)
+        PhysicsSet(Enums.PhysicsType.A)
+        ChangeAnim(803)
+        VelSet(-4, 2)
+    end,
+    onUpdate = function(_ENV)
+        if JustOnGround() then
+            ChangeState(5100)
+        end
+    end
+}
+
 return M

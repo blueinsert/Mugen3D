@@ -42,6 +42,9 @@ M[-2] = {
         if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("26A") or CommandTest("26B")) then
         	ChangeState(1000)
         end
+        if PhysicsType() == Enums.PhysicsType.S and Ctrl() and CommandTest("throw") then
+            ChangeState(800)
+        end
         if (StateNo() == 0 or StateNo() == 20) and CommandTest("a") and math.abs(P2Dist().x) > 0.8 then
             ChangeState(200)
         end
@@ -87,6 +90,7 @@ M[-2] = {
         if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("y") then
             ChangeState(660)
         end
+
     end
 }
 

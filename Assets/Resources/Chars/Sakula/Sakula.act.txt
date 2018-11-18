@@ -2108,6 +2108,152 @@ actions:
       x2: 0.25
       y2: 1.67
   loopStartIndex: 8
+- animNo: 800
+  animName: Throw1_Empty
+  animLength: 28
+  frames:
+  - normalizeTime: 0.4
+    duration: 7
+    clsns: []
+  - normalizeTime: 0.5
+    duration: 7
+    clsns: []
+  - normalizeTime: 0.6
+    duration: 7
+    clsns: []
+  - normalizeTime: 0.699
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.899
+    duration: 1
+    clsns: []
+  loopStartIndex: 5
+- animNo: 801
+  animName: Throw1
+  animLength: 50
+  frames:
+  - duration: 3
+    clsns: []
+  - normalizeTime: 0.092
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.143
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.195
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.256
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.349
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.431
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.482
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.595
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.667
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.707
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.748
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.799
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.85
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.88
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.889
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.919
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.98
+    duration: 1
+    clsns: []
+  loopStartIndex: 17
+- animNo: 802
+  animName: BeThrow1_0
+  animLength: 41
+  frames:
+  - duration: 5
+    clsns: []
+  - normalizeTime: 0.041
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.092
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.246
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.359
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.461
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.615
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.697
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.768
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.829
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.9
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.971
+    duration: 3
+    clsns: []
+  - normalizeTime: 1
+    duration: 3
+    clsns: []
+  loopStartIndex: 12
+- animNo: 803
+  animName: BeThrow1_1
+  animLength: 14
+  frames:
+  - duration: 3
+    clsns: []
+  - normalizeTime: 0.431
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.574
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.8
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.943
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 2
+    clsns: []
+  loopStartIndex: 5
 - animNo: 1000
   animName: QiGongWave
   animLength: 14
