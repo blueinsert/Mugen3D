@@ -464,10 +464,10 @@ M[5000] = {
 		local anim = 5000
 		if GetHitVar("hitType") == Enums.HitType.KnockBack then
 			if physicsType == Enums.PhysicsType.S then
-				anim = 5000 + 10*GetHitVar("knockBackType") + GetHitVar("knockBackForceLevel")
+				anim = 5000 + 10*GetHitVar("groundType") + GetHitVar("forceLevel")
 				_nextState = 5010
 		    elseif physicsType == Enums.PhysicsType.C then
-		    	anim = 5020 + GetHitVar("knockBackForceLevel")
+		    	anim = 5020 + GetHitVar("forceLevel")
 		    	_nextState = 5020
 		    elseif physicsType == Enums.PhysicsType.A then
 		    	anim = 5040

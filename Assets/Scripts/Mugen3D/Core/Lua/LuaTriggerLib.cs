@@ -306,13 +306,13 @@ namespace Mugen3D.Core
                     var hitType = c.GetBeHitDefData().hitType;
                     lua.PushInteger(hitType); resNum = 1;
                     break;
-                case "knockBackType":
-                    var knockBackType = c.GetBeHitDefData().knockBackType;
-                    lua.PushInteger(knockBackType); resNum = 1;
+                case "forceLevel":
+                    var forceLevel = c.GetBeHitDefData().forceLevel;
+                    lua.PushInteger(forceLevel); resNum = 1;
                     break;
-                case "knockBackForceLevel":
-                    var level = c.GetBeHitDefData().knockBackForceLevel;
-                    lua.PushInteger(level); resNum = 1;
+                case "groundType":
+                    var groundType = c.GetBeHitDefData().groundType;
+                    lua.PushInteger(groundType); resNum = 1;
                     break;
                 case "knockAwayType":
                     var knockAwayType = c.GetBeHitDefData().knockAwayType;

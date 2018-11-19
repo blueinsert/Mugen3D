@@ -44,19 +44,28 @@ namespace Mugen3D.Core
             D = 1 << 4,
         }
 
-        public Unit owner;
+        public enum GroundType
+        {
+            High,
+            Low,
+        }
 
+        public Unit owner;
+        public Unit target;
         public int hitFlag;
         public int guardFlag;
 
         public int hitType;
+        //params for attack, knock back
         public int forceLevel;
-
-        public int knockBackType;
-        public int knockBackForceLevel;
+        public int groundType;
+        //params for attack, knock away 
         public int knockAwayType;
-        public int hitDamage;
+        //params for throw
+        public int p1StateNo;
+        public int p2StateNo;
         
+        public int hitDamage; 
         public int[] hitPauseTime;
         public int hitSlideTime;
         public Number[] groundVel;
@@ -73,10 +82,6 @@ namespace Mugen3D.Core
         public bool moveHit = false;
         public bool moveGuarded = false;
         public bool moveContact = false;
-
-        public int p1StateNo;
-        public int p2StateNo;
-        public Unit target;
 
         public HitDef()
         {
@@ -341,27 +346,27 @@ namespace Mugen3D.Core
             if (noHitBy != null && noHitBy.Check(hitDef))
                 return false;
             int hitFlag = hitDef.hitFlag;
-            if ((hitFlag & (int)HitFlag.H) != 0)
+            if ((hitFlag & (int)HitDef.HitFlag.H) != 0)
             {
                 if (GetPhysicsType() == PhysicsType.S)
                     return true;
             }
-            if ((hitFlag & (int)HitFlag.L) != 0)
+            if ((hitFlag & (int)HitDef.HitFlag.L) != 0)
             {
                 if (GetPhysicsType() == PhysicsType.C)
                     return true;
             }
-            if ((hitFlag & (int)HitFlag.A) != 0)
+            if ((hitFlag & (int)HitDef.HitFlag.A) != 0)
             {
                 if (GetPhysicsType() == PhysicsType.A && (this.fsmMgr.stateNo != 5050))
                     return true;
             }
-            if ((hitFlag & (int)HitFlag.F) != 0)
+            if ((hitFlag & (int)HitDef.HitFlag.F) != 0)
             {
                 if (GetPhysicsType() == PhysicsType.A && (fsmMgr.stateNo == 5050))
                     return true;
             }
-            if ((hitFlag & (int)HitFlag.D) != 0)
+            if ((hitFlag & (int)HitDef.HitFlag.D) != 0)
             {
             }
             return false;
@@ -370,14 +375,14 @@ namespace Mugen3D.Core
         public bool CanBeGuard(HitDef hitDef)
         {
             int guardFlag = hitDef.guardFlag;
-            if ((guardFlag & (int)GuardFlag.H) != 0)
+            if ((guardFlag & (int)HitDef.GuardFlag.H) != 0)
             {
                 if (GetPhysicsType() == PhysicsType.S)
                 {
                     return true;
                 }
             }
-            if ((guardFlag & (int)GuardFlag.L) != 0)
+            if ((guardFlag & (int)HitDef.GuardFlag.L) != 0)
             {
                 if (GetPhysicsType() == PhysicsType.C)
                 {

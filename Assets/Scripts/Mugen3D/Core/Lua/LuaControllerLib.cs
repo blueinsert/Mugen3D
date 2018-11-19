@@ -89,10 +89,13 @@ namespace Mugen3D.Core
             using(var t = new LuaTable(lua)){
                 hitDef.hitFlag = t.GetInt("hitFlag");
                 hitDef.guardFlag = t.GetInt("guardFlag");
+
                 hitDef.hitType = t.GetInt("hitType");
-                hitDef.knockBackType = t.GetInt("knockBackType");
-                hitDef.knockBackForceLevel = t.GetInt("knockBackForceLevel");
+                hitDef.forceLevel = t.GetInt("forceLevel");
+                hitDef.groundType = t.GetInt("groundType");
                 hitDef.knockAwayType = t.GetInt("knockAwayType");
+                hitDef.p1StateNo = t.GetInt("p1StateNo", 0);
+                hitDef.p2StateNo = t.GetInt("p2StateNo", 0);
 
                 hitDef.hitDamage = t.GetInt("hitDamage");
                 hitDef.hitPauseTime = t.GetIntArray("hitPauseTime", 2);
@@ -106,10 +109,7 @@ namespace Mugen3D.Core
                 hitDef.guardVel = t.GetNumberArray("guardVel", 2);
 
                 hitDef.groundCornerPush = t.GetNumber("groundCornerPush", 1);
-                hitDef.airCornerPush = t.GetNumber("airCornerPush", 1);
-
-                hitDef.p1StateNo = t.GetInt("p1StateNo", 0);
-                hitDef.p2StateNo = t.GetInt("p2StateNo", 0);
+                hitDef.airCornerPush = t.GetNumber("airCornerPush", 1);  
             }   
             return hitDef;
         }

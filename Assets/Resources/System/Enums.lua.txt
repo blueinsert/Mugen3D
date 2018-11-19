@@ -1,18 +1,20 @@
-local MoveType = {
+local M = {}
+
+M.MoveType = {
 	["A"] = 1,
 	["I"] = 2,
 	["D"] = 3,
 	["H"] = 4, 
 }
 
-local PhysicsType = {
+M.PhysicsType = {
 	["N"] = -1,
 	["S"] = 1,
 	["C"] = 2,
 	["A"] = 3,
 }
 
-local HitFlag = {
+M.HitFlag = {
 	["H"] = 1,
 	["L"] = 2,
 	["A"] = 4,
@@ -21,40 +23,30 @@ local HitFlag = {
 	["HLAF"] = 15,
 }
 
-local GuardFlag = {
+M.GuardFlag = {
 	["H"] = 1,
 	["L"] = 2, 
 	["HL"] = 3,
 }
 
-local HitType = {
+M.HitType = {
 	["Attack"] = 1,
 	["Throw"] = 2,
 }
 
-local KnockAwayType = {
-    ["Type1"] = 0,
-	["Trip"] = 1,
-}
-
-local KnockBackType = {
-	["High"] = 0,
-	["Low"] = 1,
-}
-
-local KnockBackForceLevel = {
+M.ForceLevel = {
 	["Light"] = 0,
 	["Medium"] = 1,
 	["Heavy"] = 2,
 }
 
-return {
-    MoveType = MoveType, 
-    PhysicsType = PhysicsType,
-    HitType = HitType,
-    KnockBackType = KnockBackType,
-    KnockBackForceLevel = KnockBackForceLevel,
-    KnockAwayType = KnockAwayType,
-    HitFlag = HitFlag,
-    GuardFlag = GuardFlag,
+M.GroundType = {
+	["High"] = 1,
+	["Low"] = 2,
 }
+
+M.KnockAwayType = {
+    ["Type1"] = 0,
+}
+
+return M
