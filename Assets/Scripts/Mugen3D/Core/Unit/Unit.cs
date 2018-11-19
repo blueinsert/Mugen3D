@@ -23,25 +23,34 @@ namespace Mugen3D.Core
         A,
     }
 
-    public enum GuardFlag { 
-        H = 1 << 0,
-        L = 1 << 1,
-    }
-
-    public enum HitFlag
-    {
-        H = 1 << 0,
-        L = 1 << 1,
-        A = 1 << 2,
-        F = 1 << 3,
-        D = 1 << 4,
-    }
-
     public class HitDef
     {
+        public enum HitType
+        {
+            Attack = 1,
+            Throw,
+        }
+        public enum GuardFlag
+        {
+            H = 1 << 0,
+            L = 1 << 1,
+        }
+        public enum HitFlag
+        {
+            H = 1 << 0,
+            L = 1 << 1,
+            A = 1 << 2,
+            F = 1 << 3,
+            D = 1 << 4,
+        }
+
+        public Unit owner;
+
         public int hitFlag;
         public int guardFlag;
+
         public int hitType;
+        public int forceLevel;
 
         public int knockBackType;
         public int knockBackForceLevel;
@@ -265,6 +274,7 @@ namespace Mugen3D.Core
         public void SetHitDefData(HitDef hitDef)
         {
             this.status.hitDefData = hitDef;
+            this.status.hitDefData.owner = this;
         }
 
         public HitDef GetHitDefData()
@@ -375,6 +385,22 @@ namespace Mugen3D.Core
                 }
             }
             return false;
+        }
+
+        public virtual bool IsGuarding() {
+            return false;
+        }
+
+        public virtual void OnBeHitted(HitDef hitDef) { 
+        }
+
+        public virtual void OnGuardHit(HitDef hitDef) { 
+        }
+
+        public virtual void OnMoveHit(Unit target) { 
+        }
+
+        public virtual void OnMoveGuarded(Unit target) {
         }
 
         private int m_maxHP = 100;

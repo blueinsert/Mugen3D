@@ -107,6 +107,9 @@ namespace Mugen3D.Core
 
                 hitDef.groundCornerPush = t.GetNumber("groundCornerPush", 1);
                 hitDef.airCornerPush = t.GetNumber("airCornerPush", 1);
+
+                hitDef.p1StateNo = t.GetInt("p1StateNo", 0);
+                hitDef.p2StateNo = t.GetInt("p2StateNo", 0);
             }   
             return hitDef;
         }

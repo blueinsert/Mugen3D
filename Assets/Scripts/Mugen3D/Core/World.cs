@@ -145,37 +145,22 @@ namespace Mugen3D.Core
                 if (target.CanBeHit(hitDef))
                 {
                     bool isBeGuarded = false;
-                    if (target.CanBeGuard(hitDef) && (target.fsmMgr.stateNo >= 120 && target.fsmMgr.stateNo < 150))
+                    if (target.CanBeGuard(hitDef) && (target.IsGuarding()))
                     {
                         isBeGuarded = true;
                     }
-                    hitDef.moveContact = true;
-                    hitDef.moveGuarded = isBeGuarded;
-                    hitDef.moveHit = !isBeGuarded;
-                    //1 for attacker
-                    //Corner push
-                    if (target is Character && target.GetBackEdgeDist() < new Number(5) / new Number(10))
+                    if (isBeGuarded)
                     {
-                        Number velX = 0;
-                        if (isBeGuarded)
-                            velX = hitDef.guardVel.X();
-                        else if(target.GetPhysicsType() == PhysicsType.A)
-                            velX = hitDef.airVel.X();
-                        else
-                            velX = hitDef.groundVel.X();
-                        if (attacker.GetPhysicsType() == PhysicsType.A)
-                            attacker.moveCtr.VelAdd(-Number.Abs(velX) * hitDef.airCornerPush, 0);
-                        else
-                            attacker.moveCtr.VelAdd(-Number.Abs(velX) * hitDef.groundCornerPush, 0);
-                    }       
+                        attacker.OnMoveGuarded(target);
+                        target.OnGuardHit(hitDef);
+                    }
+                    else
+                    {
+                        attacker.OnMoveHit(target);
+                        target.OnBeHitted(hitDef);
+                    }         
                     if (!hitResults.ContainsKey(attacker))
-                        attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
-                    //2 for target
-                    if (target is Character)
-                    {
-                        target.SetBeHitDefData(hitDef);
-                        target.fsmMgr.ChangeState(isBeGuarded ? (target.GetPhysicsType() == PhysicsType.S ? 150 : 156) : 5000);  
-                    }   
+                        attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);  
                 } 
             }
         }

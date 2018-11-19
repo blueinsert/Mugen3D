@@ -48,5 +48,15 @@ namespace Mugen3D.Core
                 Destroy();
             }
         }
+
+        public override void OnMoveGuarded(Unit target)
+        {
+            Destroy();
+        }
+
+        public override void OnMoveHit(Unit target)
+        {
+            Destroy();
+        }
     }
 }

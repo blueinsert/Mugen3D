@@ -28,9 +28,8 @@ local GuardFlag = {
 }
 
 local HitType = {
-	["KnockBack"] = 1,
-	["KnockAway"] = 2,
-	["Throw"] = 3,
+	["Attack"] = 1,
+	["Throw"] = 2,
 }
 
 local KnockAwayType = {
