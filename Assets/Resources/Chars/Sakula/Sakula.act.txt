@@ -2114,22 +2114,67 @@ actions:
   frames:
   - normalizeTime: 0.4
     duration: 7
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.146
+      y1: 0.046
+      x2: 0.358
+      y2: 1.587
+    - type: 1
+      x1: 0.089
+      y1: 1.105
+      x2: 0.723
+      y2: 1.428
+    - type: 2
+      x1: -0.571
+      y1: -0.04
+      x2: 1.1
+      y2: 1.583
   - normalizeTime: 0.5
     duration: 7
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.146
+      y1: 0.046
+      x2: 0.358
+      y2: 1.587
+    - type: 1
+      x1: 0.089
+      y1: 1.105
+      x2: 0.723
+      y2: 1.428
   - normalizeTime: 0.6
     duration: 7
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.146
+      y1: 0.046
+      x2: 0.358
+      y2: 1.587
   - normalizeTime: 0.699
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.146
+      y1: 0.046
+      x2: 0.358
+      y2: 1.587
   - normalizeTime: 0.8
     duration: 3
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.146
+      y1: 0.046
+      x2: 0.358
+      y2: 1.587
   - normalizeTime: 0.899
     duration: 1
-    clsns: []
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: -0.013
+      x2: 0.244
+      y2: 1.496
   loopStartIndex: 5
 - animNo: 801
   animName: Throw1
@@ -3349,9 +3394,9 @@ actions:
   loopStartIndex: 4
 - animNo: 5030
   animName: BeHit_Air
-  animLength: 12
+  animLength: 19
   frames:
-  - duration: 2
+  - duration: 6
     clsns:
     - type: 1
       x1: -0.381
@@ -3383,7 +3428,7 @@ actions:
       x2: -0.027
       y2: 1.477
   - normalizeTime: 0.44
-    duration: 1
+    duration: 2
     clsns:
     - type: 1
       x1: -0.469
@@ -3391,7 +3436,7 @@ actions:
       x2: -0.027
       y2: 1.477
   - normalizeTime: 0.573
-    duration: 1
+    duration: 2
     clsns:
     - type: 1
       x1: -0.663
@@ -3399,7 +3444,7 @@ actions:
       x2: 0.137
       y2: 1.327
   - normalizeTime: 0.778
-    duration: 1
+    duration: 2
     clsns:
     - type: 1
       x1: -0.678
@@ -3579,6 +3624,17 @@ actions:
       x2: 0.32
       y2: 0.43
   loopStartIndex: 1
+- animNo: 5110
+  animName: LieDown_FaceUp
+  animLength: 1
+  frames:
+  - duration: 1
+    clsns:
+    - type: 1
+      x1: -0.749
+      y1: -0.003
+      x2: 0.358
+      y2: 0.317
 - animNo: 5120
   animName: GetUp_Face_Up
   animLength: 30
@@ -3663,3 +3719,67 @@ actions:
       x2: 0.16
       y2: 1.37
   loopStartIndex: 9
+- animNo: 5160
+  animName: HitGround_Bounce_Face_Up
+  animLength: 7
+  frames:
+  - duration: 2
+    clsns:
+    - type: 1
+      x1: -0.809
+      y1: 0.011
+      x2: 0.407
+      y2: 0.258
+  - normalizeTime: 0.39
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.809
+      y1: 0.011
+      x2: 0.362
+      y2: 0.31
+  - normalizeTime: 0.759
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.809
+      y1: 0.011
+      x2: 0.362
+      y2: 0.31
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.809
+      y1: 0.011
+      x2: 0.355
+      y2: 0.385
+  loopStartIndex: 3
+- animNo: 5170
+  animName: HitGround_Again_Face_Up
+  animLength: 7
+  frames:
+  - duration: 1
+    clsns:
+    - type: 1
+      x1: -0.693
+      y1: 0.03
+      x2: 0.411
+      y2: 0.486
+  - normalizeTime: 0.496
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.693
+      y1: 0.03
+      x2: 0.411
+      y2: 0.486
+  - normalizeTime: 1
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.693
+      y1: 0.03
+      x2: 0.403
+      y2: 0.284
+  loopStartIndex: 2

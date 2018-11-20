@@ -100,8 +100,8 @@ local function createFSM(scriptName, csObjUnit)
             end
             if stateTime == 0 then
             	if fsm[stateNo] and fsm[stateNo].onEnter then
-	            fsm[stateNo].onEnter(env)
-            end
+	                fsm[stateNo].onEnter(env)
+                end
             end
 	        if fsm[stateNo] and fsm[stateNo].onUpdate then
 	            fsm[stateNo].onUpdate(env)

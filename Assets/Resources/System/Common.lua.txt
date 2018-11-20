@@ -634,8 +634,23 @@ M[5100] = {
 		VelSet(0,0)
 	end,
 	onUpdate = function(_ENV)
-		if LeftAnimTime() <= 0 and StateTime() > 30 then
-			ChangeState(5120)
+		if LeftAnimTime() <= 0 then
+			ChangeState(5160)
+		end
+	end
+}
+
+--lie down
+M[5110] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.C)
+		ChangeAnim(5110)
+		VelSet(0,0)
+	end,
+	onUpdate = function(_ENV)
+		if StateTime() > 20 then
+			ChangeState(5120) --get up
 		end
 	end
 }
@@ -652,6 +667,36 @@ M[5120] = {
 	    	ChangeState(0)
 	    end
     end
+}
+
+--ground bounce
+M[5160] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.A)
+		ChangeAnim(5160)
+		VelSet(0, 2)
+	end,
+	onUpdate = function(_ENV)
+		if JustOnGround() then
+			ChangeState(5170)
+		end
+	end
+}
+
+--hit ground again
+M[5170] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.H)
+		PhysicsSet(Enums.PhysicsType.C)
+		ChangeAnim(5170)
+		VelSet(0,0)
+	end,
+	onUpdate = function(_ENV)
+		if LeftAnimTime() <= 0 then
+			ChangeState(5110)
+		end
+	end
 }
 
 return M

@@ -90,6 +90,7 @@ namespace Mugen3D.Core
                 if (status != ThreadStatus.LUA_OK)
                 {
                     Debug.LogError(env.ToString(-1));
+                    Debug.LogError("update State No:" + this.stateNo + " stateTime:" + this.stateTime + " error");
                 }
             }
             this.stateTime++;

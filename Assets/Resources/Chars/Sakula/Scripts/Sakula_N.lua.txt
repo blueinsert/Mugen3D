@@ -526,6 +526,17 @@ M[800] = {
         if LeftAnimTime() <= 0 then
             ChangeState(0)
         end
+        if AnimElem() == 0 and AnimElemTime() == 0 then
+            ----[[
+            HitDefSet({
+                hitFlag = Enums.HitFlag.HL,
+                guardFlag = Enums.GuardFlag.HL,
+                hitType = Enums.HitType.Throw,
+                p1StateNo = 801,
+                p2StateNo = 802,   
+            })  
+            ----]]   
+        end 
     end
 }
 

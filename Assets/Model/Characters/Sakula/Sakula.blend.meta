@@ -466,6 +466,9 @@ ModelImporter:
     7400106: AirFalling
     7400108: BeHit_Air
     7400110: KnockAway1_0
+    7400112: HitGround_Again_Face_Up
+    7400114: HitGround_Bounce_Face_Up
+    7400116: LieDown_FaceUp
     9500000: //RootNode
     11100000: //RootNode
     13700000: Body

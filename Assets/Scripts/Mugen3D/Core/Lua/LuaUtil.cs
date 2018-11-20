@@ -45,35 +45,44 @@ namespace Mugen3D.Core
 
         public Number[] GetNumberArray(string key, int arrayLength)
         {
-            m_lua.GetField(-1, key);
-            if (!m_lua.IsTable(-1))
-                throw new Exception("GetNumberArray: is not table");
             Number[] res = new Number[arrayLength];
-            for (int i = 1; i <= arrayLength; i++)
+            m_lua.GetField(-1, key);
+            if (!m_lua.IsTable(-1) || m_lua.IsNoneOrNil(-1))
             {
-                m_lua.PushInteger(i);
-                m_lua.GetTable(-2);
-                var value = m_lua.ToNumber(-1);
-                m_lua.Pop(1);
-                res[i-1] = value.ToNumber();
+                Debug.LogWarn(key + "is null");
             }
+            else {
+                for (int i = 1; i <= arrayLength; i++)
+                {
+                    m_lua.PushInteger(i);
+                    m_lua.GetTable(-2);
+                    var value = m_lua.ToNumber(-1);
+                    m_lua.Pop(1);
+                    res[i - 1] = value.ToNumber();
+                }
+            } 
             m_lua.Pop(1);
             return res;
         }
 
         public int[] GetIntArray(string key, int arrayLength)
         {
-            m_lua.GetField(-1, key);
-            if (!m_lua.IsTable(-1))
-                throw new Exception("GetIntArray: is not table");
             int[] res = new int[arrayLength];
-            for (int i = 1; i <= arrayLength; i++)
+            m_lua.GetField(-1, key);
+            if (!m_lua.IsTable(-1) || m_lua.IsNoneOrNil(-1))
             {
-                m_lua.PushInteger(i);
-                m_lua.GetTable(-2);
-                var value = m_lua.ToInteger(-1);
-                m_lua.Pop(1);
-                res[i - 1] = value;
+                Debug.LogWarn(key + "is null");
+            }
+            else
+            {
+                for (int i = 1; i <= arrayLength; i++)
+                {
+                    m_lua.PushInteger(i);
+                    m_lua.GetTable(-2);
+                    var value = m_lua.ToInteger(-1);
+                    m_lua.Pop(1);
+                    res[i - 1] = value;
+                }
             }
             m_lua.Pop(1);
             return res;
