@@ -1,26 +1,6 @@
 local controller = require "controller.cs"
 local trigger = require "trigger.cs"
 
-local DefaultHitDef = {
-	guardFlag = 0,
-    hitType = 0,
-    knockBackType = 0,
-    knockBackForceLevel = 0,
-
-    hitDamage = 10,
-    hitPauseTime = {11, 13},
-    hitSlideTime = 9,
-    groundVel = {-5, 0},
-    airVel = {-2, 2},
-
-    guardDamage = 1,
-    guardPauseTime = {11, 13},
-    guardSlideTime = 9,  
-    guardVel = {-4, 0},
-
-    groundCornerPush = 1,
-    airCornerPush = 0.5,
-}
 
 local controllers = {
     {name = "CreateHelper", func = controller.CreateHelper},
@@ -29,14 +9,7 @@ local controllers = {
 	{name = "ChangeFacing", func = controller.ChangeFacing},
 	{name = "ChangeState",  func = controller.ChangeState},
 	{name = "CtrlSet",      func = controller.CtrlSet},
-	{name = "HitDefSet",    func = function(unit, hitDef)
-	    for k, v in pairs(DefaultHitDef) do
-	    	if hitDef[k] == nil then
-	    		hitDef[k] = v
-	    	end
-	    end
-		controller.HitDefSet(unit, hitDef)
-	end},
+	{name = "HitDefSet",    func = controller.HitDefSet},
 	{name = "HitBy",        func = controller.HitBy},
 	{name = "MoveTypeSet",  func = controller.MoveTypeSet},
 	{name = "PhysicsSet",   func = controller.PhysicsSet},

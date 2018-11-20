@@ -27,7 +27,7 @@ namespace Mugen3D.Core
     {
         public enum HitType
         {
-            Attack = 1,
+            Attack = 0,
             Throw,
         }
         public enum GuardFlag
@@ -46,7 +46,7 @@ namespace Mugen3D.Core
 
         public enum GroundType
         {
-            High,
+            High = 0,
             Low,
         }
 
@@ -60,10 +60,7 @@ namespace Mugen3D.Core
         public int forceLevel;
         public int groundType;
         //params for attack, knock away 
-        public int knockAwayType;
-        //params for throw
-        public int p1StateNo;
-        public int p2StateNo;
+        public int knockAwayType = -1;
         
         public int hitDamage; 
         public int[] hitPauseTime;
@@ -78,6 +75,10 @@ namespace Mugen3D.Core
 
         public Number groundCornerPush;
         public Number airCornerPush;
+
+        //params for throw
+        public int p1StateNo;
+        public int p2StateNo;
 
         public bool moveHit = false;
         public bool moveGuarded = false;

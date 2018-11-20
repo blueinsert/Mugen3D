@@ -30,8 +30,8 @@ M.GuardFlag = {
 }
 
 M.HitType = {
-	["Attack"] = 1,
-	["Throw"] = 2,
+	["Attack"] = 0,
+	["Throw"] = 1,
 }
 
 M.ForceLevel = {
@@ -41,12 +41,13 @@ M.ForceLevel = {
 }
 
 M.GroundType = {
-	["High"] = 1,
-	["Low"] = 2,
+	["High"] = 0,
+	["Low"] = 1,
 }
 
 M.KnockAwayType = {
-    ["Type1"] = 0,
+    ["null"] = -1,
+    ["default"] = 0,
 }
 
 return M

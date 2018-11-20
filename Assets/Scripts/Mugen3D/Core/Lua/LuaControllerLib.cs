@@ -93,7 +93,7 @@ namespace Mugen3D.Core
                 hitDef.hitType = t.GetInt("hitType");
                 hitDef.forceLevel = t.GetInt("forceLevel");
                 hitDef.groundType = t.GetInt("groundType");
-                hitDef.knockAwayType = t.GetInt("knockAwayType");
+                hitDef.knockAwayType = t.GetInt("knockAwayType", -1);
                 hitDef.p1StateNo = t.GetInt("p1StateNo", 0);
                 hitDef.p2StateNo = t.GetInt("p2StateNo", 0);
 

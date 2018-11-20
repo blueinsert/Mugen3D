@@ -3347,124 +3347,186 @@ actions:
       x2: 0.29
       y2: 1.19
   loopStartIndex: 4
+- animNo: 5030
+  animName: BeHit_Air
+  animLength: 12
+  frames:
+  - duration: 2
+    clsns:
+    - type: 1
+      x1: -0.381
+      y1: 0.438
+      x2: 0.135
+      y2: 1.35
+  - normalizeTime: 0.154
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.381
+      y1: 0.438
+      x2: 0.135
+      y2: 1.35
+  - normalizeTime: 0.246
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.409
+      y1: 0.525
+      x2: -0.027
+      y2: 1.469
+  - normalizeTime: 0.297
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.446
+      y1: 0.555
+      x2: -0.027
+      y2: 1.477
+  - normalizeTime: 0.44
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.469
+      y1: 0.443
+      x2: -0.027
+      y2: 1.477
+  - normalizeTime: 0.573
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.663
+      y1: 0.593
+      x2: 0.137
+      y2: 1.327
+  - normalizeTime: 0.778
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.678
+      y1: 0.833
+      x2: 0.204
+      y2: 1.267
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.678
+      y1: 0.833
+      x2: 0.159
+      y2: 1.327
+  loopStartIndex: 7
 - animNo: 5040
   animName: AirRecover
-  animLength: 40
+  animLength: 32
   frames:
   - duration: 5
     clsns:
     - type: 1
-      x1: -0.48
-      y1: 0.31
-      x2: 0.02
-      y2: 1.49
-  - normalizeTime: 0.11
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.48
-      y1: 0.31
-      x2: 0.02
-      y2: 1.49
-  - normalizeTime: 0.19
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.48
-      y1: 0.31
-      x2: 0.02
-      y2: 1.49
-  - normalizeTime: 0.32
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.48
-      y1: 0.31
-      x2: 0.02
-      y2: 1.49
-  - normalizeTime: 0.54
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.31
-      y1: 0.59
-      x2: 0.06
-      y2: 1.51
-  - normalizeTime: 0.68
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.31
-      y1: 0.59
-      x2: 0.16
-      y2: 1.55
-  - normalizeTime: 0.86
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.35
-      y1: 0.36
-      x2: 0.27
-      y2: 1.56
-  - normalizeTime: 1
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.17
-      y1: 0.22
-      x2: 0.27
-      y2: 1.56
-  loopStartIndex: 7
-- animNo: 5050
-  animName: KnockAway1
-  animLength: 29
-  frames:
-  - duration: 5
-    clsns:
-    - type: 1
-      x1: -0.42
-      y1: 0.02
-      x2: 0.11
-      y2: 1.53
-  - normalizeTime: 0.19
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.42
-      y1: 0.02
-      x2: 0.11
-      y2: 1.53
-  - normalizeTime: 0.31
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.42
-      y1: 0.02
-      x2: 0.11
-      y2: 1.53
-  - normalizeTime: 0.48
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.54
-      y1: 0.73
-      y2: 1.37
-  - normalizeTime: 0.66
-    duration: 5
-    clsns:
-    - type: 1
-      x1: -0.66
-      y1: 0.87
-      y2: 1.37
-  - normalizeTime: 0.77
+      x1: -0.409
+      y1: 0.84
+      x2: 0.459
+      y2: 1.319
+  - normalizeTime: 0.195
     duration: 3
+    clsns:
+    - type: 1
+      x1: -0.409
+      y1: 0.84
+      x2: 0.459
+      y2: 1.319
+  - normalizeTime: 0.338
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.409
+      y1: 0.84
+      x2: 0.257
+      y2: 1.364
+  - normalizeTime: 0.43
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.259
+      y1: 0.765
+      x2: 0.257
+      y2: 1.364
+  - normalizeTime: 0.522
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.259
+      y1: 0.765
+      x2: 0.257
+      y2: 1.364
+  - normalizeTime: 0.593
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.259
+      y1: 0.765
+      x2: 0.257
+      y2: 1.364
+  - normalizeTime: 0.706
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.259
+      y1: 0.765
+      x2: 0.257
+      y2: 1.364
+  - normalizeTime: 0.819
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.214
+      y1: 0.638
+      x2: 0.459
+      y2: 1.582
+  - normalizeTime: 0.921
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.214
+      y1: 0.638
+      x2: 0.459
+      y2: 1.582
+  - normalizeTime: 1
+    duration: 3
+    clsns:
+    - type: 1
+      x1: -0.214
+      y1: 0.638
+      x2: 0.317
+      y2: 1.634
+  loopStartIndex: 9
+- animNo: 5050
+  animName: AirFalling
+  animLength: 11
+  frames:
+  - duration: 3
     clsns:
     - type: 1
       x1: -0.66
       y1: 0.87
       x2: 0.17
       y2: 1.37
-  - normalizeTime: 1
+  - normalizeTime: 0.328
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.66
+      y1: 0.87
+      x2: 0.17
+      y2: 1.37
+  - normalizeTime: 0.471
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.66
+      y1: 0.87
+      x2: 0.17
+      y2: 1.37
+  - normalizeTime: 0.594
     duration: 1
     clsns:
     - type: 1
@@ -3472,6 +3534,30 @@ actions:
       y1: 0.87
       x2: 0.17
       y2: 1.37
+  - normalizeTime: 0.758
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.604
+      y1: 0.714
+      x2: -0.054
+      y2: 1.49
+  - normalizeTime: 0.871
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.604
+      y1: 0.714
+      x2: -0.054
+      y2: 1.49
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.672
+      y1: 0.709
+      x2: -0.064
+      y2: 1.579
   loopStartIndex: 6
 - animNo: 5100
   animName: HitGround_Face_Up

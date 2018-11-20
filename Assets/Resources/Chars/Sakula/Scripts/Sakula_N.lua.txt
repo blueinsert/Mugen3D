@@ -14,14 +14,14 @@ M[200] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.High,
+                forceLevel = Enums.ForceLevel.Light,
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
                 groundVel = {-5, 0},
-                --airVel = {-2, 2},
+                airVel = {-2, 2},
 
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
@@ -47,9 +47,9 @@ M[205] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -80,9 +80,9 @@ M[220] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -112,11 +112,12 @@ M[240] = {
     onUpdate = function(_ENV)
         if AnimElem() == 3 and AnimElemTime() == 0 then
             HitDefSet({
-                hitFlag = Enums.HitFlag.HLAF,
+               hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,
@@ -147,9 +148,10 @@ M[245] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,
@@ -180,9 +182,10 @@ M[260] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,
@@ -213,9 +216,10 @@ M[265] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,
@@ -244,11 +248,12 @@ M[400] = {
     onUpdate = function(_ENV)
         if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
-                hitFlag = Enums.HitFlag.HLAF,
+               hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -279,9 +284,10 @@ M[420] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -312,9 +318,10 @@ M[440] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,
@@ -345,8 +352,10 @@ M[460] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockAway,
-                knockAwayType = Enums.KnockAwayType.Type1,
+
+                hitType = Enums.HitType.Attack,
+                knockAwayType = Enums.KnockAwayType.default,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -377,9 +386,11 @@ M[600] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -410,9 +421,11 @@ M[620] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -443,9 +456,11 @@ M[640] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,
@@ -476,9 +491,11 @@ M[660] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.Low,
+                forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 16,

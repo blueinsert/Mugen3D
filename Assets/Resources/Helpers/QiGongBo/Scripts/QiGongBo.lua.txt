@@ -18,9 +18,11 @@ M[0] = {
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
-                hitType = Enums.HitType.KnockBack,
-                knockBackType = Enums.KnockBackType.Low,
-                knockBackForceLevel = Enums.KnockBackForceLevel.Light,
+
+                hitType = Enums.HitType.Attack,
+                groundType = Enums.GroundType.High,
+                forceLevel = Enums.ForceLevel.Light,
+                
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
