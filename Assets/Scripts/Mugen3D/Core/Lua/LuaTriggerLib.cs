@@ -268,7 +268,7 @@ namespace Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             var vel = c.moveCtr.velocity;
-            lua.PushNumber(vel.x.AsFloat());
+            lua.PushNumber(vel.x.AsFloat()*c.GetFacing());
             lua.PushNumber(vel.y.AsFloat());
             return 2;
         }

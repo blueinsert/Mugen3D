@@ -403,10 +403,20 @@ namespace Mugen3D.Core
         public virtual void OnGuardHit(HitDef hitDef) { 
         }
 
-        public virtual void OnMoveHit(Unit target) { 
+        public virtual void OnMoveHit(Unit target) {
+            var hitDef = GetHitDefData();
+            hitDef.moveContact = true;
+            hitDef.moveGuarded = false;
+            hitDef.moveHit = true;
+            hitDef.target = target;
         }
 
         public virtual void OnMoveGuarded(Unit target) {
+            var hitDef = GetHitDefData();
+            hitDef.moveContact = true;
+            hitDef.moveGuarded = true;
+            hitDef.moveHit = false;
+            hitDef.target = target;
         }
 
         private int m_maxHP = 100;

@@ -22,34 +22,24 @@ namespace Mugen3D
                 state.enabled = false;
             }
             this.m_unit = u;
-            this.m_animCtl = u.animCtr;  
+            this.m_animCtl = u.animCtr;
+            u.onEvent += (e) => {
+                if (e.type == Core.EventType.SampleAnim)
+                {
+                    SampleAnim();
+                }
+            };
         }
 
         void SampleAnim()
         {
             m_anim[m_animCtl.curAction.animName].enabled = true;
-            m_anim[m_animCtl.curAction.animName].normalizedTime = m_animCtl.curAction.frames[m_animCtl.animElem].normalizeTime.AsFloat();
+            m_anim[m_animCtl.curAction.animName].normalizedTime = m_animCtl.curActionFrame.normalizeTime.AsFloat();
             m_anim[m_animCtl.curAction.animName].weight = 1;
             m_anim.Sample();
             m_anim[m_animCtl.curAction.animName].enabled = false;
         }
-
-        public override void Update()
-        {
-            DebugDraw();
-            if (lastPosition != m_unit.position)
-            {
-                lastPosition = m_unit.position;
-                this.transform.position = new Vector3(lastPosition.x.AsFloat(), lastPosition.y.AsFloat(), 0);
-            }
-            if (!lastScale.Equals(m_unit.scale))
-            {
-                lastScale = new Vector(m_unit.scale.x, m_unit.scale.y, m_unit.scale.z);
-                this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.z.AsFloat());
-            }
-            SampleAnim();
-        }
-
+  
         private void DebugDraw()
         {
             var curAction = m_animCtl.curAction;
@@ -72,6 +62,21 @@ namespace Mugen3D
                     Log.DrawRect(rect.LeftUp.ToVector2(), rect.RightUp.ToVector2(), rect.RightDown.ToVector2(), rect.LeftDown.ToVector2(), c, UnityEngine.Time.deltaTime);
                 }
             }
+        }
+
+        public override void Update()
+        {
+            if (lastPosition != m_unit.position)
+            {
+                lastPosition = m_unit.position;
+                this.transform.position = new Vector3(lastPosition.x.AsFloat(), lastPosition.y.AsFloat(), lastPosition.z.AsFloat());
+            }
+            if (!lastScale.Equals(m_unit.scale))
+            {
+                lastScale = new Vector(m_unit.scale.x, m_unit.scale.y, m_unit.scale.z);
+                this.transform.localScale = new Vector3(lastScale.x.AsFloat(), lastScale.y.AsFloat(), lastScale.z.AsFloat());
+            }
+            DebugDraw();
         }
 
     }

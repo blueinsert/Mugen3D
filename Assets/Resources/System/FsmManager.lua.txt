@@ -17,6 +17,9 @@ local controllers = {
 	{name = "VelAdd",       func = controller.VelAdd},
 	{name = "Pause",        func = controller.Pause},
 	{name = "PosSet",       func = controller.PosSet},
+	{name = "PosAdd",       func = controller.PosAdd},
+	{name = "TargetBind",   func = controller.TargetBind},
+	{name = "BindToTarget", func = controller.BindToTarget},
 }
 
 local triggers = {
@@ -90,22 +93,23 @@ local function createFSM(scriptName, csObjUnit)
 	local env = createENV(csObjUnit)
 	local res = {
         update = function(stateNo, stateTime)
-        	if fsm == nil then
+            if fsm == nil then
 		        return
 	        end
-            for i = -3, -1 do
-    	        if fsm[i] and fsm[i].onUpdate then
-		            fsm[i].onUpdate(env)
-	            end
-            end
-            if stateTime == 0 then
+            if stateTime == -1 then --on enter state
             	if fsm[stateNo] and fsm[stateNo].onEnter then
 	                fsm[stateNo].onEnter(env)
                 end
-            end
-	        if fsm[stateNo] and fsm[stateNo].onUpdate then
-	            fsm[stateNo].onUpdate(env)
-            end
+            else
+                for i = -3, -1 do
+    	            if fsm[i] and fsm[i].onUpdate then
+		                fsm[i].onUpdate(env)
+	                end
+                end
+	            if fsm[stateNo] and fsm[stateNo].onUpdate then
+	                fsm[stateNo].onUpdate(env)
+                end
+            end        
         end
     }
     return res

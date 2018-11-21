@@ -26,7 +26,9 @@ namespace Mugen3D.Core
                 new NameFuncPair("VelAdd", VelAdd),
                 new NameFuncPair("CtrlSet", CtrlSet),
                 new NameFuncPair("PosSet", PosSet),
+                new NameFuncPair("PosAdd", PosAdd),
                 new NameFuncPair("Pause", Pause),
+                new NameFuncPair("TargetBind", TargetBind),
             };
             lua.L_NewLib(define);
             return 1;
@@ -203,7 +205,18 @@ namespace Mugen3D.Core
             Unit c = (Unit)lua.ToUserData(1);
             double x = lua.L_CheckNumber(2);
             double y = lua.L_CheckNumber(3);
-            c.moveCtr.PosSet(x.ToNumber(), y.ToNumber());
+            c.moveCtr.PosSet(x.ToNumber(), y.ToNumber(), 0);
+            return 0;
+        }
+
+        public static int PosAdd(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            double x = lua.L_CheckNumber(2);
+            double y = lua.L_CheckNumber(3);
+            double z = lua.L_CheckNumber(4);
+            c.moveCtr.PosAdd(x.ToNumber(), y.ToNumber(), z.ToNumber());
             return 0;
         }
 
@@ -222,6 +235,36 @@ namespace Mugen3D.Core
             Unit c = (Unit)lua.ToUserData(1);
             int duration = lua.L_CheckInteger(2);
             c.Pause(duration);
+            return 0;
+        }
+
+        public static int TargetBind(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            Unit target = c.GetHitDefData().target;
+            if (target != null)
+            {
+                double x = lua.L_CheckNumber(2);
+                double y = lua.L_CheckNumber(3);
+                double z = lua.L_CheckNumber(4);
+                target.moveCtr.PosSet(c.position.x + x.ToNumber()*c.GetFacing(), c.position.y + y.ToNumber(), c.position.z + z.ToNumber());
+            }
+            return 0;
+        }
+
+        public static int BindToTarget(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            Unit target = c.GetHitDefData().target;
+            if (target != null)
+            {
+                double x = lua.L_CheckNumber(2);
+                double y = lua.L_CheckNumber(3);
+                double z = lua.L_CheckNumber(4);
+                c.moveCtr.PosSet(target.position.x + x.ToNumber() * target.GetFacing(), target.position.y + y.ToNumber(), target.position.z + z.ToNumber());
+            }
             return 0;
         }
   

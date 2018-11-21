@@ -56,7 +56,7 @@ namespace Mugen3D.Core
         private void Init()
         {
             stateNo = 0;
-            stateTime = 0;
+            stateTime = -1;
             m_stateNoToChange = 0;
         }
 
@@ -64,6 +64,7 @@ namespace Mugen3D.Core
         {
             if (this.m_stateNoToChange == -1)
             {
+                Debug.Log("curStateNo:" + this.stateNo + " changeState:" + stateNo);
                 this.m_stateNoToChange = stateNo;
             }
         }
@@ -73,27 +74,29 @@ namespace Mugen3D.Core
             if (this.m_stateNoToChange != -1)
             {
                 this.stateNo = this.m_stateNoToChange;
-                this.stateTime = 0;
+                this.stateTime = -1;
                 this.m_stateNoToChange = -1;
+                CallScript(this.stateNo, this.stateTime);
+            }
+        }
+
+        private void CallScript(int stateNo, int stateTime) {
+            var env = LuaMgr.Instance.Env;
+            env.RawGetI(LuaDef.LUA_REGISTRYINDEX, this.refUpdate);
+            env.PushInteger(stateNo);
+            env.PushInteger(stateTime);
+            var status = env.PCall(2, 0, 0);
+            if (status != ThreadStatus.LUA_OK)
+            {
+                Debug.LogError(env.ToString(-1));
+                Debug.LogError("update State No:" + this.stateNo + " stateTime:" + this.stateTime + " error");
             }
         }
 
         public void Update()
         {
-            //call lua method
-            {
-                var env = LuaMgr.Instance.Env;
-                env.RawGetI(LuaDef.LUA_REGISTRYINDEX, this.refUpdate);
-                env.PushInteger(this.stateNo);
-                env.PushInteger(this.stateTime);
-                var status = env.PCall(2, 0, 0);
-                if (status != ThreadStatus.LUA_OK)
-                {
-                    Debug.LogError(env.ToString(-1));
-                    Debug.LogError("update State No:" + this.stateNo + " stateTime:" + this.stateTime + " error");
-                }
-            }
             this.stateTime++;
+            CallScript(this.stateNo, this.stateTime);  
         }
 
         private int StoreMethod(UniLua.ILuaState env, string name)

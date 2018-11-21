@@ -628,6 +628,8 @@ M[5042] = {
 --hit ground
 M[5100] = {
 	onEnter = function(_ENV)
+	    local vel = Vel()
+	    _ENV._hitGroundVel = vel
 	    MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.C)
 		ChangeAnim(5100)
@@ -675,7 +677,7 @@ M[5160] = {
 	    MoveTypeSet(Enums.MoveType.H)
 		PhysicsSet(Enums.PhysicsType.A)
 		ChangeAnim(5160)
-		VelSet(0, 2)
+		VelSet(_ENV._hitGroundVel.x*0.5, 2)
 	end,
 	onUpdate = function(_ENV)
 		if JustOnGround() then

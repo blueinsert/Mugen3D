@@ -89,16 +89,17 @@ namespace Mugen3D.Core
             this.m_velocity.y += deltaY;
         }
 
-        public void PosSet(Number x, Number y)
+        public void PosSet(Number x, Number y, Number z)
         {
-            m_owner.SetPosition(new Vector(x, y, 0));
+            m_owner.SetPosition(new Vector(x, y, z));
         }
 
-        public void PosAdd(Number deltaX, Number deltaY)
+        public void PosAdd(Number deltaX, Number deltaY, Number deltaZ)
         {
             var pos = m_owner.position;
-            pos.x += deltaX;
+            pos.x += deltaX * m_owner.GetFacing();
             pos.y += deltaY;
+            pos.z += deltaZ;
             m_owner.SetPosition(pos);
         }
 

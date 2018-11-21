@@ -26,7 +26,7 @@ namespace Mugen3D.Core
         public World world { get; private set; }
         public EntityConfig config { get; private set; }
         public bool isDestroyed { get; private set; }
-        public Action<Entity, Event> onEvent;
+        public Action<Event> onEvent;
 
         public Entity()
         {
@@ -57,7 +57,7 @@ namespace Mugen3D.Core
         {
             if (onEvent != null)
             {
-                onEvent(this, e);
+                onEvent(e);
             }
         }
 

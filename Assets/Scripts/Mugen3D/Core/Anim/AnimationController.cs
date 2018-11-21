@@ -68,24 +68,25 @@ public class AnimationController {
     }
   
     private void UpdateSample() {
-        animTime++;
-        animElemTime++;
         var animElemDuration = curAction.frames[animElem].duration;
-        if (animElemTime >= animElemDuration)
+        if (animElemTime >= animElemDuration) //the frame is ending
         {
-            if (animElem >= curAction.frames.Count - 1 && curAction.loopStartIndex != -1)
+            if (animElem < curAction.frames.Count - 1)
             {
-                animElem = curAction.loopStartIndex;
-                animElemTime = 0;
-            }
-            else if (animElem >= curAction.frames.Count - 1 && curAction.loopStartIndex == -1)
-            {
-                //do nothing
-            } else {
                 animElem++;
                 animElemTime = 0;
             }
-        } 
+            else if (animElem == curAction.frames.Count - 1 && curAction.loopStartIndex != -1) //the frame is the last frame of action
+            {
+                animElem = curAction.loopStartIndex;
+                animElemTime = 0;
+            }   
+        }
+        else
+        {
+            animTime++;
+            animElemTime++;
+        }
     }
 
     public void  ChangeAnim(int anim)
@@ -97,8 +98,8 @@ public class AnimationController {
         }
         this.anim = anim;
         animElem = 0;
-        animElemTime = 0;
-        animTime = 0;
+        animElemTime = -1;
+        animTime = -1;
     }
 
 }

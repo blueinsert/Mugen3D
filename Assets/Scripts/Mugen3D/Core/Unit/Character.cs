@@ -77,7 +77,6 @@ namespace Mugen3D.Core
             else if (hitDef.hitType == (int)HitDef.HitType.Throw)
             {
                 this.fsmMgr.ChangeState(hitDef.p2StateNo);
-                Debug.Log("be throwed, stateNo:" + hitDef.p2StateNo);
             }   
         }
 
@@ -89,12 +88,8 @@ namespace Mugen3D.Core
 
         public override void OnMoveHit(Unit target)
         {
-            Debug.Log("OnMoveHit");
+            base.OnMoveHit(target);
             var hitDef = GetHitDefData();
-            hitDef.moveContact = true;
-            hitDef.moveGuarded = false;
-            hitDef.moveHit = true;
-            hitDef.target = target;
             if (hitDef.hitType == (int)HitDef.HitType.Attack)
             {
                 CornerPushTest(target, false);   
@@ -102,18 +97,12 @@ namespace Mugen3D.Core
             else if (hitDef.hitType == (int)HitDef.HitType.Throw)
             {
                 this.fsmMgr.ChangeState(hitDef.p1StateNo);
-                Debug.Log("throw success" + hitDef.p1StateNo);
-            }
-            
+            }  
         }
 
         public override void OnMoveGuarded(Unit target)
         {
-            var hitDef = GetHitDefData();
-            hitDef.moveContact = true;
-            hitDef.moveGuarded = true;
-            hitDef.moveHit = false;
-            hitDef.target = target;
+            base.OnMoveGuarded(target);
             CornerPushTest(target, true);
         }
 

@@ -517,6 +517,7 @@ M[660] = {
 --throw
 M[800] = {
     onEnter = function(_ENV)
+       print("800 onEnter")
        ChangeAnim(800)
        PhysicsSet(Enums.PhysicsType.S)
        CtrlSet(false)
@@ -551,7 +552,21 @@ M[801] = {
     onUpdate = function(_ENV)
         if LeftAnimTime() <= 0 then
             ChangeState(0)
+            PosAdd(0.8, 0, 0)
+        end 
+        if AnimElem() == 0 then
+            TargetBind(0.61, 0, 0)
         end
+        if AnimElem() == 4 then
+            TargetBind(0.61, 0, 0.5)
+        end
+        if AnimElem() == 9 then
+            TargetBind(0.9, 0, 0.3)
+        end
+        if AnimElem() == 10 then
+            TargetBind(1.1, 0, 0.3)
+        end
+        
     end
 }
 
@@ -575,7 +590,7 @@ M[803] = {
         MoveTypeSet(Enums.MoveType.H)
         PhysicsSet(Enums.PhysicsType.A)
         ChangeAnim(803)
-        VelSet(-4, 2)
+        VelSet(-6, 2)
     end,
     onUpdate = function(_ENV)
         if JustOnGround() then
