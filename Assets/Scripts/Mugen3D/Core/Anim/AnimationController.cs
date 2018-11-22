@@ -7,6 +7,7 @@ namespace Mugen3D.Core
 public class AnimationController {
     private Unit m_owner;
     private Dictionary<int, Action> m_actions;
+    private int m_animToChange = -1;
     public int anim { get; private set; }
     public int animTime { get; private set; }
     public int animElem { get; private set; }
@@ -93,13 +94,22 @@ public class AnimationController {
     {
         if (!m_actions.ContainsKey(anim))
         {
-            Log.Error("anims don't contain key " + anim);
+            Log.Error("anims don't contain id: " + anim);
             return;
         }
-        this.anim = anim;
-        animElem = 0;
-        animElemTime = -1;
-        animTime = -1;
+        this.m_animToChange = anim;
+    }
+
+    public void ProcessChangeAnim()
+    {
+        if (m_animToChange != -1 && m_actions.ContainsKey(m_animToChange))
+        {
+            this.anim = m_animToChange;
+            animElem = 0;
+            animElemTime = -1;
+            animTime = -1;
+            m_animToChange = -1;
+        }
     }
 
 }

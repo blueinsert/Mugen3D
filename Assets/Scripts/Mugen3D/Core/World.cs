@@ -165,18 +165,6 @@ namespace Mugen3D.Core
             }
         }
 
-        void ProcessChangeState()
-        {
-            foreach (var e in entities)
-            {
-                if (e is Unit)
-                {
-                    var u = e as Unit;
-                    u.fsmMgr.ProcessChangeState();
-                }           
-            }
-        }
-
         void UpdateView()
         {
             foreach (var e in entities)
@@ -185,6 +173,16 @@ namespace Mugen3D.Core
             }
         }
 
+        void UpdateLuaScripts()
+        {
+            foreach (var e in entities)
+            {
+                if (e is Unit)
+                {
+                    (e as Unit).UpdateScript();
+                }
+            }
+        }
         void PushTest() { 
 
         }
@@ -200,14 +198,32 @@ namespace Mugen3D.Core
             }
         }
 
+        void PrepareForNextFrame()
+        {
+            foreach (var e in entities)
+            {
+                if (e is Unit)
+                {
+                    var u = e as Unit;
+                    u.fsmMgr.ProcessChangeState();
+                    u.animCtr.ProcessChangeAnim();
+                }
+            }
+        }
+       
         public void Update()
         {
             Time.Update(deltaTime);
+           
             EntityUpdate();
+            UpdateLuaScripts();     //change state, change anim, so on...  
+            
             HitResolve();
-            ProcessChangeState();
-            UpdateView();
+
             Debug();
+            UpdateView();
+            
+            PrepareForNextFrame();
         }
         
     }

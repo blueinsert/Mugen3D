@@ -211,13 +211,16 @@ namespace Mugen3D.Core
                 return;
             }
             moveCtr.Update(deltaTime);
-            animCtr.Update();
-            fsmMgr.Update();
+            animCtr.Update(); 
             if (hitBy != null)
                 hitBy.Update();
             if (noHitBy != null)
                 noHitBy.Update();
-        }        
+        }
+
+        public void UpdateScript() {
+            fsmMgr.Update();
+        }
 
         #region status get/set
         public Number GetFrontEdgeDist()
