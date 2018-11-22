@@ -51,12 +51,12 @@ namespace Mugen3D.Core
 
         public override void OnMoveGuarded(Unit target)
         {
-            Destroy();
+            base.OnMoveGuarded(target);
         }
 
         public override void OnMoveHit(Unit target)
         {
-            Destroy();
+            base.OnMoveHit(target);
         }
     }
 }

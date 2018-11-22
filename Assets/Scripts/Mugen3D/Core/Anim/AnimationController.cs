@@ -8,6 +8,7 @@ public class AnimationController {
     private Unit m_owner;
     private Dictionary<int, Action> m_actions;
     private int m_animToChange = -1;
+    private int m_animElemToChange = -1;
     public int anim { get; private set; }
     public int animTime { get; private set; }
     public int animElem { get; private set; }
@@ -90,7 +91,7 @@ public class AnimationController {
         }
     }
 
-    public void  ChangeAnim(int anim)
+    public void  ChangeAnim(int anim, int animElem = 0)
     {
         if (!m_actions.ContainsKey(anim))
         {
@@ -98,6 +99,7 @@ public class AnimationController {
             return;
         }
         this.m_animToChange = anim;
+        this.m_animElemToChange = animElem;
     }
 
     public void ProcessChangeAnim()
@@ -105,6 +107,15 @@ public class AnimationController {
         if (m_animToChange != -1 && m_actions.ContainsKey(m_animToChange))
         {
             this.anim = m_animToChange;
+            if (this.m_animElemToChange != -1)
+            {
+                animElem = this.m_animElemToChange;
+                this.m_animElemToChange = -1;
+            }
+            else
+            {
+                animElem = 0;
+            }
             animElem = 0;
             animElemTime = -1;
             animTime = -1;
