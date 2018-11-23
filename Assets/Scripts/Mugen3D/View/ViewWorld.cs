@@ -53,6 +53,7 @@ namespace Mugen3D
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
             var cameraController = go.AddComponent<CameraController>();
             cameraController.Init(config, p1, p2);
+            
         }
 
         public EntityView GetView(int id)

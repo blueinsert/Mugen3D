@@ -55,6 +55,16 @@ namespace Mugen3D.Core
             SetBeHitDefData(hitDef);
             if (hitDef.hitType == (int)HitDef.HitType.Attack)
             {
+                AddHP(-hitDef.hitDamage);
+                if (this.GetMoveType() == MoveType.BeingHitted)
+                {
+                    AddHitCount();
+                }
+                else
+                {
+                    ClearHitCount();
+                    AddHitCount();
+                }
                 if (hitDef.knockAwayType == -1) {
                     if (this.GetPhysicsType() == PhysicsType.S)
                     {
@@ -72,7 +82,7 @@ namespace Mugen3D.Core
                 else
                 {
                     this.fsmMgr.ChangeState(5030);
-                }      
+                } 
             }
             else if (hitDef.hitType == (int)HitDef.HitType.Throw)
             {
@@ -84,7 +94,10 @@ namespace Mugen3D.Core
         {
             SetBeHitDefData(hitDef);
             this.fsmMgr.ChangeState(this.GetPhysicsType() == PhysicsType.S ? 150 : 156);
+            AddHP(-hitDef.guardDamage);
         }
+
+
 
         public override void OnMoveHit(Unit target)
         {

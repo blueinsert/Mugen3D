@@ -59,6 +59,9 @@ local triggers = {
 	{name = "MoveContact", func = trigger.MoveContact},
 	{name = "MoveGuarded", func = trigger.MoveGuarded},
 	{name = "MoveHit",     func = trigger.MoveHit},
+	{name = "Life",        func = trigger.Life},
+	{name = "LifeMax",     func = trigger.LifeMax},
+	{name = "Alive",       func = trigger.Alive},
 }
 
 local function setCommonENVVars(env)

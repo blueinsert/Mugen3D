@@ -243,7 +243,7 @@ M[1410] = {
 	end,
     onUpdate = function(_ENV)
     	if LeftAnimTime() <= 0 then
-    		VelSet(4, 6)
+    		VelSet(4, 5)
     		ChangeState(1415)
     	end
     end

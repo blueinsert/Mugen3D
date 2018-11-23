@@ -449,6 +449,23 @@ namespace Mugen3D.Core
             m_hp = hp;
         }
 
+        public bool IsAlive()
+        {
+            return m_hp >= 0;
+        }
+
+        public int beHitCount { get; protected set; }
+
+        protected void AddHitCount()
+        {
+            this.beHitCount++;
+        }
+
+        protected void ClearHitCount()
+        {
+            this.beHitCount = 0;
+        }
+
         public virtual void PrintDebugInfo()
         {
             Core.Debug.AddGUIDebugMsg(this.id, "name", this.config.name);
@@ -465,6 +482,8 @@ namespace Mugen3D.Core
             Core.Debug.AddGUIDebugMsg(this.id, "isPause", this.IsPause().ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "pauseTime", this.GetPauseTime().ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "p2dist", this.GetP2Dist().ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "hp", this.GetHP().ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "beHitCount",this.beHitCount.ToString());
         } 
     }
 }

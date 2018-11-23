@@ -179,7 +179,9 @@ namespace Mugen3D.Core
             {
                 if (e is Unit)
                 {
-                    (e as Unit).UpdateScript();
+                    var u = e as Unit;
+                    if (!u.IsPause())
+                        u.UpdateScript();
                 }
             }
         }

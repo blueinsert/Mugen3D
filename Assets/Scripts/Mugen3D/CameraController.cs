@@ -32,6 +32,7 @@ namespace Mugen3D
             this.transform.position = new Vector3(targetX, config.yOffset.AsFloat(), config.depth.AsFloat());   
             m_camera.transform.LookAt(new Vector3(targetX, center.y + config.yOffset.AsFloat(), center.z));
             m_camera.fieldOfView = CalcFieldOfView();
+            m_camera.aspect = 16 / 9.0f;
         }
 
         private float CalcFieldOfView()
@@ -46,6 +47,16 @@ namespace Mugen3D
             float radio = Mathf.Abs(dist.x.AsFloat()) / config.maxPlayerDist.AsFloat();
             float filedOfView = Mathf.Lerp(config.minFiledOfView.AsFloat(), config.maxFiledOfView.AsFloat(), radio);
             return filedOfView;
+        }
+
+        public Number[] ScreenBound()
+        {
+            float h = Mathf.Tan(m_camera.fieldOfView / 2 / 180 * Mathf.PI) * Mathf.Abs(m_camera.transform.position.z) * 2;
+            float w = m_camera.aspect * h;
+            Number[] bound = new Number[2];
+            bound[0] = (this.m_camera.transform.position.x - w / 2).ToNumber();
+            bound[1] = (this.m_camera.transform.position.x + w / 2).ToNumber();
+            return bound;
         }
 
         /*

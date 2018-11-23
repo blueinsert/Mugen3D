@@ -34,11 +34,16 @@ namespace Mugen3D.Core
                 new NameFuncPair("P2MoveType", P2MoveType),
                 new NameFuncPair("GetHitVar", GetHitVar),
                 new NameFuncPair("HitPauseTime", HitPauseTime),
-                new NameFuncPair("FrontEdgeDist", FrontEdgeDist),
-                new NameFuncPair("BackEdgeDist", BackEdgeDist),
+                new NameFuncPair("FrontEdgeDist", FrontStageDist),
+                new NameFuncPair("BackEdgeDist", BackStageDist),
+                new NameFuncPair("FrontStageDist", FrontStageDist),
+                new NameFuncPair("BackStageDist", BackStageDist),
                 new NameFuncPair("MoveContact", MoveContact),
                 new NameFuncPair("MoveGuarded", MoveGuarded),
                 new NameFuncPair("MoveHit", MoveHit),
+                new NameFuncPair("Life", GetHP),
+                new NameFuncPair("LifeMax", GetMaxHP),
+                new NameFuncPair("Alive", IsAlive),
             };
             lua.L_NewLib(define);
             return 1;
@@ -78,7 +83,7 @@ namespace Mugen3D.Core
             return 1;
         }
 
-        public static int FrontEdgeDist(ILuaState lua)
+        public static int FrontStageDist(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit u = (Unit)lua.ToUserData(1);
@@ -87,7 +92,7 @@ namespace Mugen3D.Core
             return 1;
         }
 
-        public static int BackEdgeDist(ILuaState lua)
+        public static int BackStageDist(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit u = (Unit)lua.ToUserData(1);
@@ -410,6 +415,33 @@ namespace Mugen3D.Core
                 res = c.GetHitDefData().moveHit;
             }
             lua.PushBoolean(res);
+            return 1;
+        }
+
+        public static int GetHP(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            var hp = c.GetHP();
+            lua.PushNumber(hp);
+            return 1;
+        }
+
+        public static int GetMaxHP(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            var hp = c.GetMaxHP();
+            lua.PushNumber(hp);
+            return 1;
+        }
+
+        public static int IsAlive(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            var isAlive = c.IsAlive();
+            lua.PushBoolean(isAlive);
             return 1;
         }
     }

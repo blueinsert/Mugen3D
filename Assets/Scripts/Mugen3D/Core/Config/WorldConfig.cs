@@ -11,7 +11,8 @@ namespace Mugen3D.Core
 
     public class CameraConfig
     {  
-        public Number depth { get; set; }
+        public Number depth { get; set; } //the z coordinate value
+        public Number aspect { get; set; } //width divided by height
         public Number yOffset { get; set; }
         public Number maxPlayerDist { get; set; }
         public Number dumpRatio { get; set; }
