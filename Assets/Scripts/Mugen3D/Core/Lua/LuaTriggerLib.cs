@@ -87,7 +87,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit u = (Unit)lua.ToUserData(1);
-            var dist = u.GetFrontEdgeDist();
+            var dist = u.GetFrontStageDist();
             lua.PushNumber(dist.AsDouble());
             return 1;
         }
@@ -96,7 +96,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit u = (Unit)lua.ToUserData(1);
-            var dist = u.GetBackEdgeDist();
+            var dist = u.GetBackStageDist();
             lua.PushNumber(dist.AsDouble());
             return 1;
         }

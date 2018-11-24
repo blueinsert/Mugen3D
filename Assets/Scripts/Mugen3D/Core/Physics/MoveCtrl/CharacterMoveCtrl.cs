@@ -17,22 +17,21 @@ namespace Mugen3D.Core
 
         protected override void PushTest()
         {
-            Number maxPlayerDist = m_character.world.config.stageConfig.cameraConfig.maxPlayerDist;
-
+           
             var pos = m_character.position;
             var newPos = pos + m_deltaPos;
-            var p2Dist = m_character.GetP2Dist();
-            var worldConfig = m_owner.world.config;
-
+           
             //map border
+            var worldConfig = m_owner.world.config;
             if(newPos.y < worldConfig.stageConfig.borderYMin)
                 justOnGround = true;
             newPos.x = Math.Clamp(newPos.x, worldConfig.stageConfig.borderXMin, worldConfig.stageConfig.borderXMax);
-            newPos.y = Math.Clamp(newPos.y, worldConfig.stageConfig.borderYMin, worldConfig.stageConfig.borderYMax);
-            //max player dist limit
-            var center = m_character.position + p2Dist / 2;
-            newPos.x = Math.Clamp(newPos.x, center.x - maxPlayerDist / 2, center.x + maxPlayerDist / 2);
-           
+            newPos.y = Math.Clamp(newPos.y, worldConfig.stageConfig.borderYMin, worldConfig.stageConfig.borderYMax); 
+            //screen border
+            Rect screenBound = m_character.world.cameraController.viewPort;
+            Number playerWidth = new Number(5) / new Number(10);
+            newPos.x = Math.Clamp(newPos.x, screenBound.xMin + playerWidth, screenBound.xMax - playerWidth);
+
             m_deltaPos = newPos - pos;
 
             var enemy = m_owner.world.teamInfo.GetEnemy(m_character);

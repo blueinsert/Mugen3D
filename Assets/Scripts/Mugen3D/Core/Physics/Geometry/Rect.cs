@@ -76,13 +76,20 @@ namespace Mugen3D.Core
             }
         }
 
+        public Rect()
+        {
+            this.position = Vector.zero;
+            this.width = Number.Zero;
+            this.height = Number.Zero;
+        }
+
         public Rect(Vector p, Number width, Number height)
         {
             this.position = p;
             this.width = width;
             this.height = height;
         }
-
+     
         public Rect(Vector p1, Vector p2)
         {
             this.position = (p1 + p2) / 2;

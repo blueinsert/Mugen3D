@@ -227,6 +227,30 @@ namespace Mugen3D.Core
         {
             if (this.GetFacing() > 0)
             {
+                return world.cameraController.viewPort.xMax - this.position.x;
+            }
+            else
+            {
+                return this.position.x - world.cameraController.viewPort.xMin;
+            }
+        }
+
+        public Number GetBackEdgeDist()
+        {
+            if (this.GetFacing() > 0)
+            {
+                return this.position.x - world.cameraController.viewPort.xMin;
+            }
+            else
+            {
+                return world.cameraController.viewPort.xMax - this.position.x;
+            }
+        }
+
+        public Number GetFrontStageDist()
+        {
+            if (this.GetFacing() > 0)
+            {
                 return world.config.stageConfig.borderXMax - this.position.x;
             }
             else
@@ -235,7 +259,7 @@ namespace Mugen3D.Core
             }
         }
 
-        public Number GetBackEdgeDist()
+        public Number GetBackStageDist()
         {
             if (this.GetFacing() > 0)
             {
@@ -484,6 +508,8 @@ namespace Mugen3D.Core
             Core.Debug.AddGUIDebugMsg(this.id, "p2dist", this.GetP2Dist().ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "hp", this.GetHP().ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "beHitCount",this.beHitCount.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "stageDist", this.GetBackStageDist().ToString() + "," + this.GetFrontStageDist().ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "edgeDist", this.GetBackEdgeDist().ToString() + "," + this.GetFrontEdgeDist().ToString());
         } 
     }
 }

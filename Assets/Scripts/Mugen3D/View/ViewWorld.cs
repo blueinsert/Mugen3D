@@ -47,13 +47,12 @@ namespace Mugen3D
             GameObject goStage = GameObject.Instantiate(prefabStage, m_rootScene.transform.Find("Stage")) as GameObject;
         }
 
-        public void CreateCamera(Core.CameraConfig config, Core.Character p1, Core.Character p2)
+        public void CreateCamera(Core.CameraController logicCameraController)
         {
             UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/BattleCamera");
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
             var cameraController = go.AddComponent<CameraController>();
-            cameraController.Init(config, p1, p2);
-            
+            cameraController.Init(logicCameraController);
         }
 
         public EntityView GetView(int id)

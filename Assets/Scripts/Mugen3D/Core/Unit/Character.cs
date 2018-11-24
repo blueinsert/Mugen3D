@@ -122,7 +122,7 @@ namespace Mugen3D.Core
         private void CornerPushTest(Unit target, bool moveGuarded)
         {
             var hitDef = GetHitDefData();
-            if (target is Character && target.GetBackEdgeDist() < new Number(5) / new Number(10))
+            if (target is Character && target.GetBackStageDist() < new Number(5) / new Number(10))
             {
                 Number velX = 0;
                 if (moveGuarded)

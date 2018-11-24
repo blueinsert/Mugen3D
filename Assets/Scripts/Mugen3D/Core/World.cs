@@ -22,6 +22,7 @@ namespace Mugen3D.Core
         public System.Action<Entity> onRemoveEntity;
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
+        public CameraController cameraController {get; private set;}
 
         public World(WorldConfig cfg, int logicFPS)
         {
@@ -29,6 +30,7 @@ namespace Mugen3D.Core
             this.logicFPS = logicFPS;
             this.deltaTime = new Number(1000 / logicFPS) / new Number(1000);
             entities = new List<Entity>();
+            cameraController = new CameraController(cfg.stageConfig.cameraConfig);
             Time.Clear();
         }
 
@@ -44,6 +46,7 @@ namespace Mugen3D.Core
                     this.localPlayer = c;
                 }
                 this.characters.Add(c);
+                cameraController.SetFollowTarget(c.slot, c);
             }
             e.SetEntityId(m_maxEntityId++);
             e.SetWorld(this);      
@@ -224,7 +227,7 @@ namespace Mugen3D.Core
 
             Debug();
             UpdateView();
-            
+            cameraController.Update();
             PrepareForNextFrame();
         }
         

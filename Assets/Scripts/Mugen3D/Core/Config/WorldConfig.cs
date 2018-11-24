@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Mugen3D.Core
 {
@@ -14,7 +13,6 @@ namespace Mugen3D.Core
         public Number depth { get; set; } //the z coordinate value
         public Number aspect { get; set; } //width divided by height
         public Number yOffset { get; set; }
-        public Number maxPlayerDist { get; set; }
         public Number dumpRatio { get; set; }
         public Number minFiledOfView { get; set; }
         public Number maxFiledOfView { get; set; }

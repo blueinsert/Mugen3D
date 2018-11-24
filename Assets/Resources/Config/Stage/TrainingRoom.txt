@@ -9,10 +9,10 @@ initPos :
 - x: 10
   y: 0
 cameraConfig:
+  aspect: 1.78
   depth: -6
   yOffset: 1
   dumpRatio: 4
-  maxPlayerDist: 4.7
   minFiledOfView: 29
   maxFiledOfView: 32
   

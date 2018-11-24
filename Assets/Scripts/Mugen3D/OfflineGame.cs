@@ -37,7 +37,7 @@ namespace Mugen3D
             CreateWorld(stageName, logicFPS);
             p1 = CreateCharacter(p1CharacterName, 0, true);
             p2 = CreateCharacter(p2CharacterName, 1, false);
-            viewWorld.CreateCamera(this.world.config.stageConfig.cameraConfig, p1, p2);
+            viewWorld.CreateCamera(this.world.cameraController);
         }
 
         protected override void OnUpdate()
