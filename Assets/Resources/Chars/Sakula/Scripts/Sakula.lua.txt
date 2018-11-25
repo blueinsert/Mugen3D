@@ -39,7 +39,7 @@ M[-2] = {
         if Ctrl() and PhysicsType() == Enums.PhysicsType.A and (CommandTest("24Y")) then
         	ChangeState(1415)
         end 
-        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("26A") or CommandTest("26B")) then
+        if Ctrl() and NumProjID(1) <= 0 and PhysicsType() == Enums.PhysicsType.S and (CommandTest("26A") or CommandTest("26B")) then
         	ChangeState(1000)
         end
         if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("throw") then

@@ -6,14 +6,10 @@ M[0] = {
 	onEnter = function(_ENV)  
         MoveTypeSet(Enums.MoveType.A)
         PhysicsSet(Enums.PhysicsType.N)
-        ChangeAnim(0)   
-        local pos = parent.Pos()
-        local facing = parent.Facing() 
-        PosSet(pos.x + 1.1*facing, pos.y + 1.1)
-        ChangeFacing(facing)
-        VelSet(2,0) 
+        ChangeAnim(0)    
 	end,
 	onUpdate = function(_ENV)	 
+        --[[
 	    if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
@@ -35,6 +31,7 @@ M[0] = {
                 guardVel = {-4, 0},     
             })      
         end
+        --]]
         if MoveContact() == true then
         	ChangeState(6)
         end 

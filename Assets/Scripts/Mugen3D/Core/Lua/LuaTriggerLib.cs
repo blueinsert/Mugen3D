@@ -12,6 +12,9 @@ namespace Mugen3D.Core
         public static int OpenLib(ILuaState lua)
         {
             var define = new NameFuncPair[] {
+                new NameFuncPair("NumHelper", NumHelper),
+                new NameFuncPair("NumProj", NumProj),
+                new NameFuncPair("NumProjID", NumProjID),
                 new NameFuncPair("IsHelper", IsHelper),
                 new NameFuncPair("Parent", GetParent),
                 new NameFuncPair("Ctrl", IsCtrl),
@@ -47,6 +50,49 @@ namespace Mugen3D.Core
             };
             lua.L_NewLib(define);
             return 1;
+        }
+
+        public static int NumHelper(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Character)
+            {
+                var c = u as Character;
+                int num = c.NumHelper();
+                lua.PushInteger(num);
+                return 1;
+            }
+            return 0;
+        }
+
+        public static int NumProj(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Character)
+            {
+                var c = u as Character;
+                int num = c.NumProj();
+                lua.PushInteger(num);
+                return 1;
+            }
+            return 0;
+        }
+
+        public static int NumProjID(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Character)
+            {
+                var c = u as Character;
+                int id = lua.L_CheckInteger(2);
+                int num = c.NumProj(id);
+                lua.PushInteger(num);
+                return 1;
+            }
+            return 0;
         }
 
         public static int IsHelper(ILuaState lua)

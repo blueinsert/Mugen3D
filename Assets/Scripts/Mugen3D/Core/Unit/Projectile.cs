@@ -24,19 +24,61 @@ namespace Mugen3D.Core
          Projectiles are always created facing the same direction as the player. off_x is in relation to the direction the projectile is facing. 
          The exact behavior of the offset parameters is dependent on the postype. 
 */
-        public Vector offset;
+        public Number[] offset;
         public string posType;
+        public Number[] vel;
+        public int facing;
+        public int id;
     }
 
     public class Projectile : Helper
     {
         public ProjectileDef projDef { get; private set; }
+
         public Projectile(ProjectileDef def, ProjectileConfig config, Character owner):base(config, owner)
         {
             this.projDef = def;
+            Init();
+        }
+
+        private void Init()
+        {
+            Vector pos = owner.position;
+            switch (projDef.posType)
+            {
+                case "p1":
+                    pos = owner.position + new Vector(projDef.offset.X()*owner.GetFacing(), projDef.offset.Y(), 0);
+                    break;
+                case "p2":
+                    break;
+                case "front":
+                    break;
+                case "back":
+                    break;
+                case "left":
+                    break;
+                case "right":
+                    break;
+            }
+            this.SetPosition(pos);
+            this.ChangeFacing(projDef.facing);
+            this.moveCtr.VelSet(projDef.vel.X(), projDef.vel.Y());
         }
 
         private bool AutoDestroyCheck() {
+            var backEdgeDist = GetBackEdgeDist();
+            var frontEdgeDist = GetFrontEdgeDist();
+            if((backEdgeDist < 0 && Math.Abs(backEdgeDist) > projDef.projEdgeBound) ||
+                (frontEdgeDist < 0 && Math.Abs(frontEdgeDist) > projDef.projEdgeBound))
+            {
+                return true;
+            }
+            var backStageDist = GetBackStageDist();
+            var frontStageDist = GetFrontStageDist();
+            if ((backStageDist < 0 && Math.Abs(backStageDist) > projDef.projStageBound) ||
+                (frontStageDist < 0 && Math.Abs(frontStageDist) > projDef.projStageBound)) {
+                return true;
+            }
             return false;
         }
 

@@ -13,6 +13,7 @@ namespace Mugen3D.Core
         {
             var define = new NameFuncPair[] {
                 new NameFuncPair("CreateHelper", CreateHelper),
+                new NameFuncPair("CreateProjectile", CreateProjectile),
                 new NameFuncPair("DestroySelf", DestroySelf),
                 new NameFuncPair("ChangeState", ChangeState),
                 new NameFuncPair("ChangeAnim", ChangeAnim),
@@ -32,6 +33,30 @@ namespace Mugen3D.Core
             };
             lua.L_NewLib(define);
             return 1;
+        }
+
+        public static int CreateProjectile(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if (u is Character)
+            {
+                var c = u as Character;
+                var projectileName = lua.L_CheckString(2);
+                ProjectileDef def = new ProjectileDef();
+                using (var t = new LuaTable(lua)) {
+                    def.offset = t.GetNumberArray("offset", 2);
+                    def.posType = t.GetString("posType");
+                    def.projPriority = t.GetInt("projPriority");
+                    def.projEdgeBound = t.GetNumber("projEdgeBound", 0);
+                    def.projStageBound = t.GetNumber("projStageBound", 0);
+                    def.facing = t.GetInt("facing", 1);
+                    def.vel = t.GetNumberArray("vel", 2);
+                    def.id = t.GetInt("id");
+                }
+                c.CreateProjectile(projectileName, def);
+            }
+            return 0;
         }
 
         public static int CreateHelper(ILuaState lua)

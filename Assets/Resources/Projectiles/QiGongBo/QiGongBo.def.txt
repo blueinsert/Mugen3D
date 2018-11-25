@@ -1,0 +1,4 @@
+name: QiGongBo
+prefab: Projectiles/QiGongBo/QiGongBo
+action: Projectiles/QiGongBo/QiGongBo.act
+fsm: Projectiles/QiGongBo/Scripts/QiGongBo

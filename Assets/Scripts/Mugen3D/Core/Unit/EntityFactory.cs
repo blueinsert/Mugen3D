@@ -23,5 +23,14 @@ namespace Mugen3D.Core
             Helper helper = new Helper(config, owner);
             return helper;
         }
+
+        public static Projectile CreateProjectile(string name, ProjectileDef def, Character owner)
+        {
+            ProjectileConfig config = ConfigReader.Parse<ProjectileConfig>(FileReader.Read("Projectiles/" + name + "/" + name + ".def"));
+            ActionsConfig actionsConfig = ConfigReader.Parse<ActionsConfig>(FileReader.Read(config.action));
+            config.SetActions(actionsConfig.actions.ToArray());
+            Projectile pro = new Projectile(def, config, owner);
+            return pro;
+        }
     }
 }

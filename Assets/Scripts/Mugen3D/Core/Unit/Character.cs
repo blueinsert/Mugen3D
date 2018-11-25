@@ -14,6 +14,8 @@ namespace Mugen3D.Core
         private int input;
         private int m_aiLevel = 0;
         public int AILevel {get {return m_aiLevel;}}
+        private List<Helper> m_helpers = new List<Helper>();
+        private List<Projectile> m_projs = new List<Projectile>();
 
         public Character(string characterName, CharacterConfig config, int slot, bool isLocal) : base(config)
         {
@@ -35,10 +37,51 @@ namespace Mugen3D.Core
             this.input = input;
         }
 
+        public int NumProj()
+        {
+            return this.m_projs.Count;
+        }
+
+        public int NumProj(int id)
+        {
+            int count = 0;
+            foreach(var proj in this.m_projs)
+            {
+                if(proj.projDef.id == id)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public int NumHelper()
+        {
+            return m_helpers.Count;
+        }
+
+        public void RemoveHelper(Helper h)
+        {
+            this.m_helpers.Remove(h);
+        }
+
+        public void RemoveProj(Projectile proj)
+        {
+            this.m_projs.Remove(proj);
+        }
+
         public void CreateHelper(string name)
         {
             var helper = EntityFactory.CreateHelper(name, this);
             this.world.AddEntity(helper);
+            this.m_helpers.Add(helper);
+        }
+
+        public void CreateProjectile(string name, ProjectileDef def)
+        {
+            var projectile = EntityFactory.CreateProjectile(name, def, this);
+            this.world.AddEntity(projectile);
+            this.m_projs.Add(projectile);
         }
 
         public void SetAILevel(int aiLevel) {

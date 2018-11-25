@@ -29,7 +29,13 @@ M[1005] = {
 	end,
 	onUpdate = function(_ENV)
         if AnimElem() == 4 and AnimElemTime() == 0 then
-            CreateHelper("QiGongBo")
+            CreateProjectile("QiGongBo", {
+                id = 1,
+                posType = "p1",
+                offset = {1.1, 1.1},
+                facing = Facing(),
+                vel = {6, 0},
+            })
         end
 	    if LeftAnimTime() <= 0 then
 	   	    ChangeState(0)

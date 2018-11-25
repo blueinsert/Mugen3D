@@ -12,6 +12,7 @@ namespace Mugen3D
         private static Dictionary<Type, DelegateViewCreater> m_viewCreater = new Dictionary<Type, DelegateViewCreater>() {
             {typeof(Core.Character), CreateCharacterView},
             {typeof(Core.Helper), CreateHelperView},
+            {typeof(Core.Projectile), CreateProjectileView},
         };
 
         private static EntityView CreateCharacterView(Core.Entity entity, Transform parent)
@@ -31,6 +32,16 @@ namespace Mugen3D
             GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
             var view = go.AddComponent<HelperView>();
             view.Init(h);
+            return view;
+        }
+
+        private static EntityView CreateProjectileView(Core.Entity entity, Transform parent)
+        {
+            var p = entity as Core.Projectile;
+            UnityEngine.Object prefab = ResourceLoader.Load((p.config as Core.ProjectileConfig).prefab);
+            GameObject go = GameObject.Instantiate(prefab, parent) as GameObject;
+            var view = go.AddComponent<UnitView>();
+            view.Init(p);
             return view;
         }
 
