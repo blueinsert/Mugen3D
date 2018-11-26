@@ -23,12 +23,23 @@ namespace Mugen3D
             }
             this.m_unit = u;
             this.m_animCtl = u.animCtr;
-            u.onEvent += (e) => {
-                if (e.type == Core.EventType.SampleAnim)
-                {
-                    SampleAnim();
-                }
-            };
+            u.onEvent += ProcessEvent;
+        }
+
+        private void ProcessEvent(Core.Event evt) {
+            switch(evt.type)
+            {
+                case Core.EventType.SampleAnim:
+                    SampleAnim();break;
+                case Core.EventType.PlayEffect:
+                    PlayEffect(evt.data as string);
+                    break;
+            }
+        }
+
+        void PlayEffect(string effectName)
+        {
+            EffectPool.Instance.Play(effectName, this.transform.position, null);
         }
 
         void SampleAnim()

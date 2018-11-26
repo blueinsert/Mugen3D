@@ -30,6 +30,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("PosAdd", PosAdd),
                 new NameFuncPair("Pause", Pause),
                 new NameFuncPair("TargetBind", TargetBind),
+                new NameFuncPair("Effect", Effect),
             };
             lua.L_NewLib(define);
             return 1;
@@ -292,6 +293,16 @@ namespace Mugen3D.Core
             }
             return 0;
         }
-  
+
+        public static int Effect(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            string effectName = lua.L_CheckString(2);
+            c.SendEvent(new Event { type = EventType.PlayEffect, data = effectName });
+            return 0;
+        }
+
+
     }
 }

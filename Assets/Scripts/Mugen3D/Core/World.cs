@@ -66,14 +66,15 @@ namespace Mugen3D.Core
             if (onRemoveEntity != null)
                 onRemoveEntity(e);
             entities.Remove(e);
-            if (e is Helper)
-            {
-                var h = (e as Helper);
-                h.owner.RemoveHelper(h);
-            }else if(e is Projectile)
+            if (e is Projectile)
             {
                 var proj = e as Projectile;
                 proj.owner.RemoveProj(proj);
+            }
+            else if (e is Helper)
+            {
+                var h = (e as Helper);
+                h.owner.RemoveHelper(h);
             }
         }
 

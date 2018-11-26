@@ -10,6 +10,7 @@ namespace Mugen3D.Core
     {
         Dead = 1,
         SampleAnim = 2,
+        PlayEffect,
     }
 
     public class Event

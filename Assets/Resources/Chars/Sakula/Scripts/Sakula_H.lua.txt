@@ -26,6 +26,7 @@ M[1005] = {
 		CtrlSet(false)
         ChangeAnim(1005)
         VelSet(0,0)    
+        Effect("FXP_Heal")
 	end,
 	onUpdate = function(_ENV)
         if AnimElem() == 4 and AnimElemTime() == 0 then
