@@ -9,7 +9,7 @@ M[0] = {
         ChangeAnim(0)    
 	end,
 	onUpdate = function(_ENV)	 
-        --[[
+        
 	    if AnimElem() == 1 and AnimElemTime() == 0 then
             HitDefSet({
                 hitFlag = Enums.HitFlag.HLAF,
@@ -29,9 +29,13 @@ M[0] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,   
                 guardVel = {-4, 0},     
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1},  
             })      
         end
-        --]]
+        
         if MoveContact() == true then
         	ChangeState(6)
         end 

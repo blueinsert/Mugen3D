@@ -12,20 +12,22 @@ namespace Mugen3D
         Dictionary<string, GameObject> m_prefabCache = new Dictionary<string, GameObject>();
         Dictionary<int, EffectObj> m_activeEffects = new Dictionary<int, EffectObj>();
 
-        public void Play(string name, Vector3 pos, Transform parent)
+        public void Play(Core.EffectDef def, UnitView view)
         {
-            var effectObj = LoadEffectObj(name, pos, parent);
+            var effectObj = LoadEffectObj(def.name);
             if (effectObj != null)
             {
-                effectObj.Play();
+                effectObj.Init(m_currentId++, def, view);
+                m_activeEffects.Add(effectObj.id, effectObj);
                 effectObj.onFinish += (id) => {
                     m_activeEffects.Remove(id);
                     GameObject.Destroy(effectObj.gameObject);
                 };
+                effectObj.Play();
             }
         }
 
-        EffectObj LoadEffectObj(string name, Vector3 pos, Transform parent)
+        EffectObj LoadEffectObj(string name)
         {
             GameObject prefab = null;
             if (!m_prefabCache.ContainsKey(name))
@@ -45,10 +47,8 @@ namespace Mugen3D
             EffectObj effectObj = null;
             if (prefab != null)
             {
-                var go = GameObject.Instantiate(prefab, pos, Quaternion.identity, parent);
+                var go = GameObject.Instantiate(prefab);
                 effectObj = go.GetComponent<EffectObj>();
-                effectObj.id = m_currentId++;
-                m_activeEffects.Add(effectObj.id, effectObj);
             }  
             return effectObj;
         }

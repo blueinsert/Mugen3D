@@ -180,30 +180,30 @@ time = 1
 
 [Command]
 name = "x"
-command = x
+command = $x
 time = 1
 
 [Command]
 name = "y"
-command = y
+command = $y
 time = 1
 
 [Command]
 name = "z"
-command = z
+command = $z
 time = 1
 
 [Command]
 name = "a"
-command = a
+command = $a
 time = 1
 
 [Command]
 name = "b"
-command = b
+command = $b
 time = 1
 
 [Command]
 name = "c"
-command = c
+command = $c
 time = 1

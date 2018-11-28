@@ -27,6 +27,10 @@ M[200] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,  
                 guardVel = {-4, 0},
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.2},
             })      
         end
 	    if LeftAnimTime() == 0 then
@@ -59,7 +63,11 @@ M[205] = {
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,   
-                guardVel = {-4, 0},     
+                guardVel = {-4, 0},  
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.2},   
             })      
         end
         if LeftAnimTime() == 0 then
@@ -94,6 +102,10 @@ M[220] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,  
                 guardVel = {-4, 0},
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 0.4},  
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -128,6 +140,10 @@ M[240] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,    
                 guardVel = {-4, 0},    
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.2},  
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -162,6 +178,10 @@ M[245] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,    
                 guardVel = {-4, 0},    
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.2},  
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -195,7 +215,11 @@ M[260] = {
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,   
-                guardVel = {-4, 0},     
+                guardVel = {-4, 0},   
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1},    
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -230,6 +254,10 @@ M[265] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,  
                 guardVel = {-4, 0},      
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.2},  
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -263,7 +291,11 @@ M[400] = {
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9, 
-                guardVel = {-4, 0},       
+                guardVel = {-4, 0},     
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 0.8},    
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -297,7 +329,11 @@ M[420] = {
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,    
-                guardVel = {-4, 0},    
+                guardVel = {-4, 0}, 
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 0.4},     
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -331,7 +367,11 @@ M[440] = {
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,    
-                guardVel = {-4, 0},    
+                guardVel = {-4, 0},  
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1},    
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -365,7 +405,11 @@ M[460] = {
                 guardDamage = 1,
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,  
-                guardVel = {-4, 0},      
+                guardVel = {-4, 0},     
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 0.4},   
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -401,6 +445,10 @@ M[600] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,
                 guardVel = {-4, 0},
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.4},  
             })     
         end 
         if JustOnGround() then
@@ -436,6 +484,10 @@ M[620] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 9,
                 guardVel = {-4, 0},
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.4},  
             })     
         end 
         if JustOnGround() then
@@ -471,6 +523,10 @@ M[640] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,
                 guardVel = {-4, 0},
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.4},  
             })     
         end 
         if JustOnGround() then
@@ -506,6 +562,10 @@ M[660] = {
                 guardPauseTime = {11, 13},
                 guardSlideTime = 16,
                 guardVel = {-4, 0},
+
+                spark = "FXP_HitBallHit",
+                guardSpark = "FXP_HitBallGuard",
+                sparkPos = {0.2, 1.4},  
             })     
         end 
         if JustOnGround() then

@@ -63,4 +63,40 @@ public static class Extension {
         return 0;
     }
 
+    public static UnityEngine.Vector3 AsVector3(this Mugen3D.Core.Number[] array)
+    {
+        Vector3 v = Vector3.zero;
+        for(int i = 0; i < array.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    v.x = array[i].AsFloat();break;
+                case 1:
+                    v.y = array[i].AsFloat();break;
+                case 2:
+                    v.z = array[i].AsFloat();break;
+            }
+        }
+        return v;
+    }
+
+    public static Mugen3D.Core.Vector AsVector(this Mugen3D.Core.Number[] array)
+    {
+        Mugen3D.Core.Vector v = Mugen3D.Core.Vector.zero;
+        for (int i = 0; i < array.Length; i++)
+        {
+            switch (i)
+            {
+                case 0:
+                    v.x = array[i]; break;
+                case 1:
+                    v.y = array[i]; break;
+                case 2:
+                    v.z = array[i]; break;
+            }
+        }
+        return v;
+    }
+
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mugen3D.Core;
 using UnityEngine;
 
 namespace Mugen3D
@@ -8,19 +9,25 @@ namespace Mugen3D
     {
         public ParticleSystem particle;
 
+        public override bool IsAlive()
+        {
+            return particle.IsAlive(true);
+        }
+
+        public override void Init(int id, EffectDef def, UnitView owner)
+        {
+            base.Init(id, def, owner); 
+        }
+
         public override void Play()
         {
             base.Play();
             particle.Play(true);
         }
 
-        public void Update()
+        public override void Update()
         {
-            if(isAlive && particle != null && !particle.IsAlive(true))
-            {
-                isAlive = false;
-                OnFinish();
-            }
+            base.Update();
         }
 
     }

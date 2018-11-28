@@ -30,7 +30,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("PosAdd", PosAdd),
                 new NameFuncPair("Pause", Pause),
                 new NameFuncPair("TargetBind", TargetBind),
-                new NameFuncPair("Effect", Effect),
+                new NameFuncPair("MakeEffect", MakeEffect),
             };
             lua.L_NewLib(define);
             return 1;
@@ -137,7 +137,11 @@ namespace Mugen3D.Core
                 hitDef.guardVel = t.GetNumberArray("guardVel", 2);
 
                 hitDef.groundCornerPush = t.GetNumber("groundCornerPush", 1);
-                hitDef.airCornerPush = t.GetNumber("airCornerPush", 1);  
+                hitDef.airCornerPush = t.GetNumber("airCornerPush", 1);
+
+                hitDef.spark = t.GetString("spark");
+                hitDef.guardSpark = t.GetString("guardSpark");
+                hitDef.sparkPos = t.GetNumberArray("sparkPos", 2);
             }   
             return hitDef;
         }
@@ -294,12 +298,26 @@ namespace Mugen3D.Core
             return 0;
         }
 
-        public static int Effect(ILuaState lua)
+        public static int MakeEffect(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             string effectName = lua.L_CheckString(2);
-            c.SendEvent(new Event { type = EventType.PlayEffect, data = effectName });
+            EffectDef def = new EffectDef();
+            using(var t = new LuaTable(lua))
+            {
+                def.posType = t.GetString("posType");
+                def.pos = t.GetNumberArray("pos", 2);
+                def.facing = t.GetInt("facing", 1);
+                def.bindTime = t.GetInt("bindTime");
+                def.vel = t.GetNumberArray("vel", 2);
+                def.accel = t.GetNumberArray("accel", 2);
+                def.removeTime = t.GetInt("removeTime");
+                def.pauseMoveTime = t.GetInt("pauseMoveTime");
+                def.superPauseMoveTime = t.GetInt("superPauseMoveTime");
+            }
+            def.name = effectName;
+            c.SendEvent(new Event { type = EventType.PlayEffect, data = def });
             return 0;
         }
 

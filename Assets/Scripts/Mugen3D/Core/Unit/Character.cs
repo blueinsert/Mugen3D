@@ -99,6 +99,7 @@ namespace Mugen3D.Core
             if (hitDef.hitType == (int)HitDef.HitType.Attack)
             {
                 AddHP(-hitDef.hitDamage);
+                SendEvent(new Event() { type = EventType.PlayEffect, data = EffectDef.ConstructNormal(hitDef.spark, hitDef.sparkPos, this.GetFacing())});
                 if (this.GetMoveType() == MoveType.BeingHitted)
                 {
                     AddHitCount();
@@ -138,6 +139,7 @@ namespace Mugen3D.Core
             SetBeHitDefData(hitDef);
             this.fsmMgr.ChangeState(this.GetPhysicsType() == PhysicsType.S ? 150 : 156);
             AddHP(-hitDef.guardDamage);
+            SendEvent(new Event() { type = EventType.PlayEffect, data = EffectDef.ConstructNormal(hitDef.guardSpark, hitDef.sparkPos, this.GetFacing()) });
         }
 
 

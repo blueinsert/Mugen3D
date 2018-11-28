@@ -9,6 +9,7 @@ namespace Mugen3D
     {
         private Animation m_anim;
         private Unit m_unit;
+        public Unit unit { get { return m_unit; } }
         private AnimationController m_animCtl;
         private Vector lastPosition;
         private Vector lastScale;
@@ -32,14 +33,14 @@ namespace Mugen3D
                 case Core.EventType.SampleAnim:
                     SampleAnim();break;
                 case Core.EventType.PlayEffect:
-                    PlayEffect(evt.data as string);
+                    PlayEffect(evt.data as EffectDef);
                     break;
             }
         }
 
-        void PlayEffect(string effectName)
+        void PlayEffect(Core.EffectDef effect)
         {
-            EffectPool.Instance.Play(effectName, this.transform.position, null);
+            EffectPool.Instance.Play(effect, this);
         }
 
         void SampleAnim()

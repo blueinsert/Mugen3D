@@ -80,12 +80,42 @@ namespace Mugen3D.Core
         public int p1StateNo;
         public int p2StateNo;
 
+        public string spark;
+        public string guardSpark;
+        public Number[] sparkPos;
+
         public bool moveHit = false;
         public bool moveGuarded = false;
         public bool moveContact = false;
 
         public HitDef()
         {
+        }
+    }
+
+    public class EffectDef {
+        public string name;
+        public string posType;
+        public Number[] pos;
+        public int facing;
+        public int bindTime;
+        public Number[] vel;
+        public Number[] accel;
+        public int removeTime;
+        public int superPauseMoveTime;
+        public int pauseMoveTime;
+
+        public static EffectDef ConstructNormal(string name, Number[] pos, int facing)
+        {
+            EffectDef effect = new EffectDef()
+            {
+                name = name,
+                posType = "p1",
+                pos = pos,
+                facing = facing,
+                bindTime = 1,
+            };
+            return effect;
         }
     }
 
