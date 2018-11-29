@@ -159,18 +159,17 @@ M[20] = {
 		CtrlSet(true)
 	end,
     onUpdate = function(_ENV)
-		if Anim() ~= 20 and CommandTest("holdfwd") then
-			ChangeAnim(20)
-		end
-		if Anim() ~= 21 and CommandTest("holdback") then
-			ChangeAnim(21)
-		end
-		if Anim() == 20 and CommandTest("holdfwd") then
-			VelSet(2.5, 0)
-		end
-		if Anim() == 21 and CommandTest("holdback") then
-			VelSet(-2.5, 0)
-		end
+        if CommandTest("holdfwd") then
+        	if Anim() ~= 20 then
+        		ChangeAnim(20)
+        	end
+        	VelSet(2.5, 0)
+        elseif CommandTest("holdback") then
+        	if Anim() ~= 21 then
+        		ChangeAnim(21)
+        	end
+        	VelSet(-2.5, 0)
+        end
 		if not CommandTest("holdback") and not CommandTest("holdfwd") then
             ChangeState(0)
 		end

@@ -15,7 +15,8 @@ namespace Mugen3D
         public void Init(Character c)
         {
             base.Init(c);
-            this.m_char = c; 
+            this.m_char = c;
+            this.GetComponentInChildren<Renderer>().sortingOrder = 1;
         }
 
         public override void Update()

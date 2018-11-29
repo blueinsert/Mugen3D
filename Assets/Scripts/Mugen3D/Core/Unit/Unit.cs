@@ -233,13 +233,11 @@ namespace Mugen3D.Core
 
         protected Unit() { }
 
+        //update before script update
         public override void OnUpdate(Number deltaTime)
         {
             if (IsPause())
-            {
-                this.status.pauseTime--;
                 return;
-            }
             moveCtr.Update(deltaTime);
             animCtr.Update(); 
             if (hitBy != null)
@@ -250,6 +248,16 @@ namespace Mugen3D.Core
 
         public void UpdateScript() {
             fsmMgr.Update();
+        }
+
+        public void UpdateAfterScriptUpdate()
+        {
+            fsmMgr.ProcessChangeState();
+            animCtr.ProcessChangeAnim();
+            if (IsPause())
+            {
+                AddPauseTime(-1);
+            }
         }
 
         #region status get/set
@@ -321,6 +329,11 @@ namespace Mugen3D.Core
         public int GetPauseTime()
         {
             return status.pauseTime;
+        }
+
+        public void AddPauseTime(int delta)
+        {
+            status.pauseTime += delta;
         }
 
         public int GetFacing()

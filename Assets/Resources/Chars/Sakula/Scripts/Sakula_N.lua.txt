@@ -123,6 +123,7 @@ M[240] = {
     end,
     onUpdate = function(_ENV)
         if AnimElem() == 3 and AnimElemTime() == 0 then
+            print("HitDefSet")
             HitDefSet({
                hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,

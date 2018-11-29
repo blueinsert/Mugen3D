@@ -213,15 +213,14 @@ namespace Mugen3D.Core
             }
         }
 
-        void PrepareForNextFrame()
+        void UpdateAfterScriptUpdate()
         {
             foreach (var e in entities)
             {
                 if (e is Unit)
                 {
                     var u = e as Unit;
-                    u.fsmMgr.ProcessChangeState();
-                    u.animCtr.ProcessChangeAnim();
+                    u.UpdateAfterScriptUpdate();
                 }
             }
         }
@@ -238,7 +237,7 @@ namespace Mugen3D.Core
             Debug();
             UpdateView();
             cameraController.Update();
-            PrepareForNextFrame();
+            UpdateAfterScriptUpdate();
         }
         
     }

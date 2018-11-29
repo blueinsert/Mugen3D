@@ -1,5 +1,5 @@
 command.time = 15
-command.buffer.time = 5
+command.buffer.time = 15
 
 [Command]
 name = "623A"

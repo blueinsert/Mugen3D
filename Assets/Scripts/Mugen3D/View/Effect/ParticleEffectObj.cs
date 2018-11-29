@@ -16,7 +16,8 @@ namespace Mugen3D
 
         public override void Init(int id, EffectDef def, UnitView owner)
         {
-            base.Init(id, def, owner); 
+            base.Init(id, def, owner);
+            particle.GetComponent<Renderer>().sortingOrder = 0;
         }
 
         public override void Play()
