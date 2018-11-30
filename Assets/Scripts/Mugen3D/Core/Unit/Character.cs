@@ -100,6 +100,7 @@ namespace Mugen3D.Core
             {
                 AddHP(-hitDef.hitDamage);
                 SendEvent(new Event() { type = EventType.PlayEffect, data = EffectDef.ConstructNormal(hitDef.spark, hitDef.sparkPos, this.GetFacing())});
+                SendEvent(new Event() { type = EventType.PlaySound, data = new SoundDef() { name = hitDef.hitSound, delay = 0, volume = 1 } });
                 if (this.GetMoveType() == MoveType.BeingHitted)
                 {
                     AddHitCount();
@@ -140,9 +141,8 @@ namespace Mugen3D.Core
             this.fsmMgr.ChangeState(this.GetPhysicsType() == PhysicsType.S ? 150 : 156);
             AddHP(-hitDef.guardDamage);
             SendEvent(new Event() { type = EventType.PlayEffect, data = EffectDef.ConstructNormal(hitDef.guardSpark, hitDef.sparkPos, this.GetFacing()) });
+            SendEvent(new Event() { type = EventType.PlaySound, data = new SoundDef() { name = hitDef.guardSound, delay = 0, volume = 1 } });
         }
-
-
 
         public override void OnMoveHit(Unit target)
         {

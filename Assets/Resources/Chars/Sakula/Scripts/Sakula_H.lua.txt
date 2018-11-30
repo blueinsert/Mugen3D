@@ -25,16 +25,7 @@ M[1005] = {
         PhysicsSet(Enums.PhysicsType.S)
 		CtrlSet(false)
         ChangeAnim(1005)
-        VelSet(0,0)   
-        --[[
-        MakeEffect("FXP_HitBallHit", {
-            id = 1,
-            posType = "p1",
-            pos = {0, 0.7},
-            facing = Facing(),
-            bindTime = 1,
-        })
-        --]] 
+        VelSet(0,0)    
 	end,
 	onUpdate = function(_ENV)
         if AnimElem() == 4 and AnimElemTime() == 0 then
@@ -85,6 +76,9 @@ M[1200] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
     	if LeftAnimTime() <= 0 then
@@ -124,6 +118,9 @@ M[1205] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then
@@ -165,6 +162,9 @@ M[1210] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
     	if LeftAnimTime() <= 0 then
@@ -204,6 +204,9 @@ M[1215] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then
@@ -258,7 +261,10 @@ M[1405] = {
 
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
-                sparkPos = {0.2, 1.4},  
+                sparkPos = {0.2, 1.4}, 
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded",  
             })     
         end  
         if JustOnGround() then
@@ -314,6 +320,9 @@ M[1415] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.4},  
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then

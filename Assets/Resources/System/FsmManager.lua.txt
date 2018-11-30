@@ -22,6 +22,7 @@ local controllers = {
 	{name = "TargetBind",          func = controller.TargetBind},
 	{name = "BindToTarget",        func = controller.BindToTarget},
 	{name = "MakeEffect",          func = controller.MakeEffect},
+	{name = "PlaySound",           func = controller.PlaySound},
 }
 
 local triggers = {

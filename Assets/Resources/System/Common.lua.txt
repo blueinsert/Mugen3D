@@ -633,6 +633,7 @@ M[5100] = {
 		PhysicsSet(Enums.PhysicsType.C)
 		ChangeAnim(5100)
 		VelSet(0,0)
+		PlaySound("Snd_HitGround", {volume = 1, delay = 0})
 	end,
 	onUpdate = function(_ENV)
 		if LeftAnimTime() <= 0 then

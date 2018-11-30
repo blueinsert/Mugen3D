@@ -33,6 +33,9 @@ M[0] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1},  
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })      
         end
         

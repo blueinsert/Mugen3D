@@ -31,6 +31,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("Pause", Pause),
                 new NameFuncPair("TargetBind", TargetBind),
                 new NameFuncPair("MakeEffect", MakeEffect),
+                new NameFuncPair("PlaySound", PlaySound),
             };
             lua.L_NewLib(define);
             return 1;
@@ -142,6 +143,9 @@ namespace Mugen3D.Core
                 hitDef.spark = t.GetString("spark");
                 hitDef.guardSpark = t.GetString("guardSpark");
                 hitDef.sparkPos = t.GetNumberArray("sparkPos", 2);
+
+                hitDef.hitSound = t.GetString("hitSound");
+                hitDef.guardSound = t.GetString("guardSound");
             }   
             return hitDef;
         }
@@ -321,6 +325,21 @@ namespace Mugen3D.Core
             return 0;
         }
 
+        public static int PlaySound(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            string soundName = lua.L_CheckString(2);
+            SoundDef def = new SoundDef();
+            using(var t = new LuaTable(lua))
+            {
+                def.delay = t.GetNumber("delay", 0);
+                def.volume = t.GetNumber("volume", 1);
+            }
+            def.name = soundName;
+            c.SendEvent(new Event() { type = EventType.PlaySound, data = def });
+            return 0;
+        }
 
     }
 }

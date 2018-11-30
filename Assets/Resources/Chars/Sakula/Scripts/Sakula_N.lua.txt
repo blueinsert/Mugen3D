@@ -31,6 +31,9 @@ M[200] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })      
         end
 	    if LeftAnimTime() == 0 then
@@ -54,6 +57,7 @@ M[205] = {
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
                 forceLevel = Enums.ForceLevel.Light,
+
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
                 hitSlideTime = 9,
@@ -68,6 +72,9 @@ M[205] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},   
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })      
         end
         if LeftAnimTime() == 0 then
@@ -106,6 +113,9 @@ M[220] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 0.4},  
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -145,6 +155,9 @@ M[240] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -183,6 +196,9 @@ M[245] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -221,6 +237,9 @@ M[260] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1},    
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -259,6 +278,9 @@ M[265] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.2},  
+
+                hitSound = "Snd_HitLv3",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -297,6 +319,9 @@ M[400] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 0.8},    
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -334,7 +359,10 @@ M[420] = {
 
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
-                sparkPos = {0.2, 0.4},     
+                sparkPos = {0.2, 0.4}, 
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded",     
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -373,6 +401,9 @@ M[440] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1},    
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -411,6 +442,9 @@ M[460] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 0.4},   
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if LeftAnimTime() == 0 then
@@ -450,6 +484,9 @@ M[600] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.4},  
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then
@@ -489,6 +526,9 @@ M[620] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.4},  
+
+                hitSound = "Snd_HitLv1",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then
@@ -528,6 +568,9 @@ M[640] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.4},  
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then
@@ -567,6 +610,9 @@ M[660] = {
                 spark = "FXP_HitBallHit",
                 guardSpark = "FXP_HitBallGuard",
                 sparkPos = {0.2, 1.4},  
+
+                hitSound = "Snd_HitLv2",
+                guardSound = "Snd_HitGuarded", 
             })     
         end 
         if JustOnGround() then

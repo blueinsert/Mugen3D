@@ -35,12 +35,20 @@ namespace Mugen3D
                 case Core.EventType.PlayEffect:
                     PlayEffect(evt.data as EffectDef);
                     break;
+                case Core.EventType.PlaySound:
+                    PlaySound(evt.data as SoundDef);
+                    break;
             }
         }
 
         void PlayEffect(Core.EffectDef effect)
         {
             EffectPool.Instance.Play(effect, this);
+        }
+
+        void PlaySound(Core.SoundDef sound)
+        {
+            SoundPlayer.Instance.Play(sound.name, sound.delay.AsFloat(), sound.volume.AsFloat());
         }
 
         void SampleAnim()
