@@ -154,6 +154,8 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
+            if (c.IsPause())
+                return 0;
             HitDef hitDef = GetHitDef(lua);
             c.SetHitDefData(hitDef);
             return 0;

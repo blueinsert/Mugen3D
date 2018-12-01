@@ -102,7 +102,8 @@ M[6] = {
 --stand to crouch
 M[10] = {
 	onEnter = function(_ENV)
-	    PhysicsSet(Enums.PhysicsType.S)
+	    PhysicsSet(Enums.PhysicsType.C)
+	    CtrlSet(true)
 	    if AnimExist(10) then
 	        ChangeAnim(10)
 	    else
@@ -140,6 +141,7 @@ M[11] = {
 M[12] = {
     onEnter = function(_ENV)
         PhysicsSet(Enums.PhysicsType.S)
+        CtrlSet(true)
 	    if AnimExist(12) then
 	        ChangeAnim(12)
 	    else
@@ -159,7 +161,7 @@ M[20] = {
 		CtrlSet(true)
 	end,
     onUpdate = function(_ENV)
-        if CommandTest("holdfwd") then
+        if CommandTest("holdfwd")  then
         	if Anim() ~= 20 then
         		ChangeAnim(20)
         	end

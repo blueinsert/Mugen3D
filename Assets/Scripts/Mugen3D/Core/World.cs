@@ -193,8 +193,7 @@ namespace Mugen3D.Core
                 if (e is Unit)
                 {
                     var u = e as Unit;
-                    if (!u.IsPause())
-                        u.UpdateScript();
+                    u.UpdateScript();
                 }
             }
         }

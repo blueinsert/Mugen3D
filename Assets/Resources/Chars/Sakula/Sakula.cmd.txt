@@ -15,12 +15,22 @@ buffer.time = 8
 
 [Command]
 name = "26A"
+command = DF, F, a
+time = 20
+
+[Command]
+name = "26A"
 command = $D, DF, F, a
 time = 20
 
 [Command]
 name = "26A"
 command = $D, F, a
+time = 20
+
+[Command]
+name = "26B"
+command = DF, F, b
 time = 20
 
 [Command]
@@ -35,12 +45,22 @@ time = 20
 
 [Command]
 name = "24X"
+command = DB, B, x
+time = 20
+
+[Command]
+name = "24X"
 command = $D, DB, B, x
 time = 20
 
 [Command]
 name = "24X"
 command = $D, B, x
+time = 20
+
+[Command]
+name = "24Y"
+command = DB, B, y
 time = 20
 
 [Command]

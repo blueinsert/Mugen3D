@@ -29,6 +29,9 @@ namespace Mugen3D
         public enum SoundChannelType
         {
             Default = 0,
+            Player,
+            HitSnd,
+            Env,
             Reserve1,
             Reserve2,
             Reserve3,
