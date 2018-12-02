@@ -1,0 +1,4 @@
+test:
+  name: test
+  script: Mugen3D.UIView
+  prefab: Prefabs/UI/MainMenu/PageMainMenu

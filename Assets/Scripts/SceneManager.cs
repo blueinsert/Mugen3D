@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FSoul.UI;
 using Mugen3D;
 
 public enum LoadType { 
@@ -160,7 +159,7 @@ public class SceneManager : MonoBehaviour {
     {
         LoadScene(LoadType.Load, "Scene_MainMenu",
             (scene) => { 
-                UIManager.Instance.PushView("ViewMainMenu", GameObject.Find("UIRoot/Canvas/BaseGroup").transform); 
+                //UIManager.Instance.PushView("ViewMainMenu", GameObject.Find("UIRoot/Canvas/BaseGroup").transform); 
             }, 
             null
         );
