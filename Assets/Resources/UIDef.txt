@@ -1,4 +1,12 @@
-test:
-  name: test
-  script: Mugen3D.UIView
-  prefab: Prefabs/UI/MainMenu/PageMainMenu
+FightHud:
+  name: FightHud
+  script: Mugen3D.FightHud
+  prefab: Prefabs/UI/Fight/FightHud
+LifeBar:
+  name: LifeBar
+  script: Mugen3D.WidgetLifeBar
+  prefab: Prefabs/UI/Fight/WidgetLifeBar
+HitCount:
+  name: HitCount
+  script: Mugen3D.WidgetHitCount
+  prefab: Prefabs/UI/Fight/WidgetHitCount

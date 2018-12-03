@@ -12,6 +12,7 @@ namespace Mugen3D.Core
         SampleAnim,
         PlayEffect,
         PlaySound,
+        HitCountChange,
     }
 
     public class Event

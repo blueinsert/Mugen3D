@@ -38,6 +38,7 @@ namespace Mugen3D
             p1 = CreateCharacter(p1CharacterName, 0, true);
             p2 = CreateCharacter(p2CharacterName, 1, false);
             viewWorld.CreateCamera(this.world.cameraController);
+            UIManager.Instance.AddView("FightHud", this.transform);
         }
 
         protected override void OnUpdate()

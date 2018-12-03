@@ -12,6 +12,8 @@ namespace Mugen3D
         public string name { get; set; }
         public string script { get; set; }
         public string prefab { get; set; }
+        public string fadeInAnim { get; set; }
+        public string fadeOutAnim { get; set; }
     }
 
     public class UIManager : Singleton<UIManager>
@@ -42,7 +44,7 @@ namespace Mugen3D
             GameObject.Destroy(view.gameObject);
         }
 
-        public UIView Add(string name, Transform parent)
+        public UIView AddView(string name, Transform parent)
         {
             if (!m_uiDefs.ContainsKey(name))
             {
@@ -57,7 +59,7 @@ namespace Mugen3D
             var go = GameObject.Instantiate(prefab, parent);
             go.gameObject.name = name; 
             var view = (UIView)go.AddComponent(t);
-            view.Init(m_currentId++, name);
+            view.Init(m_currentId++, def);
             if (!m_views.ContainsKey(name))
             {
                 m_views.Add(name, new Dictionary<int, UIView>());
@@ -66,6 +68,15 @@ namespace Mugen3D
             go.gameObject.name = go.gameObject.name + "_" + m_views[name].Count;
             view.onDestroy += OnViewDestroy;
             return view;
+        }
+
+        public UIView FindFirst(string name)
+        {
+            if(m_views[name] == null || m_views[name].Count == 0)
+            {
+                return null;
+            }
+            return m_views[name].GetEnumerator().Current.Value;
         }
 
     }

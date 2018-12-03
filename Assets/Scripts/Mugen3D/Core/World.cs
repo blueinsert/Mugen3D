@@ -17,7 +17,7 @@ namespace Mugen3D.Core
         private List<Entity> m_destroyedEntities = new List<Entity>();
         private List<Entity> entities = new List<Entity>();
         public List<Character> characters = new List<Character>();
-        public TeamInfo teamInfo = new TeamInfo();
+        public TeamManager teamInfo = new TeamManager();
         public System.Action<Entity> onAddEntity;
         public System.Action<Entity> onRemoveEntity;
         public Character localPlayer { get; private set; }

@@ -9,7 +9,7 @@ namespace Mugen3D
     {
         public Action<UIView> onDestroy;
         public int id { get; private set; }
-        public new string name { get; private set; }
+        public UIDef def { get; private set; }
           
         public void Close() {
             if (onDestroy != null)
@@ -18,10 +18,10 @@ namespace Mugen3D
             }
         }
 
-        public virtual void Init(int id, string name)
+        public virtual void Init(int id, UIDef def)
         {
             this.id = id;
-            this.name = name;
+            this.def = def;
         }
     }
 }

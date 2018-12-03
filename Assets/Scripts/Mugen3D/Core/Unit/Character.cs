@@ -103,12 +103,13 @@ namespace Mugen3D.Core
                 SendEvent(new Event() { type = EventType.PlaySound, data = new SoundDef() { name = hitDef.hitSound, delay = 0, volume = 1 } });
                 if (this.GetMoveType() == MoveType.BeingHitted)
                 {
-                    AddHitCount();
+                    AddBeHitCount();
+                    hitDef.owner.SetHitCount(this.beHitCount);
                 }
                 else
                 {
-                    ClearHitCount();
-                    AddHitCount();
+                    ClearBeHitCount();
+                    AddBeHitCount();
                 }
                 if (hitDef.knockAwayType == -1) {
                     if (this.GetPhysicsType() == PhysicsType.S)

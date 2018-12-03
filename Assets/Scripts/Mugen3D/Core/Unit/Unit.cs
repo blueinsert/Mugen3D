@@ -427,14 +427,21 @@ namespace Mugen3D.Core
 
         public int beHitCount { get; protected set; }
 
-        protected void AddHitCount()
+        protected void AddBeHitCount()
         {
             this.beHitCount++;
         }
 
-        protected void ClearHitCount()
+        protected void ClearBeHitCount()
         {
             this.beHitCount = 0;
+        }
+
+        public int hitCount { get; private set; }
+        public void SetHitCount(int hitCount)
+        {
+            this.hitCount = hitCount;
+            SendEvent(new Event() { type = EventType.HitCountChange, data = this.hitCount });
         }
 
         public virtual void PrintDebugInfo()
