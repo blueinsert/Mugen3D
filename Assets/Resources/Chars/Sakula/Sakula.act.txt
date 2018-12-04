@@ -945,6 +945,95 @@ actions:
       y1: 0.027
       x2: 0.295
       y2: 0.989
+- animNo: 170
+  animName: Lose
+  animLength: 10
+  frames:
+  - normalizeTime: 0.212
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.36
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.54
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.794
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 2
+    clsns: []
+  loopStartIndex: 4
+- animNo: 180
+  animName: Win
+  animLength: 12
+  frames:
+  - normalizeTime: 0.303
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.409
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.568
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.78
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.854
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 2
+    clsns: []
+  loopStartIndex: 5
+- animNo: 190
+  animName: Intro
+  animLength: 37
+  frames:
+  - duration: 2
+    clsns: []
+  - normalizeTime: 0.106
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.169
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.264
+    duration: 6
+    clsns: []
+  - normalizeTime: 0.335
+    duration: 6
+    clsns: []
+  - normalizeTime: 0.462
+    duration: 3
+    clsns: []
+  - normalizeTime: 0.493
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.556
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.619
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.714
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.788
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.83
+    duration: 2
+    clsns: []
+  - normalizeTime: 0.883
+    duration: 2
+    clsns: []
+  - normalizeTime: 1
+    duration: 2
+    clsns: []
+  loopStartIndex: 13
 - animNo: 200
   animName: Punch_Light_Stand
   animLength: 11

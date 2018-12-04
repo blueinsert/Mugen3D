@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mugen3D;
 using Math = Mugen3D.Core.Math;
@@ -10,8 +11,7 @@ namespace Mugen3D.Core
 
     public class World
     {
-        private int logicFPS;
-        private Number deltaTime;
+       
         private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
@@ -23,15 +23,22 @@ namespace Mugen3D.Core
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
         public CameraController cameraController {get; private set;}
+        public Action<Event> onEvent; 
 
-        public World(WorldConfig cfg, int logicFPS)
+        public World(WorldConfig cfg)
         {
-            config = cfg;
-            this.logicFPS = logicFPS;
-            this.deltaTime = new Number(1000 / logicFPS) / new Number(1000);
+            config = cfg; 
             entities = new List<Entity>();
             cameraController = new CameraController(cfg.stageConfig.cameraConfig);
-            Time.Clear();
+            
+        }
+
+        public void FireEvent(Event evt)
+        {
+            if (onEvent != null)
+            {
+                onEvent(evt);
+            }
         }
 
         public void AddEntity(Entity e)
@@ -226,8 +233,7 @@ namespace Mugen3D.Core
        
         public void Update()
         {
-            Time.Update(deltaTime);
-           
+             
             EntityUpdate();
             UpdateLuaScripts();     //change state, change anim, so on...  
             

@@ -13,6 +13,8 @@ namespace Mugen3D.Core
         PlayEffect,
         PlaySound,
         HitCountChange,
+        //round mgr
+        OnRoundStateChange,
     }
 
     public class Event

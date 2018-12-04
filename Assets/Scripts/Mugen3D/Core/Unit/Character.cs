@@ -16,6 +16,7 @@ namespace Mugen3D.Core
         public int AILevel {get {return m_aiLevel;}}
         private List<Helper> m_helpers = new List<Helper>();
         private List<Projectile> m_projs = new List<Projectile>();
+        public int roundsExisted { get; private set; }
 
         public Character(string characterName, CharacterConfig config, int slot, bool isLocal) : base(config)
         {

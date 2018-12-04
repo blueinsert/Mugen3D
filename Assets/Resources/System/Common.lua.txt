@@ -703,4 +703,12 @@ M[5170] = {
 	end
 }
 
+M[5900] = {
+	onEnter = function(_ENV)
+		PhysicsSet(Enums.PhysicsType.S)
+	end,
+	onUpdate = function(_ENV)
+	    
+	end
+}
 return M
