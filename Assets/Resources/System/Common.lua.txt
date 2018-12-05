@@ -453,6 +453,49 @@ M[157] = {
     end
 }
 
+--lose
+M[170] = {
+	onEnter = function(_ENV)
+		MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		VelSet(0,0)
+		ChangeAnim(170)
+	end,
+	onUpdate = function(_ENV)
+	end
+}
+
+--win
+M[180] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		VelSet(0,0)
+		ChangeAnim(180)
+	end,
+	onUpdate = function(_ENV)
+		
+	end
+}
+
+--intro
+M[190] = {
+	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		VelSet(0,0)
+		ChangeAnim(190)
+	end,
+	onUpdate = function(_ENV)
+		if LeftAnimTime() <= 0 then
+			ChangeState(0)
+		end
+	end
+}
+
 --get-hit-stand(shaking)
 M[5000] = {
 	onEnter = function(_ENV)
@@ -708,7 +751,11 @@ M[5900] = {
 		PhysicsSet(Enums.PhysicsType.S)
 	end,
 	onUpdate = function(_ENV)
-	    
+	    if RoundNo() == 0 then
+	    	ChangeState(190)
+	    else
+	    	ChangeState(0)
+	    end
 	end
 }
 return M

@@ -66,6 +66,8 @@ local triggers = {
 	{name = "Life",        func = trigger.Life},
 	{name = "LifeMax",     func = trigger.LifeMax},
 	{name = "Alive",       func = trigger.Alive},
+	{name = "MatchNo",     func = trigger.MatchNo},
+	{name = "RoundNo",     func = trigger.RoundNo},
 }
 
 local function setCommonENVVars(env)

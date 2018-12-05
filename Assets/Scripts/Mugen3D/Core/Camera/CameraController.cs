@@ -30,6 +30,8 @@ namespace Mugen3D.Core
             m_rotationX = 0;
             m_targetCenter = Vector.zero;
             m_maxCharacterDist = Math.Tan(config.maxFiledOfView / 2 / 180 * Math.Pi) * Math.Abs(config.depth) * 2 * config.aspect;
+            m_fieldOfView = config.maxFiledOfView;
+            CalcViewportRect();
         }
 
         public void SetFollowTarget(int slot, Character character)

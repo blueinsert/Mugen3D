@@ -27,7 +27,7 @@ namespace Mugen3D
 
         private void InitMapCfg()
         {
-            var inputs = ClientGame.Instance.world.config.inputConfig.playerInputs;
+            var inputs = ClientGame.Instance.game.world.config.inputConfig.playerInputs;
             for (int i = 0; i < inputs.Length; i++)
             {
                 var mapping = new Dictionary<Core.KeyNames, KeyCode>();

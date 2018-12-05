@@ -24,7 +24,7 @@ namespace Mugen3D
             RegisterBattleNetClient(battleNetClient);
             Application.targetFrameRate = renderFPS;
             InitGame();
-            CreateWorld(stageName, logicFPS);
+            CreateGame(stageName, logicFPS);
             CreateCharacter(p1CharacterName, 0, true);
             CreateCharacter(p2CharacterName, 1, false);
             StartCoroutine(SendProgress());
@@ -57,7 +57,7 @@ namespace Mugen3D
             //Debug.Log("OnGameUpdate");
             if (commands != null)
             {
-                var players = world.characters;
+                var players = game.world.characters;
                 for (int i = 0; i < players.Count; i++)
                 {
                     if (players[i] != null)
@@ -77,7 +77,7 @@ namespace Mugen3D
         {
             if (!m_battleNetClient.isBattleReady)
                 return;
-            m_battleNetClient.SendInput(Core.Time.frameCount, InputHandler.Instance.GetInputKeycode(world.localPlayer.slot, world.localPlayer.GetFacing()));
+            m_battleNetClient.SendInput(Core.Time.frameCount, InputHandler.Instance.GetInputKeycode(game.world.localPlayer.slot, game.world.localPlayer.GetFacing()));
         }
 
         void OnGUI()

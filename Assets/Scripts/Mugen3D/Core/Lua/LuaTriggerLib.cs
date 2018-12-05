@@ -47,6 +47,8 @@ namespace Mugen3D.Core
                 new NameFuncPair("Life", GetHP),
                 new NameFuncPair("LifeMax", GetMaxHP),
                 new NameFuncPair("Alive", IsAlive),
+                new NameFuncPair("MatchNo", MatchNo),
+                new NameFuncPair("RoundNo", RoundNo),
             };
             lua.L_NewLib(define);
             return 1;
@@ -488,6 +490,24 @@ namespace Mugen3D.Core
             Unit c = (Unit)lua.ToUserData(1);
             var isAlive = c.IsAlive();
             lua.PushBoolean(isAlive);
+            return 1;
+        }
+
+        public static int MatchNo(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            var matchNo = c.world.matchManager.matchNo;
+            lua.PushInteger(matchNo);
+            return 1;
+        }
+
+        public static int RoundNo(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit c = (Unit)lua.ToUserData(1);
+            var roundNo = c.world.matchManager.roundNo;
+            lua.PushInteger(roundNo);
             return 1;
         }
     }

@@ -446,6 +446,9 @@ namespace Mugen3D.Core
 
         public virtual void PrintDebugInfo()
         {
+            Core.Debug.AddGUIDebugMsg(this.id, "roundState",this.world.matchManager.roundState.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "roundNo", this.world.matchManager.roundNo.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "matchNo", this.world.matchManager.matchNo.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "name", this.config.name);
             Core.Debug.AddGUIDebugMsg(this.id, "pos", this.position.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "stateNo", this.fsmMgr.stateNo.ToString());

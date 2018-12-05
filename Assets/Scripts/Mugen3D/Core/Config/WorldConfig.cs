@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 namespace Mugen3D.Core
 {
-    public class VectorInt{
-        public int x {get; set;}
-        public int y {get; set;}
+    public class VectorSerialize{
+        public Number x {get; set;}
+        public Number y {get; set;}
+        public Number z { get; set; }
     }
 
     public class CameraConfig
@@ -25,7 +26,7 @@ namespace Mugen3D.Core
         public int borderXMax { get; set; }
         public int borderYMin { get; set; }
         public int borderYMax { get; set; }
-        public VectorInt[] initPos { get; set; }
+        public VectorSerialize[] initPos { get; set; }
         public CameraConfig cameraConfig { get; set; }
     }
 

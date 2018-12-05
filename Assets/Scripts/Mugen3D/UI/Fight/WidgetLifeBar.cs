@@ -19,7 +19,7 @@ namespace Mugen3D
             sliderP1Life = this.transform.Find("Pos/HpBarP1").GetComponent<Slider>();
             sliderP2Life = this.transform.Find("Pos/HpBarP2").GetComponent<Slider>();
             textLeftTime = this.transform.Find("Pos/LeftTime").GetComponent<Text>();
-            var world = ClientGame.Instance.world;
+            var world = ClientGame.Instance.game.world;
             m_p1 = world.teamInfo.p1;
             m_p2 = world.teamInfo.p2;
         }

@@ -10,20 +10,22 @@ namespace Mugen3D.Core
 {
 
     public class World
-    {
-       
+    { 
         private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
         private List<Entity> entities = new List<Entity>();
-        public List<Character> characters = new List<Character>();
+        public Dictionary<int, Character> characters = new Dictionary<int, Character>();
+
         public TeamManager teamInfo = new TeamManager();
         public System.Action<Entity> onAddEntity;
         public System.Action<Entity> onRemoveEntity;
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
         public CameraController cameraController {get; private set;}
-        public Action<Event> onEvent; 
+        public Action<Event> onEvent;
+        private bool isPause = false;
+        public MatchManager matchManager;
 
         public World(WorldConfig cfg)
         {
@@ -31,6 +33,16 @@ namespace Mugen3D.Core
             entities = new List<Entity>();
             cameraController = new CameraController(cfg.stageConfig.cameraConfig);
             
+        }
+
+        public void Pause()
+        {
+            isPause = true;
+        }
+
+        public void Continue()
+        {
+            isPause = false;
         }
 
         public void FireEvent(Event evt)
@@ -43,20 +55,34 @@ namespace Mugen3D.Core
 
         public void AddEntity(Entity e)
         {
-            m_addedEntities.Add(e);
-            if (e is Character)
-            {
-                Character c = e as Character;
-                teamInfo.AddCharacter(c);
-                if (c.isLocal)
-                {
-                    this.localPlayer = c;
-                }
-                this.characters.Add(c);
-                cameraController.SetFollowTarget(c.slot, c);
-            }
+            m_addedEntities.Add(e); 
             e.SetEntityId(m_maxEntityId++);
-            e.SetWorld(this);      
+            e.SetWorld(this);
+        }
+
+        public void AddCharacter(Character c)
+        {
+            this.characters.Add(c.slot, c);
+            teamInfo.AddCharacter(c);
+            if (c.isLocal)
+            {
+                this.localPlayer = c;
+            }
+            cameraController.SetFollowTarget(c.slot, c);
+            AddEntity(c);
+        }
+
+        public void RemoveCharacter(int slot)
+        {
+            var c = characters[slot];
+            characters.Remove(slot);
+            entities.Remove(c);
+        }
+
+        public void ChangeCharacter(Character c)
+        {
+            RemoveCharacter(c.slot);
+            AddCharacter(c);
         }
 
         private void DoAddEntity(Entity e)
@@ -94,7 +120,7 @@ namespace Mugen3D.Core
             m_addedEntities.Clear();
             foreach (var e in entities)
             {
-                e.OnUpdate(deltaTime);
+                e.OnUpdate(Time.deltaTime);
                 if (e.isDestroyed)
                 {
                     m_destroyedEntities.Add(e);
@@ -233,7 +259,8 @@ namespace Mugen3D.Core
        
         public void Update()
         {
-             
+            if (isPause)
+                return;
             EntityUpdate();
             UpdateLuaScripts();     //change state, change anim, so on...  
             

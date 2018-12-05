@@ -19,7 +19,7 @@ namespace Mugen3D
     public abstract class ClientGame : MonoBehaviour
     {
         public static ClientGame Instance;
-        public Core.World world;
+        public Core.Game game;
         public ViewWorld viewWorld;
         private bool isPuase = false;
 
@@ -89,20 +89,20 @@ namespace Mugen3D
 
         protected Character CreateCharacter(string characterName, int slot, bool isLocal)
         {
-            Character p = EntityFactory.CreateCharacter(characterName, slot, isLocal);
-            this.world.AddEntity(p);
-            return p;
+            Character c = EntityFactory.CreateCharacter(characterName, slot, isLocal);
+            this.game.world.AddCharacter(c);
+            return c;
         }
 
-        protected void CreateWorld(string stageName, int logicFPS)
+        protected void CreateGame(string stageName, int logicFPS)
         {
             StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + stageName));
             InputConfig inputConfig = ConfigReader.Parse<InputConfig>(ResourceLoader.LoadText("Config/Input"));
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.SetStageConfig(stageConfig);
             worldConfig.SetInputConfig(inputConfig);
-            world = new World(worldConfig, logicFPS);
-            viewWorld = new ViewWorld(world);
+            this.game = new Game(worldConfig, logicFPS);
+            viewWorld = new ViewWorld(game.world);
             viewWorld.InitScene(this.gameObject);
             viewWorld.CreateStage(worldConfig.stageConfig.stage);
         }
@@ -131,7 +131,7 @@ namespace Mugen3D
 
         protected void Step()
         {
-            this.world.Update();
+            this.game.Step();
         }
 
     }
