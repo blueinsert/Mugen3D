@@ -13,7 +13,11 @@ namespace Mugen3D.Core
         PlayEffect,
         PlaySound,
         HitCountChange,
-        //round mgr
+        //
+        OnMatchStart,
+        OnMatchEnd,
+        OnRoundStart,
+        OnRoundEnd,
         OnRoundStateChange,
     }
 

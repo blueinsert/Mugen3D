@@ -261,14 +261,14 @@ namespace Mugen3D.Core
         {
             if (isPause)
                 return;
+            cameraController.Update();
             EntityUpdate();
             UpdateLuaScripts();     //change state, change anim, so on...  
-            
             HitResolve();
 
             Debug();
             UpdateView();
-            cameraController.Update();
+
             UpdateAfterScriptUpdate();
         }
         

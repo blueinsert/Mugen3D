@@ -11,11 +11,22 @@ namespace Mugen3D.Core
         public World world { get; private set; }
         public MatchManager matchManager { get; private set; }
 
-        public Game(WorldConfig worldConfig, int fps) {
+        public Game(MatchInfo matchInfo, WorldConfig worldConfig, int fps) {
+
             this.fps = fps;
             this.deltaTime = new Number(1000 / fps) / new Number(1000);
             Time.Clear();
-            world = new World(worldConfig);    
+            world = new World(worldConfig);
+            switch (matchInfo.mode)
+            {
+                case MatchMode.SingleVS:
+                    matchManager = new SingleVS(world, matchInfo);
+                    break;
+                default:
+                    matchManager = new SingleVS(world, matchInfo);
+                    break;
+            }
+            world.matchManager = matchManager;
         }
 
         public void Step()
@@ -23,21 +34,15 @@ namespace Mugen3D.Core
             Time.Update(deltaTime);
             if (matchManager != null)
                 matchManager.Update();
+            if(matchManager != null && matchManager.matchState == MatchState.Running)
+            {
+                world.Update();
+            }
         }
 
-        public void StartGame(MatchInfo info)
+        public void StartGame()
         {
-            switch (info.mode)
-            {
-                case MatchMode.SingleVS:
-                    matchManager = new SingleVS(world, info);
-                    break;
-                default:
-                    matchManager = new SingleVS(world, info);
-                    break;
-            }
             matchManager.StartMatch(0);
-            world.matchManager = matchManager;
         }
     }
 }

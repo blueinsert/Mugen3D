@@ -20,6 +20,7 @@ namespace Mugen3D.Core
             p2.SetHP(p2.GetMaxHP());
             p1.SetPosition(new Vector(world.config.stageConfig.initPos[0].x, world.config.stageConfig.initPos[0].y, 0));
             p2.SetPosition(new Vector(world.config.stageConfig.initPos[1].x, world.config.stageConfig.initPos[1].y, 0));
+            FireEvent(new Event() { type = EventType.OnRoundStart, data = this.roundNo });
         }
 
         protected override void OnRoundEnd()
@@ -39,6 +40,7 @@ namespace Mugen3D.Core
             {
                 StartRound(this.roundNo + 1);
             }
+            FireEvent(new Event() { type = EventType.OnRoundEnd });
         }
 
         protected override void OnMatchStart()
@@ -50,6 +52,7 @@ namespace Mugen3D.Core
             world.AddCharacter(p2); 
             winCount[p1.slot] = 0;
             winCount[p2.slot] = 0;
+            FireEvent(new Event() { type = EventType.OnMatchStart });
         }
 
         protected override void OnMatchEnd()
@@ -57,6 +60,7 @@ namespace Mugen3D.Core
             base.OnMatchEnd();
             //world.RemoveCharacter(0);
             //world.RemoveCharacter(1);
+            FireEvent(new Event() { type = EventType.OnMatchEnd });
         }
     }
 }

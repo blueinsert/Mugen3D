@@ -26,13 +26,14 @@ namespace Mugen3D
         {
             Application.targetFrameRate = renderFPS;
             m_gameDeltaTime = (1000 / logicFPS) / 1000f;
-            InitGame();
-            CreateGame(matchInfo.stage, logicFPS);
-            this.game.StartGame(matchInfo);
-            p1 = (this.game.matchManager as Core.SingleVS).p1;
-            p2 = (this.game.matchManager as Core.SingleVS).p2;
-            viewWorld.CreateCamera(this.game.world.cameraController);
-            UIManager.Instance.AddView("FightHud", this.transform);
+            InitCore();
+            CreateGame(matchInfo, logicFPS);
+            this.game.StartGame();
+
+            p1 = (this.game.matchManager).p1;
+            p2 = (this.game.matchManager).p2;
+
+            
         }
 
         protected override void OnUpdate()

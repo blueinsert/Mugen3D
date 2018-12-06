@@ -68,7 +68,7 @@ namespace Mugen3D
             return ResourceLoader.LoadText(fileName);
         }
 
-        private void InitCore()
+        protected void InitCore()
         {
             Core.Debug.Log = Log.Info;
             Core.Debug.LogWarn = Log.Warn;
@@ -82,11 +82,6 @@ namespace Mugen3D
             }
         }
 
-        protected void InitGame()
-        {
-            InitCore();
-        }
-
         protected Character CreateCharacter(string characterName, int slot, bool isLocal)
         {
             Character c = EntityFactory.CreateCharacter(characterName, slot, isLocal);
@@ -94,17 +89,26 @@ namespace Mugen3D
             return c;
         }
 
-        protected void CreateGame(string stageName, int logicFPS)
+        private void LoadFightHud() {
+            UIManager.Instance.AddView("FightHud", this.transform);
+        }
+
+        protected void CreateGame(MatchInfo matchInfo, int logicFPS)
         {
-            StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + stageName));
+            StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + matchInfo.stage));
             InputConfig inputConfig = ConfigReader.Parse<InputConfig>(ResourceLoader.LoadText("Config/Input"));
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.SetStageConfig(stageConfig);
             worldConfig.SetInputConfig(inputConfig);
-            this.game = new Game(worldConfig, logicFPS);
+            this.game = new Game(matchInfo, worldConfig, logicFPS);
+
+            LoadFightHud();
+
             viewWorld = new ViewWorld(game.world);
             viewWorld.InitScene(this.gameObject);
             viewWorld.CreateStage(worldConfig.stageConfig.stage);
+
+            viewWorld.CreateCamera(this.game.world.cameraController);
         }
 
         protected virtual void Update()

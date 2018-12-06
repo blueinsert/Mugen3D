@@ -8,6 +8,8 @@ namespace Mugen3D
 
     public class MultiPlayerGame : ClientGame
     {
+        public Core.MatchInfo matchInfo;
+
         BattleNetClient m_battleNetClient;
 
         IEnumerator SendProgress()
@@ -23,8 +25,8 @@ namespace Mugen3D
         {
             RegisterBattleNetClient(battleNetClient);
             Application.targetFrameRate = renderFPS;
-            InitGame();
-            CreateGame(stageName, logicFPS);
+            InitCore();
+            //CreateGame(stageName, logicFPS);
             CreateCharacter(p1CharacterName, 0, true);
             CreateCharacter(p2CharacterName, 1, false);
             StartCoroutine(SendProgress());

@@ -10,3 +10,7 @@ HitCount:
   name: HitCount
   script: Mugen3D.WidgetHitCount
   prefab: Prefabs/UI/Fight/WidgetHitCount
+FadeInOut:
+  name: FadeInOut
+  script: Mugen3D.FullScreenFadeInOut
+  prefab: Prefabs/UI/Fight/FullScreenFadeInOut

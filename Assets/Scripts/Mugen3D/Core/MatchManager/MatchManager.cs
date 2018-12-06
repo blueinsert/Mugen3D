@@ -1,8 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Mugen3D.Core
 {
+    public enum MatchState
+    {
+        Stop,
+        Running,
+    }
+
     public enum RoundState
     {
         PreIntro = 0,
@@ -32,65 +39,51 @@ namespace Mugen3D.Core
     public class MatchManager 
     {
         public int matchNo { get; private set; }
+        public MatchState matchState { get; private set; }
         public int roundNo { get; private set; }
         public RoundState roundState { get; private set; }
         public Number roundTime { get; private set; }
         public MatchInfo matchInfo { get; private set; }
         public Character p1 { get; protected set; }
         public Character p2 { get; protected set; }
-        public World world { get; private set; }   
-
+        public World world { get; private set; }
+        public Action<Event> onEvent;
         private Number timer;
         
         public MatchManager(World world, MatchInfo info)
         {
             this.world = world;
             this.matchInfo = info;
+            this.matchState = MatchState.Stop;
+            this.roundState = RoundState.PreIntro;
             matchNo = 0;
             roundNo = 0;
             roundTime = 0;
         }
+
+        public void FireEvent(Event evt)
+        {
+            if (onEvent != null)
+            {
+                onEvent(evt);
+            }
+        }
+
         #region checker
         private bool IsCharactersReady()
         {
-            foreach(var c in world.characters)
-            {
-                if (c.Value.fsmMgr.stateNo != 0)
-                    return false;
-            }
-            return true;
+            return p1.fsmMgr.stateNo == 0 && p2.fsmMgr.stateNo == 0;  
         }
 
         private bool IsCharactersSteady()
         {
-            foreach(var c in world.characters)
-            {
-                /*
-                if (c.Value.IsAlive())
-                {
-                    if (!(c.Value.fsmMgr.stateNo == 0 || c.Value.fsmMgr.stateNo == 170 || c.Value.fsmMgr.stateNo == 180))
-                        return false;
-                }
-                else
-                {
-                    if (!(c.Value.fsmMgr.stateNo == 5110))
-                        return false;
-                }  
-                */
-                if (c.Value.fsmMgr.stateNo != 0)
-                    return false;
-                
-            }
-            return true;
+            return p1.fsmMgr.stateNo == 0 && p2.fsmMgr.stateNo == 0;     
         }
 
         private bool IsRoundEnd()
         {
-            foreach(var c in world.characters)
-            {
-                if (!c.Value.IsAlive())
-                    return true;
-            }
+            if (!p1.IsAlive() || !p2.IsAlive())
+                return true; 
             if (roundTime <= 0)
                 return true;
             return false;
@@ -110,11 +103,28 @@ namespace Mugen3D.Core
                 return null;
             }
         }
+
+        protected Character GetLoser()
+        {
+            if (p1.GetHP() > p2.GetHP())
+            {
+                return p2;
+            }
+            else if (p2.GetHP() > p1.GetHP())
+            {
+                return p1;
+            }
+            else
+            {
+                return null;
+            }
+        }
         #endregion
 
         public void Update()
         {
-            world.Update();
+            if (matchState == MatchState.Stop)
+                return;
             switch (this.roundState)
             {
                 case RoundState.PreIntro:
@@ -153,28 +163,27 @@ namespace Mugen3D.Core
         {
             timer = 0;
             this.roundState = roundState;
-            this.world.FireEvent(new Event() { type = EventType.OnRoundStateChange, data = this.roundState });
+            FireEvent(new Event() { type = EventType.OnRoundStateChange, data = this.roundState });
             switch (this.roundState)
             {
                 case RoundState.PreIntro:
-                    foreach (var c in world.characters)
-                    {
-                        c.Value.fsmMgr.ChangeState(0);
-                    }
+                    p1.fsmMgr.ChangeState(0);
+                    p2.fsmMgr.ChangeState(0);
                     break;
                 case RoundState.Intro:
-                    foreach(var c in world.characters)
-                    {
-                        c.Value.fsmMgr.ChangeState(5900);
-                    }
+                    p1.fsmMgr.ChangeState(5900);
+                    p2.fsmMgr.ChangeState(5900); 
                     break;
                 case RoundState.Over:
-                    foreach (var c in world.characters)
+                    if (GetLoser() != null)
                     {
-                        if(GetWiner() != c.Value)
-                            c.Value.fsmMgr.ChangeState(170);//lose
-                        if (GetWiner() == c.Value)
-                            c.Value.fsmMgr.ChangeState(180);
+                        GetLoser().fsmMgr.ChangeState(170);
+                        GetWiner().fsmMgr.ChangeState(180);
+                    }
+                    else
+                    {
+                        p1.fsmMgr.ChangeState(170);
+                        p2.fsmMgr.ChangeState(170);
                     }
                     break;
             }
@@ -186,9 +195,11 @@ namespace Mugen3D.Core
             this.matchNo = matchNo;
             OnMatchStart();
             StartRound(0);
+            this.matchState = MatchState.Running;
         }
 
-        public void StopMatch() {
+        protected void StopMatch() {
+            this.matchState = MatchState.Stop;
             OnMatchEnd();
         }
 
@@ -196,8 +207,8 @@ namespace Mugen3D.Core
         {
             this.roundNo = roundNo;
             this.roundTime = 60;
-            ChangeRoundState(RoundState.PreIntro);
             OnRoundStart();
+            ChangeRoundState(RoundState.PreIntro);
         }
         #endregion
 

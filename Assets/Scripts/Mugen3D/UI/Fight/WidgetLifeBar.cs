@@ -19,15 +19,24 @@ namespace Mugen3D
             sliderP1Life = this.transform.Find("Pos/HpBarP1").GetComponent<Slider>();
             sliderP2Life = this.transform.Find("Pos/HpBarP2").GetComponent<Slider>();
             textLeftTime = this.transform.Find("Pos/LeftTime").GetComponent<Text>();
-            var world = ClientGame.Instance.game.world;
-            m_p1 = world.teamInfo.p1;
-            m_p2 = world.teamInfo.p2;
+        }
+
+        public void SetInfo(Core.Character p1, Core.Character p2)
+        {
+            m_p1 = p1;
+            m_p2 = p2;
         }
 
         private void Update()
         {
-            sliderP1Life.value = m_p1.GetHP() / (float)m_p1.GetMaxHP();
-            sliderP2Life.value = m_p2.GetHP() / (float)m_p2.GetMaxHP();
+            if (m_p1 != null)
+            {
+                sliderP1Life.value = m_p1.GetHP() / (float)m_p1.GetMaxHP();
+            }
+            if (m_p2 != null)
+            {
+                sliderP2Life.value = m_p2.GetHP() / (float)m_p2.GetMaxHP();
+            }     
         }
 
     }
