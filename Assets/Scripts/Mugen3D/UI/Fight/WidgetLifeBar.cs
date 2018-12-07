@@ -36,7 +36,11 @@ namespace Mugen3D
             if (m_p2 != null)
             {
                 sliderP2Life.value = m_p2.GetHP() / (float)m_p2.GetMaxHP();
-            }     
+            }
+            if (ClientGame.Instance.game.matchManager != null)
+            {
+                this.textLeftTime.text = ClientGame.Instance.game.matchManager.roundTime.AsInt().ToString();
+            }
         }
 
     }

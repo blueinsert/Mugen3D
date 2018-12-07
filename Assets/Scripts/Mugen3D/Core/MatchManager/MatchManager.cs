@@ -14,6 +14,7 @@ namespace Mugen3D.Core
     {
         PreIntro = 0,
         Intro,
+        RoundDeclare,
         Fight,
         PreOver,
         Over,
@@ -49,6 +50,8 @@ namespace Mugen3D.Core
         public World world { get; private set; }
         public Action<Event> onEvent;
         private Number timer;
+
+        public readonly Number PRE_INTRO_Time = new Number(1);
         
         public MatchManager(World world, MatchInfo info)
         {
@@ -129,11 +132,18 @@ namespace Mugen3D.Core
             {
                 case RoundState.PreIntro:
                     timer += Time.deltaTime;
-                    if (timer >= 2)
+                    if (timer >= PRE_INTRO_Time)
                         ChangeRoundState(RoundState.Intro);
                     break;
                 case RoundState.Intro:
                     if (IsCharactersReady())
+                    {
+                        ChangeRoundState(RoundState.RoundDeclare);
+                    }
+                    break;
+                case RoundState.RoundDeclare:
+                    timer += Time.deltaTime;
+                    if(timer >= 2)
                     {
                         ChangeRoundState(RoundState.Fight);
                     }
