@@ -15,7 +15,8 @@ namespace Mugen3D
         private WidgetKO viewKO;
         private WidgetTimeOver viewTimeOver;
         private WidgetWinner viewWinner;
-
+        private WidgetDrawGame viewDrawGame;
+        
         private Core.Game game;
 
         private void Awake()
@@ -31,6 +32,7 @@ namespace Mugen3D
             viewKO = UIManager.Instance.AddView("KO", this.transform.Find("Canvas/Base/AnchorCenter")) as WidgetKO;
             viewTimeOver = UIManager.Instance.AddView("TimeOver", this.transform.Find("Canvas/Base/AnchorCenter")) as WidgetTimeOver;
             viewWinner = UIManager.Instance.AddView("Winner", this.transform.Find("Canvas/Base/AnchorCenter")) as WidgetWinner;
+            viewDrawGame = UIManager.Instance.AddView("DrawGame", this.transform.Find("Canvas/Base/AnchorCenter")) as WidgetDrawGame;
         }
 
         private void OnMatchStart()
@@ -42,7 +44,14 @@ namespace Mugen3D
 
         private void OnMatchEnd()
         {
+            var viewContinueMenu = UIManager.Instance.AddView("ContinueMenu", this.transform.Find("Canvas/Add")) as PopupContinueMenu;
+            viewContinueMenu.onClicContinue = () => {
+                game.matchManager.StartMatch(game.matchManager.matchNo + 1);
+                viewContinueMenu.Close();
+            };
+            viewContinueMenu.onClicReturn = () => {
 
+            };
         }
 
         private void OnRoundStart(int roundNo)
@@ -52,20 +61,8 @@ namespace Mugen3D
 
         private void OnRoundEnd()
         {
-            viewFadeInOut.FadeOut();
-        }
-
-        private void OnTimeOver()
-        {
-            SoundPlayer.Instance.Play("Snd_TimeOver");
-            viewTimeOver.Play();
-        }
-
-        private void OnKO()
-        {
-            SoundPlayer.Instance.Play("Snd_KO");
-            viewKO.Play();
-        }
+            
+        }      
 
         private void ProcessMatchEvent(Core.Event evt)
         {
@@ -83,6 +80,18 @@ namespace Mugen3D
                 case Core.EventType.OnRoundEnd:
                     OnRoundEnd();break;
             }
+        }
+
+        private void OnTimeOver()
+        {
+            SoundPlayer.Instance.Play("Snd_TimeOver");
+            viewTimeOver.Play();
+        }
+
+        private void OnKO()
+        {
+            SoundPlayer.Instance.Play("Snd_KO");
+            viewKO.Play();
         }
 
         private void ProcessRoundState(Core.RoundState state)
@@ -106,8 +115,19 @@ namespace Mugen3D
                         OnKO();
                     break;
                 case Core.RoundState.Over:
-                    viewWinner.Play();
-                    SoundPlayer.Instance.Play("Snd_Winner");
+                    if(game.matchManager.p1.GetHP() == game.matchManager.p2.GetHP())
+                    {
+                        viewDrawGame.Play();
+                        SoundPlayer.Instance.Play("Snd_DrawGame");
+                    }
+                    else
+                    {
+                        viewWinner.Play();
+                        SoundPlayer.Instance.Play("Snd_Winner");
+                    }
+                    break;
+                case Core.RoundState.PostOver:
+                    viewFadeInOut.FadeOut();
                     break;
             }
         }

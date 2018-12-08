@@ -64,25 +64,20 @@ namespace Mugen3D.Core
         {
             this.characters.Add(c.slot, c);
             teamInfo.AddCharacter(c);
-            if (c.isLocal)
-            {
-                this.localPlayer = c;
-            }
+            //if (c.isLocal)
+            //{
+            //    this.localPlayer = c;
+           // }
             cameraController.SetFollowTarget(c.slot, c);
             AddEntity(c);
         }
 
-        public void RemoveCharacter(int slot)
+        private void RemoveCharacter(Character c)
         {
-            var c = characters[slot];
-            characters.Remove(slot);
-            entities.Remove(c);
-        }
-
-        public void ChangeCharacter(Character c)
-        {
-            RemoveCharacter(c.slot);
-            AddCharacter(c);
+            characters.Remove(c.slot);
+            //entities.Remove(c);
+            cameraController.RemoveFollowTarget(c.slot);
+            teamInfo.RemoveCharacter(c);
         }
 
         private void DoAddEntity(Entity e)
@@ -108,6 +103,10 @@ namespace Mugen3D.Core
             {
                 var h = (e as Helper);
                 h.owner.RemoveHelper(h);
+            }
+            else if(e is Character)
+            {
+                RemoveCharacter(e as Character);
             }
         }
 

@@ -34,3 +34,11 @@ Winner:
    name: Winner
    script: Mugen3D.WidgetWinner
    prefab: Prefabs/UI/Fight/WidgetWinner
+DrawGame:
+  name: DrawGame
+  script: Mugen3D.WidgetDrawGame
+  prefab: Prefabs/UI/Fight/WidgetDrawGame
+ContinueMenu:
+  name: ContinueMenu
+  script: Mugen3D.PopupContinueMenu
+  prefab: Prefabs/UI/Fight/PopupContinueMenu

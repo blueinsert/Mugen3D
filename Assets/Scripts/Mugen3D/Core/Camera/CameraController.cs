@@ -39,6 +39,11 @@ namespace Mugen3D.Core
             targets[slot] = character;
         }
 
+        public void RemoveFollowTarget(int slot)
+        {
+            targets.Remove(slot);
+        }
+
         Vector GetCenter()
         {
             Vector sum = Vector.zero;

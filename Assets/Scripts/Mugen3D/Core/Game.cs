@@ -33,11 +33,10 @@ namespace Mugen3D.Core
         {
             Time.Update(deltaTime);
             if (matchManager != null)
-                matchManager.Update();
-            if(matchManager != null && matchManager.matchState == MatchState.Running)
             {
+                matchManager.Update();
                 world.Update();
-            }
+            }  
         }
 
         public void StartGame()

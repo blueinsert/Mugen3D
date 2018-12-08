@@ -64,7 +64,7 @@ namespace Mugen3D
                     else
                     {
                         keycode = keycode | Core.Utility.GetKeycode(pair.Key);
-                    }   
+                    }
                 }
             }
             return keycode;

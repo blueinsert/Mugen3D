@@ -40,7 +40,7 @@ namespace Mugen3D
 
         private void OnViewDestroy(UIView view)
         {
-            m_views[view.name].Remove(view.id);
+            m_views[view.def.name].Remove(view.id);
             GameObject.Destroy(view.gameObject);
         }
 

@@ -18,6 +18,7 @@ namespace Mugen3D.Core
         Fight,
         PreOver,
         Over,
+        PostOver,
     }
 
     public enum MatchMode
@@ -51,8 +52,12 @@ namespace Mugen3D.Core
         public Action<Event> onEvent;
         private Number timer;
 
-        public readonly Number PRE_INTRO_Time = new Number(1);
-        
+        public readonly Number FADE_IN_TIME = new Number(1);
+        public readonly Number FADE_OUT_TIME = new Number(1);
+        public readonly Number ROUND_DECLARATION_TIME = new Number(3);
+        public readonly Number PRE_OVER_TIME = new Number(3);
+        public readonly Number OVER_TIME = new Number(3);
+
         public MatchManager(World world, MatchInfo info)
         {
             this.world = world;
@@ -132,7 +137,7 @@ namespace Mugen3D.Core
             {
                 case RoundState.PreIntro:
                     timer += Time.deltaTime;
-                    if (timer >= PRE_INTRO_Time)
+                    if (timer >= FADE_IN_TIME)
                         ChangeRoundState(RoundState.Intro);
                     break;
                 case RoundState.Intro:
@@ -143,27 +148,37 @@ namespace Mugen3D.Core
                     break;
                 case RoundState.RoundDeclare:
                     timer += Time.deltaTime;
-                    if(timer >= 2)
+                    if(timer >= ROUND_DECLARATION_TIME)
                     {
                         ChangeRoundState(RoundState.Fight);
                     }
                     break;
                 case RoundState.Fight:
                     roundTime -= Time.deltaTime;
+                    if (roundTime < 0)
+                        roundTime = 0;
                     if (IsRoundEnd())
                     {
                         ChangeRoundState(RoundState.PreOver);
                     }
                     break;
                 case RoundState.PreOver:
-                    if (IsCharactersSteady())
+                    timer += Time.deltaTime;
+                    if(timer >= PRE_OVER_TIME)
                         ChangeRoundState(RoundState.Over);
                     break;
                 case RoundState.Over:
                     timer += Time.deltaTime;
-                    if(timer >= 2)
+                    if(timer >= OVER_TIME)
                     {
-                        OnRoundEnd();
+                        ChangeRoundState(RoundState.PostOver);
+                    }
+                    break;
+                case RoundState.PostOver:
+                    timer += Time.deltaTime;
+                    if (timer >= FADE_OUT_TIME)
+                    {
+                        StopRound();
                     }
                     break;
             }
@@ -213,12 +228,17 @@ namespace Mugen3D.Core
             OnMatchEnd();
         }
 
-        public void StartRound(int roundNo)
+        protected void StartRound(int roundNo)
         {
             this.roundNo = roundNo;
             this.roundTime = 60;
             OnRoundStart();
             ChangeRoundState(RoundState.PreIntro);
+        }
+
+        protected void StopRound()
+        {
+            OnRoundEnd();
         }
         #endregion
 

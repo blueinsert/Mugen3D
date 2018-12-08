@@ -43,6 +43,11 @@ namespace Mugen3D.Core
             }
         }
 
+        public void RemoveCharacter(Character c)
+        {
+            m_chars.Remove(c.slot);
+        }
+
         public void AddCharacter(Character c){
             m_chars.Add(c.slot, c);
         }
