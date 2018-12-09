@@ -38,8 +38,7 @@ namespace Mugen3D
 
         protected override void OnUpdate()
         {
-            p1.UpdateInput(InputHandler.Instance.GetInputKeycode(p1.slot, p1.GetFacing()));
-            p2.UpdateInput(InputHandler.Instance.GetInputKeycode(p2.slot, p2.GetFacing()));
+            this.game.UpdateInput(InputHandler.Instance.GetInputKeycode(0), InputHandler.Instance.GetInputKeycode(1));
             m_gameTimeResidual += UnityEngine.Time.deltaTime;
             while (m_gameTimeResidual > m_gameDeltaTime)
             {

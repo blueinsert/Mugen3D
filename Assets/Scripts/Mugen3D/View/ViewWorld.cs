@@ -43,7 +43,7 @@ namespace Mugen3D
 
         public void CreateStage(string stage)
         {
-            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Prefabs/Stage/" + stage);
+            UnityEngine.Object prefabStage = Resources.Load<UnityEngine.Object>("Stage/" + stage + "/" + stage);
             GameObject goStage = GameObject.Instantiate(prefabStage, m_rootScene.transform.Find("Stage")) as GameObject;
         }
 

@@ -133,6 +133,11 @@ namespace Mugen3D.Core
         {
             if (matchState == MatchState.Stop)
                 return;
+            if(this.roundState != RoundState.Fight)
+            {
+                this.p1.SetCtrl(false);
+                this.p2.SetCtrl(false);
+            }
             switch (this.roundState)
             {
                 case RoundState.PreIntro:

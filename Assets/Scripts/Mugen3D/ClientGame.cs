@@ -80,6 +80,7 @@ namespace Mugen3D
             {
                 Core.Debug.AddGUIDebugMsg = GUIDebug.Instance.AddMsg;
             }
+            Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
         }
 
         protected Character CreateCharacter(string characterName, int slot, bool isLocal)
@@ -95,11 +96,9 @@ namespace Mugen3D
 
         protected void CreateGame(MatchInfo matchInfo, int logicFPS)
         {
-            StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Config/Stage/" + matchInfo.stage));
-            InputConfig inputConfig = ConfigReader.Parse<InputConfig>(ResourceLoader.LoadText("Config/Input"));
+            StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Stage/" + matchInfo.stage + "/" + matchInfo.stage + ".def"));
             WorldConfig worldConfig = new WorldConfig();
             worldConfig.SetStageConfig(stageConfig);
-            worldConfig.SetInputConfig(inputConfig);
             this.game = new Game(matchInfo, worldConfig, logicFPS);
 
             LoadFightHud();

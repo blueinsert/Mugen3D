@@ -79,7 +79,7 @@ namespace Mugen3D
         {
             if (!m_battleNetClient.isBattleReady)
                 return;
-            m_battleNetClient.SendInput(Core.Time.frameCount, InputHandler.Instance.GetInputKeycode(game.world.localPlayer.slot, game.world.localPlayer.GetFacing()));
+            //m_battleNetClient.SendInput(Core.Time.frameCount, InputHandler.Instance.GetInputKeycode(game.world.localPlayer.slot, game.world.localPlayer.GetFacing()));
         }
 
         void OnGUI()

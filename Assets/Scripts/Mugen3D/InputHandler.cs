@@ -27,8 +27,8 @@ namespace Mugen3D
 
         private void InitMapCfg()
         {
-            var inputs = ClientGame.Instance.game.world.config.inputConfig.playerInputs;
-            for (int i = 0; i < inputs.Length; i++)
+            var inputs = Core.SystemConfig.Instance.inputConfig;
+            for (int i = 0; i < inputs.Count; i++)
             {
                 var mapping = new Dictionary<Core.KeyNames, KeyCode>();
                 mapping.Add(Core.KeyNames.KEY_UP, (KeyCode)inputs[i].up);
@@ -45,14 +45,15 @@ namespace Mugen3D
             }
         }
 
-        public int GetInputKeycode(int playerSlot, int facing)
+        public int GetInputKeycode(int slot)
         {
-            Dictionary<Core.KeyNames, KeyCode> keycodeMap = m_mapCfg[playerSlot];
+            Dictionary<Core.KeyNames, KeyCode> keycodeMap = m_mapCfg[slot];
             int keycode = 0;
             foreach (var pair in keycodeMap)
             {
                 if (Input.GetKey(pair.Value))
                 {
+                    /*
                     if (pair.Key == Core.KeyNames.KEY_LEFT && facing < 0)
                     {
                         keycode = keycode | Core.Utility.GetKeycode(Core.KeyNames.KEY_RIGHT);
@@ -61,10 +62,8 @@ namespace Mugen3D
                     {
                         keycode = keycode | Core.Utility.GetKeycode(Core.KeyNames.KEY_LEFT);
                     }
-                    else
-                    {
-                        keycode = keycode | Core.Utility.GetKeycode(pair.Key);
-                    }
+                    */
+                    keycode = keycode | Core.Utility.GetKeycode(pair.Key);
                 }
             }
             return keycode;
