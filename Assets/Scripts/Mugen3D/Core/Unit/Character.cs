@@ -17,6 +17,7 @@ namespace Mugen3D.Core
         private List<Helper> m_helpers = new List<Helper>();
         private List<Projectile> m_projs = new List<Projectile>();
         public int roundsExisted { get; private set; }
+        private bool m_canAttack = true;
 
         public Character(string characterName, CharacterConfig config, int slot, bool isLocal) : base(config)
         {
@@ -25,6 +26,16 @@ namespace Mugen3D.Core
             this.isLocal = isLocal;       
             cmdMgr = new CmdManager(config.commandContent, this);
             moveCtr = new CharacterMoveCtrl(this);
+        }
+
+        public bool CanAttack()
+        {
+            return m_canAttack;
+        }
+
+        public bool SetCanAttack(bool value)
+        {
+            return m_canAttack = value;
         }
 
         public override void OnUpdate(Number deltaTime)
@@ -100,6 +111,10 @@ namespace Mugen3D.Core
             if (hitDef.hitType == (int)HitDef.HitType.Attack)
             {
                 AddHP(-hitDef.hitDamage);
+                if (!IsAlive() && hitDef.knockAwayType == -1)
+                {
+                    hitDef.knockAwayType = 0;
+                }
                 SendEvent(new Event() { type = EventType.PlayEffect, data = EffectDef.ConstructNormal(hitDef.spark, hitDef.sparkPos, this.GetFacing())});
                 SendEvent(new Event() { type = EventType.PlaySound, data = new SoundDef() { name = hitDef.hitSound, delay = 0, volume = 1 } });
                 if (this.GetMoveType() == MoveType.BeingHitted)

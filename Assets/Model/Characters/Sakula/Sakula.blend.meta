@@ -472,6 +472,9 @@ ModelImporter:
     7400118: Intro
     7400120: Lose
     7400122: Win
+    7400124: HopeBackwards_Air
+    7400126: HopeBackwards_Ground
+    7400128: HopeBackwards_Land
     9500000: //RootNode
     11100000: //RootNode
     13700000: Body

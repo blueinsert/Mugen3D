@@ -769,6 +769,179 @@ actions:
       x2: 0.29
       y2: 1.66
   loopStartIndex: 5
+- animNo: 105
+  animName: HopeBackwards_Ground
+  animLength: 5
+  frames:
+  - normalizeTime: 0.233
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.171
+      y1: 0.007999999
+      x2: 0.244
+      y2: 1.418
+  - normalizeTime: 0.354
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.171
+      y1: 0.007999999
+      x2: 0.244
+      y2: 1.418
+  - normalizeTime: 0.643
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.171
+      y1: 0.007999999
+      x2: 0.244
+      y2: 1.418
+  - normalizeTime: 0.764
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.297
+      y1: 0.004
+      x2: 0.127
+      y2: 1.373
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.428
+      y1: 0.048
+      x2: 0.007
+      y2: 1.335
+  loopStartIndex: 4
+- animNo: 106
+  animName: HopeBackwards_Air
+  animLength: 10
+  frames:
+  - duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.13
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.242
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.344
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.428
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.577
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.717
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.847
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 0.959
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.436
+      y1: 0.358
+      x2: 0.021
+      y2: 1.339
+  loopStartIndex: 9
+- animNo: 107
+  animName: HopeBackwards_Land
+  animLength: 11
+  frames:
+  - duration: 3
+    clsns:
+    - type: 1
+      x1: -0.397
+      y1: 0.15
+      x2: 0.021
+      y2: 1.426
+  - normalizeTime: 0.495
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.288
+      y1: 0.232
+      x2: 0.19
+      y2: 1.339
+  - normalizeTime: 0.616
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.288
+      y1: 0.232
+      x2: 0.19
+      y2: 1.339
+  - normalizeTime: 0.887
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.288
+      y1: 0.232
+      x2: 0.234
+      y2: 1.35
+  - normalizeTime: 1
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.288
+      y1: 0.232
+      x2: 0.234
+      y2: 1.35
+  loopStartIndex: 4
 - animNo: 120
   animName: Guard_Stand
   animLength: 4
@@ -947,47 +1120,32 @@ actions:
       y2: 0.989
 - animNo: 170
   animName: Lose
-  animLength: 10
+  animLength: 30
   frames:
-  - normalizeTime: 0.212
-    duration: 2
-    clsns: []
-  - normalizeTime: 0.36
-    duration: 2
-    clsns: []
-  - normalizeTime: 0.54
-    duration: 2
-    clsns: []
-  - normalizeTime: 0.794
-    duration: 2
+  - duration: 15
     clsns: []
   - normalizeTime: 1
-    duration: 2
+    duration: 15
     clsns: []
-  loopStartIndex: 4
 - animNo: 180
   animName: Win
-  animLength: 12
+  animLength: 16
   frames:
-  - normalizeTime: 0.303
-    duration: 2
+  - duration: 3
     clsns: []
-  - normalizeTime: 0.409
-    duration: 2
+  - normalizeTime: 0.364
+    duration: 4
     clsns: []
-  - normalizeTime: 0.568
-    duration: 2
+  - normalizeTime: 0.625
+    duration: 4
     clsns: []
-  - normalizeTime: 0.78
-    duration: 2
-    clsns: []
-  - normalizeTime: 0.854
-    duration: 2
+  - normalizeTime: 0.979
+    duration: 4
     clsns: []
   - normalizeTime: 1
-    duration: 2
+    duration: 1
     clsns: []
-  loopStartIndex: 5
+  loopStartIndex: 4
 - animNo: 190
   animName: Intro
   animLength: 37

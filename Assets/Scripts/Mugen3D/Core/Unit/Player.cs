@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace Mugen3D.Core
 {
-    public class Player : Character
+    public class Player
     {
         public string playerName { get; private set; }
-        public Player(string playerName, string characterName, CharacterConfig config, int slot, bool isLocal)
-            : base(characterName, config, slot, isLocal)
+        public Character character { get; private set; }
+
+        public Player(string playerName, Character character)
         {
-            this.playerName = playerName;  
+            this.playerName = playerName;
+            this.character = character;
         }
     }
 }

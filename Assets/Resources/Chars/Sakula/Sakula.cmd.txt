@@ -96,12 +96,12 @@ time = 1
 [Command]
 name = "FF"
 command = F, F
-time = 10
+time = 15
 
 [Command]
 name = "BB"
 command = B, B
-time = 10
+time = 15
 
 [Command]
 name = "holdfwd"

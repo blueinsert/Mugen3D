@@ -64,7 +64,7 @@ namespace Mugen3D.Core
         {
             if (this.m_stateNoToChange == -1)
             {
-                Debug.Log("curStateNo:" + this.stateNo + " changeState:" + stateNo);
+                //Debug.Log("curStateNo:" + this.stateNo + " changeState:" + stateNo);
                 this.m_stateNoToChange = stateNo;
             }
         }

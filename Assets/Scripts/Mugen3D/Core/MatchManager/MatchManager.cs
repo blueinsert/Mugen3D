@@ -133,10 +133,10 @@ namespace Mugen3D.Core
         {
             if (matchState == MatchState.Stop)
                 return;
-            if(this.roundState != RoundState.Fight)
+            if (roundState!= RoundState.Fight)
             {
-                this.p1.SetCtrl(false);
-                this.p2.SetCtrl(false);
+                p1.SetCtrl(false);
+                p2.SetCtrl(false);
             }
             switch (this.roundState)
             {
@@ -203,6 +203,10 @@ namespace Mugen3D.Core
                 case RoundState.Intro:
                     p1.fsmMgr.ChangeState(5900);
                     p2.fsmMgr.ChangeState(5900); 
+                    break;
+                case RoundState.Fight:
+                    p1.SetCtrl(true);
+                    p2.SetCtrl(true);
                     break;
                 case RoundState.Over:
                     if (GetLoser() != null)

@@ -28,6 +28,7 @@ local controllers = {
 local triggers = {
     {name = "NumProjID",    func = trigger.NumProjID},
     {name = "Ctrl",         func = trigger.Ctrl},
+    {name = "CanAttack",    func = trigger.CanAttack},
 	{name = "CommandTest",  func = trigger.CommandTest},
 	{name = "Facing",       func = trigger.Facing},
 	{name = "MoveType",     func = trigger.MoveType},

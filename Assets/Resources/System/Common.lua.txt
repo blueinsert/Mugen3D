@@ -29,17 +29,20 @@ end
 
 M[-1] = {
 	onUpdate = function(_ENV)
-	    if (StateNo() == 0 or StateNo() == 20) and CommandTest("FF") then
+	    if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("FF") and StateNo() ~= 100 then
 			ChangeState(100)
 		end
-		if CommandTest("holdup") and (StateNo() == 0 or StateNo() == 20 or StateNo() == 100) then
+		if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("BB") then
+			ChangeState(105)
+		end
+		if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("holdup") then
 			ChangeState(40) --jump
 		end
-	    if (CommandTest("holdfwd") or CommandTest("holdback")) and StateNo() == 0 then
+	    if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("holdfwd") or CommandTest("holdback")) and StateNo() ~= 100 and StateNo() ~= 20 then
 			ChangeState(20) --walk
 		end
 		handleChangeFacing(_ENV)
-		if (StateNo() == 0 or StateNo() == 20) and CommandTest("holddown")  then
+		if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown")  then
 			ChangeState(10)
 		end
 		if Ctrl() and MoveType() ~= Enums.MoveType.D and P2MoveType() == Enums.MoveType.A and math.abs(P2Dist().x) < 4 and CommandTest("holdback") then
@@ -184,7 +187,7 @@ M[40] = {
     	PhysicsSet(Enums.PhysicsType.S)
     	MoveTypeSet(Enums.MoveType.I)
     	ChangeAnim(40)
-    	CtrlSet(true)
+    	CtrlSet(false)
     	if CommandTest("holdback") then
     		_ENV.jumpDir = -1
     	elseif CommandTest("holdfwd") then
@@ -263,6 +266,9 @@ M[100] = {
 --run stop
 M[101] = {
 	onEnter = function(_ENV)
+	    MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+	    CtrlSet(false)
 		if AnimExist(101) then
 			ChangeAnim(101)
 		else
@@ -276,6 +282,49 @@ M[101] = {
 	end,
 }
 
+M[105] = {
+    onEnter = function(_ENV)
+    	MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		ChangeAnim(105)	
+    end,
+    onUpdate = function(_ENV)
+    	if LeftAnimTime(0) <= 0 then
+    		ChangeState(106)
+    	end
+    end
+}
+
+M[106] = {
+    onEnter = function(_ENV)
+    	MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.A)
+		CtrlSet(false)
+		ChangeAnim(106)	
+		VelSet(-4, 2)
+    end,
+    onUpdate = function(_ENV)
+    	if JustOnGround() then
+    		ChangeState(107)
+    	end
+    end
+}
+
+M[107] = {
+    onEnter = function(_ENV)
+    	MoveTypeSet(Enums.MoveType.I)
+		PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)
+		ChangeAnim(107)	
+		VelSet(0, 0)
+    end,
+    onUpdate = function(_ENV)
+    	if LeftAnimTime() <= 0 then
+    		ChangeState(0)
+    	end
+    end
+}
 
 --start guard
 M[120] = {

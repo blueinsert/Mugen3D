@@ -21,7 +21,7 @@ __loadall()
 
 M[-2] = {
     onUpdate = function(_ENV)
-        if CommandTest("623A") and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or 
+        if (CommandTest("623A") and CanAttack()) and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or 
                                     (StateNo() == 240 and MoveContact() and AnimElem() == 3) or
                                     (StateNo() == 245 and MoveContact() and AnimElem() == 2) or
                                     (StateNo() == 200 and MoveContact() and AnimElem() == 2) or
@@ -30,7 +30,7 @@ M[-2] = {
                                     (StateNo() == 440 and MoveContact() and AnimElem() <= 3)) then
         	ChangeState(1200)
         end
-        if CommandTest("623B") and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or 
+        if (CommandTest("623B") and CanAttack()) and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or 
                                     (StateNo() == 240 and MoveContact() and AnimElem() == 3) or
                                     (StateNo() == 245 and MoveContact() and AnimElem() == 2) or
                                     (StateNo() == 200 and MoveContact() and AnimElem() == 2) or
@@ -38,7 +38,7 @@ M[-2] = {
                                     (StateNo() == 400 and MoveContact() and AnimElem() == 1)) then
         	ChangeState(1210)
         end
-        if CommandTest("24X") and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
+        if (CommandTest("24X") and CanAttack()) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
                                    (StateNo() == 240 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 245 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 2) or
@@ -47,10 +47,10 @@ M[-2] = {
                                    (StateNo() == 440 and MoveContact() and AnimElem() <= 3)) then
         	ChangeState(1400)
         end  
-         if Ctrl() and PhysicsType() == Enums.PhysicsType.A and (CommandTest("24X")) then
+         if(CommandTest("24X") and CanAttack()) and Ctrl() and PhysicsType() == Enums.PhysicsType.A then
         	ChangeState(1405)
         end  
-        if CommandTest("24Y") and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
+        if (CommandTest("24Y") and CanAttack()) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
                                    (StateNo() == 240 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 245 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 2) or
@@ -59,10 +59,10 @@ M[-2] = {
                                    (StateNo() == 440 and MoveContact() and AnimElem() <= 3)) then
         	ChangeState(1410)
         end 
-        if Ctrl() and PhysicsType() == Enums.PhysicsType.A and (CommandTest("24Y")) then
+        if (CommandTest("24Y") and CanAttack()) and Ctrl() and PhysicsType() == Enums.PhysicsType.A then
         	ChangeState(1415)
         end 
-        if ((CommandTest("26A") or CommandTest("26B")) and NumProjID(1) <= 0) and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or
+        if (((CommandTest("26A") or CommandTest("26B")) and CanAttack()) and NumProjID(1) <= 0) and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or
                                    (StateNo() == 240 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 245 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 2) or
@@ -71,10 +71,10 @@ M[-2] = {
                                    (StateNo() == 440 and MoveContact() and AnimElem() <= 3)) then
         	ChangeState(1000)
         end
-        if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("throw") then
+        if CommandTest("throw") and CanAttack() and Ctrl() and PhysicsType() == Enums.PhysicsType.S then
             ChangeState(800)
         end
-        if (CommandTest("a") and not CommandTest("holddown") and math.abs(P2Dist().x) > 0.8) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
+        if (CanAttack() and CommandTest("a") and not CommandTest("holddown") and math.abs(P2Dist().x) > 0.8) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 205 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 220 and MoveContact() and AnimElem() == 2) or
@@ -82,7 +82,7 @@ M[-2] = {
                                    (StateNo() == 420 and MoveContact() and AnimElem() == 2)) then
             ChangeState(200)
         end
-        if (CommandTest("a") and not CommandTest("holddown") and math.abs(P2Dist().x) <= 0.8) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
+        if (CanAttack() and CommandTest("a") and not CommandTest("holddown") and math.abs(P2Dist().x) <= 0.8) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 205 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 220 and MoveContact() and AnimElem() == 2) or
@@ -90,7 +90,7 @@ M[-2] = {
                                    (StateNo() == 420 and MoveContact() and AnimElem() == 2)) then
             ChangeState(205)
         end
-        if (CommandTest("x") and not CommandTest("holddown")) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
+        if (CanAttack() and CommandTest("x") and not CommandTest("holddown")) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 205 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 220 and MoveContact() and AnimElem() == 2) or
@@ -98,20 +98,20 @@ M[-2] = {
                                    (StateNo() == 420 and MoveContact() and AnimElem() == 2)) then
             ChangeState(220)
         end
-        if (CommandTest("b") and math.abs(P2Dist().x) > 0.8 and PhysicsType() == Enums.PhysicsType.S) and (Ctrl() or
+        if (CanAttack() and CommandTest("b") and math.abs(P2Dist().x) > 0.8 and PhysicsType() == Enums.PhysicsType.S) and (Ctrl() or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3)) then
             ChangeState(240)
         end
-         if (StateNo() == 0 or StateNo() == 20) and CommandTest("b") and math.abs(P2Dist().x) <= 0.8 then
+         if CanAttack() and Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("b") and math.abs(P2Dist().x) <= 0.8 then
             ChangeState(245)
         end
-         if (StateNo() == 0 or StateNo() == 20) and CommandTest("y") and math.abs(P2Dist().x) > 0.8 then
+         if CanAttack() and Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("y") and math.abs(P2Dist().x) > 0.8 then
             ChangeState(260)
         end
-        if (StateNo() == 0 or StateNo() == 20) and CommandTest("y") and math.abs(P2Dist().x) <= 0.8 then
+        if CanAttack() and Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("y") and math.abs(P2Dist().x) <= 0.8 then
             ChangeState(265)
         end
-        if (CommandTest("a") and CommandTest("holddown")) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.C) or 
+        if (CanAttack() and CommandTest("a") and CommandTest("holddown")) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.C) or 
                                    (StateNo() == 400 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 420 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3) or
@@ -119,7 +119,7 @@ M[-2] = {
                                    (StateNo() == 220 and MoveContact() and AnimElem() == 2)) then
             ChangeState(400)
         end
-        if (CommandTest("x") and CommandTest("holddown")) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.C) or
+        if (CanAttack() and CommandTest("x") and CommandTest("holddown")) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.C) or
                                    (StateNo() == 400 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 420 and MoveContact() and AnimElem() == 2) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3) or
@@ -127,22 +127,22 @@ M[-2] = {
                                    (StateNo() == 220 and MoveContact() and AnimElem() == 2)) then
             ChangeState(420)
         end
-        if (StateNo() == 11) and CommandTest("b") then
+        if CanAttack() and (StateNo() == 11) and CommandTest("b") then
             ChangeState(440)
         end
-        if (StateNo() == 11) and CommandTest("y") then
+        if CanAttack() and (StateNo() == 11) and CommandTest("y") then
             ChangeState(460)
         end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("a") then
+        if CanAttack() and PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("a") then
             ChangeState(600)
         end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("x") then
+        if CanAttack() and PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("x") then
             ChangeState(620)
         end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("b") then
+        if CanAttack() and PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("b") then
             ChangeState(640)
         end
-        if PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("y") then
+        if CanAttack() and PhysicsType() == Enums.PhysicsType.A and Ctrl() and CommandTest("y") then
             ChangeState(660)
         end
     end

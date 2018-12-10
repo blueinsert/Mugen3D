@@ -18,6 +18,7 @@ namespace Mugen3D.Core
                 new NameFuncPair("IsHelper", IsHelper),
                 new NameFuncPair("Parent", GetParent),
                 new NameFuncPair("Ctrl", IsCtrl),
+                new NameFuncPair("CanAttack", CanAttack),
                 new NameFuncPair("CommandTest", CommandTest),
                 new NameFuncPair("Facing", Facing),
                 new NameFuncPair("MoveType", GetMoveType),
@@ -155,6 +156,23 @@ namespace Mugen3D.Core
             Unit u = (Unit)lua.ToUserData(1);
             bool ctrl = u.CanCtrl();
             lua.PushBoolean(ctrl);
+            return 1;
+        }
+
+        public static int CanAttack(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Unit u = (Unit)lua.ToUserData(1);
+            if(u is Character)
+            {
+                var c = u as Character;
+                var canAttack = c.CanAttack();
+                lua.PushBoolean(canAttack);
+            }
+            else
+            {
+                lua.PushBoolean(true);
+            }
             return 1;
         }
 
