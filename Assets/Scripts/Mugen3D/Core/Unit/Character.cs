@@ -130,25 +130,25 @@ namespace Mugen3D.Core
                 if (hitDef.knockAwayType == -1) {
                     if (this.GetPhysicsType() == PhysicsType.S)
                     {
-                        this.fsmMgr.ChangeState(5000);
+                        this.fsmMgr.ChangeState(5000, true);
                     }
                     else if (this.GetPhysicsType() == PhysicsType.C)
                     {
-                        this.fsmMgr.ChangeState(5010);
+                        this.fsmMgr.ChangeState(5010, true);
                     }
                     else if (this.GetPhysicsType() == PhysicsType.A)
                     {
-                        this.fsmMgr.ChangeState(5020);
+                        this.fsmMgr.ChangeState(5020, true);
                     }
                 }
                 else
                 {
-                    this.fsmMgr.ChangeState(5030);
+                    this.fsmMgr.ChangeState(5030, true);
                 } 
             }
             else if (hitDef.hitType == (int)HitDef.HitType.Throw)
             {
-                this.fsmMgr.ChangeState(hitDef.p2StateNo);
+                this.fsmMgr.ChangeState(hitDef.p2StateNo, true);
             }   
         }
 

@@ -556,7 +556,7 @@ actions:
       x2: 0.21
       y2: 1.61
   loopStartIndex: 9
-- animNo: 42
+- animNo: 44
   animName: Jump_Down
   animLength: 20
   frames:
@@ -3059,9 +3059,9 @@ actions:
   loopStartIndex: 11
 - animNo: 1400
   animName: WhirlKick
-  animLength: 12
+  animLength: 6
   frames:
-  - duration: 2
+  - duration: 1
     clsns:
     - type: 1
       x1: -0.175
@@ -3069,7 +3069,7 @@ actions:
       x2: 0.391
       y2: 1.278
   - normalizeTime: 0.055
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.175
@@ -3077,7 +3077,7 @@ actions:
       x2: 0.391
       y2: 1.278
   - normalizeTime: 0.099
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3085,7 +3085,7 @@ actions:
       x2: 0.22
       y2: 1.318
   - normalizeTime: 0.154
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3093,7 +3093,7 @@ actions:
       x2: 0.22
       y2: 1.318
   - normalizeTime: 0.187
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3101,7 +3101,7 @@ actions:
       x2: 0.204
       y2: 1.642
   - normalizeTime: 0.242
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3111,10 +3111,10 @@ actions:
   loopStartIndex: 5
 - animNo: 1405
   animName: WhirlKick
-  animLength: 22
+  animLength: 11
   frames:
   - normalizeTime: 0.241
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.323
@@ -3122,7 +3122,7 @@ actions:
       x2: 0.226
       y2: 1.518
   - normalizeTime: 0.307
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.323
@@ -3130,7 +3130,7 @@ actions:
       x2: 0.226
       y2: 1.518
   - normalizeTime: 0.34
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.323
@@ -3138,7 +3138,7 @@ actions:
       x2: 0.226
       y2: 1.518
   - normalizeTime: 0.373
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.323
@@ -3146,7 +3146,7 @@ actions:
       x2: 0.226
       y2: 1.518
   - normalizeTime: 0.405
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.181
@@ -3159,7 +3159,7 @@ actions:
       x2: 0.47
       y2: 1.227
   - normalizeTime: 0.449
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.125
@@ -3177,7 +3177,7 @@ actions:
       x2: 1.137
       y2: 1.202
   - normalizeTime: 0.537
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.159
@@ -3185,7 +3185,7 @@ actions:
       x2: 0.226
       y2: 1.456
   - normalizeTime: 0.559
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.17
@@ -3193,7 +3193,7 @@ actions:
       x2: 0.266
       y2: 1.467
   - normalizeTime: 0.603
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.261
@@ -3206,7 +3206,7 @@ actions:
       x2: 0.05
       y2: 1.228
   - normalizeTime: 0.669
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.278
@@ -3224,7 +3224,7 @@ actions:
       x2: 0.014
       y2: 1.189
   - normalizeTime: 0.691
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.317
@@ -3239,9 +3239,9 @@ actions:
   loopStartIndex: 3
 - animNo: 1410
   animName: WhirlKick
-  animLength: 12
+  animLength: 6
   frames:
-  - duration: 2
+  - duration: 1
     clsns:
     - type: 1
       x1: -0.175
@@ -3249,7 +3249,7 @@ actions:
       x2: 0.391
       y2: 1.278
   - normalizeTime: 0.055
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.175
@@ -3257,7 +3257,7 @@ actions:
       x2: 0.391
       y2: 1.278
   - normalizeTime: 0.099
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3265,7 +3265,7 @@ actions:
       x2: 0.22
       y2: 1.318
   - normalizeTime: 0.154
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3273,7 +3273,7 @@ actions:
       x2: 0.22
       y2: 1.318
   - normalizeTime: 0.187
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3281,7 +3281,7 @@ actions:
       x2: 0.204
       y2: 1.642
   - normalizeTime: 0.242
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.273
@@ -3291,10 +3291,10 @@ actions:
   loopStartIndex: 5
 - animNo: 1415
   animName: WhirlKick
-  animLength: 22
+  animLength: 11
   frames:
   - normalizeTime: 0.241
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.317
@@ -3302,7 +3302,7 @@ actions:
       x2: 0.254
       y2: 1.45
   - normalizeTime: 0.307
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.317
@@ -3310,7 +3310,7 @@ actions:
       x2: 0.254
       y2: 1.45
   - normalizeTime: 0.34
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.21
@@ -3318,7 +3318,7 @@ actions:
       x2: 0.241
       y2: 1.459
   - normalizeTime: 0.373
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.21
@@ -3326,7 +3326,7 @@ actions:
       x2: 0.241
       y2: 1.459
   - normalizeTime: 0.405
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.157
@@ -3339,7 +3339,7 @@ actions:
       x2: 0.47
       y2: 1.227
   - normalizeTime: 0.449
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.205
@@ -3357,7 +3357,7 @@ actions:
       x2: 1.137
       y2: 1.202
   - normalizeTime: 0.537
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.132
@@ -3365,7 +3365,7 @@ actions:
       x2: 0.28
       y2: 1.435
   - normalizeTime: 0.559
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.147
@@ -3373,7 +3373,7 @@ actions:
       x2: 0.285
       y2: 1.454
   - normalizeTime: 0.603
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.229
@@ -3386,7 +3386,7 @@ actions:
       x2: 0.05
       y2: 1.228
   - normalizeTime: 0.669
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.259
@@ -3404,7 +3404,7 @@ actions:
       x2: 0.014
       y2: 1.189
   - normalizeTime: 0.691
-    duration: 2
+    duration: 1
     clsns:
     - type: 1
       x1: -0.317
@@ -3419,30 +3419,30 @@ actions:
   loopStartIndex: 3
 - animNo: 5000
   animName: BeHit_Stand_High_Light
-  animLength: 7
+  animLength: 4
   frames:
-  - normalizeTime: 0.5
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.3
-      x2: 0.21
-      y2: 1.57
-  - normalizeTime: 0.8
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.3
-      x2: 0.21
-      y2: 1.57
-  - normalizeTime: 1
+  - normalizeTime: 0.191
     duration: 1
     clsns:
     - type: 1
       x1: -0.3
       x2: 0.21
       y2: 1.57
-  - normalizeTime: 1
+  - normalizeTime: 0.265
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.3
+      x2: 0.21
+      y2: 1.57
+  - normalizeTime: 0.386
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.3
+      x2: 0.21
+      y2: 1.57
+  - normalizeTime: 0.516
     duration: 1
     clsns:
     - type: 1
@@ -3452,25 +3452,9 @@ actions:
   loopStartIndex: 3
 - animNo: 5001
   animName: BeHit_Stand_High_Heavy
-  animLength: 8
+  animLength: 5
   frames:
-  - normalizeTime: 0.54
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.31
-      y1: -0.02
-      x2: 0.11
-      y2: 1.61
-  - normalizeTime: 0.64
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.31
-      y1: -0.02
-      x2: 0.11
-      y2: 1.61
-  - normalizeTime: 0.77
+  - normalizeTime: 0.194
     duration: 1
     clsns:
     - type: 1
@@ -3478,7 +3462,7 @@ actions:
       y1: -0.02
       x2: 0.11
       y2: 1.61
-  - normalizeTime: 0.93
+  - normalizeTime: 0.249
     duration: 1
     clsns:
     - type: 1
@@ -3486,7 +3470,23 @@ actions:
       y1: -0.02
       x2: 0.11
       y2: 1.61
-  - normalizeTime: 1
+  - normalizeTime: 0.333
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.31
+      y1: -0.02
+      x2: 0.11
+      y2: 1.61
+  - normalizeTime: 0.417
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.31
+      y1: -0.02
+      x2: 0.11
+      y2: 1.61
+  - normalizeTime: 0.434
     duration: 1
     clsns:
     - type: 1
@@ -3495,98 +3495,345 @@ actions:
       x2: 0.11
       y2: 1.61
   loopStartIndex: 4
-- animNo: 5010
-  animName: BeHit_Stand_Low_Light
-  animLength: 7
-  frames:
-  - normalizeTime: 0.53
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.2
-      x2: 0.17
-      y2: 1.61
-  - normalizeTime: 0.78
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.2
-      x2: 0.17
-      y2: 1.61
-  - normalizeTime: 0.88
-    duration: 1
-    clsns:
-    - type: 1
-      x1: -0.2
-      x2: 0.17
-      y2: 1.61
-  - normalizeTime: 1
-    duration: 1
-    clsns:
-    - type: 1
-      x1: -0.2
-      x2: 0.17
-      y2: 1.61
-  loopStartIndex: 3
-- animNo: 5011
-  animName: BeHit_Stand_Low_Heavy
-  animLength: 10
-  frames:
-  - normalizeTime: 0.6
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.26
-      x2: 0.12
-      y2: 1.56
-  - normalizeTime: 0.71
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.26
-      x2: 0.12
-      y2: 1.56
-  - normalizeTime: 0.84
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.26
-      x2: 0.12
-      y2: 1.56
-  - normalizeTime: 1
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.26
-      x2: 0.12
-      y2: 1.56
-  loopStartIndex: 3
-- animNo: 5020
-  animName: BeHit_Crouch_Light
+- animNo: 5005
+  animName: BeHit_Stand_High_Light
   animLength: 5
   frames:
-  - normalizeTime: 0.57
+  - normalizeTime: 0.532
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.272
+      y1: 0.02
+      x2: 0.23
+      y2: 1.361
+  - normalizeTime: 0.728
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.272
+      y1: 0.02
+      x2: 0.23
+      y2: 1.361
+  - normalizeTime: 0.821
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.272
+      y1: 0.02
+      x2: 0.23
+      y2: 1.361
+  - normalizeTime: 0.895
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.272
+      y1: 0.02
+      x2: 0.23
+      y2: 1.361
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.272
+      y1: 0.02
+      x2: 0.23
+      y2: 1.361
+  loopStartIndex: 4
+- animNo: 5006
+  animName: BeHit_Stand_High_Heavy
+  animLength: 11
+  frames:
+  - normalizeTime: 0.433
     duration: 2
     clsns:
     - type: 1
-      x1: -0.17
-      x2: 0.34
-      y2: 1.16
-  - normalizeTime: 0.71
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.161
+      y2: 1.313
+  - normalizeTime: 0.517
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.161
+      y2: 1.313
+  - normalizeTime: 0.591
     duration: 1
     clsns:
     - type: 1
-      x1: -0.17
-      x2: 0.34
-      y2: 1.16
-  - normalizeTime: 0.88
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.161
+      y2: 1.313
+  - normalizeTime: 0.675
     duration: 1
     clsns:
     - type: 1
-      x1: -0.17
-      x2: 0.34
-      y2: 1.16
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.161
+      y2: 1.313
+  - normalizeTime: 0.749
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.161
+      y2: 1.313
+  - normalizeTime: 0.823
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.161
+      y2: 1.313
+  - normalizeTime: 0.879
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.238
+      y2: 1.356
+  - normalizeTime: 0.935
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.392
+      y1: 0.0009999999
+      x2: 0.238
+      y2: 1.356
   - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.282
+      y1: -0.004
+      x2: 0.238
+      y2: 1.356
+  loopStartIndex: 8
+- animNo: 5010
+  animName: BeHit_Stand_Low_Light
+  animLength: 3
+  frames:
+  - normalizeTime: 0.292
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.276
+      y1: 0.0009999999
+      x2: 0.208
+      y2: 1.369
+  - normalizeTime: 0.376
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.276
+      y1: 0.0009999999
+      x2: 0.208
+      y2: 1.369
+  - normalizeTime: 0.506
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.276
+      y1: 0.0009999999
+      x2: 0.208
+      y2: 1.369
+  loopStartIndex: 2
+- animNo: 5011
+  animName: BeHit_Stand_Low_Heavy
+  animLength: 7
+  frames:
+  - normalizeTime: 0.205
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.26
+      x2: 0.268
+      y2: 1.366
+  - normalizeTime: 0.298
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.26
+      x2: 0.268
+      y2: 1.366
+  - normalizeTime: 0.382
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.26
+      x2: 0.268
+      y2: 1.366
+  - normalizeTime: 0.456
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.26
+      x2: 0.268
+      y2: 1.366
+  - normalizeTime: 0.521
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.26
+      x2: 0.268
+      y2: 1.366
+  loopStartIndex: 3
+- animNo: 5015
+  animName: BeHit_Stand_Low_Light
+  animLength: 6
+  frames:
+  - normalizeTime: 0.507
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.281
+      y1: 0.014
+      x2: 0.304
+      y2: 1.308
+  - normalizeTime: 0.591
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.281
+      y1: 0.014
+      x2: 0.304
+      y2: 1.308
+  - normalizeTime: 0.665
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.281
+      y1: 0.014
+      x2: 0.304
+      y2: 1.308
+  - normalizeTime: 0.777
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.281
+      y1: 0.014
+      x2: 0.304
+      y2: 1.308
+  - normalizeTime: 0.851
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.281
+      y1: 0.014
+      x2: 0.304
+      y2: 1.308
+  - normalizeTime: 0.935
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.281
+      y1: 0.014
+      x2: 0.304
+      y2: 1.308
+  loopStartIndex: 6
+- animNo: 5016
+  animName: BeHit_Stand_Low_Heavy
+  animLength: 11
+  frames:
+  - normalizeTime: 0.527
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 0.611
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 0.704
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 0.749
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 0.823
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 0.888
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 0.962
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  - normalizeTime: 1
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.329
+      y1: -0.007
+      x2: 0.296
+      y2: 1.328
+  loopStartIndex: 7
+- animNo: 5020
+  animName: BeHit_Crouch_Light
+  animLength: 4
+  frames:
+  - normalizeTime: 0.242
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.34
+      y2: 1.16
+  - normalizeTime: 0.307
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.34
+      y2: 1.16
+  - normalizeTime: 0.372
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      x2: 0.34
+      y2: 1.16
+  - normalizeTime: 0.512
     duration: 1
     clsns:
     - type: 1
@@ -3596,49 +3843,166 @@ actions:
   loopStartIndex: 3
 - animNo: 5021
   animName: BeHit_Crouch_Heavy
-  animLength: 10
+  animLength: 7
   frames:
-  - normalizeTime: 0.47
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.17
-      y1: -0.01
-      x2: 0.29
-      y2: 1.19
-  - normalizeTime: 0.62
-    duration: 3
-    clsns:
-    - type: 1
-      x1: -0.17
-      y1: -0.01
-      x2: 0.29
-      y2: 1.19
-  - normalizeTime: 0.76
-    duration: 2
-    clsns:
-    - type: 1
-      x1: -0.17
-      y1: -0.01
-      x2: 0.29
-      y2: 1.19
-  - normalizeTime: 0.86
+  - normalizeTime: 0.278
     duration: 1
     clsns:
     - type: 1
       x1: -0.17
       y1: -0.01
-      x2: 0.29
-      y2: 1.19
+      x2: 0.433
+      y2: 1
+  - normalizeTime: 0.305
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: -0.01
+      x2: 0.433
+      y2: 1
+  - normalizeTime: 0.333
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: -0.01
+      x2: 0.433
+      y2: 1
+  - normalizeTime: 0.398
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: -0.01
+      x2: 0.433
+      y2: 1
+  - normalizeTime: 0.454
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: -0.01
+      x2: 0.433
+      y2: 1
+  - normalizeTime: 0.51
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: -0.01
+      x2: 0.433
+      y2: 1
+  - normalizeTime: 0.509
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.17
+      y1: -0.01
+      x2: 0.433
+      y2: 1
+  loopStartIndex: 6
+- animNo: 5025
+  animName: BeHit_Crouch_Light
+  animLength: 5
+  frames:
+  - normalizeTime: 0.512
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.18
+      x2: 0.474
+      y2: 1
+  - normalizeTime: 0.614
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.18
+      x2: 0.474
+      y2: 1
+  - normalizeTime: 0.707
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.18
+      x2: 0.474
+      y2: 1
+  - normalizeTime: 0.8
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.18
+      x2: 0.474
+      y2: 1
+  - normalizeTime: 0.884
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.18
+      x2: 0.474
+      y2: 1
+  loopStartIndex: 4
+- animNo: 5026
+  animName: BeHit_Crouch_Heavy
+  animLength: 10
+  frames:
+  - normalizeTime: 0.509
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: 0.012
+      x2: 0.433
+      y2: 0.81
+  - normalizeTime: 0.583
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: 0.012
+      x2: 0.433
+      y2: 0.81
+  - normalizeTime: 0.676
+    duration: 2
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: 0.012
+      x2: 0.433
+      y2: 0.81
+  - normalizeTime: 0.778
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: 0.012
+      x2: 0.433
+      y2: 0.81
+  - normalizeTime: 0.871
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: 0.012
+      x2: 0.433
+      y2: 0.81
+  - normalizeTime: 0.936
+    duration: 1
+    clsns:
+    - type: 1
+      x1: -0.193
+      y1: 0.012
+      x2: 0.474
+      y2: 0.925
   - normalizeTime: 1
     duration: 1
     clsns:
     - type: 1
-      x1: -0.17
-      y1: -0.01
-      x2: 0.29
-      y2: 1.19
-  loopStartIndex: 4
+      x1: -0.193
+      y1: 0.012
+      x2: 0.474
+      y2: 0.925
+  loopStartIndex: 6
 - animNo: 5030
   animName: BeHit_Air
   animLength: 19

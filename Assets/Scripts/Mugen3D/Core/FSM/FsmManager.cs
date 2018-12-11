@@ -60,13 +60,20 @@ namespace Mugen3D.Core
             m_stateNoToChange = 0;
         }
 
-        public void ChangeState(int stateNo)
+        public void ChangeState(int stateNo, bool force = false)
         {
-            if (this.m_stateNoToChange == -1)
+            if (force)
             {
-                //Debug.Log("curStateNo:" + this.stateNo + " changeState:" + stateNo);
                 this.m_stateNoToChange = stateNo;
             }
+            else
+            {
+                if (this.m_stateNoToChange == -1 )
+                {
+                    this.m_stateNoToChange = stateNo;
+                }
+            }
+            
         }
 
         public void ProcessChangeState()

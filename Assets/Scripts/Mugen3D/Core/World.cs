@@ -25,6 +25,7 @@ namespace Mugen3D.Core
         public CameraController cameraController {get; private set;}
         public Action<Event> onEvent;
         private bool isPause = false;
+        private int m_pauseTime = 0;
         public MatchManager matchManager;
 
         public World(WorldConfig cfg)
@@ -35,9 +36,14 @@ namespace Mugen3D.Core
             
         }
 
-        public void Pause()
+        public bool IsPause()
         {
-            isPause = true;
+            return m_pauseTime > 0;
+        }
+
+        public void Pause(int time)
+        {
+            m_pauseTime = time;
         }
 
         public void Continue()
@@ -194,7 +200,7 @@ namespace Mugen3D.Core
                     {
                         isBeGuarded = true;
                     }
-                    if (isBeGuarded)
+                    if (isBeGuarded && target.GetHP() - hitDef.guardDamage >= 0)
                     {
                         attacker.OnMoveGuarded(target);
                         target.OnGuardHit(hitDef);
@@ -258,17 +264,21 @@ namespace Mugen3D.Core
        
         public void Update()
         {
-            if (isPause)
+            if (IsPause())
+            {
+                m_pauseTime--;
                 return;
+            }
             cameraController.Update();
             EntityUpdate();
             UpdateLuaScripts();     //change state, change anim, so on...  
             HitResolve();
+            UpdateAfterScriptUpdate();
 
             Debug();
             UpdateView();
 
-            UpdateAfterScriptUpdate();
+            
         }
         
     }

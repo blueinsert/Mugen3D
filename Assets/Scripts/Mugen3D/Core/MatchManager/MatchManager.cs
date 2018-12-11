@@ -85,7 +85,7 @@ namespace Mugen3D.Core
 
         private bool IsCharactersSteady()
         {
-            return p1.fsmMgr.stateNo == 0 && p2.fsmMgr.stateNo == 0;     
+            return (!p1.IsAlive() || (p1.IsAlive() && p1.fsmMgr.stateNo == 0)) && (!p2.IsAlive() || (p2.IsAlive() && p2.fsmMgr.stateNo == 0));     
         }
 
         private bool IsRoundEnd()
@@ -169,7 +169,7 @@ namespace Mugen3D.Core
                     break;
                 case RoundState.PreOver:
                     timer += Time.deltaTime;
-                    if(timer >= PRE_OVER_TIME)
+                    if(timer >= PRE_OVER_TIME && IsCharactersSteady())
                         ChangeRoundState(RoundState.Over);
                     break;
                 case RoundState.Over:
@@ -197,8 +197,8 @@ namespace Mugen3D.Core
             switch (this.roundState)
             {
                 case RoundState.PreIntro:
-                    p1.fsmMgr.ChangeState(0);
-                    p2.fsmMgr.ChangeState(0);
+                    p1.fsmMgr.ChangeState(0, true);
+                    p2.fsmMgr.ChangeState(0, true);
                     break;
                 case RoundState.Intro:
                     p1.fsmMgr.ChangeState(5900);
@@ -208,17 +208,37 @@ namespace Mugen3D.Core
                     p1.SetCtrl(true);
                     p2.SetCtrl(true);
                     break;
+                case RoundState.PreOver:
+                    if(!p1.IsAlive() || !p2.IsAlive())
+                    {
+                        //world.Pause(30);//pause 10 frame on ko
+                    }
+                    break;
                 case RoundState.Over:
-                    if (GetLoser() != null)
+                    if(p1.IsAlive())
                     {
-                        GetLoser().fsmMgr.ChangeState(170);
-                        GetWiner().fsmMgr.ChangeState(180);
+                        if(p1 == GetWiner())
+                        {
+                            p1.fsmMgr.ChangeState(180);
+                        }
+                        else
+                        {
+                            p1.fsmMgr.ChangeState(170);
+                        }
+                        
                     }
-                    else
+                    if (p2.IsAlive())
                     {
-                        p1.fsmMgr.ChangeState(170);
-                        p2.fsmMgr.ChangeState(170);
-                    }
+                        if (p2 == GetWiner())
+                        {
+                            p2.fsmMgr.ChangeState(180);
+                        }
+                        else
+                        {
+                            p2.fsmMgr.ChangeState(170);
+                        }
+
+                    } 
                     break;
             }
         }  

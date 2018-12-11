@@ -17,18 +17,20 @@ local function handleChangeFacing(_ENV)
 	if P2Dist().x < 0 then
 		facing = -1
 	end
-	if Facing() ~= facing then
-	    if StateNo() == 0 and StateNo() ~= 5 then
-       	   ChangeState(5)
-        end
-        if StateNo() == 11 and StateNo() ~= 6 then
-       	   ChangeState(6)
-        end
+	if Facing() ~= facing and PhysicsType() ~= Enums.PhysicsType.A then
+		if Ctrl() then
+			if PhysicsType() == Enums.PhysicsType.S and StateNo() ~= 5 then
+			    ChangeState(5) 
+		    elseif PhysicsType() == Enums.PhysicsType.C and StateNo() ~= 6 then
+			    ChangeState(6)
+		    end
+		end
 	end
 end
 
 M[-1] = {
 	onUpdate = function(_ENV)
+	    handleChangeFacing(_ENV)
 	    if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("FF") and StateNo() ~= 100 then
 			ChangeState(100)
 		end
@@ -41,7 +43,6 @@ M[-1] = {
 	    if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("holdfwd") or CommandTest("holdback")) and StateNo() ~= 100 and StateNo() ~= 20 then
 			ChangeState(20) --walk
 		end
-		handleChangeFacing(_ENV)
 		if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown")  then
 			ChangeState(10)
 		end
@@ -67,17 +68,15 @@ M[0] = {
 --turn stand
 M[5] = {
 	onEnter = function(_ENV)
-	    if AnimExist(5) then
-	        ChangeAnim(5)
-	    else
-	    	ChangeState(0)
-	    end
+	    MoveTypeSet(Enums.MoveType.I)
+        PhysicsSet(Enums.PhysicsType.S)
+		CtrlSet(false)	
+	    ChangeAnim(5)
+	    ChangeFacing(-Facing())
 	end,
 	
 	onUpdate = function(_ENV)
 	    if LeftAnimTime() <= 0 then
-	    	local curFacing = Facing()
-	        ChangeFacing(-curFacing)
 	        ChangeState(0)
 	    end
 	end,
@@ -86,17 +85,15 @@ M[5] = {
 --turn crouch
 M[6] = {
 	onEnter = function(_ENV)
-	    if AnimExist(6) then
-	        ChangeAnim(6)
-	    else
-	    	ChangeState(11)
-	    end
+	    MoveTypeSet(Enums.MoveType.I)
+        PhysicsSet(Enums.PhysicsType.C)
+		CtrlSet(false)
+		ChangeFacing(-Facing())
+	    ChangeAnim(6)
 	end,
 	
 	onUpdate = function(_ENV)
 	    if LeftAnimTime() <= 0 then
-	    	local curFacing = Facing()
-	        ChangeFacing(-curFacing)
 	        ChangeState(11)
 	    end
 	end,
@@ -214,15 +211,15 @@ M[41] = {
 	end,
 	onUpdate = function(_ENV)
 		if Vel().y <= 0 then
-			ChangeState(42)
+			ChangeState(44)
 		end
 	end
 }
 
 --jump down
-M[42] = {
+M[44] = {
     onEnter = function(_ENV)
-        ChangeAnim(42)
+        ChangeAnim(44)
     end,
     onUpdate = function(_ENV)
         if JustOnGround() then
@@ -236,11 +233,14 @@ M[47] = {
 	onEnter = function(_ENV)
 		MoveTypeSet(Enums.MoveType.I)
 		PhysicsSet(Enums.PhysicsType.S)
-		CtrlSet(true)
+		CtrlSet(false)
 		ChangeAnim(47)
 		VelSet(0, 0)
 	end,
 	onUpdate = function(_ENV)
+	    if StateTime() == 3 then
+	    	CtrlSet(true)
+	    end
 		if LeftAnimTime() <= 0 then
 		    ChangeState(0)
 		end
@@ -573,6 +573,9 @@ M[5001] = {
 		ChangeAnim(5000 + 10*GetHitVar("groundType") + GetHitVar("forceLevel"))
 	end,
 	onUpdate = function(_ENV)
+	    if LeftAnimTime() <= 0 then
+	    	ChangeAnim(5005 + 10*GetHitVar("groundType") + GetHitVar("forceLevel"))
+	    end
 		if StateTime() > GetHitVar("hitSlideTime") then
 			ChangeState(0)
 		end
@@ -607,6 +610,9 @@ M[5011] = {
 		ChangeAnim(5020 + GetHitVar("forceLevel"))
 	end,
 	onUpdate = function(_ENV)
+	    if LeftAnimTime() <= 0 then
+	    	ChangeAnim(5025 + GetHitVar("forceLevel"))
+	    end
 		if StateTime() > GetHitVar("hitSlideTime") then
 			ChangeState(11)
 		end
@@ -745,7 +751,7 @@ M[5110] = {
 		VelSet(0,0)
 	end,
 	onUpdate = function(_ENV)
-		if StateTime() > 20 then
+		if Alive() and StateTime() > 20 then
 			ChangeState(5120) --get up
 		end
 	end

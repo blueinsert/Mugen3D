@@ -133,13 +133,12 @@ M[240] = {
     end,
     onUpdate = function(_ENV)
         if AnimElem() == 3 and AnimElemTime() == 0 then
-            print("HitDefSet")
             HitDefSet({
                hitFlag = Enums.HitFlag.HLAF,
                 guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -180,7 +179,7 @@ M[245] = {
                 guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -221,7 +220,7 @@ M[260] = {
                 guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -262,7 +261,7 @@ M[265] = {
                 guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -385,7 +384,7 @@ M[440] = {
                 guardFlag = Enums.GuardFlag.HL,
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -552,7 +551,7 @@ M[640] = {
 
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
@@ -594,7 +593,7 @@ M[660] = {
 
                 hitType = Enums.HitType.Attack,
                 groundType = Enums.GroundType.Low,
-                forceLevel = Enums.ForceLevel.Light,
+                forceLevel = Enums.ForceLevel.Medium,
 
                 hitDamage = 10,
                 hitPauseTime = {11, 13},
