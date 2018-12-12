@@ -48,13 +48,6 @@ namespace Mugen3D
 
         private static byte[] LuaLoader(ref string fileName)
         {
-            /*
-            string path = Path.Combine(Path.Combine(Application.streamingAssetsPath, "LuaRoot"), fileName);
-            var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            StreamReader reader = new StreamReader(file, System.Text.Encoding.UTF8);
-            var bytes = System.Text.Encoding.UTF8.GetBytes(reader.ReadToEnd());
-            return bytes;
-            */
             var code = Resources.Load(fileName, typeof(TextAsset)) as TextAsset;
             if (code != null)
             {
@@ -81,13 +74,6 @@ namespace Mugen3D
                 Core.Debug.AddGUIDebugMsg = GUIDebug.Instance.AddMsg;
             }
             Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
-        }
-
-        protected Character CreateCharacter(string characterName, int slot, bool isLocal)
-        {
-            Character c = EntityFactory.CreateCharacter(characterName, slot, isLocal);
-            this.game.world.AddCharacter(c);
-            return c;
         }
 
         private void LoadFightHud() {

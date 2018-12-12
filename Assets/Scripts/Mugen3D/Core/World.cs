@@ -231,10 +231,37 @@ namespace Mugen3D.Core
                 if (e is Unit)
                 {
                     var u = e as Unit;
-                    u.UpdateScript();
+                    u.fsmMgr.Update();
                 }
             }
         }
+
+        void PrepareForCurFrame()
+        {
+            foreach (var e in entities)
+            {
+                if (e is Unit)
+                {
+                    var u = e as Unit;
+                    u.fsmMgr.ProcessChangeState();
+                }
+            }
+        }
+
+        void PrepareForNextFrame() {
+            foreach (var e in entities)
+            {
+                if (e is Unit)
+                {
+                    var u = e as Unit;
+                    if (u.IsPause())
+                    {
+                        u.AddPauseTime(-1);
+                    }
+                }
+            }
+        }
+
         void PushTest() { 
 
         }
@@ -249,18 +276,6 @@ namespace Mugen3D.Core
                 }
             }
         }
-
-        void UpdateAfterScriptUpdate()
-        {
-            foreach (var e in entities)
-            {
-                if (e is Unit)
-                {
-                    var u = e as Unit;
-                    u.UpdateAfterScriptUpdate();
-                }
-            }
-        }
        
         public void Update()
         {
@@ -270,15 +285,13 @@ namespace Mugen3D.Core
                 return;
             }
             cameraController.Update();
+            PrepareForCurFrame();
             EntityUpdate();
             UpdateLuaScripts();     //change state, change anim, so on...  
             HitResolve();
-            UpdateAfterScriptUpdate();
-
             Debug();
             UpdateView();
-
-            
+            PrepareForNextFrame();
         }
         
     }

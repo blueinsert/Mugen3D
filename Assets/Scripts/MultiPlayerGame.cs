@@ -27,8 +27,8 @@ namespace Mugen3D
             Application.targetFrameRate = renderFPS;
             InitCore();
             //CreateGame(stageName, logicFPS);
-            CreateCharacter(p1CharacterName, 0, true);
-            CreateCharacter(p2CharacterName, 1, false);
+            //CreateCharacter(p1CharacterName, 0, true);
+            //CreateCharacter(p2CharacterName, 1, false);
             StartCoroutine(SendProgress());
         }
 

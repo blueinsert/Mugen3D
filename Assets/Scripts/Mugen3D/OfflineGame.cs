@@ -14,9 +14,6 @@ namespace Mugen3D
         private float m_gameTimeResidual = 0;
         private float m_gameDeltaTime; //core update period
 
-        private Core.Character p1;
-        private Core.Character p2;
-
         public void Start()
         {      
             StartGame(matchInfo, renderFPS, logicFPS);
@@ -28,12 +25,7 @@ namespace Mugen3D
             m_gameDeltaTime = (1000 / logicFPS) / 1000f;
             InitCore();
             CreateGame(matchInfo, logicFPS);
-            this.game.StartGame();
-
-            p1 = (this.game.matchManager).p1;
-            p2 = (this.game.matchManager).p2;
-
-            
+            this.game.StartGame(); 
         }
 
         protected override void OnUpdate()

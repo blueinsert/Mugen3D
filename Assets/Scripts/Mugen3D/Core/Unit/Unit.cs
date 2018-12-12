@@ -150,20 +150,6 @@ namespace Mugen3D.Core
                 noHitBy.Update();
         }
 
-        public void UpdateScript() {
-            fsmMgr.Update();
-        }
-
-        public void UpdateAfterScriptUpdate()
-        {
-            fsmMgr.ProcessChangeState();
-            animCtr.ProcessChangeAnim();
-            if (IsPause())
-            {
-                AddPauseTime(-1);
-            }
-        }
-
         #region status get/set
         public Number GetFrontEdgeDist()
         {
@@ -401,11 +387,6 @@ namespace Mugen3D.Core
             return m_hp;
         }
 
-        public int GetMaxHP()
-        {
-            return m_maxHP;
-        }
-
         public void AddHP(int hpAdd)
         {
             m_hp += hpAdd;
@@ -418,6 +399,16 @@ namespace Mugen3D.Core
         public void SetHP(int hp)
         {
             m_hp = hp;
+        }
+
+        public int GetMaxHP()
+        {
+            return m_maxHP;
+        }
+
+        public void SetMaxMP(int hp)
+        {
+            m_maxHP = hp;
         }
 
         public bool IsAlive()

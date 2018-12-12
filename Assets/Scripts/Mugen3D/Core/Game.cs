@@ -12,7 +12,6 @@ namespace Mugen3D.Core
         public MatchManager matchManager { get; private set; }
 
         public Game(MatchInfo matchInfo, WorldConfig worldConfig, int fps) {
-
             this.fps = fps;
             this.deltaTime = new Number(1000 / fps) / new Number(1000);
             Time.Clear();

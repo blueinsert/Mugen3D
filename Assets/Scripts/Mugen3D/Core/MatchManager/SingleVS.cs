@@ -15,8 +15,8 @@ namespace Mugen3D.Core
 
         protected override void OnRoundStart()
         {
-            p1.SetHP(p1.GetMaxHP());
-            p2.SetHP(1000);
+            p1.SetMaxMP(200); p1.SetHP(p1.GetMaxHP());
+            p2.SetMaxMP(200); p2.SetHP(p2.GetMaxHP());
             p1.SetPosition(new Vector(world.config.stageConfig.initPos[0].x, world.config.stageConfig.initPos[0].y, 0));
             p2.SetPosition(new Vector(world.config.stageConfig.initPos[1].x, world.config.stageConfig.initPos[1].y, 0));
             FireEvent(new Event() { type = EventType.OnRoundStart, data = this.roundNo });
