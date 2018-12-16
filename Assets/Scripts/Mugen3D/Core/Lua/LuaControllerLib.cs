@@ -241,7 +241,7 @@ namespace Mugen3D.Core
             Unit c = (Unit)lua.ToUserData(1);
             double x = lua.L_CheckNumber(2);
             double y = lua.L_CheckNumber(3);
-            c.moveCtr.PosSet(x.ToNumber(), y.ToNumber(), 0);
+            c.PosSet(x.ToNumber(), y.ToNumber(), 0);
             return 0;
         }
 
@@ -252,7 +252,7 @@ namespace Mugen3D.Core
             double x = lua.L_CheckNumber(2);
             double y = lua.L_CheckNumber(3);
             double z = lua.L_CheckNumber(4);
-            c.moveCtr.PosAdd(x.ToNumber(), y.ToNumber(), z.ToNumber());
+            c.PosAdd(x.ToNumber(), y.ToNumber(), z.ToNumber());
             return 0;
         }
 
@@ -284,7 +284,7 @@ namespace Mugen3D.Core
                 double x = lua.L_CheckNumber(2);
                 double y = lua.L_CheckNumber(3);
                 double z = lua.L_CheckNumber(4);
-                target.moveCtr.PosSet(c.position.x + x.ToNumber()*c.GetFacing(), c.position.y + y.ToNumber(), c.position.z + z.ToNumber());
+                target.PosSet(c.position.x + x.ToNumber()*c.GetFacing(), c.position.y + y.ToNumber(), c.position.z + z.ToNumber());
             }
             return 0;
         }
@@ -299,7 +299,7 @@ namespace Mugen3D.Core
                 double x = lua.L_CheckNumber(2);
                 double y = lua.L_CheckNumber(3);
                 double z = lua.L_CheckNumber(4);
-                c.moveCtr.PosSet(target.position.x + x.ToNumber() * target.GetFacing(), target.position.y + y.ToNumber(), target.position.z + z.ToNumber());
+                c.PosSet(target.position.x + x.ToNumber() * target.GetFacing(), target.position.y + y.ToNumber(), target.position.z + z.ToNumber());
             }
             return 0;
         }

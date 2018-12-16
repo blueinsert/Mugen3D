@@ -27,13 +27,14 @@ namespace Mugen3D.Core
         private bool isPause = false;
         private int m_pauseTime = 0;
         public MatchManager matchManager;
+        public PhysicsEngine m_physicsEngine { get; private set; }
 
         public World(WorldConfig cfg)
         {
             config = cfg; 
             entities = new List<Entity>();
             cameraController = new CameraController(cfg.stageConfig.cameraConfig);
-            
+            m_physicsEngine = new PhysicsEngine(this);
         }
 
         public bool IsPause()
@@ -288,6 +289,7 @@ namespace Mugen3D.Core
             PrepareForCurFrame();
             EntityUpdate();
             UpdateLuaScripts();     //change state, change anim, so on...  
+            m_physicsEngine.Update();
             HitResolve();
             Debug();
             UpdateView();

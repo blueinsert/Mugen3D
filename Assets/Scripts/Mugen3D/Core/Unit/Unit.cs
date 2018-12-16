@@ -122,7 +122,7 @@ namespace Mugen3D.Core
         public MoveCtrl moveCtr { get; protected set; }
         public AnimationController animCtr { get; protected set; }  
         public FsmManager fsmMgr { get; protected set; }
-
+        
         private Status status = new Status();
         private HitBy hitBy;
         private NoHitBy noHitBy;
@@ -132,7 +132,7 @@ namespace Mugen3D.Core
             SetConfig(config);
             moveCtr = new MoveCtrl(this);
             animCtr = new AnimationController(config.actions, this);
-            fsmMgr = new FsmManager(config.fsm, this);
+            fsmMgr = new FsmManager(config.fsm, this);   
         }
 
         protected Unit() { }
@@ -142,8 +142,8 @@ namespace Mugen3D.Core
         {
             if (IsPause())
                 return;
-            moveCtr.Update(deltaTime);
-            animCtr.Update(); 
+            animCtr.Update();
+            moveCtr.collider.SetCollider(animCtr.curActionFrame.clsns);
             if (hitBy != null)
                 hitBy.Update();
             if (noHitBy != null)
@@ -286,6 +286,20 @@ namespace Mugen3D.Core
         public bool CanCtrl()
         {
             return this.status.ctrl;
+        }
+
+        public void PosSet(Number x, Number y, Number z)
+        {
+            SetPosition(new Vector(x, y, z));
+        }
+
+        public void PosAdd(Number deltaX, Number deltaY, Number deltaZ)
+        {
+            var pos = position;
+            pos.x += deltaX * GetFacing();
+            pos.y += deltaY;
+            pos.z += deltaZ;
+            SetPosition(pos);
         }
         #endregion
 

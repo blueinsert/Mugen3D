@@ -25,7 +25,6 @@ namespace Mugen3D.Core
             this.slot = slot;
             this.isLocal = isLocal;       
             cmdMgr = new CmdManager(config.commandContent, this);
-            moveCtr = new CharacterMoveCtrl(this);
         }
 
         public bool CanAttack()
