@@ -47,7 +47,7 @@ namespace Mugen3D.Core
             this.id = id;
         }
 
-        public void SetPosition(Vector pos)
+        public virtual void SetPosition(Vector pos)
         {
             this.position = pos;
         }
@@ -75,7 +75,7 @@ namespace Mugen3D.Core
             this.config = config;
         }
 
-        public virtual void OnUpdate(Number deltaTime) { }
+        public virtual void OnUpdate() { }
 
         public void Destroy()
         {

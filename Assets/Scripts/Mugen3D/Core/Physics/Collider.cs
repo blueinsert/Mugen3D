@@ -9,88 +9,190 @@ namespace Mugen3D.Core
         public Number depth;
     }
 
-    public class CollideRect
+    public enum ColliderType
     {
-        private MoveCtrl m_moveCtrl;
-        public Vector offset;
-        public Number width;
-        public Number height;
+        RectCollider = 1,
+        ComplexCollider,
+    }
 
-        public CollideRect(MoveCtrl moveCtrl, Vector offset, Number width, Number height)
+    public class Collider {
+        public ColliderType type { get; protected set; }
+        public virtual bool IsIntersect(Collider c, out ContactInfo contactInfo)
         {
-            this.m_moveCtrl = moveCtrl;
-            this.offset = offset;
-            this.width = width;
-            this.height = height;
-        }
-
-        public Rect GetRect()
-        {
-            Rect rect = new Rect(m_moveCtrl.position + new Vector(offset.x * m_moveCtrl.facing, offset.y, offset.z), width, height);
-            return rect;
-        }
-
-        public bool IsOverlap(CollideRect rect)
-        {
-            return GetRect().IsOverlap(rect.GetRect());
+            contactInfo = null;
+            return PhysicsUtils.IsIntersect(this, c, out contactInfo);
         }
 
     }
 
-    public class Collider
+    public class RectCollider : Collider
     {
-        private MoveCtrl m_owner;
+        private Unit owner;
+        public Vector offset;
+        public Number width;
+        public Number height;
 
-        private List<CollideRect> m_attackClsns = new List<CollideRect>();
-        private List<CollideRect> m_defenceClsns = new List<CollideRect>();
-        private List<CollideRect> m_collideClsns = new List<CollideRect>();
-
-        public Collider(MoveCtrl owner)
+        public RectCollider(Unit owner)
         {
-            this.m_owner = owner;
+            this.owner = owner;
+            this.type = ColliderType.RectCollider;
+        }
+
+        public Vector position {
+            get {
+                return new Vector(offset.x * owner.GetFacing(), offset.y, offset.z) + owner.position;
+            }
+        }
+
+        public Number xMin
+        {
+            get
+            {
+                return position.x - width / 2;
+            }
+        }
+
+        public Number xMax
+        {
+            get
+            {
+                return position.x + width / 2;
+            }
+        }
+
+        public Number yMin
+        {
+            get
+            {
+                return position.y - height / 2;
+            }
+        }
+
+        public Number yMax
+        {
+            get
+            {
+                return position.y + height / 2;
+            }
+        }
+
+        public Vector LeftUp
+        {
+            get
+            {
+                return position + new Vector(-width / 2, height / 2, 0);
+            }
+        }
+
+        public Vector RightUp
+        {
+            get
+            {
+                return position + new Vector(width / 2, height / 2, 0);
+            }
+        }
+
+        public Vector RightDown
+        {
+            get
+            {
+                return position + new Vector(width / 2, -height / 2, 0);
+            }
+        }
+
+        public Vector LeftDown
+        {
+            get
+            {
+                return position + new Vector(-width / 2, -height / 2, 0);
+            }
+        }
+    }
+
+    public class ComplexCollider : Collider
+    {
+        private Unit owner;
+        public List<RectCollider> attackClsns
+        {
+            get {
+                return m_attackClsns;
+            }
+        }
+        public List<RectCollider> defenceClsns
+        {
+            get
+            {
+                return m_defenceClsns;
+            }
+        }
+        public List<RectCollider> collideClsns
+        {
+            get
+            {
+                return m_collideClsns;
+            }
+        }
+        private static readonly int MAX_ATTACK_CLSN_NUM = 10;
+        private static readonly int MAX_DEFENCE_CLSN_NUM = 10;
+        private static readonly int MAX_COLLIDE_CLSN_NUM = 10;
+        private List<RectCollider> m_attackClsns = new List<RectCollider>(MAX_ATTACK_CLSN_NUM);
+        private List<RectCollider> m_defenceClsns = new List<RectCollider>(MAX_DEFENCE_CLSN_NUM);
+        private List<RectCollider> m_collideClsns = new List<RectCollider>(MAX_COLLIDE_CLSN_NUM);
+        public int attackClsnsLength { get; private set; }
+        public int defenceClsnsLength { get; private set; }
+        public int collideClsnsLength { get; private set; }
+
+        public ComplexCollider(Unit owner)
+        {
+            this.owner = owner;
+            for(int i = 0; i < MAX_ATTACK_CLSN_NUM; i++)
+            {
+                this.m_attackClsns.Add(new RectCollider(owner));
+            }
+            for (int i = 0; i < MAX_DEFENCE_CLSN_NUM; i++)
+            {
+                this.m_defenceClsns.Add(new RectCollider(owner));
+            }
+            for (int i = 0; i < MAX_COLLIDE_CLSN_NUM; i++)
+            {
+                this.m_collideClsns.Add(new RectCollider(owner));
+            }
+            this.type = ColliderType.ComplexCollider;
         }
 
         public void SetCollider(List<Clsn> clsns)
         {
-            m_attackClsns.Clear();
-            m_defenceClsns.Clear();
-            m_collideClsns.Clear();
+            attackClsnsLength = 0;
+            defenceClsnsLength = 0;
+            collideClsnsLength = 0;
             foreach (var clsn in clsns)
             {
                 switch (clsn.type)
                 {
                     case 1:
-                        m_defenceClsns.Add(new CollideRect(this.m_owner, new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0), Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2)));
-                        m_collideClsns.Add(new CollideRect(this.m_owner, new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0), Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2)));
+                        var rectCollider = m_defenceClsns[defenceClsnsLength];
+                        rectCollider.offset = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
+                        rectCollider.width = Math.Abs(clsn.x1 - clsn.x2);
+                        rectCollider.height = Math.Abs(clsn.y1 - clsn.y2);
+                        m_defenceClsns[defenceClsnsLength++] = rectCollider;
                         break;
                     case 2:
-                        m_attackClsns.Add(new CollideRect(this.m_owner, new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0), Math.Abs(clsn.x1 - clsn.x2), Math.Abs(clsn.y1 - clsn.y2)));
+                        rectCollider = m_attackClsns[attackClsnsLength];
+                        rectCollider.offset = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
+                        rectCollider.width = Math.Abs(clsn.x1 - clsn.x2);
+                        rectCollider.height = Math.Abs(clsn.y1 - clsn.y2);
+                        m_attackClsns[attackClsnsLength++] = rectCollider;
+                        break;
+                    case 3:
+                        rectCollider = m_collideClsns[collideClsnsLength];
+                        rectCollider.offset = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2, 0);
+                        rectCollider.width = Math.Abs(clsn.x1 - clsn.x2);
+                        rectCollider.height = Math.Abs(clsn.y1 - clsn.y2);
+                        m_collideClsns[collideClsnsLength++] = rectCollider;
                         break;
                 }
             }
         }
-
-      
-
-        public bool IsIntersect(Collider c, out ContactInfo contactInfo)
-        {
-            contactInfo = null;
-            for (int i = 0; i < m_collideClsns.Count; i++)     
-            {
-                var rect1 = m_collideClsns[i];
-                for (int j = 0; j < c.m_collideClsns.Count; j++) {
-                    var rect2 = c.m_collideClsns[j];
-                    if (rect1.IsOverlap(rect2))
-                    {
-                        Vector dir = new Vector(rect1.GetRect().position.x > rect2.GetRect().position.x ? 1 : -1, 0, 0);
-                        Number depth = (rect1.width + rect2.width) / 2 - Math.Abs(rect1.GetRect().position.x - rect2.GetRect().position.x);
-                        contactInfo = new ContactInfo() { recoverDir = dir, depth = depth/2 };
-                        return true;
-                    }
-                }                     
-            }
-            return false;
-        }
-
+    
     }
 }

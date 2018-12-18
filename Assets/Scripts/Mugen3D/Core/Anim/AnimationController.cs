@@ -6,7 +6,7 @@ namespace Mugen3D.Core
 
     public class AnimationController
     {
-        private Unit m_owner;
+        public Unit owner { get; private set; }
         private Dictionary<int, Action> m_actions;
         public int anim { get; private set; }
         public int animTime { get; private set; }
@@ -57,7 +57,7 @@ namespace Mugen3D.Core
 
         public AnimationController(Action[] actions, Unit owner)
         {
-            this.m_owner = owner;
+            this.owner = owner;
             this.m_actions = new Dictionary<int, Action>();
             foreach (var action in actions)
             {

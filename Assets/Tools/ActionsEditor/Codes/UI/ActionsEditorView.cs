@@ -56,6 +56,7 @@ namespace Mugen3D.Tools
         public GameObject prefabClsn;
         public Button btnAddClsn1;
         public Button btnAddClsn2;
+        public Button btnAddClsn3;
         public Button btnDeleteClsn;
         public Button btnUseLastClsn;
         public Clsn curSelectedClsn;
@@ -280,10 +281,18 @@ namespace Mugen3D.Tools
             });
             btnAddClsn2.onClick.AddListener(() =>
             {
-                print("click addclsn1");
+                print("click addclsn2");
                 if (!isResponseToUIEvent)
                     return;
                 this.controller.module.CreateClsn(2);
+                UpdateUI();
+            });
+            btnAddClsn3.onClick.AddListener(() =>
+            {
+                print("click addclsn3");
+                if (!isResponseToUIEvent)
+                    return;
+                this.controller.module.CreateClsn(3);
                 UpdateUI();
             });
             btnDeleteClsn.onClick.AddListener(() =>

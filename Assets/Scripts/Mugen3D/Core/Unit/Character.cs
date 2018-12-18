@@ -11,7 +11,7 @@ namespace Mugen3D.Core
         public int slot { get; private set; }
         public bool isLocal { get; private set; }
         public CmdManager cmdMgr { get; protected set; }
-        private int input;
+        public int input { get; private set; }
         private int m_aiLevel = 0;
         public int AILevel {get {return m_aiLevel;}}
         private List<Helper> m_helpers = new List<Helper>();
@@ -37,10 +37,9 @@ namespace Mugen3D.Core
             return m_canAttack = value;
         }
 
-        public override void OnUpdate(Number deltaTime)
+        public override void OnUpdate()
         {
-            base.OnUpdate(deltaTime);
-            cmdMgr.Update(input);
+            base.OnUpdate();
         }
 
         public void UpdateInput(int input)

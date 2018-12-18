@@ -137,17 +137,20 @@ namespace Mugen3D.Core
 
         protected Unit() { }
 
-        //update before script update
-        public override void OnUpdate(Number deltaTime)
+        public override void OnUpdate()
         {
             if (IsPause())
                 return;
-            animCtr.Update();
-            moveCtr.collider.SetCollider(animCtr.curActionFrame.clsns);
             if (hitBy != null)
                 hitBy.Update();
             if (noHitBy != null)
                 noHitBy.Update();
+        }
+
+        public override void SetPosition(Vector pos)
+        {
+            base.SetPosition(pos);
+            this.moveCtr.PosSet(pos);
         }
 
         #region status get/set
@@ -288,19 +291,7 @@ namespace Mugen3D.Core
             return this.status.ctrl;
         }
 
-        public void PosSet(Number x, Number y, Number z)
-        {
-            SetPosition(new Vector(x, y, z));
-        }
-
-        public void PosAdd(Number deltaX, Number deltaY, Number deltaZ)
-        {
-            var pos = position;
-            pos.x += deltaX * GetFacing();
-            pos.y += deltaY;
-            pos.z += deltaZ;
-            SetPosition(pos);
-        }
+       
         #endregion
 
         public void SetHitBy(List<HitInfo> infos, int duration)

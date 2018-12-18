@@ -10,40 +10,37 @@ namespace Mugen3D.Core
 
     public class MoveCtrl
     {
-        protected Unit m_owner;
-        public Collider collider { get; protected set; }
+        public Unit owner { get; private set; }
+        public ComplexCollider collider { get; protected set; }
 
         protected Vector m_gravity = new Vector(0, -16, 0);
         protected Number groundFrictionFactor = 3;
 
         public Vector velocity { get { return m_velocity; } }
+        public Vector position { get { return m_position; } }
 
-        private Number mass = 70;
+        public Number mass { get; private set; }
         private Vector m_externalForce = Vector.zero;
         private Vector m_acceleratedVelocity = Vector.zero;
         private Vector m_velocity;
         private Vector m_deltaPos;
-        public Vector position;
-        public int facing { get { return m_owner.GetFacing(); } }
+        private Vector m_position = Vector.zero;
 
-        public bool justOnGround = false;
+        public int facing { get { return owner.GetFacing(); } }
 
         public MoveCtrl(Unit unit) {
-            m_owner = unit;
-            collider = new Collider(this);
+            owner = unit;
+            collider = new ComplexCollider(unit);
+            mass = 70;
         }
 
         public virtual void Update()
-        {
-            if (justOnGround)
-            {
-                justOnGround = false;
-            }
-            if (m_owner.GetPhysicsType() == PhysicsType.S || m_owner.GetPhysicsType() == PhysicsType.C)
+        { 
+            if (owner.GetPhysicsType() == PhysicsType.S || owner.GetPhysicsType() == PhysicsType.C)
             {
                 m_acceleratedVelocity = (m_gravity.magnitude * mass + m_externalForce.y) / mass * groundFrictionFactor * (-m_velocity.normalized) + m_externalForce / mass;
             }
-            else if (m_owner.GetPhysicsType() == PhysicsType.A)
+            else if (owner.GetPhysicsType() == PhysicsType.A)
             {
                 m_acceleratedVelocity = m_gravity + m_externalForce / mass;
             }
@@ -53,17 +50,17 @@ namespace Mugen3D.Core
             }
             m_velocity += Time.deltaTime * m_acceleratedVelocity;
             m_deltaPos = m_velocity * Time.deltaTime;
-            position = m_owner.position + m_deltaPos;
+            m_position += m_deltaPos;
         }
 
         public void VelSet(Number velx, Number vely)
         {
-            this.m_velocity = new Vector(velx * m_owner.GetFacing(), vely, 0);
+            this.m_velocity = new Vector(velx * owner.GetFacing(), vely, 0);
         }
 
         public void VelAdd(Number deltaX, Number deltaY)
         {
-            this.m_velocity.x += deltaX * m_owner.GetFacing();
+            this.m_velocity.x += deltaX * owner.GetFacing();
             this.m_velocity.y += deltaY;
         }
 
@@ -77,6 +74,40 @@ namespace Mugen3D.Core
             m_externalForce = force;
         }
 
+        public void PosSet(Number x, Number y, Number z)
+        {
+            m_position.x = x;
+            m_position.y = y;
+            m_position.z = z;
+        }
+
+        public void PosSet(Vector pos)
+        {
+            m_position.x = pos.x;
+            m_position.y = pos.y;
+            m_position.z = pos.z;
+        }
+
+        public void PosAdd(Number deltaX, Number deltaY, Number deltaZ)
+        {
+            m_position.x += deltaX;
+            m_position.y += deltaY;
+            m_position.z += deltaZ;
+        }
+
+        public void PosAdd(Vector deltaPos)
+        {
+            m_position.x += deltaPos.x;
+            m_position.y += deltaPos.y;
+            m_position.z += deltaPos.z;
+        }
+
+        public bool JustOnGround()
+        {
+           return m_velocity.y* Time.deltaTime + m_position.y < owner.world.config.stageConfig.borderYMin;
+        }
+
+        /*
         public bool IntersectWithWorldBound()
         {
             var worldConfig = m_owner.world.config;
@@ -89,11 +120,11 @@ namespace Mugen3D.Core
             Number playerWidth = new Number(5) / new Number(10);
             return position.x < screenBound.xMin + playerWidth || position.x > screenBound.xMax - playerWidth;
         }
+        */
 
         public void ApplyPosition()
         {
-            this.m_owner.SetPosition(this.position);
+            this.owner.SetPosition(this.m_position);
         }
-
     }
 }

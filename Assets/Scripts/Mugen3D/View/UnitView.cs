@@ -61,26 +61,22 @@ namespace Mugen3D
         }
   
         private void DebugDraw()
-        {
-            var curAction = m_animCtl.curAction;
-            if (curAction.frames.Count != 0)
+        { 
+            var collider = m_unit.moveCtr.collider;
+            for(int i = 0; i < collider.attackClsnsLength; i++)
             {
-                var curActionFrame = curAction.frames[m_animCtl.animElem];
-                foreach (var clsn in curActionFrame.clsns)
-                {
-                    var pos = m_unit.position;
-                    Core.Rect rect = new Core.Rect(new Vector(clsn.x1 * m_unit.GetFacing(), clsn.y1, 0) + pos, new Vector(clsn.x2 * m_unit.GetFacing(), clsn.y2, 0) + pos);
-                    Color c = Color.blue;
-                    if (clsn.type == 1)
-                    {
-                        c = Color.blue;
-                    }
-                    else if (clsn.type == 2)
-                    {
-                        c = Color.red;
-                    }
-                    Log.DrawRect(rect.LeftUp.ToVector2(), rect.RightUp.ToVector2(), rect.RightDown.ToVector2(), rect.LeftDown.ToVector2(), c, UnityEngine.Time.deltaTime);
-                }
+                var clsn = collider.attackClsns[i];
+                Log.DrawRect(clsn.LeftUp.ToVector2(), clsn.RightUp.ToVector2(), clsn.RightDown.ToVector2(), clsn.LeftDown.ToVector2(), Color.red, UnityEngine.Time.deltaTime);
+            }
+            for (int i = 0; i < collider.defenceClsnsLength; i++)
+            {
+                var clsn = collider.defenceClsns[i];
+                Log.DrawRect(clsn.LeftUp.ToVector2(), clsn.RightUp.ToVector2(), clsn.RightDown.ToVector2(), clsn.LeftDown.ToVector2(), Color.blue, UnityEngine.Time.deltaTime);
+            }
+            for (int i = 0; i < collider.collideClsnsLength; i++)
+            {
+                var clsn = collider.collideClsns[i];
+                Log.DrawRect(clsn.LeftUp.ToVector2(), clsn.RightUp.ToVector2(), clsn.RightDown.ToVector2(), clsn.LeftDown.ToVector2(), Color.black, UnityEngine.Time.deltaTime);
             }
         }
 

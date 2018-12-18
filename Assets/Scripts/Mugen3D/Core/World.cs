@@ -10,7 +10,7 @@ namespace Mugen3D.Core
 {
 
     public class World
-    { 
+    {
         private int m_maxEntityId = 0;
         private List<Entity> m_addedEntities = new List<Entity>();
         private List<Entity> m_destroyedEntities = new List<Entity>();
@@ -22,19 +22,26 @@ namespace Mugen3D.Core
         public System.Action<Entity> onRemoveEntity;
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
-        public CameraController cameraController {get; private set;}
+        public CameraController cameraController { get; private set; }
         public Action<Event> onEvent;
         private bool isPause = false;
         private int m_pauseTime = 0;
         public MatchManager matchManager;
-        public PhysicsEngine m_physicsEngine { get; private set; }
+
+        private PhysicsEngine m_physicsEngine;
+        private ScriptEngine m_scriptEngine;
+        private AnimEngine m_animEngine;
+        private CommandEngine m_commandEngine;
 
         public World(WorldConfig cfg)
         {
-            config = cfg; 
+            config = cfg;
             entities = new List<Entity>();
             cameraController = new CameraController(cfg.stageConfig.cameraConfig);
             m_physicsEngine = new PhysicsEngine(this);
+            m_scriptEngine = new ScriptEngine(this);
+            m_animEngine = new AnimEngine(this);
+            m_commandEngine = new CommandEngine(this);
         }
 
         public bool IsPause()
@@ -62,7 +69,7 @@ namespace Mugen3D.Core
 
         public void AddEntity(Entity e)
         {
-            m_addedEntities.Add(e); 
+            m_addedEntities.Add(e);
             e.SetEntityId(m_maxEntityId++);
             e.SetWorld(this);
         }
@@ -74,7 +81,7 @@ namespace Mugen3D.Core
             //if (c.isLocal)
             //{
             //    this.localPlayer = c;
-           // }
+            // }
             cameraController.SetFollowTarget(c.slot, c);
             AddEntity(c);
         }
@@ -111,7 +118,7 @@ namespace Mugen3D.Core
                 var h = (e as Helper);
                 h.owner.RemoveHelper(h);
             }
-            else if(e is Character)
+            else if (e is Character)
             {
                 RemoveCharacter(e as Character);
             }
@@ -126,7 +133,7 @@ namespace Mugen3D.Core
             m_addedEntities.Clear();
             foreach (var e in entities)
             {
-                e.OnUpdate(Time.deltaTime);
+                e.OnUpdate();
                 if (e.isDestroyed)
                 {
                     m_destroyedEntities.Add(e);
@@ -140,12 +147,15 @@ namespace Mugen3D.Core
         }
 
         private Dictionary<Unit, Unit> hitResults = new Dictionary<Unit, Unit>(10);
-        private void GetHitResults() {
+        private void GetHitResults()
+        {
             hitResults.Clear();
-            foreach (var e1 in entities)
+            for (int m = 0; m < entities.Count; m++)
             {
-                foreach (var e2 in entities)
+                var e1 = entities[m];
+                for (int n = 0; n < entities.Count; n++)
                 {
+                    var e2 = entities[n];
                     if (e1 == e2)
                         continue;
                     if (!(e1 is Unit) || !(e2 is Unit))
@@ -156,32 +166,22 @@ namespace Mugen3D.Core
                         continue;
                     if (attacker is Helper && (attacker as Helper).owner == target)
                         continue;
-                    var clsns1 = attacker.animCtr.curActionFrame.clsns;
-                    var clsns2 = target.animCtr.curActionFrame.clsns;
-                    if (clsns1 != null && clsns2 != null && clsns1.Count != 0 && clsns2.Count != 0)
+                    var collider1 = attacker.moveCtr.collider;
+                    var collider2 = target.moveCtr.collider;
+                    for (int i = 0; i < collider1.attackClsnsLength; i++)
                     {
-                        foreach (var attackClsn in clsns1)
+                        var attackClsn = collider1.attackClsns[i];
+                        for (int j = 0; j < collider2.defenceClsnsLength; j++)
                         {
-                            foreach (var defenseClsn in clsns2)
+                            var defenceClsn = collider2.defenceClsns[j];
+                            ContactInfo contactInfo;
+                            if (PhysicsUtils.RectColliderIntersectTest(attackClsn, defenceClsn, out contactInfo))
                             {
-                                if (attackClsn.type == 2 && defenseClsn.type == 1)
-                                {
-                                    Vector center = new Vector((attackClsn.x1 + attackClsn.x2) / 2, (attackClsn.y1 + attackClsn.y2) / 2, 0);
-                                    center.x = center.x * attacker.GetFacing();
-                                    center += attacker.position;
-                                    Core.Rect rect1 = new Core.Rect(center, Math.Abs(attackClsn.x1 - attackClsn.x2), Math.Abs(attackClsn.y1 - attackClsn.y2));
-                                    center = new Vector((defenseClsn.x1 + defenseClsn.x2) / 2, (defenseClsn.y1 + defenseClsn.y2) / 2, 0);
-                                    center.x = center.x * target.GetFacing();
-                                    center += target.position;
-                                    Core.Rect rect2 = new Core.Rect(center, Math.Abs(defenseClsn.x1 - defenseClsn.x2), Math.Abs(defenseClsn.y1 - defenseClsn.y2));
-                                    if (rect1.IsOverlap(rect2))
-                                    {
-                                        hitResults[target] = attacker;
-                                    }
-                                }
+                                hitResults[target] = attacker;
                             }
                         }
                     }
+
                 }
             }
         }
@@ -192,7 +192,7 @@ namespace Mugen3D.Core
             foreach (var hitResult in hitResults)
             {
                 var attacker = hitResult.Value;
-                var target = hitResult.Key;  
+                var target = hitResult.Key;
                 var hitDef = attacker.GetHitDefData();
                 if (target.CanBeHit(hitDef))
                 {
@@ -210,10 +210,10 @@ namespace Mugen3D.Core
                     {
                         attacker.OnMoveHit(target);
                         target.OnBeHitted(hitDef);
-                    }         
+                    }
                     if (!hitResults.ContainsKey(attacker))
-                        attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);  
-                } 
+                        attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
+                }
             }
         }
 
@@ -224,32 +224,9 @@ namespace Mugen3D.Core
                 e.SendEvent(new Event() { type = EventType.SampleAnim, data = null });
             }
         }
-
-        void UpdateLuaScripts()
+  
+        void PrepareForNextFrame()
         {
-            foreach (var e in entities)
-            {
-                if (e is Unit)
-                {
-                    var u = e as Unit;
-                    u.fsmMgr.Update();
-                }
-            }
-        }
-
-        void PrepareForCurFrame()
-        {
-            foreach (var e in entities)
-            {
-                if (e is Unit)
-                {
-                    var u = e as Unit;
-                    u.fsmMgr.ProcessChangeState();
-                }
-            }
-        }
-
-        void PrepareForNextFrame() {
             foreach (var e in entities)
             {
                 if (e is Unit)
@@ -263,7 +240,8 @@ namespace Mugen3D.Core
             }
         }
 
-        void PushTest() { 
+        void PushTest()
+        {
 
         }
 
@@ -277,7 +255,7 @@ namespace Mugen3D.Core
                 }
             }
         }
-       
+
         public void Update()
         {
             if (IsPause())
@@ -286,15 +264,17 @@ namespace Mugen3D.Core
                 return;
             }
             cameraController.Update();
-            PrepareForCurFrame();
+            m_commandEngine.Update();
+            m_scriptEngine.PreUpdate();
             EntityUpdate();
-            UpdateLuaScripts();     //change state, change anim, so on...  
+            m_animEngine.Update();
+            m_scriptEngine.Update();     //change state, change anim, so on...  
             m_physicsEngine.Update();
             HitResolve();
             Debug();
             UpdateView();
             PrepareForNextFrame();
         }
-        
+
     }
 }

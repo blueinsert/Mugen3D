@@ -33,6 +33,9 @@ namespace Mugen3D.Tools
             else if(clsn.type == 2)
             {
                 this.img.color = Color.red;
+            }else if(clsn.type == 3)
+            {
+                this.img.color = Color.black;
             }
             //var leftDown = new Vector3(this.m_clsn.x1, this.m_clsn.y1, 0);
             //var rightUp = new Vector3(this.m_clsn.x2, this.m_clsn.y2, 0);

@@ -3,19 +3,16 @@ using System.Collections.Generic;
 
 namespace Mugen3D.Core
 {
-    public class PhysicsEngine 
+    public class PhysicsEngine : BaseEngine
     {
-        private World m_world;
         private List<MoveCtrl> m_moveCtrls = new List<MoveCtrl>();
 
-        public PhysicsEngine(World world)
+        public PhysicsEngine(World world):base(world)
         {
-            m_world = world;
-            world.onAddEntity += OnAddEntity;
-            world.onRemoveEntity += OnRemoveEntity;
+   
         }
 
-        private void OnAddEntity(Entity e)
+        protected override void OnAddEntity(Entity e)
         {
             if(e is Unit)
             {
@@ -24,7 +21,7 @@ namespace Mugen3D.Core
             }
         }
 
-        private void OnRemoveEntity(Entity e)
+        protected override void OnRemoveEntity(Entity e)
         {
             if (e is Unit)
             {
@@ -33,43 +30,40 @@ namespace Mugen3D.Core
             }
         }
 
-        public void Update()
+        public override void Update()
         {
+            //update dynamic
             foreach(var m in m_moveCtrls)
             {
-                var posBefore = m.position;
                 m.Update();
-                m.collider.SetCollider()
-                if(posBefore.y > m_world.config.stageConfig.borderYMin && m.position.y < m_world.config.stageConfig.borderYMin)
-                {
-                    m.justOnGround = true;
-                }
             }
-            while (HasIntersection())
+            //collide solve
+            for(int loop = 0; loop < 1; loop++)
             {
-                foreach (var m in m_moveCtrls)
+                for(int i = 0; i< m_moveCtrls.Count;i++)
                 {
-                    if (m.IntersectWithScreenBound())
+                    var m = m_moveCtrls[i];
+                    var pos = m.position;
+                    //
+                    Rect screenBound = world.cameraController.viewPort;
+                    Number playerWidth = new Number(5) / new Number(10);
+                    pos.x = Math.Clamp(pos.x, screenBound.xMin + playerWidth, screenBound.xMax - playerWidth);
+                    //
+                    pos.x = Math.Clamp(pos.x, world.config.stageConfig.borderXMin, world.config.stageConfig.borderXMax);
+                    pos.y = Math.Clamp(pos.y, world.config.stageConfig.borderYMin, world.config.stageConfig.borderYMax);
+                    m.PosSet(pos);
+
+                    for (int j = i + 1; j < m_moveCtrls.Count; j++)
                     {
-                        Rect screenBound = m_world.cameraController.viewPort;
-                        Number playerWidth = new Number(5) / new Number(10);
-                        m.position.x = Math.Clamp(m.position.x, screenBound.xMin + playerWidth, screenBound.xMax - playerWidth);
-                    }
-                    if (m.IntersectWithWorldBound())
-                    {
-                        m.position.x = Math.Clamp(m.position.x, m_world.config.stageConfig.borderXMin, m_world.config.stageConfig.borderXMax);
-                        m.position.y = Math.Clamp(m.position.y, m_world.config.stageConfig.borderYMin, m_world.config.stageConfig.borderYMax);
-                    }
-                    foreach(var m2 in m_moveCtrls)
-                    {
+                        var m2 = m_moveCtrls[j];
                         if (m != m2) {
                             ContactInfo contactInfo;
                             if (m.collider.IsIntersect(m2.collider, out contactInfo))
                             {
-                                m.position += contactInfo.recoverDir * contactInfo.depth;
+                                m.PosAdd(contactInfo.recoverDir * contactInfo.depth*(m2.mass)/(m.mass + m2.mass));
+                                m2.PosAdd(-contactInfo.recoverDir * contactInfo.depth * (m.mass) / (m.mass + m2.mass));
                             }
-                        }
-                        
+                        }    
                     }
                 }
             }
@@ -78,27 +72,6 @@ namespace Mugen3D.Core
                 m.ApplyPosition();
             }
         }
-
-        private bool HasIntersection()
-        {
-            bool res = false;
-            foreach (var m1 in m_moveCtrls)
-            {
-                if (m1.IntersectWithWorldBound())
-                    return true;
-                if (m1.IntersectWithScreenBound())
-                    return true;
-                foreach (var m2 in m_moveCtrls)
-                {
-                    if (m1 != m2)
-                    {
-                        ContactInfo contactInfo;
-                        if (m1.collider.IsIntersect(m2.collider, out contactInfo))
-                            return true;
-                    }
-                }
-            }
-            return res;
-        }
+       
     }
 }

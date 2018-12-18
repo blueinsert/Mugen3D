@@ -6,12 +6,12 @@ namespace Mugen3D.Core
 {
     public class CmdManager
     {
-        private Unit m_owner;
+        public Character owner { get; private set; }
         private Dictionary<int, List<CommandState>> m_commandState = new Dictionary<int, List<CommandState>>();
 
-        public CmdManager(string cmdDef, Unit owner)
+        public CmdManager(string cmdDef, Character owner)
         {
-            m_owner = owner;
+            this.owner = owner;
             LoadCmdFile(cmdDef);
         }
 

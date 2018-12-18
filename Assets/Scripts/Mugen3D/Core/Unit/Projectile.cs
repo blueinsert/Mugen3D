@@ -60,7 +60,7 @@ namespace Mugen3D.Core
                 case "right":
                     break;
             }
-            this.SetPosition(pos);
+            this.moveCtr.PosSet(pos);
             this.ChangeFacing(projDef.facing);
             this.moveCtr.VelSet(projDef.vel.X(), projDef.vel.Y());
         }
@@ -82,9 +82,9 @@ namespace Mugen3D.Core
             return false;
         }
 
-        public override void OnUpdate(Number deltaTime)
+        public override void OnUpdate()
         {
-            base.OnUpdate(deltaTime);
+            base.OnUpdate();
             if (AutoDestroyCheck())
             {
                 Destroy();

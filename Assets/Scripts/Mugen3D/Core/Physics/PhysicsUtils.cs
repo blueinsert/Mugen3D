@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Math = Mugen3D.Core.Math;
 using Vector = Mugen3D.Core.Vector;
@@ -6,6 +7,9 @@ using Number = Mugen3D.Core.Number;
 
 namespace Mugen3D.Core
 {
+    //public delegate bool IntersectChecker<T1, T2>(T1 c1, T2 c2, out ContactInfo contactInfo) where T1 : Collider where T2 : Collider;
+    public delegate bool IntersectChecker(Collider c1, Collider c2, out ContactInfo contactInfo);
+
     public class PhysicsUtils
     {
         /*
@@ -120,6 +124,54 @@ namespace Mugen3D.Core
 
             return true;
         }
+
+        private static Dictionary<ColliderType, Dictionary<ColliderType, IntersectChecker>> intersectCheckers = new Dictionary<ColliderType, Dictionary<ColliderType, IntersectChecker>> {
+            {ColliderType.ComplexCollider, new Dictionary<ColliderType, IntersectChecker>{ { ColliderType.ComplexCollider, ComplexColliderIntersectTest } } },
+            {ColliderType.RectCollider, new Dictionary<ColliderType, IntersectChecker>{ { ColliderType.RectCollider, RectColliderIntersectTest } } },
+        };
+
+        public static bool RectColliderIntersectTest(Collider c1, Collider c2, out ContactInfo contactInfo)
+        {
+            var rc1 = c1 as RectCollider;
+            var rc2 = c2 as RectCollider;
+            contactInfo = null;
+            bool intersect = !((rc1.xMin > rc2.xMax || rc2.xMin > rc1.xMax) || (rc1.yMin > rc2.yMax || rc2.yMin > rc1.yMax));
+            if (intersect)
+            {
+                Vector dir = new Vector(rc1.position.x > rc2.position.x ? 1 : -1, 0, 0);
+                Number depth = (rc1.width + rc2.width) / 2 - Math.Abs(rc1.position.x - rc2.position.x);
+                contactInfo = new ContactInfo() { recoverDir = dir, depth = depth};
+                return true;
+            }
+            return intersect;
+        }
+
+        private static bool ComplexColliderIntersectTest(Collider c1, Collider c2, out ContactInfo contactInfo)
+        {
+            var cc1 = c1 as ComplexCollider;
+            var cc2 = c2 as ComplexCollider;
+            contactInfo = null;
+            for (int i = 0; i < cc1.collideClsnsLength; i++)
+            {
+                var rect1 = cc1.collideClsns[i];
+                for (int j = 0; j < cc2.collideClsnsLength; j++)
+                {
+                    var rect2 = cc2.collideClsns[j];
+                    if(RectColliderIntersectTest(rect1, rect2, out contactInfo)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool IsIntersect(Collider c1, Collider c2, out ContactInfo contactInfo)
+        {
+            IntersectChecker checker = intersectCheckers[c1.type][c2.type];
+            return checker(c1, c2, out contactInfo);
+        }
+
+
      
     }
 }

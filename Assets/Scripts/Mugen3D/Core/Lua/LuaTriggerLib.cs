@@ -256,7 +256,7 @@ namespace Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            var justOnGround = c.moveCtr.justOnGround;
+            var justOnGround = c.moveCtr.JustOnGround();
             lua.PushBoolean(justOnGround);
             return 1;
         }
