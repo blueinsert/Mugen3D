@@ -1,4 +1,0 @@
-_ID,_VALUE,Name:string,ResourceId:string,LittleHead:string,MediumHead:string,BigHead:string
-Ice,1,Ice,Origin,iceLittleHead,iceMediumHead,iceBigHead
-Iori,2,Iori,Origin,ioriLittleHead,ioriMediumHead,ioriBigHead
-Rugal,3,Rugal,Origin,rugalLittleHead,rugalMediumHead,rugalBigHead

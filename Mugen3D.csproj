@@ -16,7 +16,7 @@
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectGenerator>VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
+    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.6.6f2</UnityVersion>
     <RootNamespace></RootNamespace>
     <LangVersion>4</LangVersion>
@@ -28,7 +28,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Debug\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_6;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_6;UNITY_5_6;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;DEBUG</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -38,7 +38,7 @@
     <IntermediateOutputPath>Temp\UnityVS_obj\Release\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_6;UNITY_5_6;UNITY_5;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_5_6_6;UNITY_5_6;UNITY_5;UNITY_64;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_GENERICS;ENABLE_PVR_GI;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_RUNTIME_NAVMESH_BUILDING;ENABLE_SPRITERENDERER_FLIPPING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_RAKNET;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_HUB;ENABLE_CLOUD_PROJECT_ID;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_METRICS;ENABLE_EDITOR_METRICS_CACHING;ENABLE_NATIVE_ARRAY;INCLUDE_DYNAMIC_GI;INCLUDE_GI;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;INCLUDE_PUBNUB;ENABLE_PLAYMODE_TESTS_RUNNER;ENABLE_SCRIPTING_NEW_CSHARP_COMPILER;ENABLE_VIDEO;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_UNITYWEBREQUEST;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_EVENT_QUEUE;ENABLE_CLUSTERINPUT;ENABLE_VR;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_2_0_SUBSET;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_NATIVE_ARRAY_CHECKS;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;DEBUG</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
@@ -51,59 +51,69 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/TestRunner/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>C:/Program Files/Unity566f2/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>C:/Program Files/Unity5.6.6f2/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Common\XLua\CSharpCallLuaConfig.cs" />
-    <Compile Include="Assets\Scripts\Common\XLua\LuaMgr.cs" />
-    <Compile Include="Assets\Scripts\Common\XLua\LuaMonoBehaviour.cs" />
+    <Compile Include="Assets\Scene\Test.cs" />
     <Compile Include="Assets\Scripts\FPS.cs" />
     <Compile Include="Assets\Scripts\Log.cs" />
-    <Compile Include="Assets\Scripts\Main.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\CameraController.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\ClientGame.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\ConfigHelper.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Anim\AnimEngine.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Anim\AnimationController.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\BaseEngine.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Camera\CameraController.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Command\CmdManager.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Command\Command.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Command\CommandEngine.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Command\CommandParse.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Command\CommandState.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Config\ConfigReader.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Config\SystemConfig.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Config\UnitConfig.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Config\WorldConfig.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Debug\Debug.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Def\EffectDef.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Def\HitDef.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Def\SoundDef.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\FSM\FsmManager.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\FSM\ScriptEngine.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\File\FileReader.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Game.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Lua\LuaControllerLib.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Lua\LuaDebugLib.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Lua\LuaMgr.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Lua\LuaTriggerLib.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Lua\LuaUtil.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\MatchManager\MatchManager.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\MatchManager\SinglePlay.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\MatchManager\SingleVS.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Math\AcosLut.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Math\Math.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Math\Number.cs" />
@@ -111,11 +121,12 @@
     <Compile Include="Assets\Scripts\Mugen3D\Core\Math\SinLut.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Math\TanLut.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Math\Vector.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Physics\Collider.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Physics\Geometry\Rect.cs" />
-    <Compile Include="Assets\Scripts\Mugen3D\Core\Physics\MoveCtrl\CharacterMoveCtrl.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Physics\MoveCtrl\MoveCtrl.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Physics\PhysicsEngine.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Physics\PhysicsUtils.cs" />
-    <Compile Include="Assets\Scripts\Mugen3D\Core\TeamInfo.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\TeamManager.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\ThirdPart\UniLua\ByteString.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\ThirdPart\UniLua\Coder.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\ThirdPart\UniLua\Common.cs" />
@@ -343,6 +354,7 @@
     <Compile Include="Assets\Scripts\Mugen3D\Core\Unit\Helper.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Unit\IHealth.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Unit\Player.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Core\Unit\Projectile.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Unit\Unit.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\Utility.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\Core\World.cs" />
@@ -350,10 +362,33 @@
     <Compile Include="Assets\Scripts\Mugen3D\GUIDebug.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\InputHandler.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\OfflineGame.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\PriorityQueue.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\ResourceLoader.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\Singleton.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\FightHud.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\FullScreenFadeInOut.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\PopupContinueMenu.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetDrawGame.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetHitCount.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetKO.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetLifeBar.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetReadyGo.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetRoundDeclaration.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetTimeOver.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Fight\WidgetWinner.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\UIView.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Utils\AnimatorFinishEventTrigger.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Utils\ButtonColor.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Utils\SpriteLoader.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\UI\Utils\UIUtils.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\View\CharacterView.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\View\Effect\EffectObj.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\View\Effect\EffectPool.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\View\Effect\ParticleEffectObj.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\View\EntityView.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\View\HelperView.cs" />
+    <Compile Include="Assets\Scripts\Mugen3D\View\Sound\SoundPlayer.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\View\UnitView.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\View\ViewCreater.cs" />
     <Compile Include="Assets\Scripts\Mugen3D\View\ViewWorld.cs" />
@@ -367,53 +402,16 @@
     <Compile Include="Assets\Scripts\Net\Protocol\ProtocolBase.cs" />
     <Compile Include="Assets\Scripts\Net\Protocol\ProtocolBytes.cs" />
     <Compile Include="Assets\Scripts\Net\Protocol\ProtocolStr.cs" />
-    <Compile Include="Assets\Scripts\Net\old\ConnectionSecurity.cs" />
-    <Compile Include="Assets\Scripts\Net\old\IConnection.cs" />
-    <Compile Include="Assets\Scripts\Net\old\NetMgr.cs" />
-    <Compile Include="Assets\Scripts\Net\old\NetMgrTest.cs" />
-    <Compile Include="Assets\Scripts\Net\old\NetPacket.cs" />
-    <Compile Include="Assets\Scripts\Net\old\TCPConnection.cs" />
-    <Compile Include="Assets\Scripts\Net\old\Utils\Bits.cs" />
-    <Compile Include="Assets\Scripts\Net\old\Utils\CompatibilityIP.cs" />
-    <Compile Include="Assets\Scripts\Net\old\Utils\DH.cs" />
-    <Compile Include="Assets\Scripts\Net\old\Utils\NetBufferIn.cs" />
-    <Compile Include="Assets\Scripts\Net\old\Utils\NetBufferOut.cs" />
-    <Compile Include="Assets\Scripts\Net\old\Utils\RC4.cs" />
-    <Compile Include="Assets\Scripts\Net\old\msg\Msg.cs" />
-    <Compile Include="Assets\Scripts\Net\old\msg\TestReq.cs" />
-    <Compile Include="Assets\Scripts\Net\old\msg\TestRes.cs" />
     <Compile Include="Assets\Scripts\PvpTest.cs" />
     <Compile Include="Assets\Scripts\Round\RoundMgr.cs" />
     <Compile Include="Assets\Scripts\Round\RoundMgrSingleVs.cs" />
     <Compile Include="Assets\Scripts\Round\RoundMgrTrain.cs" />
     <Compile Include="Assets\Scripts\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\SpriteList.cs" />
-    <Compile Include="Assets\Scripts\SpriteLoader.cs" />
     <Compile Include="Assets\Scripts\Task\ITask.cs" />
     <Compile Include="Assets\Scripts\Task\ParallelTask.cs" />
     <Compile Include="Assets\Scripts\Task\Task.cs" />
     <Compile Include="Assets\Scripts\Task\TaskQueue.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\IJsonWrapper.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\JsonData.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\JsonException.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\JsonMapper.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\JsonMockWrapper.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\JsonReader.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\JsonWriter.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\Lexer.cs" />
-    <Compile Include="Assets\Scripts\ThirdPart\LitJson\ParserToken.cs" />
-    <Compile Include="Assets\Scripts\UI\Fight\FightUI.cs" />
-    <Compile Include="Assets\Scripts\UI\Fight\ViewPopText.cs" />
-    <Compile Include="Assets\Scripts\UI\Fight\ViewWinPlayer.cs" />
-    <Compile Include="Assets\Scripts\UI\Fight\WidgetLifeBar.cs" />
-    <Compile Include="Assets\Scripts\UI\LuaView.cs" />
-    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
-    <Compile Include="Assets\Scripts\UI\UIView.cs" />
-    <Compile Include="Assets\Scripts\UI\Utils\AnimatorFinishEventTrigger.cs" />
-    <Compile Include="Assets\Scripts\UI\Utils\ButtonColor.cs" />
-    <Compile Include="Assets\Scripts\UI\Utils\SpriteLoader.cs" />
-    <Compile Include="Assets\Scripts\UI\Utils\UIUtils.cs" />
     <Compile Include="Assets\Scripts\Utils\IdGenerater.cs" />
     <Compile Include="Assets\Scripts\Utils\TimeUtility.cs" />
     <Compile Include="Assets\Tools\ActionsEditor\Codes\ActionsEditor.cs" />
@@ -425,33 +423,6 @@
     <Compile Include="Assets\Tools\ActionsEditor\Codes\UI\ActionsEditorView.cs" />
     <Compile Include="Assets\Tools\ActionsEditor\Codes\UI\DragableWidget.cs" />
     <Compile Include="Assets\Tools\ActionsEditor\Codes\UI\WidgetCLSN.cs" />
-    <Compile Include="Assets\XLua\Gen\DelegatesGensBridge.cs" />
-    <Compile Include="Assets\XLua\Gen\EnumWrap.cs" />
-    <Compile Include="Assets\XLua\Gen\PackUnpack.cs" />
-    <Compile Include="Assets\XLua\Gen\WrapPusher.cs" />
-    <Compile Include="Assets\XLua\Gen\XLuaGenAutoRegister.cs" />
-    <Compile Include="Assets\XLua\Src\CodeEmit.cs" />
-    <Compile Include="Assets\XLua\Src\CopyByValue.cs" />
-    <Compile Include="Assets\XLua\Src\DelegateBridge.cs" />
-    <Compile Include="Assets\XLua\Src\GenAttributes.cs" />
-    <Compile Include="Assets\XLua\Src\InternalGlobals.cs" />
-    <Compile Include="Assets\XLua\Src\LuaBase.cs" />
-    <Compile Include="Assets\XLua\Src\LuaDLL.cs" />
-    <Compile Include="Assets\XLua\Src\LuaEnv.cs" />
-    <Compile Include="Assets\XLua\Src\LuaException.cs" />
-    <Compile Include="Assets\XLua\Src\LuaFunction.cs" />
-    <Compile Include="Assets\XLua\Src\LuaTable.cs" />
-    <Compile Include="Assets\XLua\Src\MethodWarpsCache.cs" />
-    <Compile Include="Assets\XLua\Src\ObjectCasters.cs" />
-    <Compile Include="Assets\XLua\Src\ObjectPool.cs" />
-    <Compile Include="Assets\XLua\Src\ObjectTranslator.cs" />
-    <Compile Include="Assets\XLua\Src\ObjectTranslatorPool.cs" />
-    <Compile Include="Assets\XLua\Src\RawObject.cs" />
-    <Compile Include="Assets\XLua\Src\SignatureLoader.cs" />
-    <Compile Include="Assets\XLua\Src\StaticLuaCallbacks.cs" />
-    <Compile Include="Assets\XLua\Src\TemplateEngine\TemplateEngine.cs" />
-    <Compile Include="Assets\XLua\Src\TypeExtensions.cs" />
-    <Compile Include="Assets\XLua\Src\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Chars\Sakula\Sakula.act.txt" />
@@ -461,43 +432,32 @@
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula.lua.txt" />
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_H.lua.txt" />
     <None Include="Assets\Resources\Chars\Sakula\Scripts\Sakula_N.lua.txt" />
-    <None Include="Assets\Resources\Config\Input.txt" />
-    <None Include="Assets\Resources\Config\Stage\TrainingRoom.txt" />
-    <None Include="Assets\Resources\Helpers\QiGongBo\QiGongBo.act.txt" />
-    <None Include="Assets\Resources\Helpers\QiGongBo\QiGongBo.def.txt" />
-    <None Include="Assets\Resources\Helpers\QiGongBo\Scripts\QiGongBo.lua.txt" />
-    <None Include="Assets\Resources\Lua\UI\MainMenu\ViewCharacterSelect.lua.txt" />
-    <None Include="Assets\Resources\Lua\UI\MainMenu\ViewMainMenu.lua.txt" />
-    <None Include="Assets\Resources\Lua\UI\UIDef.lua.txt" />
-    <None Include="Assets\Resources\Lua\UI\UIManager.lua.txt" />
-    <None Include="Assets\Resources\Lua\csv.lua.txt" />
-    <None Include="Assets\Resources\Lua\csv_reader.lua.txt" />
-    <None Include="Assets\Resources\Lua\main.lua.txt" />
-    <None Include="Assets\Resources\Lua\spreadsheet.lua.txt" />
-    <None Include="Assets\Resources\Lua\test.lua.txt" />
-    <None Include="Assets\Resources\Lua\utils.lua.txt" />
+    <None Include="Assets\Resources\Config\System.cfg.txt" />
+    <None Include="Assets\Resources\Projectiles\QiGongBo\QiGongBo.act.txt" />
+    <None Include="Assets\Resources\Projectiles\QiGongBo\QiGongBo.def.txt" />
+    <None Include="Assets\Resources\Projectiles\QiGongBo\Scripts\QiGongBo.lua.txt" />
+    <None Include="Assets\Resources\Stage\TrainingRoom\TrainingRoom.def.txt" />
     <None Include="Assets\Resources\System\Common.lua.txt" />
     <None Include="Assets\Resources\System\Enums.lua.txt" />
     <None Include="Assets\Resources\System\FsmManager.lua.txt" />
-    <None Include="Assets\XLua\CHANGELOG.txt" />
-    <None Include="Assets\XLua\Gen\link.xml" />
-    <None Include="Assets\XLua\Resources\perf\memory.lua.txt" />
-    <None Include="Assets\XLua\Resources\perf\profiler.lua.txt" />
-    <None Include="Assets\XLua\Resources\tdr\tdr.lua.txt" />
-    <None Include="Assets\XLua\Resources\xlua\util.lua.txt" />
-    <None Include="Assets\XLua\Src\Editor\LinkXmlGen\LinkXmlGen.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaClassWrap.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaClassWrapGCM.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaDelegateBridge.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaDelegateWrap.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaEnumWrap.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaEnumWrapGCM.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaInterfaceBridge.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaRegister.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaRegisterGCM.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\LuaWrapPusher.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\PackUnpack.tpl.txt" />
-    <None Include="Assets\XLua\Src\Editor\Template\TemplateCommon.lua.txt" />
+    <None Include="Assets\Resources\UIDef.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
