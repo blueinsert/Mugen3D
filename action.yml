@@ -1,9 +1,0 @@
-animName: idle
-frames:
-- normalizeTime: 0.300000012
-  clsns:
-  - type: 1
-    y1: 1
-    x2: 1
-  - useLast: true
-loopStartIndex: 5
