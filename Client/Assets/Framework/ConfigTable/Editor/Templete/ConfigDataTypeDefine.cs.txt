@@ -1,0 +1,28 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace bluebean.UGFramework.ConfigData {
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+    [Serializable]
+    public class ConfigData$tableInfo.TableName {
+#foreach($columnInfo in $tableInfo.ColumnInfoList)
+        private $columnInfo.RealTypeStr m_$columnInfo.ColumnName;
+        public $columnInfo.RealTypeStr $columnInfo.ColumnName {
+            get {return m_$columnInfo.ColumnName;}
+            set {m_$columnInfo.ColumnName = value;}
+        }
+#end
+    }
+	
+#elseif($tableInfo.TableType == "EnumTable")
+    [Serializable]
+    public enum $tableInfo.TableName {
+#foreach($enumTuple in $tableInfo.EnumTupleDic)
+        $enumTuple.key = $enumTuple.value,
+#end
+    }
+#end
+#end
+}

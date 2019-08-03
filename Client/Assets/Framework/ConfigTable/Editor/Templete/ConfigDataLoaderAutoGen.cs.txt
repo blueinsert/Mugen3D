@@ -1,0 +1,77 @@
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace bluebean.UGFramework.ConfigData
+{
+    public partial class ConfigDataLoader
+    {
+	    #region 类内部变量
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+	    private Dictionary<int,ConfigData$tableInfo.TableName> m_configData$tableInfo.TableName = new Dictionary<int,ConfigData$tableInfo.TableName>();
+#end
+#end
+		#endregion
+		
+		 partial void InitAllConfigDataTableName(){
+			m_allConfigTableNames.Clear();
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+			m_allConfigTableNames.Add("$tableInfo.TableName");
+#end
+#end
+		}
+		
+		#region 访问函数
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+	    public Dictionary<int,ConfigData$tableInfo.TableName> GetAllConfigData$tableInfo.TableName () {
+			return m_configData$tableInfo.TableName;
+		}
+#end
+#end
+        
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+	    public ConfigData$tableInfo.TableName GetConfigData$tableInfo.TableName (int id) {
+			ConfigData$tableInfo.TableName data;
+			(m_configData$tableInfo.TableName).TryGetValue(id, out data);
+			return data;
+		}
+#end
+#end
+        #endregion	
+	
+	    #region 反序列化
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+	    private void DeserializeConfigData$tableInfo.TableName (AssetObject scriptableObj) {
+		    var data = scriptableObj.m_bytes;
+		    MemoryStream stream = new MemoryStream();
+            stream.Write(data, 0, data.Length);
+            stream.Position = 0;
+            BinaryFormatter bf = new BinaryFormatter();
+            object obj = bf.Deserialize(stream);
+			List<ConfigData$tableInfo.TableName> list = (List<ConfigData$tableInfo.TableName>) obj;
+			foreach(var configData in list){
+				(m_configData$tableInfo.TableName).Add(configData.ID, configData);
+			}
+	    }
+#end
+#end
+		
+	    partial void InitAllDeserializeFuncs(){
+			m_deserializeFuncDics.Clear();
+#foreach($tableInfo in $AllConfigDataInfos)
+#if($tableInfo.TableType == "DataTable")
+		    m_deserializeFuncDics.Add("ConfigData$tableInfo.TableName", DeserializeConfigData$tableInfo.TableName);
+#end
+#end
+	    }
+		
+		#endregion
+	}
+}
