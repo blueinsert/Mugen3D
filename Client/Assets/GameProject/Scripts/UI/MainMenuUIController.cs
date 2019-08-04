@@ -19,6 +19,11 @@ namespace bluebean.Mugen3D.UI
             ExitButton.onClick.AddListener(OnExitButtonClick);
         }
 
+        public void ShowOpenTween()
+        {
+            UIStateController.SetUIState("Open");
+        }
+
         private void OnSingleVSButtonClick()
         {
             if (EventOnSingleVSButtonClick != null)
@@ -37,10 +42,12 @@ namespace bluebean.Mugen3D.UI
 
         private void OnOptionsButtonClick()
         {
-            if (EventOnOptionsButtonClick != null)
-            {
-                EventOnOptionsButtonClick();
-            }
+            UIStateController.SetUIState("Close", () => {
+                if (EventOnOptionsButtonClick != null)
+                {
+                    EventOnOptionsButtonClick();
+                }
+            });
         }
 
         private void OnExitButtonClick()
@@ -64,5 +71,7 @@ namespace bluebean.Mugen3D.UI
         public Button OptionsButton;
         [AutoBind("./VerticalGroup/Exit")]
         public Button ExitButton;
+        [AutoBind("./")]
+        public UIStateController UIStateController;
     }
 }

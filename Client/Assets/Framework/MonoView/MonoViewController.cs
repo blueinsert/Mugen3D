@@ -9,7 +9,7 @@ namespace bluebean.UGFramework
 {
     public class MonoViewController : MonoBehaviour
     {
-        public static MonoViewController AttachViewControllerToGameObject(GameObject root, string path, string typeFullName)
+        public static MonoViewController AttachViewControllerToGameObject(GameObject root, string path, string typeFullName ,bool execAutoBind = false)
         {
             GameObject target = FindChild(root, path);
             Type type = ClassLoader.GetType(typeFullName);
@@ -21,6 +21,8 @@ namespace bluebean.UGFramework
             else
             {
                 viewController = target.AddComponent(type) as MonoViewController;
+                if (execAutoBind)
+                    viewController.AutoBindFields();
                 return viewController;
             }
         }

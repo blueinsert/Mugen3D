@@ -28,17 +28,29 @@ namespace bluebean.UGFramework.UI
 
         #region 内部变量
         /// <summary>
-        /// uiTask stack
+        /// 栈结构
         /// </summary>
         private List<UITask> m_uiTaskStack = new List<UITask>();
+        /// <summary>
+        /// 字典结构
+        /// </summary>
         private Dictionary<string, List<UITask>> m_uiTaskDic = new Dictionary<string, List<UITask>>();
+        /// <summary>
+        /// 保存每个name的UITask的最大Id
+        /// </summary>
         private Dictionary<string, int> m_maxInstanceIDDic = new Dictionary<string, int>();
-
+        /// <summary>
+        /// 注册字典
+        /// </summary>
         private Dictionary<string, UITaskRegisterItem> m_uiTaskRegistyerItemDic = new Dictionary<string, UITaskRegisterItem>();
         #endregion
 
         #region 公共方法
 
+        /// <summary>
+        /// 注册UITask条目
+        /// </summary>
+        /// <param name="uiTaskRegisterItem"></param>
         public void RegisterUITask(UITaskRegisterItem uiTaskRegisterItem)
         {
             if (string.IsNullOrEmpty(uiTaskRegisterItem.Name))
@@ -54,6 +66,14 @@ namespace bluebean.UGFramework.UI
             m_uiTaskRegistyerItemDic.Add(uiTaskRegisterItem.Name, uiTaskRegisterItem);
         }
 
+        /// <summary>
+        /// 开启一个UITask
+        /// </summary>
+        /// <param name="intent"></param>
+        /// <param name="onPrepareEnd"></param>
+        /// <param name="onViewUpdateComplete"></param>
+        /// <param name="redirectOnLoadAllAssetsComplete"></param>
+        /// <returns></returns>
         public bool StartUITask(UIIntent intent, Action<bool> onPrepareEnd = null, Action onViewUpdateComplete = null, Action redirectOnLoadAllAssetsComplete = null)
         {
             if (!m_uiTaskRegistyerItemDic.ContainsKey(intent.Name))
@@ -83,6 +103,7 @@ namespace bluebean.UGFramework.UI
 
         #region 内部方法
 
+        //获取某个taskName类型的UITask最大ID
         private int GetInstanceID(string taskName)
         {
             if (!m_maxInstanceIDDic.ContainsKey(taskName))
@@ -94,6 +115,10 @@ namespace bluebean.UGFramework.UI
             return instanceId;
         }
 
+        /// <summary>
+        /// 重置某个taskName类型的UITask最大ID
+        /// </summary>
+        /// <param name="taskName"></param>
         private void ResetInstanceID(string taskName)
         {
             if (!m_maxInstanceIDDic.ContainsKey(taskName))
@@ -103,38 +128,53 @@ namespace bluebean.UGFramework.UI
             m_maxInstanceIDDic[taskName] = 0;
         }
 
+        /// <summary>
+        /// 当UITask销毁
+        /// </summary>
+        /// <param name="uiTask"></param>
         private void OnUITaskStop(UITask uiTask)
         {
+            //从字典中移除
             m_uiTaskDic[uiTask.Name].Remove(uiTask);
             if (m_uiTaskDic[uiTask.Name].Count == 0)
             {
+                //重置最大ID
                 ResetInstanceID(uiTask.Name);
             }
+            //从栈中移除
             m_uiTaskStack.Remove(uiTask);
         }
 
         private void OnUITaskStart(UITask uiTask)
         {
-            //add to cache
+            //加入栈
             m_uiTaskStack.Add(uiTask);
             if (!m_uiTaskDic.ContainsKey(uiTask.Name))
             {
                 m_uiTaskDic.Add(uiTask.Name, new List<UITask>());
             }
+            //加入字典
             m_uiTaskDic[uiTask.Name].Add(uiTask);
         }
 
+        /// <summary>
+        /// 创建一个新的或者复用存在的UITask
+        /// </summary>
+        /// <param name="uiTaskRegisterItem"></param>
+        /// <returns></returns>
         private UITask CreateOrGetUITaskInstance(UITaskRegisterItem uiTaskRegisterItem)
         {
             UITask instance = null;
             if (uiTaskRegisterItem.AllowMultipleInstance)
             {
+                //AllowMultipleInstance总是会创建出新的实例
                 instance = ClassLoader.CreateInstance(uiTaskRegisterItem.TypeFullName, uiTaskRegisterItem.Name) as UITask;
                 int instanceId = GetInstanceID(uiTaskRegisterItem.Name);
                 instance.SetInstanceID(instanceId);
             }
             else
             {
+                //复用之前的UITask
                 List<UITask> uiTasks;
                 m_uiTaskDic.TryGetValue(uiTaskRegisterItem.Name, out uiTasks);
                 if (uiTasks != null && uiTasks.Count != 0)
@@ -143,12 +183,19 @@ namespace bluebean.UGFramework.UI
                 }
                 else
                 {
+                    //如果不存在，创建一个新的
                     instance = ClassLoader.CreateInstance(uiTaskRegisterItem.TypeFullName, uiTaskRegisterItem.Name) as UITask;
                 }
             }
             return instance;
         }
 
+        /// <summary>
+        /// 开启UITask
+        /// </summary>
+        /// <param name="uiTask"></param>
+        /// <param name="intent"></param>
+        /// <param name="onPrepareEnd"></param>
         private void StartUITaskInternal(UITask uiTask, UIIntent intent, Action<bool> onPrepareEnd = null)
         {
             uiTask.PrapareDataForStart((res) => {

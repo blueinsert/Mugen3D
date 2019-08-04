@@ -131,7 +131,7 @@ namespace bluebean.UGFramework
 
         private void AddLayerToLoadingRoot(SceneLayer layer)
         {
-            layer.State = SceneLayerState.Loading;
+            layer.m_state = SceneLayerState.Loading;
             m_loadingLayerList.Add(layer);
 
             layer.gameObject.SetActive(false);
@@ -140,7 +140,7 @@ namespace bluebean.UGFramework
 
         private void AddLayerToUnsedRoot(SceneLayer layer)
         {
-            layer.State = SceneLayerState.Unused;
+            layer.m_state = SceneLayerState.Unused;
             m_unusedLayerList.Add(layer);
 
             layer.gameObject.SetActive(false);
@@ -157,28 +157,28 @@ namespace bluebean.UGFramework
 
         public void PopLayer(SceneLayer layer)
         {
-            if(layer.State != SceneLayerState.Using)
+            if(layer.m_state != SceneLayerState.Using)
             {
                 Debug.LogError("SceneManager:PopLayer but layer's state is not Using");
                 return;
             }
             m_usingLayerList.Remove(layer);
             m_unusedLayerList.Add(layer);
-            layer.State = SceneLayerState.Unused;
+            layer.m_state = SceneLayerState.Unused;
             layer.transform.SetParent(UnusedLayerRoot.transform, false);
             layer.gameObject.SetActive(false);
         }
 
         public void PushLayer(SceneLayer layer)
         {
-            if (layer.State != SceneLayerState.Unused)
+            if (layer.m_state != SceneLayerState.Unused)
             {
                 Debug.LogError("SceneManager:PushLayer but layer's state is not Unused");
                 return;
             }
             m_unusedLayerList.Remove(layer);
             m_usingLayerList.Add(layer);
-            layer.State = SceneLayerState.Using;
+            layer.m_state = SceneLayerState.Using;
             if (layer is UISceneLayer)
             {
                 layer.transform.SetParent(UILayerRoot1Canvas.transform, false);

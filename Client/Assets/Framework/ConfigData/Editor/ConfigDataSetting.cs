@@ -15,13 +15,13 @@ namespace bluebean.UGFramework.ConfigData
     public class ConfigDataSetting : ScriptableObject
     {
 
-        private const string ConfigDataSettingAssetPath = "Assets/UnityGameFramework/LowLevelSystem/ConfigData/Editor/ConfigDataSettingAsset.asset";
+        private const string ConfigDataSettingAssetPath = "Assets/Framework/ConfigData/Editor/ConfigDataSettingAsset.asset";
 
         [Header("配置数据表路径")]
         public string m_configDataPath = "../Design/ConfigData";
 
         [Header("代码模板路径")]
-        public string m_codeTempletePath = "Assets/UnityGameFramework/LowLevelSystem/ConfigData/Resources/Templete";
+        public string m_codeTempletePath = "Assets/Framework/ConfigData/Editor/Templete";
 
         [Header("自动化代码输出路径")]
         public string m_autoGenCodeOutputPath = "Assets/GameProject/Scripts/ConfigData/AutoGen";

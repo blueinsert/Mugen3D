@@ -70,17 +70,17 @@
     <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenPosEditor.cs" />
     <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenRotEditor.cs" />
     <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenScaleEditor.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\ConfigDataEditorWindow.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\ConfigDataException.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\ConfigDataHelper.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\ConfigDataSetting.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\ConfigDataTableInfo.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\ConfigDataValueConverter.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\CSVReader.cs" />
-    <Compile Include="Assets\Framework\ConfigTable\Editor\IRawDataReader.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataEditorWindow.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataException.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataHelper.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataSetting.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataTableInfo.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataValueConverter.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\CSVReader.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\IRawDataReader.cs" />
     <Compile Include="Assets\Framework\UI\Editor\UIStateControllerInspector.cs" />
-    <None Include="Assets\Framework\ConfigTable\Editor\Templete\ConfigDataTypeDefine.cs.txt" />
-    <None Include="Assets\Framework\ConfigTable\Editor\Templete\ConfigDataLoaderAutoGen.cs.txt" />
+    <None Include="Assets\Framework\ConfigData\Editor\Templete\ConfigDataTypeDefine.cs.txt" />
+    <None Include="Assets\Framework\ConfigData\Editor\Templete\ConfigDataLoaderAutoGen.cs.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/UnityWorkplace/Mugen3D/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

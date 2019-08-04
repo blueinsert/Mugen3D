@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace bluebean.UGFramework
 {
+    /// <summary>
+    /// 设置颜色信息
+    /// </summary>
     [Serializable]
     public class UIColorDesc
     {
@@ -13,12 +16,27 @@ namespace bluebean.UGFramework
         public Color m_color;
     }
 
+    /// <summary>
+    /// UIState信息
+    /// </summary>
     [Serializable]
     public class UIStateDesc
     {
+        /// <summary>
+        /// StateName
+        /// </summary>
         public string m_stateName;
+        /// <summary>
+        /// 将指定物体设置active为True
+        /// </summary>
         public List<GameObject> m_activeObjects = new List<GameObject>();
+        /// <summary>
+        /// 设置指定物体的颜色
+        /// </summary>
         public List<UIColorDesc> m_uiColorDescs = new List<UIColorDesc>();
+        /// <summary>
+        /// 播放指定的Tweener
+        /// </summary>
         public List<TweenMain> m_tweeners = new List<TweenMain>();
     }
 
@@ -27,26 +45,48 @@ namespace bluebean.UGFramework
     /// </summary>
     public class UIStateController : MonoBehaviour
     {
-        public List<UIStateDesc> m_uiStateDescs = new List<UIStateDesc>();
-
-        private string m_curState;
         public string CurState
         {
             get { return m_curState; }
         }
 
+        public List<UIStateDesc> m_uiStateDescs = new List<UIStateDesc>();
+
+        private string m_curState;
+
+        #region 收集信息
+
         private bool m_hasCollect = false;
 
-        private List<GameObject> m_gameObjectList = new List<GameObject>();
+        /// <summary>
+        /// 所有state中设置为active的物体
+        /// </summary>
+        private readonly List<GameObject> m_allGameObjectActiveOrNot = new List<GameObject>();
+        /// <summary>
+        /// 所有tweener
+        /// </summary>
+        private readonly List<TweenMain> m_allTweeners = new List<TweenMain>();
+
+        #endregion
 
         public void CollectResources()
         {
-            m_gameObjectList.Clear();
-            foreach(var uiStateDesc in m_uiStateDescs)
+            //收集所有设置为Active的物体
+            m_allGameObjectActiveOrNot.Clear();
+            foreach (var uiStateDesc in m_uiStateDescs)
             {
-                foreach(var gameObject in uiStateDesc.m_activeObjects)
+                foreach (var gameObject in uiStateDesc.m_activeObjects)
                 {
-                    m_gameObjectList.Add(gameObject);
+                    m_allGameObjectActiveOrNot.Add(gameObject);
+                }
+            }
+            //收集所有tweener
+            m_allTweeners.Clear();
+            foreach (var uiStateDesc in m_uiStateDescs)
+            {
+                foreach (var tweener in uiStateDesc.m_tweeners)
+                {
+                    m_allTweeners.Add(tweener);
                 }
             }
             m_hasCollect = true;
@@ -54,9 +94,9 @@ namespace bluebean.UGFramework
 
         private UIStateDesc GetUIStateDesc(string stateName)
         {
-            foreach(var uiStateDesc in m_uiStateDescs)
+            foreach (var uiStateDesc in m_uiStateDescs)
             {
-                if(uiStateDesc.m_stateName == stateName)
+                if (uiStateDesc.m_stateName == stateName)
                 {
                     return uiStateDesc;
                 }
@@ -64,35 +104,36 @@ namespace bluebean.UGFramework
             return null;
         }
 
-        private void OnUIStateFinish()
-        {
-
-        }
-
         //todo alpha设置与硬切在起始或结束时刻上的不平滑
-        public void SetUIState(string stateName, System.Action onEnd = null, bool replayTweeners = true)
+        public void SetUIState(string stateName, System.Action onEnd = null, bool refreshTheSameState = true)
         {
+            var uiStateDesc = GetUIStateDesc(stateName);
+            if (uiStateDesc == null)
+            {
+                Debug.LogError(string.Format("the UIStateController in {0} don't has state {1}", name, stateName));
+                return;
+            }
             if (!m_hasCollect)
             {
                 CollectResources();
             }
-            var uiStateDesc = GetUIStateDesc(stateName);
-            if(uiStateDesc == null)
-            {
-                Debug.LogError(string.Format("the UIStateController in {0} don't has state {1}", name, stateName));
-            }
             //隐藏所有物体
-            foreach(var go in m_gameObjectList)
+            foreach (var go in m_allGameObjectActiveOrNot)
             {
                 go.SetActive(false);
             }
+            //enable所有tweener
+            foreach (var tweener in m_allTweeners)
+            {
+                tweener.enabled = false;
+            }
             //显示当前state的物体
-            foreach(var go in uiStateDesc.m_activeObjects)
+            foreach (var go in uiStateDesc.m_activeObjects)
             {
                 go.SetActive(true);
             }
             //设置物体的颜色
-            foreach(var uiColorDesc in uiStateDesc.m_uiColorDescs)
+            foreach (var uiColorDesc in uiStateDesc.m_uiColorDescs)
             {
                 if (uiColorDesc.m_gameObject != null)
                 {
@@ -102,9 +143,9 @@ namespace bluebean.UGFramework
                         image.color = uiColorDesc.m_color;
                     }
                     Text text = uiColorDesc.m_gameObject.GetComponent<Text>();
-                    if(text != null)
+                    if (text != null)
                     {
-                        text.color = uiColorDesc.m_color; 
+                        text.color = uiColorDesc.m_color;
                     }
                 }
             }
@@ -120,7 +161,7 @@ namespace bluebean.UGFramework
             }
             else
             {
-                if (lastState == m_curState && !replayTweeners)
+                if (lastState == m_curState && !refreshTheSameState)
                 {
                     if (onEnd != null)
                     {
@@ -148,27 +189,18 @@ namespace bluebean.UGFramework
                             longestTweener = tweener;
                         }
                     }
-                    if (longestTweener == null)
+                    //设置回调事件
+                    longestTweener.OnFinished.AddListener(() =>
                     {
                         if (onEnd != null)
                         {
                             onEnd();
                         }
-                    }
-                    else
-                    {
-                        //设置回调事件
-                        longestTweener.OnFinished.AddListener(() =>
-                        {
-                            if (onEnd != null)
-                            {
-                                onEnd();
-                            }
-                        });
-                    }
+                    });
                     //播放所有tweener
                     foreach (var tweener in tweeners)
                     {
+                        tweener.enabled = true;
                         tweener.PlayForward();
                     }
                 }
@@ -182,14 +214,14 @@ namespace bluebean.UGFramework
             var uiStateDesc = GetUIStateDesc(m_curState);
             var index = m_uiStateDescs.FindIndex((item) => item == uiStateDesc);
             index++;
-            if(index >= m_uiStateDescs.Count)
+            if (index >= m_uiStateDescs.Count)
             {
                 index = 0;
             }
             uiStateDesc = m_uiStateDescs[index];
             SetUIState(uiStateDesc.m_stateName);
         }
-        
+
     }
 
 }

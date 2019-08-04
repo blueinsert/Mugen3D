@@ -5,12 +5,30 @@ using UnityEngine;
 
 namespace bluebean.UGFramework.UI
 {
-    public class UIUpdateContext
+    /// <summary>
+    /// UITask更新上下文，存放了更新过程相关的变量
+    /// </summary>
+    public class UITaskUpdateContext
     {
+        /// <summary>
+        /// 视图更新完成时执行的回调
+        /// </summary>
         public Action m_onViewUpdateComplete;
+        /// <summary>
+        /// 资源全部载入时执行的回调
+        /// </summary>
         public Action m_redirctOnLoadAllAssetComplete;
+        /// <summary>
+        /// 是否是第一次执行
+        /// </summary>
         public bool m_isInit;
+        /// <summary>
+        /// 是否从pause状态进入活跃状态
+        /// </summary>
         public bool m_isResume;
+        /// <summary>
+        /// 更新内容掩码
+        /// </summary>
         private int m_updateMask;
 
         public void ActiveUpdateMask(int slot)
@@ -38,12 +56,18 @@ namespace bluebean.UGFramework.UI
         }
     }
 
+    /// <summary>
+    /// UILayer资源描述
+    /// </summary>
     public class UILayerDesc
     {
         public string LayerName { get; set; }
         public string AssetPath { get; set; }
     }
 
+    /// <summary>
+    /// UIViewCtrl资源描述
+    /// </summary>
     public class UIViewControllerDesc
     {
         public string AtachLayerName { get; set; }
@@ -51,9 +75,18 @@ namespace bluebean.UGFramework.UI
         public string TypeFullName { get; set; }
     }
 
+    /// <summary>
+    /// UITask
+    /// </summary>
     public class UITask : Task
     {
-        public UIUpdateContext UpdateCtx { get { return m_updateCtx; } }
+        #region 变量
+
+        protected virtual UILayerDesc[] UILayerDescArray { get; set; }
+
+        protected virtual UIViewControllerDesc[] UIViewControllerDescArray { get; set; }
+
+        public UITaskUpdateContext UpdateCtx { get { return m_updateCtx; } }
 
         private UISceneLayer MainLayer
         {
@@ -67,21 +100,40 @@ namespace bluebean.UGFramework.UI
             }
         }
 
-        private int m_instanceID = 0;
+        /// <summary>
+        /// 实例ID,在同类型UITask中不重复
+        /// </summary>
+        protected int m_instanceID = 0;
 
-        private readonly UIUpdateContext m_updateCtx = new UIUpdateContext();
+        /// <summary>
+        /// 存放内容数据
+        /// </summary>
+        protected UIIntent m_curUIIntent;
 
+        /// <summary>
+        /// 更新上下文数据
+        /// </summary>
+        protected readonly UITaskUpdateContext m_updateCtx = new UITaskUpdateContext();
+
+        /// <summary>
+        /// 资源数据字典
+        /// </summary>
         private readonly Dictionary<string, UnityEngine.Object> m_assetDic = new Dictionary<string, UnityEngine.Object>();
 
+        /// <summary>
+        /// UILayer字典
+        /// </summary>
         protected readonly Dictionary<string, UISceneLayer> m_uiLayerDic = new Dictionary<string, UISceneLayer>();
 
+        /// <summary>
+        /// UIViewCtrl数组
+        /// </summary>
         protected UIViewController[] m_uiViewControllerArray = null;
 
-        protected virtual UILayerDesc[] UILayerDescArray { get; set; }
-
-        protected virtual UIViewControllerDesc[] UIViewControllerDescArray { get; set; }
+        #endregion
 
         public UITask(string name) : base(name) { }
+
 
         #region 内部方法
 
@@ -92,7 +144,7 @@ namespace bluebean.UGFramework.UI
         {
             foreach (var layer in m_uiLayerDic.Values)
             {
-                if (layer != null && layer.State == SceneLayerState.Using)
+                if (layer != null && layer.m_state == SceneLayerState.Using)
                 {
                     SceneTree.Instance.PopLayer(layer);
                 }
@@ -115,6 +167,9 @@ namespace bluebean.UGFramework.UI
 
         #region 公共方法
 
+        /// <summary>
+        /// 从重定向中返回，一般在资源加载完成后调用
+        /// </summary>
         public void ReturnFromRedirect()
         {
             StartUpdateView();
@@ -156,7 +211,6 @@ namespace bluebean.UGFramework.UI
         protected override void OnStop()
         {
             DestroyAllLayers();
-            //clear cache
             m_assetDic.Clear();
             m_uiLayerDic.Clear();
         }
@@ -180,6 +234,7 @@ namespace bluebean.UGFramework.UI
         /// <param name="intent"></param>
         protected void StartUpdateUITask(UIIntent intent)
         {
+            m_curUIIntent = intent;
             bool isNeedUpdateCache = IsNeedUpdateCache();
             if (isNeedUpdateCache)
             {
@@ -213,6 +268,10 @@ namespace bluebean.UGFramework.UI
                         }
                     });
                 }
+            }
+            else
+            {
+                StartUpdateView();
             }
         }
 
@@ -405,5 +464,12 @@ namespace bluebean.UGFramework.UI
         }
 
         #endregion
+
+        protected void ReturnToPrevUITask()
+        {
+            Pause();
+            if (m_curUIIntent.PrevIntent != null)
+                UIManager.Instance.StartUITask(m_curUIIntent.PrevIntent);
+        }
     }
 }
