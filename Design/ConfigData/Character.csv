@@ -1,7 +1,7 @@
-Character:DataTable,,,
-ID:int,Name:string,LittleHeadIcon:string,BigHeadIcon:string
-1,Skula1,,
-2,Skula2,,
-3,Skula3,,
-4,Skula4,,
-5,Skula5,,
+Character:DataTable,,,,
+ID:int,Name:string,LittleHeadIcon:string,MediumHeadIcon:string,BigHeadIcon:string
+1,Skula1,UI/HeadIcon_ABS/kfmLittleHead.png,UI/HeadIcon_ABS/kfmMediumHead.png,UI/HeadIcon_ABS/kfmBigHead.png
+2,Skula2,UI/HeadIcon_ABS/kfmLittleHead.png,UI/HeadIcon_ABS/kfmMediumHead.png,UI/HeadIcon_ABS/kfmBigHead.png
+3,Skula3,UI/HeadIcon_ABS/kfmLittleHead.png,UI/HeadIcon_ABS/kfmMediumHead.png,UI/HeadIcon_ABS/kfmBigHead.png
+4,Skula4,UI/HeadIcon_ABS/kfmLittleHead.png,UI/HeadIcon_ABS/kfmMediumHead.png,UI/HeadIcon_ABS/kfmBigHead.png
+5,Skula5,UI/HeadIcon_ABS/kfmLittleHead.png,UI/HeadIcon_ABS/kfmMediumHead.png,UI/HeadIcon_ABS/kfmBigHead.png

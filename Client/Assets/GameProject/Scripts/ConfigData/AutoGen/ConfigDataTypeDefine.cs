@@ -20,6 +20,11 @@ namespace bluebean.UGFramework.ConfigData {
             get {return m_LittleHeadIcon;}
             set {m_LittleHeadIcon = value;}
         }
+        private string m_MediumHeadIcon;
+        public string MediumHeadIcon {
+            get {return m_MediumHeadIcon;}
+            set {m_MediumHeadIcon = value;}
+        }
         private string m_BigHeadIcon;
         public string BigHeadIcon {
             get {return m_BigHeadIcon;}

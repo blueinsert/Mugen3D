@@ -23,7 +23,7 @@ namespace bluebean.Mugen3D.UI
             UIStateController.SetUIState("Open");
         }
 
-        public void SetCharacters(List<ConfigDataCharacter> characters)
+        public void SetCharacters(List<ConfigDataCharacter> characters, Dictionary<string, UnityEngine.Object> assetDic)
         {
             m_configDataCharacters.Clear();
             m_configDataCharacters.AddRange(characters);
@@ -40,7 +40,7 @@ namespace bluebean.Mugen3D.UI
                     viewCtrl.EventOnClick += OnLittleHeadClick;
                 }
                 viewCtrl.SetIndex(index++);
-                viewCtrl.UpdateInfo(character);
+                viewCtrl.UpdateInfo(character, assetDic);
                 m_characterScrollItemUIControllerList.Add(viewCtrl);
             }
         }
@@ -156,9 +156,9 @@ namespace bluebean.Mugen3D.UI
             return m_index;
         }
 
-        public void UpdateInfo(ConfigDataCharacter configDataCharacter)
+        public void UpdateInfo(ConfigDataCharacter configDataCharacter, Dictionary<string, UnityEngine.Object> assetDic)
         {
-            //todo
+            HeadImage.sprite = AssetUtility.GetSprite(assetDic, configDataCharacter.LittleHeadIcon);
         }
 
         private int m_index;

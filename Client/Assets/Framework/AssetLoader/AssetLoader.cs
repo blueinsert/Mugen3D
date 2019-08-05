@@ -29,14 +29,24 @@ namespace bluebean.UGFramework
 
         private readonly CoroutineScheduler m_coroutineManager = new CoroutineScheduler();
 
-        private void LoadAssetByAssetDatabase<T>(string path, Action<string, T> onEnd) where T : UnityEngine.Object
+        private void LoadAssetByAssetDatabase(string path, bool hasSubAsset, Action<string, UnityEngine.Object[]> onEnd)
         {
-            var obj = AssetDatabase.LoadAssetAtPath<T>(path);
-            if(obj != null)
+            UnityEngine.Object[] assets;
+            if (hasSubAsset)
+            {
+                assets = AssetDatabase.LoadAllAssetsAtPath(path);
+            }
+            else
+            {
+                assets = new UnityEngine.Object[1];
+                assets[0] = AssetDatabase.LoadAssetAtPath(path,typeof(UnityEngine.Object));
+            }
+            
+            if(assets != null && assets[0] != null)
             {
                 Debug.Log("Load Asset Success by AssetDataBase AssetPath:" + path);
             }
-            onEnd(path, obj as T);
+            onEnd(path, assets);
         }
 
         private IEnumerable LoadAssetFromBundle<T>(string path, Action<string, T> onEnd) where T : UnityEngine.Object
@@ -46,27 +56,46 @@ namespace bluebean.UGFramework
             onEnd(path, null);
         }
 
-        private IEnumerator LoadAssetByResourceLoad<T>(string path, Action<string, T> onEnd) where T : UnityEngine.Object
+        private IEnumerator LoadAssetByResourceLoad(string path, bool hasSubAsset, Action<string, UnityEngine.Object[]> onEnd)
         {
             //从全路径中解析出相对Resources的路径
             string pathInResoruces = PathHelper.GetSubPathInResources(path);
             //去掉文件扩展名
             pathInResoruces = PathHelper.RemoveExtension(pathInResoruces);
-            var resourcesRequest = Resources.LoadAsync<T>(path);
-            while (!resourcesRequest.isDone)
+            UnityEngine.Object[] assets;
+            if (hasSubAsset)
             {
-                yield return null;
+                assets = Resources.LoadAll(pathInResoruces);
             }
-            if (resourcesRequest.asset != null)
+            else
+            {
+                assets = new UnityEngine.Object[1];
+                assets[0] = Resources.Load(pathInResoruces);
+            }
+            yield return null;
+            if (assets != null && assets[0] != null)
             {
                 Debug.Log("Load Asset Success by ResourceLoad AssetPath:" + path);
             }
-            onEnd(path, resourcesRequest.asset as T);
+            onEnd(path, assets);
         }
 
         public IEnumerator LoadAsset<T>(string path, Action<string, T> onEnd) where T : UnityEngine.Object
         {
-            UnityEngine.Object obj = null;
+            UnityEngine.Object[] assets = null;
+            bool hasSubAsset = false;
+            string mainAssetPath, subAssetPath = "";
+            int atIndex = path.IndexOf("@");
+            if (atIndex != -1)
+            {
+                mainAssetPath = path.Substring(0, atIndex);
+                subAssetPath = path.Substring(atIndex + 1);
+                hasSubAsset = true;
+            }
+            else
+            {
+                mainAssetPath = path;
+            }
             //1.尝试从缓存中获取
             /*
             if(GetAssetFromCache(path, out obj))
@@ -74,23 +103,45 @@ namespace bluebean.UGFramework
                 onEnd(path, obj as T);
                 yield break;
             }
-            */
+           
             //2.从assetBundle中获取
             if(obj == null)
             {
                 yield return LoadAssetFromBundle<T>(path, (p, o) => { obj = o; });
             }
+             */
             //3.使用assetDataBase加载
-            if (Application.isEditor && obj == null)
+            if (Application.isEditor && assets == null)
             {
-                LoadAssetByAssetDatabase<T>(path, (p, o) => { obj = o; });
+                LoadAssetByAssetDatabase(mainAssetPath, hasSubAsset, (loadPath, loadAssets) => { assets = loadAssets; });
             }
             //4.使用resource加载
-            if (obj == null)
+            if (assets == null)
             {
-                yield return LoadAssetByResourceLoad<T>(path, (p, asset) => { obj = asset; });
+                yield return LoadAssetByResourceLoad(mainAssetPath, hasSubAsset, (loadPath, loadAssets) => { assets = loadAssets; });
             }
-            onEnd(path, obj as T);
+            LoadEnd:
+            UnityEngine.Object asset = null;
+            if (hasSubAsset)
+            {
+                if(assets[0].GetType() == typeof(Texture2D) || assets[0].GetType() == typeof(Sprite))
+                {
+                    foreach (var obj in assets)
+                    {
+                        if (obj.name == subAssetPath && obj.GetType() == typeof(Sprite))
+                        {
+                            asset = obj;
+                            break;
+                        }
+                    }
+                }
+                
+            }
+            else
+            {
+                asset = assets[0];
+            }
+            onEnd(path, asset as T);
         }
 
         public void StartLoadAssetCoroutine<T>(string path, Action<string, T> onEnd) where T : UnityEngine.Object

@@ -70,7 +70,7 @@ namespace bluebean.Mugen3D.UI
         private UILayerDesc[] m_uiLayerDescs = new UILayerDesc[] {
             new UILayerDesc(){
                 LayerName = "MainMenu",
-                AssetPath = "Assets/GameProject/RuntimeAssets/Prefabs/UI/Menu_ABS/MainMenuUIPrefab.prefab",
+                AssetPath = "Assets/GameProject/RuntimeAssets/UI/Menu_ABS/Prefabs/MainMenuUIPrefab.prefab",
             }
         };
 

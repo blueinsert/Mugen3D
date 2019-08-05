@@ -118,7 +118,7 @@ namespace bluebean.UGFramework.UI
         /// <summary>
         /// 资源数据字典
         /// </summary>
-        private readonly Dictionary<string, UnityEngine.Object> m_assetDic = new Dictionary<string, UnityEngine.Object>();
+        protected readonly Dictionary<string, UnityEngine.Object> m_assetDic = new Dictionary<string, UnityEngine.Object>();
 
         /// <summary>
         /// UILayer字典
@@ -365,10 +365,11 @@ namespace bluebean.UGFramework.UI
         private void LoadAssets(Action onComplete)
         {
             var assetPaths = CollectAssetPathsToLoad();
+            //去除重复资源和已加载资源
             List<string> realAssetPaths = new List<string>();
             foreach (string path in assetPaths)
             {
-                if (!m_assetDic.ContainsKey(path))
+                if (!m_assetDic.ContainsKey(path) && !realAssetPaths.Contains(path))
                 {
                     realAssetPaths.Add(path);
                 }
@@ -471,5 +472,6 @@ namespace bluebean.UGFramework.UI
             if (m_curUIIntent.PrevIntent != null)
                 UIManager.Instance.StartUITask(m_curUIIntent.PrevIntent);
         }
+
     }
 }

@@ -43,6 +43,25 @@ namespace bluebean.Mugen3D.UI
             return false;
         }
 
+        protected override bool IsNeedLoadAssets()
+        {
+            if (m_updateCtx.m_isInit)
+                return true;
+            return false;
+        }
+
+        protected override List<string> CollectAssetPathsToLoad()
+        {
+            List<string> assetList = new List<string>();
+            foreach(var configCharacter in m_configDataCharacters)
+            {
+                assetList.Add(AssetUtility.GetSpritePath(configCharacter.LittleHeadIcon));
+                assetList.Add(AssetUtility.GetSpritePath(configCharacter.MediumHeadIcon));
+                assetList.Add(AssetUtility.GetSpritePath(configCharacter.BigHeadIcon));
+            }
+            return assetList;
+        }
+
         protected override void UpdateCache()
         {
             m_configDataCharacters.Clear();
@@ -58,7 +77,7 @@ namespace bluebean.Mugen3D.UI
         protected override void UpdateView()
         {
             if (m_updateCtx.m_isInit)
-                m_uiController.SetCharacters(m_configDataCharacters);
+                m_uiController.SetCharacters(m_configDataCharacters, m_assetDic);
             m_uiController.UpdateUI(m_p1CharacteIndex, m_p2CharacterIndex);
             m_uiController.ShowOpenTween();
         }
@@ -99,7 +118,7 @@ namespace bluebean.Mugen3D.UI
         private UILayerDesc[] m_uiLayerDescs = new UILayerDesc[] {
             new UILayerDesc(){
                 LayerName = "CharacterSelect",
-                AssetPath = "Assets/GameProject/RuntimeAssets/Prefabs/UI/Menu_ABS/CharacterSelectUIPrefab.prefab",
+                AssetPath = "Assets/GameProject/RuntimeAssets/UI/Menu_ABS/Prefabs/CharacterSelectUIPrefab.prefab",
             }
         };
 
