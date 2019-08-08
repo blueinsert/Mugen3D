@@ -8,15 +8,30 @@ using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.UI
 {
+    public class CharacterGridPos
+    {
+        public int Col { get; set; }
+        public int Row { get; set; }
+    }
     public class CharacterSelectUITask : UITask
     {
+        /// <summary>
+        /// 选人阶段
+        /// </summary>
+        public enum TrainingModeCharacterSelectStage
+        {
+            P1,
+            P2,
+            AllComplete,
+        }
+
         public CharacterSelectUITask(string name) : base(typeof(CharacterSelectUITask).Name)
         {
         }
 
-        public static void StartUITask(UIIntent prevIntent)
+        public static void StartUITask(UIIntent prevIntent, string mode)
         {
-            UIIntent intent = new UIIntent(typeof(CharacterSelectUITask).Name, prevIntent);
+            UIIntent intent = new UIIntent(typeof(CharacterSelectUITask).Name, prevIntent, mode);
             UIManager.Instance.StartUITask(intent);
         }
 
@@ -77,14 +92,143 @@ namespace bluebean.Mugen3D.UI
         protected override void UpdateView()
         {
             if (m_updateCtx.m_isInit)
+            {
                 m_uiController.SetCharacters(m_configDataCharacters, m_assetDic);
-            m_uiController.UpdateUI(m_p1CharacteIndex, m_p2CharacterIndex);
-            m_uiController.ShowOpenTween();
+                m_uiController.ShowOpenTween();
+            }  
+            m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
+        }
+
+        protected override void OnTick()
+        {
+            base.OnTick();
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                OnUpKeyDown();
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                OnDownKeyDown();
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                OnLeftKeyDown();
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                OnRightKeyDown();
+            }
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                OnEnsureKeyDown();
+            }
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                OnCancelKeyDown();
+            }
         }
 
         #endregion
 
         #region UI回调
+
+        private void OnUpKeyDown()
+        {
+            if(CurMode == Mode_Training)
+            {
+                if(m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                {
+                    m_p1CharacterIndex = GetUpGridIndex(m_p1CharacterIndex);
+                }
+                else if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P2)
+                {
+                    m_p2CharacterIndex = GetUpGridIndex(m_p2CharacterIndex);
+                }
+            }
+            m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
+        }
+
+        private void OnDownKeyDown()
+        {
+            if (CurMode == Mode_Training)
+            {
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                {
+                    m_p1CharacterIndex = GetDownGridIndex(m_p1CharacterIndex);
+                }
+                else if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P2)
+                {
+                    m_p2CharacterIndex = GetDownGridIndex(m_p2CharacterIndex);
+                }
+            }
+            m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
+        }
+
+        private void OnLeftKeyDown()
+        {
+            if (CurMode == Mode_Training)
+            {
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                {
+                    m_p1CharacterIndex = GetLeftGridIndex(m_p1CharacterIndex);
+                }
+                else if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P2)
+                {
+                    m_p2CharacterIndex = GetLeftGridIndex(m_p2CharacterIndex);
+                }
+            }
+            m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
+        }
+
+        private void OnRightKeyDown()
+        {
+            if (CurMode == Mode_Training)
+            {
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                {
+                    m_p1CharacterIndex = GetRightGridIndex(m_p1CharacterIndex);
+                }
+                else if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P2)
+                {
+                    m_p2CharacterIndex = GetRightGridIndex(m_p2CharacterIndex);
+                }
+            }
+            m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
+        }
+
+        private void OnEnsureKeyDown()
+        {
+            if (CurMode == Mode_Training)
+            {
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                {
+                    m_trainingModeCharacterSelectStage = TrainingModeCharacterSelectStage.P2;
+                }
+                else if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P2)
+                {
+                    m_trainingModeCharacterSelectStage = TrainingModeCharacterSelectStage.AllComplete;
+                }
+                if(m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.AllComplete)
+                {
+                    Debug.Log("CharacterSelectUITask TraningMode:TrainingModeCharacterSelectStage == AllComplete");
+                }
+            }
+        }
+
+        private void OnCancelKeyDown()
+        {
+            if (CurMode == Mode_Training)
+            {
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                {
+
+                }
+                else if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P2)
+                {
+
+                }
+            }
+        }
 
         private void OnReturnButtonClick()
         {
@@ -93,17 +237,71 @@ namespace bluebean.Mugen3D.UI
 
         private void OnLittleHeadButtonClick(int index)
         {
-            m_p1CharacteIndex = index;
-            m_uiController.UpdateUI(m_p1CharacteIndex, m_p2CharacterIndex);
+            m_p1CharacterIndex = index;
+            m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
+        }
+
+        #endregion
+
+        #region 私有方法
+
+        private int GetLeftGridIndex(int prevIndex)
+        {
+            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
+            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            gridPos.Col--;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
+            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
+            return index;
+        }
+
+        private int GetRightGridIndex(int prevIndex)
+        {
+            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
+            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            gridPos.Col++;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
+            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
+            return index;
+        }
+
+        private int GetUpGridIndex(int prevIndex)
+        {
+            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
+            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            gridPos.Row--;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
+            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
+            return index;
+        }
+
+        private int GetDownGridIndex(int prevIndex)
+        {
+            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
+            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            gridPos.Row++;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
+            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
+            return index;
         }
 
         #endregion
 
         #region 变量
 
-        public int m_p1CharacteIndex = 0;
+        private TrainingModeCharacterSelectStage m_trainingModeCharacterSelectStage = TrainingModeCharacterSelectStage.P1;
 
-        public int m_p2CharacterIndex = 0;
+        private bool m_isP1SelectComplete = false;
+
+        private bool m_isP2SelectComplete = false;
+
+        public int m_p1CharacterIndex = 0;
+
+        public int m_p2CharacterIndex = 0; 
 
         public ConfigDataLoader m_configDataLoader = GameManager.Instance.ConfigDataLoader;
 
@@ -134,6 +332,7 @@ namespace bluebean.Mugen3D.UI
         };
         #endregion
 
+        public const string Mode_Training = "Mode_Training";
         #endregion
     }
 }

@@ -41,14 +41,14 @@ namespace bluebean.Mugen3D.UI
         {
             Debug.Log("MainMenuUITask:OnSingleVSButtonClick");
             Pause();
-            CharacterSelectUITask.StartUITask(m_curUIIntent);
+            CharacterSelectUITask.StartUITask(m_curUIIntent,CharacterSelectUITask.Mode_Training);
         }
 
         private void OnTrainButtonClick()
         {
             Debug.Log("MainMenuUITask:OnTrainButtonClick");
             Pause();
-            CharacterSelectUITask.StartUITask(m_curUIIntent);
+            CharacterSelectUITask.StartUITask(m_curUIIntent, CharacterSelectUITask.Mode_Training);
         }
 
         private void OnOptionButtonClick()

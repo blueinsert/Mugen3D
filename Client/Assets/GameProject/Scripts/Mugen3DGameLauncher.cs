@@ -39,5 +39,12 @@ namespace bluebean.Mugen3D
             }
         }
 
+        private void OnApplicationQuit()
+        {
+            if (m_gameManager != null)
+            {
+                m_gameManager.OnApplicationQuit();
+            }
+        }
     }
 }

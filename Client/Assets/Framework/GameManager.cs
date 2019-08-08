@@ -65,6 +65,13 @@ namespace bluebean.UGFramework
         public void Deintialize()
         {
             //todo
+            Debug.Log("GameManager:Deintialize");
+        }
+
+        public void OnApplicationQuit()
+        {
+            Debug.Log("GameManager:OnApplicationQuit");
+            //todo
         }
 
         public void Tick()

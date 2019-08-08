@@ -6,17 +6,20 @@ namespace bluebean.UGFramework.UI
 {
     public class UIIntent
     {
-        //public string Mode { get; set; }
         public string Name { get { return m_name; } }
+        public string Mode { get { return m_mode; } }
         public UIIntent PrevIntent { get { return m_prevIntent; } }
+
         private string m_name;
+        private string m_mode;
         private UIIntent m_prevIntent;
         private readonly Dictionary<string, object> m_customParamDic = new Dictionary<string, object>();
 
-        public UIIntent(string name, UIIntent prevIntent = null)
+        public UIIntent(string name, UIIntent prevIntent = null, string mode = "")
         {
             m_name = name;
             m_prevIntent = prevIntent;
+            m_mode = mode;
         }
 
         public void SetCustomParam(string key, object value)

@@ -100,6 +100,8 @@ namespace bluebean.UGFramework.UI
             }
         }
 
+        protected string CurMode { get { return m_curUIIntent.Mode; } }
+
         /// <summary>
         /// 实例ID,在同类型UITask中不重复
         /// </summary>
@@ -232,9 +234,12 @@ namespace bluebean.UGFramework.UI
         /// 更新UITask
         /// </summary>
         /// <param name="intent"></param>
-        protected void StartUpdateUITask(UIIntent intent)
+        protected void StartUpdateUITask(UIIntent intent = null)
         {
-            m_curUIIntent = intent;
+            if (intent != null)
+            {
+                m_curUIIntent = intent;//todo mode 合法性检查
+            }
             bool isNeedUpdateCache = IsNeedUpdateCache();
             if (isNeedUpdateCache)
             {
@@ -471,6 +476,15 @@ namespace bluebean.UGFramework.UI
             Pause();
             if (m_curUIIntent.PrevIntent != null)
                 UIManager.Instance.StartUITask(m_curUIIntent.PrevIntent);
+        }
+
+        /// <summary>
+        /// 注册合法的Mode字符串
+        /// </summary>
+        /// <param name="modeStr"></param>
+        protected void RegisterModeStr(string modeStr)
+        {
+            //todo
         }
 
     }

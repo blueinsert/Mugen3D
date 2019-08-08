@@ -16,6 +16,7 @@ namespace bluebean.UGFramework.ConfigData
     /// todo 完成
     /// 1.主键ID的非重复检查
     /// 2.外键值存在性的检查
+    /// 3.改为动态编译产生类型代码文件
     /// </summary>
     public class ConfigDataEditorWindow : EditorWindow
     {
