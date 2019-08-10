@@ -5,26 +5,6 @@ using System.IO;
 
 namespace bluebean.UGFramework.ConfigData
 {
-    /// <summary>
-    /// 配置数据表列信息
-    /// </summary>
-    public class ConfigDataTableColumnInfo
-    {
-        public string TableName { get; private set; }
-        public string ColumnName { get; private set; }
-        public int ColumnNo { get; private set; }
-        public string TypeStr { get; private set; }
-        public string RealTypeStr { get; set; }
-
-        public ConfigDataTableColumnInfo(string tableName, string columnName, string typeStr, int columnNo)
-        {
-            TableName = tableName;
-            ColumnName = columnName;
-            TypeStr = typeStr;
-            RealTypeStr = typeStr;
-            ColumnNo = columnNo;
-        }
-    }
 
     /// <summary>
     /// 数据表类型
@@ -39,6 +19,44 @@ namespace bluebean.UGFramework.ConfigData
         /// 数据表
         /// </summary>
         DataTable,
+    }
+
+    public enum ConfigDataTableColumnTypeParseState
+    {
+        None,
+        Determine,
+        UnDetermine,
+        Fail,
+    }
+
+    /// <summary>
+    /// 配置数据表列信息
+    /// </summary>
+    public class ConfigDataTableColumnInfo
+    {
+        public string TableName { get; private set; }
+        public string ColumnName { get; private set; }
+        public int ColumnNo { get; private set; }
+        public string TypeStr { get; private set; }
+        //public string RealTypeStr { get; set; }
+        public Type ColumnType { get { return m_columnType; } }
+        private Type m_columnType;
+        public ConfigDataTableColumnTypeParseState m_columnTypeParseState = ConfigDataTableColumnTypeParseState.None;
+        public bool m_hasForeignKeyDependence = false;
+
+        public void SetColumnType(Type t)
+        {
+            m_columnType = t;
+        }
+
+        public ConfigDataTableColumnInfo(string tableName, string columnName, string typeStr, int columnNo)
+        {
+            TableName = tableName;
+            ColumnName = columnName;
+            TypeStr = typeStr;
+            //RealTypeStr = typeStr;
+            ColumnNo = columnNo;
+        }
     }
 
     /// <summary>
@@ -67,16 +85,15 @@ namespace bluebean.UGFramework.ConfigData
         /// 列信息列表
         /// </summary>
         private readonly List<ConfigDataTableColumnInfo> m_columnInfoList = new List<ConfigDataTableColumnInfo>();
-        
+        /// <summary>
+        /// 枚举表信息 枚举名-值 字典
+        /// </summary>
+        private Dictionary<string, int> m_enumTupleDic = new Dictionary<string, int>();
+
         /// <summary>
         /// 原始数据读取借口
         /// </summary>
-        public IRawDataReader m_rawDataReader = new CsvReader();
-        
-        /// <summary>
-        /// 枚举表 枚举名-值 字典
-        /// </summary>
-        private Dictionary<string, int> m_enumTupleDic = new Dictionary<string, int>();
+        public IGridDataReader m_rawDataReader = new CsvReader();
 
         public int Row
         {
@@ -173,9 +190,9 @@ namespace bluebean.UGFramework.ConfigData
         }
 
         /// <summary>
-        /// 检查表的必要列信息是否缺失
+        /// 检查表定义合法性
         /// </summary>
-        private void CheckNecessaryColumnInfos()
+        private void CheckValid()
         {
             if (m_tableType == ConfigDataTabelType.EnumTable)
             {
@@ -216,7 +233,7 @@ namespace bluebean.UGFramework.ConfigData
                 for (int i = 2; i < m_rawDataReader.Row; i++)
                 {
                     string enumName = m_rawDataReader.ReadCell(i, 0);
-                    int value = ConfigDataValueConverter.ParseInt(m_rawDataReader.ReadCell(i, 1));
+                    int value = ConfigDataColumnTypeSolver.ParseInt(m_rawDataReader.ReadCell(i, 1));
                     if (m_enumTupleDic.ContainsKey(enumName))
                     {
                         ThrowException("enum table has contained the same key:" + enumName);
@@ -234,7 +251,7 @@ namespace bluebean.UGFramework.ConfigData
                 m_rawDataReader.ParseFromFile(filePath);
                 ParseTableInfo();
                 ParseColumnDef();
-                CheckNecessaryColumnInfos();
+                CheckValid();
                 if (m_tableType == ConfigDataTabelType.EnumTable)
                 {
                     ParseEnumTableInfo();

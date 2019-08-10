@@ -12,6 +12,17 @@ namespace bluebean.Mugen3D.UI
     {
         public int Col { get; set; }
         public int Row { get; set; }
+
+        public CharacterGridPos(int index, int rowSize)
+        {
+            Row = index / rowSize;
+            Col = index % rowSize;
+        }
+
+        public int GetIndex(int rowSize)
+        {
+            return this.Row* rowSize + this.Col;
+        }
     }
     public class CharacterSelectUITask : UITask
     {
@@ -27,6 +38,7 @@ namespace bluebean.Mugen3D.UI
 
         public CharacterSelectUITask(string name) : base(typeof(CharacterSelectUITask).Name)
         {
+            RegisterModeStr(Mode_Training);
         }
 
         public static void StartUITask(UIIntent prevIntent, string mode)
@@ -247,46 +259,58 @@ namespace bluebean.Mugen3D.UI
 
         private int GetLeftGridIndex(int prevIndex)
         {
-            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
-            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            var gridPos = new CharacterGridPos(prevIndex, GridSizeX);
             gridPos.Col--;
-            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
-            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
-            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
-            return index;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, GridSizeY-1);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, GridSizeX-1);
+            int newIndex = gridPos.GetIndex(GridSizeX);
+            if (newIndex >= 0 && newIndex < m_configDataCharacters.Count)
+            {
+                return newIndex;
+            }
+            return prevIndex;
         }
 
         private int GetRightGridIndex(int prevIndex)
         {
-            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
-            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            var gridPos = new CharacterGridPos(prevIndex, GridSizeX);
             gridPos.Col++;
-            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
-            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
-            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
-            return index;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, GridSizeY - 1);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, GridSizeX - 1);
+            int newIndex = gridPos.GetIndex(GridSizeX);
+            if (newIndex >= 0 && newIndex < m_configDataCharacters.Count)
+            {
+                return newIndex;
+            }
+            return prevIndex;
         }
 
         private int GetUpGridIndex(int prevIndex)
         {
-            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
-            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            var gridPos = new CharacterGridPos(prevIndex, GridSizeX);
             gridPos.Row--;
-            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
-            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
-            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
-            return index;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, GridSizeY - 1);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, GridSizeX - 1);
+            int newIndex = gridPos.GetIndex(GridSizeX);
+            if (newIndex >= 0 && newIndex < m_configDataCharacters.Count)
+            {
+                return newIndex;
+            }
+            return prevIndex;
         }
 
         private int GetDownGridIndex(int prevIndex)
         {
-            var maxGridPos = CharacterSelectUIHelper.GetMaxGridPos(m_configDataCharacters.Count - 1, 6);
-            var gridPos = CharacterSelectUIHelper.GetGridPos(prevIndex, 6);
+            var gridPos = new CharacterGridPos(prevIndex, GridSizeX);
             gridPos.Row++;
-            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, maxGridPos.Row);
-            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, maxGridPos.Col);
-            int index = CharacterSelectUIHelper.GetIndexFromGridPos(gridPos, 6);
-            return index;
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, GridSizeY - 1);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, GridSizeX - 1);
+            int newIndex = gridPos.GetIndex(GridSizeX);
+            if (newIndex >= 0 && newIndex < m_configDataCharacters.Count)
+            {
+                return newIndex;
+            }
+            return prevIndex;
         }
 
         #endregion
@@ -331,6 +355,10 @@ namespace bluebean.Mugen3D.UI
             }
         };
         #endregion
+
+        private const int GridSizeX = 6;
+
+        private const int GridSizeY = 8;
 
         public const string Mode_Training = "Mode_Training";
         #endregion

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace bluebean.UGFramework.ConfigData
 {
-    public interface IRawDataReader
+    public interface IGridDataReader
     {
         int Row { get; }
         int Column { get; }

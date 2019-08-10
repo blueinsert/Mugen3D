@@ -13,7 +13,7 @@ namespace bluebean.UGFramework.ConfigData
     /// https://blog.csdn.net/icycode/article/details/80043956
     /// https://tools.ietf.org/html/rfc4180
     /// </summary>
-    public class CsvReader : IRawDataReader
+    public class CsvReader : IGridDataReader
     {
         /// <summary>
         /// 域分界符

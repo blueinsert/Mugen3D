@@ -70,16 +70,15 @@
     <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenPosEditor.cs" />
     <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenRotEditor.cs" />
     <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenScaleEditor.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataColumnTypeSolver.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataEditorWindow.cs" />
-    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataException.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataHelper.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataSetting.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataTableInfo.cs" />
-    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataValueConverter.cs" />
-    <Compile Include="Assets\Framework\ConfigData\Editor\CSVReader.cs" />
-    <Compile Include="Assets\Framework\ConfigData\Editor\IRawDataReader.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataTypeDefineCodeGenerator.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\CSVReader\CSVReader.cs" />
+    <Compile Include="Assets\Framework\ConfigData\Editor\IGridDataReader.cs" />
     <Compile Include="Assets\Framework\UI\Editor\UIStateControllerInspector.cs" />
-    <None Include="Assets\Framework\ConfigData\Editor\Templete\ConfigDataTypeDefine.cs.txt" />
     <None Include="Assets\Framework\ConfigData\Editor\Templete\ConfigDataLoaderAutoGen.cs.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/UnityWorkplace/Mugen3D/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

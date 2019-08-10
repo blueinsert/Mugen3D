@@ -132,6 +132,7 @@ namespace bluebean.UGFramework.UI
         /// </summary>
         protected UIViewController[] m_uiViewControllerArray = null;
 
+        private readonly List<string> m_modeDefines = new List<string>();
         #endregion
 
         public UITask(string name) : base(name) { }
@@ -238,7 +239,11 @@ namespace bluebean.UGFramework.UI
         {
             if (intent != null)
             {
-                m_curUIIntent = intent;//todo mode 合法性检查
+                if ((m_modeDefines.Count != 0 || !string.IsNullOrEmpty(intent.Mode)) && !m_modeDefines.Contains(intent.Mode))
+                {
+                    Debug.LogError(string.Format("{0}'s modeDefines dont contain {1}", this.GetType().Name, intent.Mode));
+                }
+                m_curUIIntent = intent;
             }
             bool isNeedUpdateCache = IsNeedUpdateCache();
             if (isNeedUpdateCache)
@@ -484,7 +489,7 @@ namespace bluebean.UGFramework.UI
         /// <param name="modeStr"></param>
         protected void RegisterModeStr(string modeStr)
         {
-            //todo
+            m_modeDefines.Add(modeStr);
         }
 
     }
