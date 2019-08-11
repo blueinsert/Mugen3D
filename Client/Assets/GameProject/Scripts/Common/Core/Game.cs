@@ -34,7 +34,7 @@ namespace bluebean.Mugen3D.Core
             if (matchManager != null)
             {
                 matchManager.Update();
-                world.Update();
+                world.Step();
             }  
         }
 

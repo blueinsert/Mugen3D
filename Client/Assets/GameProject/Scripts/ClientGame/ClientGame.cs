@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using bluebean.Mugen3D.Core;
+using bluebean.UGFramework.ConfigData;
 using Debug = bluebean.UGFramework.Log.Debug;
 using FixPointMath;
-using System;
 
 namespace bluebean.Mugen3D.ClientGame
 {
@@ -15,8 +16,10 @@ namespace bluebean.Mugen3D.ClientGame
         SingleVS,
     }
 
-    public abstract class ClientGame : MonoBehaviour
+    public class ClientGame : MonoBehaviour,IBattleWorldListener
     {
+
+        #region toRemoved
         public static ClientGame Instance;
         public Core.Game game;
         public ViewWorld viewWorld;
@@ -95,6 +98,14 @@ namespace bluebean.Mugen3D.ClientGame
             viewWorld.CreateCamera(this.game.world.cameraController);
         }
 
+        #endregion
+
+        public ClientGame(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) {
+            m_battleWorld = new BattleWorld(stageConfig, cameraConfig, p1Config, p2Config);
+        }
+
+        private BattleWorld m_battleWorld;
+
         protected virtual void Update()
         {
             if (Input.GetKeyDown(KeyCode.P))
@@ -112,7 +123,7 @@ namespace bluebean.Mugen3D.ClientGame
             {
                 OnUpdate();
             }
-            
+
         }
 
         protected virtual void OnUpdate() { }
@@ -120,6 +131,7 @@ namespace bluebean.Mugen3D.ClientGame
         protected void Step()
         {
             this.game.Step();
+            m_battleWorld.Step();
         }
 
     }

@@ -267,7 +267,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public void Update()
+        public void Step()
         {
             if (IsPause())
             {
