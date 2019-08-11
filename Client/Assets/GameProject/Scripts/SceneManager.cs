@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mugen3D;
+using bluebean.Mugen3D.Core;
+using bluebean.Mugen3D.ClientGame;
 
 public enum LoadType { 
     Load,
@@ -137,7 +138,7 @@ public class SceneManager : MonoBehaviour {
         StartCoroutine(DoLoadSceneAsync(type, sceneName, onBeginLoad, onFinishLoad, mode));
     }
 
-    public void LoadFightScene(Mugen3D.PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
+    public void LoadFightScene(bluebean.Mugen3D.ClientGame.PlayMode playMode, string p1CharacterName, string p2CharacterName, string stage) {
         LoadScene(LoadType.Load, "Scene_Loading", null, null);
         LoadSceneAsync(LoadType.Load, "Scene_Fight", 
             (scene) => {

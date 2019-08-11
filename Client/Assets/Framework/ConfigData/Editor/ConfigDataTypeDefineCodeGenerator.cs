@@ -7,6 +7,9 @@ using System.CodeDom.Compiler;
 using UnityEngine;
 using Microsoft.CSharp;
 using System.IO;
+using Debug = bluebean.UGFramework.Log.Debug;
+using FixPointMath;
+using System.Linq;
 
 namespace bluebean.UGFramework.ConfigData
 {
@@ -15,6 +18,8 @@ namespace bluebean.UGFramework.ConfigData
         private Dictionary<string, ConfigDataTableInfo> m_configDataTableInfoDic;
         private ConfigDataSetting m_setting;
         private CodeCompileUnit m_codeUnit;
+        private string m_sourceFileName;
+
 
         public ConfigDataTypeDefineCodeGenerator(Dictionary<string, ConfigDataTableInfo> configDataTableInfoDic, ConfigDataSetting setting)
         {
@@ -95,18 +100,36 @@ namespace bluebean.UGFramework.ConfigData
         public void GenerateCode()
         {
             string outputFolder = PathHelper.GetFullPath(m_setting.m_autoGenCodeOutputPath);
-            GenerateCSharpCode(outputFolder + "/ConfigDataTypeDefine.cs", m_codeUnit);
+            m_sourceFileName = GenerateCSharpCode(outputFolder + "/ConfigDataTypeDefine.cs", m_codeUnit);
         }
 
-        public Assembly GetAeeembly()
+        public bool GetAeeembly(out Assembly assembly)
         {
+            assembly = null;
             var compiler = new CSharpCodeProvider();
             var comPara = new CompilerParameters();
             comPara.GenerateExecutable = false;
             comPara.GenerateInMemory = true;
+            comPara.OutputAssembly = "";
+            var assemblies = AppDomain.CurrentDomain
+                            .GetAssemblies()
+                            .Where(a => !a.IsDynamic)
+                            .Select(a => a.Location);
+
+            comPara.ReferencedAssemblies.AddRange(assemblies.ToArray());
             comPara.OutputAssembly = "Assembly-CSharp";
             var result = compiler.CompileAssemblyFromDom(comPara, m_codeUnit);
-            return result.CompiledAssembly;
+            //var result = compiler.CompileAssemblyFromFile(comPara, m_sourceFileName);
+            if (result.Errors.HasErrors)
+            {
+                foreach(var error in result.Errors)
+                {
+                    Debug.LogError(error.ToString());
+                }
+                return false;
+            }
+            assembly = result.CompiledAssembly;
+            return true;
         }
     }
 }

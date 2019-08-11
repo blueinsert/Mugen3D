@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mugen3D.Net;
+using bluebean.Mugen3D.ClientGame;
 
 public class PvpTest : MonoBehaviour {
     BattleNetClient m_battleClient;
@@ -25,7 +26,7 @@ public class PvpTest : MonoBehaviour {
     void OnMatchCreate()
     {
         Debug.Log("OnMatchCreate");
-        var multiGame = this.gameObject.AddComponent<Mugen3D.MultiPlayerGame>();
+        var multiGame = this.gameObject.AddComponent<MultiPlayerGame>();
         multiGame.StartGame("Origin", "Origin", "Training", m_battleClient, 60, 60);
         hasCreateGame = true;
     }

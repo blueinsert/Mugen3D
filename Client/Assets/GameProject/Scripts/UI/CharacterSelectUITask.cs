@@ -21,7 +21,7 @@ namespace bluebean.Mugen3D.UI
 
         public int GetIndex(int rowSize)
         {
-            return this.Row* rowSize + this.Col;
+            return this.Row * rowSize + this.Col;
         }
     }
     public class CharacterSelectUITask : UITask
@@ -80,7 +80,7 @@ namespace bluebean.Mugen3D.UI
         protected override List<string> CollectAssetPathsToLoad()
         {
             List<string> assetList = new List<string>();
-            foreach(var configCharacter in m_configDataCharacters)
+            foreach (var configCharacter in m_configDataCharacters)
             {
                 assetList.Add(AssetUtility.GetSpritePath(configCharacter.LittleHeadIcon));
                 assetList.Add(AssetUtility.GetSpritePath(configCharacter.MediumHeadIcon));
@@ -92,11 +92,12 @@ namespace bluebean.Mugen3D.UI
         protected override void UpdateCache()
         {
             m_configDataCharacters.Clear();
-           foreach (var pair in m_configDataLoader.GetAllConfigDataCharacter())
+            foreach (var pair in m_configDataLoader.GetAllConfigDataCharacter())
             {
                 m_configDataCharacters.Add(pair.Value);
             }
-            m_configDataCharacters.Sort((a, b) => {
+            m_configDataCharacters.Sort((a, b) =>
+            {
                 return a.ID - b.ID;
             });
         }
@@ -107,7 +108,7 @@ namespace bluebean.Mugen3D.UI
             {
                 m_uiController.SetCharacters(m_configDataCharacters, m_assetDic);
                 m_uiController.ShowOpenTween();
-            }  
+            }
             m_uiController.UpdateUI(m_p1CharacterIndex, m_p2CharacterIndex);
         }
 
@@ -146,9 +147,9 @@ namespace bluebean.Mugen3D.UI
 
         private void OnUpKeyDown()
         {
-            if(CurMode == Mode_Training)
+            if (CurMode == Mode_Training)
             {
-                if(m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.P1)
                 {
                     m_p1CharacterIndex = GetUpGridIndex(m_p1CharacterIndex);
                 }
@@ -220,9 +221,11 @@ namespace bluebean.Mugen3D.UI
                 {
                     m_trainingModeCharacterSelectStage = TrainingModeCharacterSelectStage.AllComplete;
                 }
-                if(m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.AllComplete)
+                if (m_trainingModeCharacterSelectStage == TrainingModeCharacterSelectStage.AllComplete)
                 {
                     Debug.Log("CharacterSelectUITask TraningMode:TrainingModeCharacterSelectStage == AllComplete");
+                    Pause();
+                    BattleUITask.StartUITask(m_curUIIntent, "");
                 }
             }
         }
@@ -261,8 +264,8 @@ namespace bluebean.Mugen3D.UI
         {
             var gridPos = new CharacterGridPos(prevIndex, GridSizeX);
             gridPos.Col--;
-            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, GridSizeY-1);
-            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, GridSizeX-1);
+            gridPos.Row = Mathf.Clamp(gridPos.Row, 0, GridSizeY - 1);
+            gridPos.Col = Mathf.Clamp(gridPos.Col, 0, GridSizeX - 1);
             int newIndex = gridPos.GetIndex(GridSizeX);
             if (newIndex >= 0 && newIndex < m_configDataCharacters.Count)
             {
@@ -325,7 +328,7 @@ namespace bluebean.Mugen3D.UI
 
         public int m_p1CharacterIndex = 0;
 
-        public int m_p2CharacterIndex = 0; 
+        public int m_p2CharacterIndex = 0;
 
         public ConfigDataLoader m_configDataLoader = GameManager.Instance.ConfigDataLoader;
 

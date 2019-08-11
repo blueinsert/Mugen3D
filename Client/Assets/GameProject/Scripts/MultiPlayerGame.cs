@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mugen3D.Net;
+using bluebean.Mugen3D.Core;
+using Debug = bluebean.UGFramework.Log.Debug;  
 
-namespace Mugen3D
+namespace bluebean.Mugen3D.ClientGame
 {
 
     public class MultiPlayerGame : ClientGame
     {
-        public Core.MatchInfo matchInfo;
+        public MatchInfo matchInfo;
 
         BattleNetClient m_battleNetClient;
 

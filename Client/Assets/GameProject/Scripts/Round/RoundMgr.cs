@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mugen3D;
+using bluebean.Mugen3D.ClientGame;
 
 public enum RoundState
 {

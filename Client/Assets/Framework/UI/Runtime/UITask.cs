@@ -231,6 +231,11 @@ namespace bluebean.UGFramework.UI
             onPrepareEnd(true);
         }
 
+        protected virtual void OnIntentChange(UIIntent prevIntent, UIIntent curIntent)
+        {
+
+        }
+
         /// <summary>
         /// 更新UITask
         /// </summary>
@@ -243,6 +248,7 @@ namespace bluebean.UGFramework.UI
                 {
                     Debug.LogError(string.Format("{0}'s modeDefines dont contain {1}", this.GetType().Name, intent.Mode));
                 }
+                OnIntentChange(m_curUIIntent, intent);
                 m_curUIIntent = intent;
             }
             bool isNeedUpdateCache = IsNeedUpdateCache();

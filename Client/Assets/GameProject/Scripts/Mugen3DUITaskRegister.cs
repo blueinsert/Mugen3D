@@ -20,6 +20,7 @@ namespace bluebean.Mugen3D
             var uiManager = gameManager.UIManager;
             uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "MainMenuUITask", TypeFullName = "bluebean.Mugen3D.UI.MainMenuUITask" });
             uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "CharacterSelectUITask", TypeFullName = "bluebean.Mugen3D.UI.CharacterSelectUITask" });
+            uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "BattleUITask", TypeFullName = "bluebean.Mugen3D.UI.BattleUITask" });
             return true;
         }
     }

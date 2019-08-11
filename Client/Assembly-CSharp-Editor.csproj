@@ -60,16 +60,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Framework\3dParts\LoopScrollRect\Editor\LoopScrollRectInspector.cs" />
-    <Compile Include="Assets\Framework\3dParts\LoopScrollRect\Editor\SGDefaultControls.cs" />
-    <Compile Include="Assets\Framework\3dParts\LoopScrollRect\Editor\SGMenuOptions.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenAlphaEditor.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenCGAlphaEditor.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenColorEditor.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenMainEditor.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenPosEditor.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenRotEditor.cs" />
-    <Compile Include="Assets\Framework\3dParts\UITweening\Editor\TweenScaleEditor.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataColumnTypeSolver.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataEditorWindow.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataHelper.cs" />
@@ -78,6 +68,16 @@
     <Compile Include="Assets\Framework\ConfigData\Editor\ConfigDataTypeDefineCodeGenerator.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\CSVReader\CSVReader.cs" />
     <Compile Include="Assets\Framework\ConfigData\Editor\IGridDataReader.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\LoopScrollRect\Editor\LoopScrollRectInspector.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\LoopScrollRect\Editor\SGDefaultControls.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\LoopScrollRect\Editor\SGMenuOptions.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenAlphaEditor.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenCGAlphaEditor.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenColorEditor.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenMainEditor.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenPosEditor.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenRotEditor.cs" />
+    <Compile Include="Assets\Framework\ThirdParts\UITweening\Editor\TweenScaleEditor.cs" />
     <Compile Include="Assets\Framework\UI\Editor\UIStateControllerInspector.cs" />
     <None Include="Assets\Framework\ConfigData\Editor\Templete\ConfigDataLoaderAutoGen.cs.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
@@ -333,7 +333,7 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="NVelocity">
-      <HintPath>D:/UnityWorkplace/Mugen3D/Client/Assets/Framework/3dParts/NVelocity 1.6.1 beta 2/NVelocity.dll</HintPath>
+      <HintPath>D:/UnityWorkplace/Mugen3D/Client/Assets/Framework/ThirdParts/NVelocity 1.6.1 beta 2/NVelocity.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>D:/UnityWorkplace/Mugen3D/Client/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>

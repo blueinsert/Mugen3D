@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using FixPointMath;
+using Debug = bluebean.UGFramework.Log.Debug;
 
 namespace bluebean.UGFramework.ConfigData
 {
@@ -57,6 +59,45 @@ namespace bluebean.UGFramework.ConfigData
                 return false;
             }
             return bool.Parse(s);
+        }
+
+        [ColumnDataType(typeof(Number), "number")]
+        public static Number ParseNumber(string s)
+        {
+            float v;
+            Number number = new Number(0);
+            if (float.TryParse(s,out v))
+            {
+                number = new Number((int)(v * 10000)) / new Number(10000);
+            }
+            else
+            {
+                Debug.LogError(string.Format("ParseNumber error while parse {0}", s));
+            }
+            return number;
+        }
+
+        [ColumnDataType(typeof(Vector), "vector")]
+        public static Vector ParseVector2(string s)
+        {
+            if(s.StartsWith("(") && s.EndsWith(")"))
+            {
+                string subStr = s.Substring(1, s.Length - 2);
+                string[] splits = subStr.Split(new char[] { ',' });
+                if (splits.Length != 2)
+                {
+                    Debug.LogError(string.Format("ParseVector2 error splits.Length != 2 while parse {0}", s));
+                    return new Vector();
+                }
+                Number number1 = ParseNumber(splits[0]);
+                Number number2 = ParseNumber(splits[1]);
+                return new Vector(number1, number2);
+            }
+            else
+            {
+                Debug.LogError(string.Format("ParseVector2 error while parse {0}", s));
+            }
+            return new Vector();
         }
 
         #endregion

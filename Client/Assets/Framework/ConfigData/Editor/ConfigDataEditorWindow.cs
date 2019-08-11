@@ -388,16 +388,19 @@ namespace bluebean.UGFramework.ConfigData
             EditorUtility.DisplayProgressBar("BuildAll", "ConstructCompileUnit", 0.5f);
             m_typeDefineCodeGenerator.ConstructCompileUnit();
             EditorUtility.DisplayProgressBar("BuildAll", "GetAeeembly", 0.6f);
-            m_typeDefineAssembly = m_typeDefineCodeGenerator.GetAeeembly();//ConfigDataTypeDefine.cs对应的assembly
-            EditorUtility.DisplayProgressBar("BuildAll", "SerializeTableData", 0.7f);
-            yield return SerializeTableData();//产生序列化资源文件
-            EditorUtility.DisplayProgressBar("BuildAll", "Generate ConfigDataLoaderAutoGen.cs", 0.8f);
+            if (!m_typeDefineCodeGenerator.GetAeeembly(out m_typeDefineAssembly))
+            {
+                EditorUtility.ClearProgressBar();
+                yield break;
+            }
+            EditorUtility.DisplayProgressBar("BuildAll", "Generate ConfigDataLoaderAutoGen.cs", 0.7f);
             GenerateConfigDataLoaderAutoGenFile();//产生ConfigDataLoaderAutoGen.cs
-            EditorUtility.DisplayProgressBar("BuildAll", "Generate ConfigDataTypeDefine.cs", 0.9f);
+            EditorUtility.DisplayProgressBar("BuildAll", "Generate ConfigDataTypeDefine.cs", 0.8f);
             m_typeDefineCodeGenerator.GenerateCode();//产生ConfigDataTypeDefine.cs
+            EditorUtility.DisplayProgressBar("BuildAll", "SerializeTableData", 0.9f);
+            yield return SerializeTableData();//产生序列化资源文件
             EditorUtility.ClearProgressBar();
             AssetDatabase.Refresh();
-            yield return SerializeTableData();
         }
 
         public void StartBuildAll()

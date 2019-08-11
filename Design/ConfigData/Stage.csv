@@ -1,0 +1,3 @@
+"Stage:DataTable								",,,,,,,,,
+ID:int,Name:string,BorderXMin:int,BorderXMax:int,BorderYMin:int,BorderYMax:int,P1InitPos:vector,P2InitPos:vector,CameraConfigID:int,Prefab:string
+1,TrainingRoom,-15,15,0,100,"(-1.5,0)","(1.5,0)",1,Stage/TrainingRoom_ABS/Prefabs/TrainingRoom.prefab

@@ -1,0 +1,3 @@
+Camera:DataTable,,,,,,
+ID:int,Depth:number,Yoffset:number,Aspect:number,MinFieldOfView:number,MaxFieldOfView:number,DumpRatio:number
+1,-6,1,1.78,29,32,4
