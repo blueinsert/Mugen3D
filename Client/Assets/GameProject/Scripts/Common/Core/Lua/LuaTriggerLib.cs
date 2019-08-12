@@ -515,7 +515,7 @@ namespace bluebean.Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            var matchNo = c.world.matchManager.matchNo;
+            var matchNo = c.world.BattleNo;
             lua.PushInteger(matchNo);
             return 1;
         }
@@ -524,7 +524,7 @@ namespace bluebean.Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            var roundNo = c.world.matchManager.roundNo;
+            var roundNo = c.world.RoundNo;
             lua.PushInteger(roundNo);
             return 1;
         }

@@ -24,7 +24,7 @@ namespace bluebean.Mugen3D.ClientGame
             m_camera.aspect = logicCameraController.aspect.AsFloat();
             m_camera.transform.rotation = Quaternion.EulerAngles(-logicCameraController.m_rotationX.AsFloat(), 0, 0);
             var center = logicCameraController.targetCenter.ToVector3();
-            center.y += logicCameraController.config.Yoffset.AsFloat();
+            center.y += logicCameraController.config.Yoffset;
             m_camera.transform.LookAt(center);
         }
 

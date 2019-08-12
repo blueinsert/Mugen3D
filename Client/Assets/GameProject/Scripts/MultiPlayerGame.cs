@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mugen3D.Net;
 using bluebean.Mugen3D.Core;
-using Debug = bluebean.UGFramework.Log.Debug;  
+using Debug = bluebean.UGFramework.Log.Debug;
+using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.ClientGame
 {
 
-    public class MultiPlayerGame : ClientGame
+    public class MultiPlayerGame : ClientBattleWorld
     {
-        public MatchInfo matchInfo;
-
         BattleNetClient m_battleNetClient;
+
+        public MultiPlayerGame(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) : base(stageConfig, cameraConfig, p1Config, p2Config)
+        {
+        }
 
         IEnumerator SendProgress()
         {
@@ -61,13 +64,9 @@ namespace bluebean.Mugen3D.ClientGame
             //Debug.Log("OnGameUpdate");
             if (commands != null)
             {
-                var players = game.world.characters;
-                for (int i = 0; i < players.Count; i++)
+                for (int i = 0; i < commands.Length; i++)
                 {
-                    if (players[i] != null)
-                    {
-                        players[i].UpdateInput(commands[i]);
-                    }
+                    m_battleWorld.UpdatePlayerInput(i, commands[i]);
                 }
             }
             Step();

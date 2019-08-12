@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using bluebean.UGFramework;
 
 namespace bluebean.UGFramework.UI
 {

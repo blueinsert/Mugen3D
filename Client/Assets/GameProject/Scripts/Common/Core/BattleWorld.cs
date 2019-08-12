@@ -7,9 +7,60 @@ using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.Core
 {
+    /// <summary>
+    /// 输入指令记录
+    /// </summary>
+    public class InputRecord
+    {
+        public int frameNum;
+        public int playerIndex;
+        public int inputCode;
+    }
+
+    /// <summary>
+    /// 回合状态
+    /// </summary>
+    public enum RoundState
+    {
+        PreIntro = 0,
+        Intro,//第一回合的出场白
+        RoundDeclare,//回合开始
+        Fight,//开始战斗
+        PreOver,
+        Over,
+        PostOver,
+    }
+
+    /// <summary>
+    /// 战斗、比赛状态
+    /// </summary>
+    public enum BattleState
+    {
+        None,
+        Starting,
+        Running,
+        Stoping,
+        Stoped
+    }
+
+    /// <summary>
+    /// 战斗模式，玩法
+    /// </summary>
+    public enum BattleMode
+    {
+        SinglePlay,
+        SingleVS,
+        TeamPlay,
+        TeamVS,
+    }
 
     public class BattleWorld
     {
+        public int BattleNo { get { return m_battleNo; } }
+        public BattleState BattleState {get { return m_battleState; } }
+        public int RoundNo { get { return m_roundNo; } }
+        public RoundState RoundState { get { return m_roundState; } }
+
         private int m_maxEntityId = 0;
         private readonly List<Entity> m_addedEntities = new List<Entity>();
         private readonly List<Entity> m_destroyedEntities = new List<Entity>();
@@ -25,7 +76,15 @@ namespace bluebean.Mugen3D.Core
         public Action<Event> onEvent;
         private bool isPause = false;
         private int m_pauseTime = 0;
-        public MatchManager matchManager;
+
+        /// <summary>
+        /// 胜利次数统计
+        /// </summary>
+        private Dictionary<int, int> winCount = new Dictionary<int, int>();
+        private readonly int MAX_WIN_COUNT = 2;
+
+        public Character m_p1;
+        public Character m_p2;
 
         private PhysicsEngine m_physicsEngine;
         private ScriptEngine m_scriptEngine;
@@ -37,6 +96,31 @@ namespace bluebean.Mugen3D.Core
         private ConfigDataCharacter m_p1Config;
         private ConfigDataCharacter m_p2Config;
 
+        /// <summary>
+        /// 战斗，比赛场次标号
+        /// </summary>
+        private int m_battleNo;
+        /// <summary>
+        /// 战斗模式
+        /// </summary>
+        private BattleMode m_battleMode;
+        /// <summary>
+        /// 战斗状态
+        /// </summary>
+        private BattleState m_battleState;
+        /// <summary>
+        /// 第几回合
+        /// </summary>
+        private int m_roundNo;
+        /// <summary>
+        /// 回合状态
+        /// </summary>
+        private RoundState m_roundState;
+
+        public int[] m_cacheInputCodes;
+
+        private IBattleWorldListener m_listener;
+
         private void InitSubSystem()
         {
             cameraController = new CameraController(m_cameraConfig);
@@ -46,14 +130,203 @@ namespace bluebean.Mugen3D.Core
             m_commandEngine = new CommandEngine(this);
         }
 
-        public BattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config)
+        public BattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
         {
             m_stageConfig = stageConfig;
             m_cameraConfig = cameraConfig;
             m_p1Config = p1Config;
             m_p2Config = p2Config;
+            m_cacheInputCodes = new int[2];
+            m_listener = listener;
             InitSubSystem();
         }
+
+        #region 改变世界的方法
+        /// <summary>
+        /// 更新玩家输入
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="inputCode"></param>
+        public void UpdatePlayerInput(int index, int inputCode)
+        {
+            m_cacheInputCodes[index] = inputCode;
+        }
+
+        /// <summary>
+        /// 开始战斗
+        /// </summary>
+        protected void StartBattle()
+        {
+            m_roundNo = 1;
+            m_battleState = BattleState.Starting;
+            ChangeRoundState(RoundState.PreIntro);
+            m_p1 = new Character(m_p1Config,0,true,null, "","", this);
+            m_listener.OnCreateCharacter(m_p1);
+            m_p2 = new Character(m_p2Config,1, false, null, "", "", this);
+            m_listener.OnCreateCharacter(m_p2);
+            AddCharacter(m_p1);
+            AddCharacter(m_p2);
+            winCount[m_p1.slot] = 0;
+            winCount[m_p2.slot] = 0;
+            m_listener.OnBattleStart(m_battleNo);
+        }
+
+        protected void StopMatch()
+        {
+            m_battleState = BattleState.Stoping;
+            m_listener.OnBattleEnd(m_battleNo);
+        }
+
+        #endregion
+
+        #region roundState 更新
+
+        //todo 写入配置表
+        private readonly Number FADE_IN_TIME = new Number(1);
+        private readonly Number FADE_OUT_TIME = new Number(1);
+        private readonly Number ROUND_DECLARATION_TIME = new Number(3);
+        private readonly Number PRE_OVER_TIME = new Number(3);
+        private readonly Number OVER_TIME = new Number(3);
+
+        private Number m_roundStateTimer = Number.Zero;
+
+        private bool IsCharactersReady()
+        {
+            return m_p1.fsmMgr.stateNo == 0 && m_p2.fsmMgr.stateNo == 0;
+        }
+
+        private bool IsCharactersSteady()
+        {
+            return (!m_p1.IsAlive() || (m_p1.IsAlive() && m_p1.fsmMgr.stateNo == 0)) && (!m_p2.IsAlive() || (m_p2.IsAlive() && m_p2.fsmMgr.stateNo == 0));
+        }
+
+        private bool IsRoundEnd()
+        {
+            if (!m_p1.IsAlive() || !m_p2.IsAlive())
+                return true;
+            if (m_roundStateTimer <= 0)
+                return true;
+            return false;
+        }
+
+        private void UpdateRoundState()
+        {
+            switch (m_roundState)
+            {
+                case RoundState.PreIntro:
+                    m_roundStateTimer += Time.deltaTime;
+                    if (m_roundStateTimer >= FADE_IN_TIME)
+                        ChangeRoundState(RoundState.Intro);
+                    break;
+                case RoundState.Intro:
+                    if (IsCharactersReady())
+                    {
+                        ChangeRoundState(RoundState.RoundDeclare);
+                    }
+                    break;
+                case RoundState.RoundDeclare:
+                    m_roundStateTimer += Time.deltaTime;
+                    if (m_roundStateTimer >= ROUND_DECLARATION_TIME)
+                    {
+                        ChangeRoundState(RoundState.Fight);
+                    }
+                    break;
+                case RoundState.Fight:
+                    m_roundStateTimer -= Time.deltaTime;
+                    if (m_roundStateTimer < 0)
+                        m_roundStateTimer = 0;
+                    if (IsRoundEnd())
+                    {
+                        ChangeRoundState(RoundState.PreOver);
+                    }
+                    break;
+                case RoundState.PreOver:
+                    m_roundStateTimer += Time.deltaTime;
+                    if (m_roundStateTimer >= PRE_OVER_TIME && IsCharactersSteady())
+                        ChangeRoundState(RoundState.Over);
+                    break;
+                case RoundState.Over:
+                    m_roundStateTimer += Time.deltaTime;
+                    if (m_roundStateTimer >= OVER_TIME)
+                    {
+                        ChangeRoundState(RoundState.PostOver);
+                    }
+                    break;
+                case RoundState.PostOver:
+                    m_roundStateTimer += Time.deltaTime;
+                    if (m_roundStateTimer >= FADE_OUT_TIME)
+                    {
+                        StopRound();
+                    }
+                    break;
+            }
+        }
+
+        protected void StopRound()
+        {
+            m_listener.OnRoundEnd(m_roundNo);
+        }
+
+        protected void ChangeRoundState(RoundState roundState)
+        {
+            if(m_roundState == roundState)
+            {
+                return;
+            }
+            m_roundStateTimer = 0;
+            m_roundState = roundState;
+            switch (m_roundState)
+            {
+                case RoundState.PreIntro:
+                    //p1.fsmMgr.ChangeState(0, true);
+                    //p2.fsmMgr.ChangeState(0, true);
+                    break;
+                case RoundState.Intro:
+                    //p1.fsmMgr.ChangeState(5900);
+                    //p2.fsmMgr.ChangeState(5900);
+                    break;
+                case RoundState.Fight:
+                    //p1.SetCtrl(true);
+                    //p2.SetCtrl(true);
+                    break;
+                case RoundState.PreOver:
+                    //if (!p1.IsAlive() || !p2.IsAlive())
+                    //{
+                        //world.Pause(30);//pause 10 frame on ko
+                    //}
+                    break;
+                case RoundState.Over:
+                    /*
+                    if (p1.IsAlive())
+                    {
+                        if (p1 == GetWiner())
+                        {
+                            p1.fsmMgr.ChangeState(180);
+                        }
+                        else
+                        {
+                            p1.fsmMgr.ChangeState(170);
+                        }
+
+                    }
+                    if (p2.IsAlive())
+                    {
+                        if (p2 == GetWiner())
+                        {
+                            p2.fsmMgr.ChangeState(180);
+                        }
+                        else
+                        {
+                            p2.fsmMgr.ChangeState(170);
+                        }
+
+                    }
+                    */
+                    break;
+            }
+        }
+
+        #endregion
 
         public bool IsPause()
         {
@@ -273,6 +546,10 @@ namespace bluebean.Mugen3D.Core
             {
                 m_pauseTime--;
                 return;
+            }
+            for(int i = 0; i < m_cacheInputCodes.Length; i++)
+            {
+                //todo
             }
             cameraController.Update();
             m_commandEngine.Update();

@@ -15,13 +15,13 @@ public enum RoundState
 public class RoundMgr {
     public float leftTime { get { return m_leftTime; } }
 
-    protected ClientGame m_clientGame;
+    protected ClientBattleWorld m_clientGame;
     protected float m_leftTime = 60;
     protected RoundState m_roundState = RoundState.FadeIn;
     protected int m_roundNo = 1;
 
 
-    public void Init(ClientGame clientGame)
+    public void Init(ClientBattleWorld clientGame)
     {
         m_clientGame = clientGame;
         OnInit();

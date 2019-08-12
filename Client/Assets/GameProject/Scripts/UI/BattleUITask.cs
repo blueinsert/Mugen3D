@@ -7,7 +7,7 @@ using bluebean.Mugen3D.Core;
 
 namespace bluebean.Mugen3D.UI
 {
-    public class BattleUITask : UITask, IBattleWorldListener
+    public class BattleUITask : UITask
     {
         public BattleUITask(string name) : base(typeof(BattleUITask).Name)
         {

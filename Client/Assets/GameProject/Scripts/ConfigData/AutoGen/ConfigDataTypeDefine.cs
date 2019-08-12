@@ -16,17 +16,17 @@ namespace bluebean.UGFramework.ConfigData {
         
         private int m_ID;
         
-        private FixPointMath.Number m_Depth;
+        private int m_Depth;
         
-        private FixPointMath.Number m_Yoffset;
+        private int m_Yoffset;
         
-        private FixPointMath.Number m_Aspect;
+        private int m_Aspect;
         
-        private FixPointMath.Number m_MinFieldOfView;
+        private int m_MinFieldOfView;
         
-        private FixPointMath.Number m_MaxFieldOfView;
+        private int m_MaxFieldOfView;
         
-        private FixPointMath.Number m_DumpRatio;
+        private int m_DumpRatio;
         
         public int ID {
             get {
@@ -37,7 +37,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Number Depth {
+        public int Depth {
             get {
                 return this.m_Depth;
             }
@@ -46,7 +46,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Number Yoffset {
+        public int Yoffset {
             get {
                 return this.m_Yoffset;
             }
@@ -55,7 +55,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Number Aspect {
+        public int Aspect {
             get {
                 return this.m_Aspect;
             }
@@ -64,7 +64,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Number MinFieldOfView {
+        public int MinFieldOfView {
             get {
                 return this.m_MinFieldOfView;
             }
@@ -73,7 +73,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Number MaxFieldOfView {
+        public int MaxFieldOfView {
             get {
                 return this.m_MaxFieldOfView;
             }
@@ -82,7 +82,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Number DumpRatio {
+        public int DumpRatio {
             get {
                 return this.m_DumpRatio;
             }
@@ -313,9 +313,9 @@ namespace bluebean.UGFramework.ConfigData {
         
         private int m_BorderYMax;
         
-        private FixPointMath.Vector m_P1InitPos;
+        private int[] m_P1InitPos;
         
-        private FixPointMath.Vector m_P2InitPos;
+        private int[] m_P2InitPos;
         
         private int m_CameraConfigID;
         
@@ -375,7 +375,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Vector P1InitPos {
+        public int[] P1InitPos {
             get {
                 return this.m_P1InitPos;
             }
@@ -384,7 +384,7 @@ namespace bluebean.UGFramework.ConfigData {
             }
         }
         
-        public FixPointMath.Vector P2InitPos {
+        public int[] P2InitPos {
             get {
                 return this.m_P2InitPos;
             }

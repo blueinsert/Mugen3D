@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using bluebean.Mugen3D;
+using bluebean.UGFramework;
+using Debug = bluebean.UGFramework.Log.Debug;
 
-namespace bluebean.Mugen3D.ClientGame
+namespace bluebean.UGFramework.Sound
 {
     public class SoundItem : IComparable<SoundItem>
     {
@@ -78,6 +81,8 @@ namespace bluebean.Mugen3D.ClientGame
         private Dictionary<string, AudioClip> m_cache = new Dictionary<string, AudioClip>();
         private Dictionary<SoundChannel.SoundChannelType, SoundChannel> m_soundChannelDic = new Dictionary<SoundChannel.SoundChannelType, SoundChannel>();
 
+        private AssetProvider m_assetProvider;
+
         private void Awake()
         {
             for(int i = 0; i < System.Enum.GetNames(typeof(SoundChannel.SoundChannelType)).Length; i++)
@@ -85,6 +90,11 @@ namespace bluebean.Mugen3D.ClientGame
                 SoundChannel channel = gameObject.AddComponent<SoundChannel>();
                 m_soundChannelDic.Add((SoundChannel.SoundChannelType)i, channel);
             }    
+        }
+
+        public void SetAssetProvider(AssetProvider assetProvider)
+        {
+            m_assetProvider = assetProvider;
         }
 
         public void Play(string soundName, float delay = 0, float volume = 1, SoundChannel.SoundChannelType channel = SoundChannel.SoundChannelType.Default)
@@ -96,7 +106,7 @@ namespace bluebean.Mugen3D.ClientGame
             }
             else
             {
-                clip = ResourceLoader.Load<AudioClip>("Sound/" + soundName);
+                clip = m_assetProvider.GetAsset<AudioClip>("Sound/" + soundName);
                 if (clip != null)
                 {
                     m_cache.Add(soundName, clip);

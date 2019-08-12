@@ -16,36 +16,16 @@ namespace bluebean.Mugen3D.ClientGame
         SingleVS,
     }
 
-    public class ClientGame : MonoBehaviour,IBattleWorldListener
+    public partial class ClientBattleWorld : MonoBehaviour, IBattleWorldListener
     {
 
         #region toRemoved
-        public static ClientGame Instance;
-        public Core.Game game;
         public ViewWorld viewWorld;
         private bool isPuase = false;
 
-        private void Awake()
-        {
-            Instance = this;
-        }
-
-        private void DestroyWorld()
-        {
-            if (this.viewWorld != null)
-            {
-                //this.viewWorld.Destroy();
-                //ResourceMgr.UnloadUnusedAssets();
-            }
-        }
-
         private void OnDestroy()
         {
-            Instance = null;
-            if (this.viewWorld != null)
-            {
-                DestroyWorld();
-            }
+          
         }
 
         private static byte[] LuaLoader(ref string fileName)
@@ -78,33 +58,22 @@ namespace bluebean.Mugen3D.ClientGame
             Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
         }
 
-        private void LoadFightHud() {
-            UIManager.Instance.AddView("FightHud", this.transform);
-        }
-
-        protected void CreateGame(MatchInfo matchInfo, int logicFPS)
-        {
-            StageConfig stageConfig = ConfigReader.Parse<StageConfig>(ResourceLoader.LoadText("Stage/" + matchInfo.stage + "/" + matchInfo.stage + ".def"));
-            WorldConfig worldConfig = new WorldConfig();
-            worldConfig.SetStageConfig(stageConfig);
-            this.game = new Game(matchInfo, worldConfig, logicFPS);
-
-            LoadFightHud();
-
-            viewWorld = new ViewWorld(game.world);
-            viewWorld.InitScene(this.gameObject);
-            viewWorld.CreateStage(worldConfig.stageConfig.stage);
-
-            viewWorld.CreateCamera(this.game.world.cameraController);
-        }
-
         #endregion
 
-        public ClientGame(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) {
-            m_battleWorld = new BattleWorld(stageConfig, cameraConfig, p1Config, p2Config);
+        public int renderFPS = 60;
+        public int logicFPS = 60;
+
+        private float m_gameTimeResidual = 0;
+        private float m_gameDeltaTime; //core update period
+
+        protected BattleWorld m_battleWorld;
+
+        public ClientBattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) {
+            m_battleWorld = new BattleWorld(stageConfig, cameraConfig, p1Config, p2Config, this);
+            m_gameDeltaTime = (1000 / 60) / 1000f;
         }
 
-        private BattleWorld m_battleWorld;
+        
 
         protected virtual void Update()
         {
@@ -126,13 +95,19 @@ namespace bluebean.Mugen3D.ClientGame
 
         }
 
-        protected virtual void OnUpdate() { }
+        protected virtual void OnUpdate() {
+            m_gameTimeResidual += UnityEngine.Time.deltaTime;
+            while (m_gameTimeResidual > m_gameDeltaTime)
+            {
+                m_gameTimeResidual -= m_gameDeltaTime;
+                Step();
+            }
+        }
 
         protected void Step()
         {
-            this.game.Step();
             m_battleWorld.Step();
         }
-
+ 
     }
 }

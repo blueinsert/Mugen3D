@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using FixPointMath;
+using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.Core
 {
@@ -17,6 +18,7 @@ namespace bluebean.Mugen3D.Core
         private List<Projectile> m_projs = new List<Projectile>();
         public int roundsExisted { get; private set; }
         private bool m_canAttack = true;
+        private BattleWorld m_battleWorld;
 
         public Character(string characterName, CharacterConfig config, int slot, bool isLocal) : base(config)
         {
@@ -24,6 +26,12 @@ namespace bluebean.Mugen3D.Core
             this.slot = slot;
             this.isLocal = isLocal;       
             cmdMgr = new CmdManager(config.commandContent, this);
+        }
+
+        public Character(ConfigDataCharacter config, int slot, bool isLocal, Action[] actions, string commandsDefStr, string luaFsmFileName, BattleWorld battleWorld)
+        {
+            //todo
+            m_battleWorld = battleWorld;
         }
 
         public bool CanAttack()

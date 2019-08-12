@@ -21,8 +21,9 @@ namespace bluebean.UGFramework
 
         public static T GetAsset<T>(Dictionary<string, UnityEngine.Object> assetDic, string path) where T : UnityEngine.Object
         {
+            string realPath = string.Format("{0}{1}", RuntimeAssetsPath, path);
             UnityEngine.Object asset;
-            if (assetDic.TryGetValue(path, out asset))
+            if (assetDic.TryGetValue(realPath, out asset))
             {
                 return asset as T;
             }

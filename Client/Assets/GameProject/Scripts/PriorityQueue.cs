@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace bluebean.Mugen3D.ClientGame {
+namespace bluebean.Mugen3D {
     public class PriorityQueue<T> : IEnumerable<T> where T : IComparable<T>
     {
         public List<T> data;

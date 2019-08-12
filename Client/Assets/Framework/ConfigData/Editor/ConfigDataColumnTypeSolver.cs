@@ -61,43 +61,16 @@ namespace bluebean.UGFramework.ConfigData
             return bool.Parse(s);
         }
 
-        [ColumnDataType(typeof(Number), "number")]
-        public static Number ParseNumber(string s)
+        [ColumnDataType(typeof(int[]), "int[]")]
+        public static int[] ParseVector2(string s)
         {
-            float v;
-            Number number = new Number(0);
-            if (float.TryParse(s,out v))
+            string[] splits = s.Split(new char[] { ',' });
+            int[] result = new int[splits.Length];
+            for (int i = 0; i < splits.Length; i++)
             {
-                number = new Number((int)(v * 10000)) / new Number(10000);
+                result[i] = ParseInt(splits[i]);
             }
-            else
-            {
-                Debug.LogError(string.Format("ParseNumber error while parse {0}", s));
-            }
-            return number;
-        }
-
-        [ColumnDataType(typeof(Vector), "vector")]
-        public static Vector ParseVector2(string s)
-        {
-            if(s.StartsWith("(") && s.EndsWith(")"))
-            {
-                string subStr = s.Substring(1, s.Length - 2);
-                string[] splits = subStr.Split(new char[] { ',' });
-                if (splits.Length != 2)
-                {
-                    Debug.LogError(string.Format("ParseVector2 error splits.Length != 2 while parse {0}", s));
-                    return new Vector();
-                }
-                Number number1 = ParseNumber(splits[0]);
-                Number number2 = ParseNumber(splits[1]);
-                return new Vector(number1, number2);
-            }
-            else
-            {
-                Debug.LogError(string.Format("ParseVector2 error while parse {0}", s));
-            }
-            return new Vector();
+            return result;
         }
 
         #endregion
@@ -115,12 +88,13 @@ namespace bluebean.UGFramework.ConfigData
             foreach (var methodInfo in methodInfos)
             {
                 var configDataColumnTypeAttributes = methodInfo.GetCustomAttributes(typeof(ColumnDataTypeAttribute), true) as ColumnDataTypeAttribute[];
-                foreach (var configDataColumnTypeAttribute in configDataColumnTypeAttributes) {
-                    if(configDataColumnTypeAttribute.m_typeName == typeStr)
+                foreach (var configDataColumnTypeAttribute in configDataColumnTypeAttributes)
+                {
+                    if (configDataColumnTypeAttribute.m_typeName == typeStr)
                     {
                         return configDataColumnTypeAttribute.m_columnType;
                     }
-                }     
+                }
             }
             return null;
         }
