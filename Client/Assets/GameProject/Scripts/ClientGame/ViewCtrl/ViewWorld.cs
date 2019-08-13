@@ -17,7 +17,7 @@ namespace bluebean.Mugen3D.ClientGame
         {
             this.world = world;
             world.onAddEntity += (e) => {
-                var entityView = ViewCreater.CreateView(e, m_rootScene.transform.Find("Players"));
+                EntityView entityView = null;// ViewCreater.CreateView(e, m_rootScene.transform.Find("Players"));
                 if (entityView != null)
                 {
                     this.m_entityViews.Add(e.id, entityView);
@@ -49,7 +49,7 @@ namespace bluebean.Mugen3D.ClientGame
 
         public void CreateCamera(Core.CameraController logicCameraController)
         {
-            UnityEngine.Object prefab = ResourceLoader.Load("Prefabs/BattleCamera");
+            UnityEngine.Object prefab = null; // ResourceLoader.Load("Prefabs/BattleCamera");
             GameObject go = GameObject.Instantiate(prefab, m_rootScene.transform) as GameObject;
             var cameraController = go.AddComponent<CameraController>();
             cameraController.Init(logicCameraController);

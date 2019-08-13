@@ -45,12 +45,12 @@ namespace bluebean.Mugen3D.ClientGame
 
         void PlayEffect(Core.EffectDef effect)
         {
-            EffectPool.Instance.Play(effect, this);
+            //EffectPool.Instance.Play(effect, this);
         }
 
         void PlaySound(Core.SoundDef sound)
         {
-            SoundPlayer.Instance.Play(sound.name, sound.delay.AsFloat(), sound.volume.AsFloat());
+            //SoundPlayer.Instance.Play(sound.name, sound.delay.AsFloat(), sound.volume.AsFloat());
         }
 
         void SampleAnim()

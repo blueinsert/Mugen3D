@@ -9,6 +9,7 @@ using NVelocity;
 using NVelocity.App;
 using NVelocity.Runtime;
 using System.Threading;
+using Debug = bluebean.UGFramework.Log.Debug;
 
 namespace bluebean.UGFramework.ConfigData
 {
@@ -320,9 +321,15 @@ namespace bluebean.UGFramework.ConfigData
                     var data = Activator.CreateInstance(configTableDataTypeDefine);
                     foreach (var columnInfo in tableInfo.ColumnInfoList)
                     {
-                        var filedInfo = configTableDataTypeDefine.GetField("m_" + columnInfo.ColumnName, BindingFlags.NonPublic | BindingFlags.Instance);
-                        var value = ConfigDataColumnTypeSolver.GetValue(tableInfo.ReadCell(i, columnInfo.ColumnNo), columnInfo.TypeStr);
-                        filedInfo.SetValue(data, value);
+                        try
+                        {
+                            var filedInfo = configTableDataTypeDefine.GetField("m_" + columnInfo.ColumnName, BindingFlags.NonPublic | BindingFlags.Instance);
+                            var value = ConfigDataColumnTypeSolver.GetValue(tableInfo.ReadCell(i, columnInfo.ColumnNo), columnInfo.TypeStr);
+                            filedInfo.SetValue(data, value);
+                        }catch(Exception e)
+                        {
+                            Debug.LogError(string.Format("FillDynamicListWithTableData while process table {0} column {1}, msg:{2}",tableInfo.TableName,columnInfo.ColumnName, e.Message));
+                        }
                     }
                     addMethod.Invoke((object)list, new object[] { data });
                 }

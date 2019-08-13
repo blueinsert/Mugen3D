@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using bluebean.UGFramework;
 
 namespace bluebean.Mugen3D.ClientGame
 {
+    /*
     public class EffectPool : Singleton<EffectPool>
     {
         public static readonly string FX_PATH = "FX/";
@@ -53,4 +55,5 @@ namespace bluebean.Mugen3D.ClientGame
             return effectObj;
         }
     } 
+    */
 }

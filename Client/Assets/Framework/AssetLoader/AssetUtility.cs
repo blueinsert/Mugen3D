@@ -10,6 +10,16 @@ namespace bluebean.UGFramework
     {
         public const string RuntimeAssetsPath = "Assets/GameProject/RuntimeAssets/";
 
+        public static T GetAsset<T>(Dictionary<string, UnityEngine.Object> assetDic, string path) where T : UnityEngine.Object
+        {
+            UnityEngine.Object asset;
+            if (assetDic.TryGetValue(path, out asset))
+            {
+                return asset as T;
+            }
+            return null;
+        }
+
         public static string GetSpritePath(string path)
         {
             if (path.Contains("@"))
@@ -19,20 +29,9 @@ namespace bluebean.UGFramework
             return string.Format("{0}{1}@{2}", RuntimeAssetsPath, path, Path.GetFileNameWithoutExtension(path));
         }
 
-        public static T GetAsset<T>(Dictionary<string, UnityEngine.Object> assetDic, string path) where T : UnityEngine.Object
-        {
-            string realPath = string.Format("{0}{1}", RuntimeAssetsPath, path);
-            UnityEngine.Object asset;
-            if (assetDic.TryGetValue(realPath, out asset))
-            {
-                return asset as T;
-            }
-            return null;
-        }
-
         public static Sprite GetSprite(Dictionary<string, UnityEngine.Object> assetDic, string path)
         {
-            return GetAsset<Sprite>(assetDic, AssetUtility.GetSpritePath(path));
+            return GetAsset<Sprite>(assetDic, GetSpritePath(path));
         }
     }
 }

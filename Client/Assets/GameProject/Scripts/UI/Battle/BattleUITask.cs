@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using bluebean.UGFramework;
 using bluebean.UGFramework.UI;
 using bluebean.UGFramework.ConfigData;
 using bluebean.Mugen3D.Core;
@@ -34,17 +35,43 @@ namespace bluebean.Mugen3D.UI
         {
             InitDataFromIntent(curIntent);
         }
+
+       
+        protected override bool OnStart(UIIntent intent)
+        {
+            bool res = base.OnStart(intent);
+            return res;
+        }
+
+        protected override bool OnResume(UIIntent intent)
+        {
+            bool res = base.OnResume(intent);
+            return res;
+        }
+
         protected override void OnCreateAllUIViewController()
         {
             base.OnCreateAllUIViewController();
-            if (m_uiViewControllerArray.Length >= 0)
+            if (m_viewControllerArray.Length >= 0)
             {
                
             }
         }
 
+        private void PushAllLayer()
+        {
+            foreach (var layer in m_layerDic.Values)
+            {
+                if(layer.State!= SceneLayerState.Using)
+                {
+                    SceneTree.Instance.PushLayer(layer);
+                }
+            }
+        }
+
         protected override void UpdateView()
         {
+            PushAllLayer();
         }
 
         #endregion
@@ -59,23 +86,33 @@ namespace bluebean.Mugen3D.UI
 
         #region 资源描述
 
-        protected override UILayerDesc[] UILayerDescArray { get => m_uiLayerDescs; }
+        protected override LayerDesc[] LayerDescArray { get => m_layerDescs; }
 
-        private UILayerDesc[] m_uiLayerDescs = new UILayerDesc[] {
-            new UILayerDesc(){
+        private LayerDesc[] m_layerDescs = new LayerDesc[] {
+            new LayerDesc(){
                 LayerName = "BattleUI",
                 AssetPath = "Assets/GameProject/RuntimeAssets/UI/Battle_ABS/Prefabs/BattleUIPrefab.prefab",
+            },
+            new LayerDesc(){
+                LayerName = "BattleScene",
+                AssetPath = "Assets/GameProject/RuntimeAssets/Other_ABS/BattleScene.prefab",
+                IsUILayer = false,
             }
         };
 
-        protected override UIViewControllerDesc[] UIViewControllerDescArray { get => m_uiViewControllerDescs; }
+        protected override ViewControllerDesc[] ViewControllerDescArray { get => m_viewControllerDescs; }
 
-        private UIViewControllerDesc[] m_uiViewControllerDescs = new UIViewControllerDesc[]{
-            new UIViewControllerDesc()
+        private ViewControllerDesc[] m_viewControllerDescs = new ViewControllerDesc[]{
+            new ViewControllerDesc()
             {
                 AtachLayerName = "BattleUI",
                 AtachPath = "./",
                 TypeFullName = "bluebean.Mugen3D.UI.BattleUIController",
+            },
+            new ViewControllerDesc(){
+                AtachLayerName = "BattleScene",
+                AtachPath = "./",
+                TypeFullName = "bluebean.Mugen3D.ClientGame.BattleSceneViewController",
             }
         };
         #endregion

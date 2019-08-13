@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using bluebean.Mugen3D.Core;
+using bluebean.UGFramework;
 using bluebean.UGFramework.ConfigData;
 using Debug = bluebean.UGFramework.Log.Debug;
 using FixPointMath;
@@ -16,7 +17,7 @@ namespace bluebean.Mugen3D.ClientGame
         SingleVS,
     }
 
-    public partial class ClientBattleWorld : MonoBehaviour, IBattleWorldListener
+    public partial class ClientBattleWorld : MonoBehaviour, IBattleWorldListener,IAssetProvider
     {
 
         #region toRemoved
@@ -28,9 +29,9 @@ namespace bluebean.Mugen3D.ClientGame
           
         }
 
-        private static byte[] LuaLoader(ref string fileName)
+        private  byte[] LuaLoader(ref string fileName)
         {
-            var code = Resources.Load(fileName, typeof(TextAsset)) as TextAsset;
+            var code = m_assetProvider.GetAsset<TextAsset>(fileName);
             if (code != null)
             {
                 return code.bytes;
@@ -38,9 +39,9 @@ namespace bluebean.Mugen3D.ClientGame
             return null;
         }
 
-        private static string FileRead(ref string fileName)
+        private  string FileRead(ref string fileName)
         {
-            return ResourceLoader.LoadText(fileName);
+            return GetAsset<TextAsset>(fileName).text;
         }
 
         protected void InitCore()
@@ -55,7 +56,8 @@ namespace bluebean.Mugen3D.ClientGame
             {
                 Core.Debug.AddGUIDebugMsg = GUIDebug.Instance.AddMsg;
             }
-            Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
+            //todo
+            //Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
         }
 
         #endregion
@@ -66,7 +68,10 @@ namespace bluebean.Mugen3D.ClientGame
         private float m_gameTimeResidual = 0;
         private float m_gameDeltaTime; //core update period
 
+        private IAssetProvider m_assetProvider;
+
         protected BattleWorld m_battleWorld;
+
 
         public ClientBattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) {
             m_battleWorld = new BattleWorld(stageConfig, cameraConfig, p1Config, p2Config, this);
@@ -108,6 +113,10 @@ namespace bluebean.Mugen3D.ClientGame
         {
             m_battleWorld.Step();
         }
- 
+
+        public T GetAsset<T>(string path) where T : UnityEngine.Object
+        {
+            return m_assetProvider.GetAsset<T>(path);
+        }
     }
 }

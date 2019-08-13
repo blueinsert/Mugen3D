@@ -17,9 +17,9 @@ namespace bluebean.Mugen3D.UI
         protected override void OnCreateAllUIViewController()
         {
             base.OnCreateAllUIViewController();
-            if (m_uiViewControllerArray.Length >= 0)
+            if (m_viewControllerArray.Length >= 0)
             {
-                m_uiController = m_uiViewControllerArray[0] as MainMenuUIController;
+                m_uiController = m_viewControllerArray[0] as MainMenuUIController;
                 //注册事件
                 m_uiController.EventOnSingleVSButtonClick += OnSingleVSButtonClick;
                 m_uiController.EventOnTrainButtonClick += OnTrainButtonClick;
@@ -65,19 +65,19 @@ namespace bluebean.Mugen3D.UI
 
         #region 资源描述
 
-        protected override UILayerDesc[] UILayerDescArray { get => m_uiLayerDescs; }
+        protected override LayerDesc[] LayerDescArray { get => m_uiLayerDescs; }
 
-        private UILayerDesc[] m_uiLayerDescs = new UILayerDesc[] {
-            new UILayerDesc(){
+        private LayerDesc[] m_uiLayerDescs = new LayerDesc[] {
+            new LayerDesc(){
                 LayerName = "MainMenu",
                 AssetPath = "Assets/GameProject/RuntimeAssets/UI/Menu_ABS/Prefabs/MainMenuUIPrefab.prefab",
             }
         };
 
-        protected override UIViewControllerDesc[] UIViewControllerDescArray { get => m_uiViewControllerDescs; }
+        protected override ViewControllerDesc[] ViewControllerDescArray { get => m_uiViewControllerDescs; }
 
-        private UIViewControllerDesc[] m_uiViewControllerDescs = new UIViewControllerDesc[]{
-            new UIViewControllerDesc()
+        private ViewControllerDesc[] m_uiViewControllerDescs = new ViewControllerDesc[]{
+            new ViewControllerDesc()
             {
                 AtachLayerName = "MainMenu",
                 AtachPath = "./",

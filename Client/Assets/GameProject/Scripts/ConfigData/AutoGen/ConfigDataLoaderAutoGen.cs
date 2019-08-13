@@ -11,6 +11,7 @@ namespace bluebean.UGFramework.ConfigData
 	    #region 类内部变量
 	    private Dictionary<int,ConfigDataCamera> m_configDataCamera = new Dictionary<int,ConfigDataCamera>();
 	    private Dictionary<int,ConfigDataCharacter> m_configDataCharacter = new Dictionary<int,ConfigDataCharacter>();
+	    private Dictionary<int,ConfigDataCommand> m_configDataCommand = new Dictionary<int,ConfigDataCommand>();
 	    private Dictionary<int,ConfigDataInputDefault> m_configDataInputDefault = new Dictionary<int,ConfigDataInputDefault>();
 	    private Dictionary<int,ConfigDataStage> m_configDataStage = new Dictionary<int,ConfigDataStage>();
 		#endregion
@@ -19,6 +20,7 @@ namespace bluebean.UGFramework.ConfigData
 			m_allConfigTableNames.Clear();
 			m_allConfigTableNames.Add("Camera");
 			m_allConfigTableNames.Add("Character");
+			m_allConfigTableNames.Add("Command");
 			m_allConfigTableNames.Add("InputDefault");
 			m_allConfigTableNames.Add("Stage");
 		}
@@ -29,6 +31,9 @@ namespace bluebean.UGFramework.ConfigData
 		}
 	    public Dictionary<int,ConfigDataCharacter> GetAllConfigDataCharacter () {
 			return m_configDataCharacter;
+		}
+	    public Dictionary<int,ConfigDataCommand> GetAllConfigDataCommand () {
+			return m_configDataCommand;
 		}
 	    public Dictionary<int,ConfigDataInputDefault> GetAllConfigDataInputDefault () {
 			return m_configDataInputDefault;
@@ -45,6 +50,11 @@ namespace bluebean.UGFramework.ConfigData
 	    public ConfigDataCharacter GetConfigDataCharacter (int id) {
 			ConfigDataCharacter data;
 			(m_configDataCharacter).TryGetValue(id, out data);
+			return data;
+		}
+	    public ConfigDataCommand GetConfigDataCommand (int id) {
+			ConfigDataCommand data;
+			(m_configDataCommand).TryGetValue(id, out data);
 			return data;
 		}
 	    public ConfigDataInputDefault GetConfigDataInputDefault (int id) {
@@ -84,6 +94,18 @@ namespace bluebean.UGFramework.ConfigData
 				(m_configDataCharacter).Add(configData.ID, configData);
 			}
 	    }
+	    private void DeserializeConfigDataCommand (AssetObject scriptableObj) {
+		    var data = scriptableObj.m_bytes;
+		    MemoryStream stream = new MemoryStream();
+            stream.Write(data, 0, data.Length);
+            stream.Position = 0;
+            BinaryFormatter bf = new BinaryFormatter();
+            object obj = bf.Deserialize(stream);
+			List<ConfigDataCommand> list = (List<ConfigDataCommand>) obj;
+			foreach(var configData in list){
+				(m_configDataCommand).Add(configData.ID, configData);
+			}
+	    }
 	    private void DeserializeConfigDataInputDefault (AssetObject scriptableObj) {
 		    var data = scriptableObj.m_bytes;
 		    MemoryStream stream = new MemoryStream();
@@ -113,6 +135,7 @@ namespace bluebean.UGFramework.ConfigData
 			m_deserializeFuncDics.Clear();
 		    m_deserializeFuncDics.Add("ConfigDataCamera", DeserializeConfigDataCamera);
 		    m_deserializeFuncDics.Add("ConfigDataCharacter", DeserializeConfigDataCharacter);
+		    m_deserializeFuncDics.Add("ConfigDataCommand", DeserializeConfigDataCommand);
 		    m_deserializeFuncDics.Add("ConfigDataInputDefault", DeserializeConfigDataInputDefault);
 		    m_deserializeFuncDics.Add("ConfigDataStage", DeserializeConfigDataStage);
 	    }

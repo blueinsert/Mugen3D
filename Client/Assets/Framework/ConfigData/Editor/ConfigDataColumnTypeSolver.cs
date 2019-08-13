@@ -32,7 +32,12 @@ namespace bluebean.UGFramework.ConfigData
             {
                 return 0;
             }
-            return Int32.Parse(s);
+            int value = 0;
+            if (!Int32.TryParse(s,out value))
+            {
+                Debug.LogError(string.Format("ParseInt error while parse \"{0}\"", value));
+            }
+            return value;
         }
 
         [ColumnDataType(typeof(float), "float")]

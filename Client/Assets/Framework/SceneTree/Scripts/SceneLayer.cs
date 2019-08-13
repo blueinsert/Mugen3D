@@ -23,6 +23,8 @@ namespace bluebean.UGFramework
             get { return m_prefabInstance; }
         }
 
+        public SceneLayerState State { get { return m_state; } }
+
         private GameObject m_prefabInstance;
         public SceneLayerState m_state;
         public string m_name; 

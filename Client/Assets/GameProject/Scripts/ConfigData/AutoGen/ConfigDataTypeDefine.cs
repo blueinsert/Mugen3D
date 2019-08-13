@@ -105,6 +105,8 @@ namespace bluebean.UGFramework.ConfigData {
         
         private string m_BigHeadIcon;
         
+        private string m_Prefab;
+        
         public int ID {
             get {
                 return this.m_ID;
@@ -147,6 +149,85 @@ namespace bluebean.UGFramework.ConfigData {
             }
             set {
                 this.m_BigHeadIcon = value;
+            }
+        }
+        
+        public string Prefab {
+            get {
+                return this.m_Prefab;
+            }
+            set {
+                this.m_Prefab = value;
+            }
+        }
+    }
+    
+    [System.SerializableAttribute()]
+    public class ConfigDataCommand {
+        
+        private int m_ID;
+        
+        private string m_Name;
+        
+        private string m_Def;
+        
+        private int m_Priority;
+        
+        private int m_Time;
+        
+        private int m_BufferTime;
+        
+        public int ID {
+            get {
+                return this.m_ID;
+            }
+            set {
+                this.m_ID = value;
+            }
+        }
+        
+        public string Name {
+            get {
+                return this.m_Name;
+            }
+            set {
+                this.m_Name = value;
+            }
+        }
+        
+        public string Def {
+            get {
+                return this.m_Def;
+            }
+            set {
+                this.m_Def = value;
+            }
+        }
+        
+        public int Priority {
+            get {
+                return this.m_Priority;
+            }
+            set {
+                this.m_Priority = value;
+            }
+        }
+        
+        public int Time {
+            get {
+                return this.m_Time;
+            }
+            set {
+                this.m_Time = value;
+            }
+        }
+        
+        public int BufferTime {
+            get {
+                return this.m_BufferTime;
+            }
+            set {
+                this.m_BufferTime = value;
             }
         }
     }

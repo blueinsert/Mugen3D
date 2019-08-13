@@ -58,18 +58,19 @@ namespace bluebean.UGFramework.UI
     }
 
     /// <summary>
-    /// UILayer资源描述
+    /// Layer资源描述，每个层资源是加载在UILayer或3DLayer节点上的实例化prefab
     /// </summary>
-    public class UILayerDesc
+    public class LayerDesc
     {
-        public string LayerName { get; set; }
-        public string AssetPath { get; set; }
+        public string LayerName;
+        public string AssetPath;
+        public bool IsUILayer = true;//如果不是UILayer就是3DLayer
     }
 
     /// <summary>
-    /// UIViewCtrl资源描述
+    /// ViewCtrl资源描述, 在特定层路径节点上创建并绑定的MonoViewController
     /// </summary>
-    public class UIViewControllerDesc
+    public class ViewControllerDesc
     {
         public string AtachLayerName { get; set; }
         public string AtachPath { get; set; }
@@ -79,25 +80,27 @@ namespace bluebean.UGFramework.UI
     /// <summary>
     /// UITask
     /// </summary>
-    public class UITask : Task
+    public class UITask : Task, IAssetProvider
     {
         #region 变量
+        /// <summary>
+        /// 层资源描述
+        /// </summary>
+        protected virtual LayerDesc[] LayerDescArray { get; set; }
 
-        protected virtual UILayerDesc[] UILayerDescArray { get; set; }
-
-        protected virtual UIViewControllerDesc[] UIViewControllerDescArray { get; set; }
+        protected virtual ViewControllerDesc[] ViewControllerDescArray { get; set; }
 
         public UITaskUpdateContext UpdateCtx { get { return m_updateCtx; } }
 
-        private UISceneLayer MainLayer
+        private SceneLayer MainLayer
         {
             get
             {
-                if (UILayerDescArray == null || UILayerDescArray.Length == 0 || m_uiLayerDic.Count == 0)
+                if (LayerDescArray == null || LayerDescArray.Length == 0 || m_layerDic.Count == 0)
                 {
                     return null;
                 }
-                return m_uiLayerDic[UILayerDescArray[0].LayerName];
+                return m_layerDic[LayerDescArray[0].LayerName];
             }
         }
 
@@ -126,14 +129,18 @@ namespace bluebean.UGFramework.UI
         /// <summary>
         /// UILayer字典
         /// </summary>
-        protected readonly Dictionary<string, UISceneLayer> m_uiLayerDic = new Dictionary<string, UISceneLayer>();
+        protected readonly Dictionary<string, SceneLayer> m_layerDic = new Dictionary<string, SceneLayer>();
 
         /// <summary>
-        /// UIViewCtrl数组
+        /// ViewCtrl数组
         /// </summary>
-        protected UIViewController[] m_uiViewControllerArray = null;
+        protected MonoViewController[] m_viewControllerArray = null;
 
+        /// <summary>
+        /// 合法模式字符串集合
+        /// </summary>
         private readonly List<string> m_modeDefines = new List<string>();
+
         #endregion
 
         public UITask(string name) : base(name) { }
@@ -146,7 +153,7 @@ namespace bluebean.UGFramework.UI
         /// </summary>
         private void HideAllLayers()
         {
-            foreach (var layer in m_uiLayerDic.Values)
+            foreach (var layer in m_layerDic.Values)
             {
                 if (layer != null && layer.m_state == SceneLayerState.Using)
                 {
@@ -160,7 +167,7 @@ namespace bluebean.UGFramework.UI
         /// </summary>
         private void DestroyAllLayers()
         {
-            foreach (var layer in m_uiLayerDic.Values)
+            foreach (var layer in m_layerDic.Values)
             {
                 if (layer != null)
                     SceneTree.Instance.FreeLayer(layer);
@@ -193,9 +200,14 @@ namespace bluebean.UGFramework.UI
 
         #region Task重载方法
 
-        protected override bool OnStart(object param)
+        protected sealed override bool OnStart(object param)
         {
-            StartUpdateUITask(param as UIIntent);
+            return OnStart(param as UIIntent);
+        }
+
+        protected virtual bool OnStart(UIIntent intent)
+        {
+            StartUpdateUITask(intent);
             return true;
         }
 
@@ -204,9 +216,14 @@ namespace bluebean.UGFramework.UI
             HideAllLayers();
         }
 
-        protected override bool OnResume(object param)
+        protected sealed override bool OnResume(object param)
         {
-            StartUpdateUITask(param as UIIntent);
+            return OnResume(param as UIIntent);
+        }
+
+        protected virtual bool OnResume(UIIntent intent)
+        {
+            StartUpdateUITask(intent);
             if (MainLayer != null)
                 SceneTree.Instance.PushLayer(MainLayer);
             return true;
@@ -216,7 +233,7 @@ namespace bluebean.UGFramework.UI
         {
             DestroyAllLayers();
             m_assetDic.Clear();
-            m_uiLayerDic.Clear();
+            m_layerDic.Clear();
         }
 
         #endregion
@@ -257,15 +274,15 @@ namespace bluebean.UGFramework.UI
             {
                 UpdateCache();
             }
-            bool isNeedLoadUILayer = IsNeedLoadUILayer();
+            bool isNeedLoadLayer = IsNeedLoadLayer();
             bool isNeedLoadAssets = IsNeedLoadAssets();
-            if (isNeedLoadUILayer || isNeedLoadAssets)
+            if (isNeedLoadLayer || isNeedLoadAssets)
             {
-                bool isLoadUILayerComplete = !isNeedLoadUILayer;
+                bool isLoadUILayerComplete = !isNeedLoadLayer;
                 bool isLoadAssetsComplete = !isNeedLoadAssets;
-                if (isNeedLoadUILayer)
+                if (isNeedLoadLayer)
                 {
-                    LoadUILayer(() =>
+                    LoadLayer(() =>
                     {
                         isLoadUILayerComplete = true;
                         if (isLoadUILayerComplete && isLoadAssetsComplete)
@@ -313,26 +330,26 @@ namespace bluebean.UGFramework.UI
         /// 是否需要加载UI显示层
         /// </summary>
         /// <returns></returns>
-        protected virtual bool IsNeedLoadUILayer()
+        protected virtual bool IsNeedLoadLayer()
         {
             return m_updateCtx.m_isInit;
         }
 
         /// <summary>
-        /// 加载UI显示层
+        /// 加载所有层资源
         /// </summary>
         /// <param name="onComplete"></param>
-        protected virtual void LoadUILayer(Action onComplete)
+        protected virtual void LoadLayer(Action onComplete)
         {
-            var uiLayerDescs = UILayerDescArray;
-            if (uiLayerDescs == null || uiLayerDescs.Length == 0)
+            var layerDescs = LayerDescArray;
+            if (layerDescs == null || layerDescs.Length == 0)
             {
                 onComplete();
             }
-            List<UILayerDesc> toLoadLayerDescs = new List<UILayerDesc>();
-            foreach (var layerDesc in uiLayerDescs)
+            List<LayerDesc> toLoadLayerDescs = new List<LayerDesc>();
+            foreach (var layerDesc in layerDescs)
             {
-                if (!m_uiLayerDic.ContainsKey(layerDesc.LayerName))
+                if (!m_layerDic.ContainsKey(layerDesc.LayerName))
                 {
                     toLoadLayerDescs.Add(layerDesc);
                 }
@@ -343,11 +360,11 @@ namespace bluebean.UGFramework.UI
             }
             int toLoadUILayerNum = toLoadLayerDescs.Count;
             int loadCompleteCount = 0;
-            foreach (var uiLayerDesc in toLoadLayerDescs)
+            foreach (var layerDesc in toLoadLayerDescs)
             {
-                SceneTree.Instance.CreateLayer(SceneLayerType.UI, uiLayerDesc.LayerName, m_instanceID, uiLayerDesc.AssetPath, (layer) =>
+                SceneTree.Instance.CreateLayer(layerDesc.IsUILayer?SceneLayerType.UI:SceneLayerType.ThreeD, layerDesc.LayerName, m_instanceID, layerDesc.AssetPath, (layer) =>
                 {
-                    m_uiLayerDic.Add(uiLayerDesc.LayerName, layer as UISceneLayer);
+                    m_layerDic.Add(layerDesc.LayerName, layer);
                     loadCompleteCount++;
                     if (loadCompleteCount == toLoadUILayerNum)
                     {
@@ -414,23 +431,23 @@ namespace bluebean.UGFramework.UI
         }
 
         /// <summary>
-        /// 创建UI视图控制器
+        /// 创建视图控制器
         /// </summary>
-        private void CreateAllUIViewController()
+        private void CreateAllViewController()
         {
-            if (UIViewControllerDescArray.Length <= 0)
+            if (ViewControllerDescArray.Length <= 0)
             {
                 return;
             }
-            m_uiViewControllerArray = new UIViewController[UIViewControllerDescArray.Length];
-            for (int i = 0; i < UIViewControllerDescArray.Length; i++)
+            m_viewControllerArray = new MonoViewController[ViewControllerDescArray.Length];
+            for (int i = 0; i < ViewControllerDescArray.Length; i++)
             {
-                var uiViewControllerDesc = UIViewControllerDescArray[i];
-                var uiLayer = m_uiLayerDic[uiViewControllerDesc.AtachLayerName];
-                var uiViewController = MonoViewController.AttachViewControllerToGameObject(uiLayer.PrefabInstance, uiViewControllerDesc.AtachPath, uiViewControllerDesc.TypeFullName) as UIViewController;
-                m_uiViewControllerArray[i] = uiViewController;
+                var viewControllerDesc = ViewControllerDescArray[i];
+                var sceneLayer = m_layerDic[viewControllerDesc.AtachLayerName];
+                var viewController = MonoViewController.AttachViewControllerToGameObject(sceneLayer.PrefabInstance, viewControllerDesc.AtachPath, viewControllerDesc.TypeFullName);
+                m_viewControllerArray[i] = viewController;
             }
-            foreach (var uiViewController in m_uiViewControllerArray)
+            foreach (var uiViewController in m_viewControllerArray)
             {
                 uiViewController.AutoBindFields();
             }
@@ -442,9 +459,9 @@ namespace bluebean.UGFramework.UI
         /// </summary>
         private void OnLoadUILayersAndAssetsComplete()
         {
-            if (m_uiViewControllerArray == null)
+            if (m_viewControllerArray == null)
             {
-                CreateAllUIViewController();
+                CreateAllViewController();
             }
             if (m_updateCtx.m_isInit)
             {
@@ -499,5 +516,9 @@ namespace bluebean.UGFramework.UI
             m_modeDefines.Add(modeStr);
         }
 
+        public T GetAsset<T>(string path) where T : UnityEngine.Object
+        {
+            return AssetUtility.GetAsset<T>(m_assetDic, path);
+        }
     }
 }

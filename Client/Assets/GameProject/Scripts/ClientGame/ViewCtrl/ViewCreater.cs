@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace bluebean.Mugen3D.ClientGame
 {
+    /*
     public class ViewCreater 
     {
         private delegate EntityView DelegateViewCreater(Core.Entity entity, Transform parent);
@@ -56,4 +57,5 @@ namespace bluebean.Mugen3D.ClientGame
             return view;
         }
     }
+    */
 }
