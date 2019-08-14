@@ -234,6 +234,12 @@ namespace bluebean.UGFramework.UI
             DestroyAllLayers();
             m_assetDic.Clear();
             m_layerDic.Clear();
+            OnClearAllLayerAndAssets();
+        }
+
+        protected virtual void OnClearAllLayerAndAssets()
+        {
+
         }
 
         #endregion

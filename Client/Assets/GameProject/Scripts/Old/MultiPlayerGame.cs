@@ -8,11 +8,12 @@ using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.ClientGame
 {
-
+    /*
     public class MultiPlayerGame : ClientBattleWorld
     {
         BattleNetClient m_battleNetClient;
 
+        
         public MultiPlayerGame(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) : base(stageConfig, cameraConfig, p1Config, p2Config)
         {
         }
@@ -34,7 +35,7 @@ namespace bluebean.Mugen3D.ClientGame
             //CreateGame(stageName, logicFPS);
             //CreateCharacter(p1CharacterName, 0, true);
             //CreateCharacter(p2CharacterName, 1, false);
-            StartCoroutine(SendProgress());
+            //StartCoroutine(SendProgress());
         }
 
         void RegisterBattleNetClient(BattleNetClient battleNetClient)
@@ -76,12 +77,14 @@ namespace bluebean.Mugen3D.ClientGame
             Debug.Log("OnGameEnd");
         }
 
+        
         protected override void OnUpdate()
         {
             if (!m_battleNetClient.isBattleReady)
                 return;
             //m_battleNetClient.SendInput(Core.Time.frameCount, InputHandler.Instance.GetInputKeycode(game.world.localPlayer.slot, game.world.localPlayer.GetFacing()));
         }
+        
 
         void OnGUI()
         {
@@ -93,4 +96,5 @@ namespace bluebean.Mugen3D.ClientGame
         }
 
     }
+*/
 }

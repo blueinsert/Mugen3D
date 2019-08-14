@@ -5,6 +5,7 @@ using bluebean.UGFramework;
 using bluebean.UGFramework.UI;
 using bluebean.UGFramework.ConfigData;
 using bluebean.Mugen3D.Core;
+using bluebean.Mugen3D.ClientGame;
 
 namespace bluebean.Mugen3D.UI
 {
@@ -14,9 +15,12 @@ namespace bluebean.Mugen3D.UI
         {
         }
 
-        public static void StartUITask(UIIntent prevIntent, string mode)
+        public static void StartUITask(UIIntent prevIntent,ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, ConfigDataStage stageConfig)
         {
-            UIIntent intent = new UIIntent(typeof(BattleUITask).Name, prevIntent, mode);
+            UIIntent intent = new UIIntent(typeof(BattleUITask).Name, prevIntent);
+            intent.SetCustomParam(ParamKey_P1Config, p1Config);
+            intent.SetCustomParam(ParamKey_P2Config, p2Config);
+            intent.SetCustomParam(ParamKey_StageConfig, stageConfig);
             UIManager.Instance.StartUITask(intent);
         }
 
@@ -24,11 +28,9 @@ namespace bluebean.Mugen3D.UI
 
         private void InitDataFromIntent(UIIntent curIntent)
         {
-            //test
-            m_stageConfig = ConfigDataLoader.Instance.GetConfigDataStage(1);
-            m_cameraConfig = ConfigDataLoader.Instance.GetConfigDataCamera(1);
-            m_p1Config = ConfigDataLoader.Instance.GetConfigDataCharacter(1);
-            m_p2Config = ConfigDataLoader.Instance.GetConfigDataCharacter(1);
+            m_stageConfig = curIntent.GetCustomClassParam<ConfigDataStage>(ParamKey_StageConfig);
+            m_p1Config = curIntent.GetCustomClassParam<ConfigDataCharacter>(ParamKey_P1Config);
+            m_p2Config = curIntent.GetCustomClassParam<ConfigDataCharacter>(ParamKey_P2Config);
         }
 
         protected override void OnIntentChange(UIIntent prevIntent, UIIntent curIntent)
@@ -49,12 +51,46 @@ namespace bluebean.Mugen3D.UI
             return res;
         }
 
+        protected override void OnStop()
+        {
+            base.OnStop();
+        }
+
+        protected override bool IsNeedUpdateCache()
+        {
+            if (m_cameraConfig == null)
+            {
+                m_cameraConfig = ConfigDataLoader.Instance.GetConfigDataCamera(m_stageConfig.CameraConfigID);
+            }
+            if(m_commandsConfig == null)
+            {
+                m_commandsConfig = new List<ConfigDataCommand>(ConfigDataLoader.Instance.GetAllConfigDataCommand().Values);
+            }
+            return false;
+        }
+
+        protected override bool IsNeedLoadAssets()
+        {
+            return true;
+        }
+
+        protected override List<string> CollectAssetPathsToLoad()
+        {
+            List<string> resPath = new List<string>();
+            resPath.Add(AssetUtility.MakeAssetPath(m_stageConfig.Prefab));
+            return resPath;
+        }
+
         protected override void OnCreateAllUIViewController()
         {
             base.OnCreateAllUIViewController();
-            if (m_viewControllerArray.Length >= 0)
+            if (m_viewControllerArray.Length > 0)
             {
-               
+                m_battleUIController = m_viewControllerArray[0] as BattleUIController;
+            }
+            if (m_viewControllerArray.Length > 1)
+            {
+                m_battleSceneViewController = m_viewControllerArray[1] as BattleSceneViewController;
             }
         }
 
@@ -72,6 +108,19 @@ namespace bluebean.Mugen3D.UI
         protected override void UpdateView()
         {
             PushAllLayer();
+            if(m_clientBattleWorld == null)
+            {
+                m_clientBattleWorld = new ClientBattleWorld(m_commandsConfig, m_stageConfig, m_cameraConfig, m_p1Config, m_p2Config, this);
+                m_clientBattleWorld.Init(m_battleSceneViewController);
+            }
+        }
+
+        protected override void OnTick()
+        {
+            if (m_clientBattleWorld != null)
+            {
+                m_clientBattleWorld.Tick();
+            }
         }
 
         #endregion
@@ -79,10 +128,18 @@ namespace bluebean.Mugen3D.UI
         #region UI回调
         #endregion
 
+        #region 变量
+
+        private ClientBattleWorld m_clientBattleWorld;
+
         private ConfigDataStage m_stageConfig;
         private ConfigDataCamera m_cameraConfig;
         private ConfigDataCharacter m_p1Config;
         private ConfigDataCharacter m_p2Config;
+        private List<ConfigDataCommand> m_commandsConfig;
+
+        private BattleUIController m_battleUIController;
+        private BattleSceneViewController m_battleSceneViewController;
 
         #region 资源描述
 
@@ -115,6 +172,11 @@ namespace bluebean.Mugen3D.UI
                 TypeFullName = "bluebean.Mugen3D.ClientGame.BattleSceneViewController",
             }
         };
+        #endregion
+
+        public const string ParamKey_P1Config = "P1Config";
+        public const string ParamKey_P2Config = "P2Config";
+        public const string ParamKey_StageConfig = "StageConfig";
         #endregion
     }
 }

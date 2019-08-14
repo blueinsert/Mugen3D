@@ -5,6 +5,7 @@ using Mugen3D.Net;
 using bluebean.Mugen3D.ClientGame;
 
 public class PvpTest : MonoBehaviour {
+    /*
     BattleNetClient m_battleClient;
     bool hasCreateGame = false;
 	// Use this for initialization
@@ -26,7 +27,7 @@ public class PvpTest : MonoBehaviour {
     void OnMatchCreate()
     {
         Debug.Log("OnMatchCreate");
-        var multiGame = this.gameObject.AddComponent<MultiPlayerGame>();
+        MultiPlayerGame multiGame = null;// this.gameObject.AddComponent<MultiPlayerGame>();
         multiGame.StartGame("Origin", "Origin", "Training", m_battleClient, 60, 60);
         hasCreateGame = true;
     }
@@ -52,4 +53,5 @@ public class PvpTest : MonoBehaviour {
             }
         }
     }
+    */
 }

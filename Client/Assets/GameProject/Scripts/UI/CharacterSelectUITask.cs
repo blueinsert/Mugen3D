@@ -82,9 +82,9 @@ namespace bluebean.Mugen3D.UI
             List<string> assetList = new List<string>();
             foreach (var configCharacter in m_configDataCharacters)
             {
-                assetList.Add(AssetUtility.GetSpritePath(configCharacter.LittleHeadIcon));
-                assetList.Add(AssetUtility.GetSpritePath(configCharacter.MediumHeadIcon));
-                assetList.Add(AssetUtility.GetSpritePath(configCharacter.BigHeadIcon));
+                assetList.Add(AssetUtility.MakeSpritePath(configCharacter.LittleHeadIcon));
+                assetList.Add(AssetUtility.MakeSpritePath(configCharacter.MediumHeadIcon));
+                assetList.Add(AssetUtility.MakeSpritePath(configCharacter.BigHeadIcon));
             }
             return assetList;
         }
@@ -225,7 +225,7 @@ namespace bluebean.Mugen3D.UI
                 {
                     Debug.Log("CharacterSelectUITask TraningMode:TrainingModeCharacterSelectStage == AllComplete");
                     Pause();
-                    BattleUITask.StartUITask(m_curUIIntent, "");
+                    BattleUITask.StartUITask(m_curUIIntent,m_configDataCharacters[m_p1CharacterIndex], m_configDataCharacters[m_p2CharacterIndex], ConfigDataLoader.Instance.GetConfigDataStage(1));
                 }
             }
         }

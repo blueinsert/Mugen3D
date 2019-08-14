@@ -34,6 +34,8 @@ namespace bluebean.UGFramework
 
         private CoroutineScheduler m_coroutineManager = new CoroutineScheduler();
 
+        private bool m_isDirty = false;
+
         public bool Initialize()
         {
             if (!CreateSceneRoot())
@@ -153,6 +155,7 @@ namespace bluebean.UGFramework
             m_usingLayerList.Remove(layer);
 
             GameObject.Destroy(layer.gameObject);
+            SetDirty();
         }
 
         public void PopLayer(SceneLayer layer)
@@ -167,6 +170,7 @@ namespace bluebean.UGFramework
             layer.m_state = SceneLayerState.Unused;
             layer.transform.SetParent(UnusedLayerRoot.transform, false);
             layer.gameObject.SetActive(false);
+            SetDirty();
         }
 
         public void PushLayer(SceneLayer layer)
@@ -187,11 +191,64 @@ namespace bluebean.UGFramework
                 layer.transform.SetParent(ThreeDSceneRoot.transform, false);
             }
             layer.gameObject.SetActive(true);
+            SetDirty();
+        }
+
+        private void SetDirty()
+        {
+            m_isDirty = true;
+        }
+
+        private void ResetCameraDepth()
+        {
+            if (m_usingLayerList.Count < 2)
+            {
+                return;
+            }
+             lock (m_usingLayerList)
+            {
+                List<SceneLayer> thirdDLayers = new List<SceneLayer>();
+                List<SceneLayer> uiLayers = new List<SceneLayer>();
+                for(int i = 0; i < m_usingLayerList.Count; i++)
+                {
+                    SceneLayer layer = m_usingLayerList[i];
+                    if(layer is UISceneLayer)
+                    {
+                        uiLayers.Add(layer);
+                    }
+                    else
+                    {
+                        thirdDLayers.Add(layer);
+                    }
+                }
+                int depth = 0;
+                foreach(var layer in thirdDLayers)
+                {
+                    layer.LayerCamera.depth = depth++;
+                }
+                List<Camera> uiCameras = new List<Camera>();
+                foreach(var layer in uiLayers)
+                {
+                    if (!uiCameras.Contains(layer.LayerCamera))
+                    {
+                        uiCameras.Add(layer.LayerCamera);
+                    }
+                }
+                foreach(var uiCamera in uiCameras)
+                {
+                    uiCamera.depth = depth++;
+                }
+            }
         }
 
         public void Tick()
         {
             m_coroutineManager.Tick();
+            if (m_isDirty)
+            {
+                ResetCameraDepth();
+                m_isDirty = false;
+            }
         }
 
     }

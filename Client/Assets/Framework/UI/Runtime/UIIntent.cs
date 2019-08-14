@@ -34,13 +34,22 @@ namespace bluebean.UGFramework.UI
             }
         }
 
-        public object GetCustomParam(string key)
+        public T GetCustomClassParam<T>(string key) where T:class
         {
             if (m_customParamDic.ContainsKey(key))
             {
-                return m_customParamDic[key];
+                return m_customParamDic[key] as T;
             }
             return null;
+        }
+
+        public T GetCustomStructParam<T>(string key) where T : struct
+        {
+            if (m_customParamDic.ContainsKey(key))
+            {
+                return (T)m_customParamDic[key];
+            }
+            return default(T);
         }
 
         public void ClearCustomParam(string key)

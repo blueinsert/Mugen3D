@@ -6,7 +6,13 @@ namespace bluebean.UGFramework
 {
     public class UISceneLayer : SceneLayer
     {
+        public override Camera LayerCamera
+        {
+            get
+            {
+                return GetComponentInParent<Camera>();
+            }
+        }
 
-      
     }
 }

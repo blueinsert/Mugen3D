@@ -13,7 +13,6 @@ namespace bluebean.UGFramework.ConfigData
         {
             get
             {
-                m_instance = new ConfigDataLoader();
                 return m_instance;
             }
         }

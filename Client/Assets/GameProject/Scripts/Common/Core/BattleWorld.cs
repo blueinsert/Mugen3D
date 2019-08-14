@@ -130,7 +130,7 @@ namespace bluebean.Mugen3D.Core
             m_commandEngine = new CommandEngine(this);
         }
 
-        public BattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
+        public BattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
         {
             m_stageConfig = stageConfig;
             m_cameraConfig = cameraConfig;

@@ -17,19 +17,43 @@ namespace bluebean.Mugen3D.ClientGame
         SingleVS,
     }
 
-    public partial class ClientBattleWorld : MonoBehaviour, IBattleWorldListener,IAssetProvider
+    public partial class ClientBattleWorld : IBattleWorldListener, IAssetProvider
     {
 
-        #region toRemoved
-        public ViewWorld viewWorld;
         private bool isPuase = false;
+        public int renderFPS = 60;
+        public int logicFPS = 60;
 
-        private void OnDestroy()
-        {
-          
+        private float m_gameTimeResidual = 0;
+        private float m_gameDeltaTime; //core update period
+
+        private IAssetProvider m_assetProvider;
+
+        protected BattleWorld m_battleWorld;
+
+        private BattleSceneViewController m_battleSceneViewController;
+
+        private ConfigDataStage m_stageConfig;
+
+        public ClientBattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config,IAssetProvider assetProvider) {
+            m_battleWorld = new BattleWorld(configDataCommand, stageConfig, cameraConfig, p1Config, p2Config, this);
+            m_assetProvider = assetProvider;
+            m_gameDeltaTime = (1000 / 60) / 1000f;
+            m_stageConfig = stageConfig;
         }
 
-        private  byte[] LuaLoader(ref string fileName)
+        public void Init(BattleSceneViewController battleSceneViewController)
+        {
+            m_battleSceneViewController = battleSceneViewController;
+            m_battleSceneViewController.CreateStage(m_stageConfig, this);
+        }
+
+        public T GetAsset<T>(string path) where T : UnityEngine.Object
+        {
+            return m_assetProvider.GetAsset<T>(path);
+        }
+
+        private byte[] LuaLoader(ref string fileName)
         {
             var code = m_assetProvider.GetAsset<TextAsset>(fileName);
             if (code != null)
@@ -39,7 +63,7 @@ namespace bluebean.Mugen3D.ClientGame
             return null;
         }
 
-        private  string FileRead(ref string fileName)
+        private string FileRead(ref string fileName)
         {
             return GetAsset<TextAsset>(fileName).text;
         }
@@ -60,27 +84,7 @@ namespace bluebean.Mugen3D.ClientGame
             //Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
         }
 
-        #endregion
-
-        public int renderFPS = 60;
-        public int logicFPS = 60;
-
-        private float m_gameTimeResidual = 0;
-        private float m_gameDeltaTime; //core update period
-
-        private IAssetProvider m_assetProvider;
-
-        protected BattleWorld m_battleWorld;
-
-
-        public ClientBattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config) {
-            m_battleWorld = new BattleWorld(stageConfig, cameraConfig, p1Config, p2Config, this);
-            m_gameDeltaTime = (1000 / 60) / 1000f;
-        }
-
-        
-
-        protected virtual void Update()
+        public virtual void Tick()
         {
             if (Input.GetKeyDown(KeyCode.P))
             {
@@ -90,17 +94,17 @@ namespace bluebean.Mugen3D.ClientGame
             {
                 if (Input.GetKeyDown(KeyCode.N))
                 {
-                    OnUpdate();
+                    OnTick();
                 }
             }
             else
             {
-                OnUpdate();
+                OnTick();
             }
 
         }
 
-        protected virtual void OnUpdate() {
+        protected virtual void OnTick() {
             m_gameTimeResidual += UnityEngine.Time.deltaTime;
             while (m_gameTimeResidual > m_gameDeltaTime)
             {
@@ -114,9 +118,6 @@ namespace bluebean.Mugen3D.ClientGame
             m_battleWorld.Step();
         }
 
-        public T GetAsset<T>(string path) where T : UnityEngine.Object
-        {
-            return m_assetProvider.GetAsset<T>(path);
-        }
+        
     }
 }

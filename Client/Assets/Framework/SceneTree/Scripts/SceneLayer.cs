@@ -52,5 +52,7 @@ namespace bluebean.UGFramework
             }
             return target;
         }
+
+        public virtual Camera LayerCamera { get; }
     }
 }

@@ -143,7 +143,7 @@ public class SceneManager : MonoBehaviour {
         LoadSceneAsync(LoadType.Load, "Scene_Fight", 
             (scene) => {
                 scene.SetActive(false);
-                var clientGame = scene.AddComponent<ClientBattleWorld>();
+               // var clientGame = scene.AddComponent<ClientBattleWorld>();
                 //clientGame.CreateGame(p1CharacterName, p1CharacterName, stage, playMode);
                
             }, 
