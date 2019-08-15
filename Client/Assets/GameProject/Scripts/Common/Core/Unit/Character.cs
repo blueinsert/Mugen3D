@@ -20,17 +20,22 @@ namespace bluebean.Mugen3D.Core
         private bool m_canAttack = true;
         private BattleWorld m_battleWorld;
 
+        public ConfigDataCharacter Config { get { return m_config; } }
+
+        private ConfigDataCharacter m_config;
+
         public Character(string characterName, CharacterConfig config, int slot, bool isLocal) : base(config)
         {
             this.characterName = characterName;
             this.slot = slot;
             this.isLocal = isLocal;       
-            cmdMgr = new CmdManager(config.commandContent, this);
+            //cmdMgr = new CmdManager(config.commandContent, this);
         }
 
         public Character(ConfigDataCharacter config, int slot, bool isLocal, Action[] actions, string commandsDefStr, string luaFsmFileName, BattleWorld battleWorld)
         {
             //todo
+            m_config = config;
             m_battleWorld = battleWorld;
         }
 

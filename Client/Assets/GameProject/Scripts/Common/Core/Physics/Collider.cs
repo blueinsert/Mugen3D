@@ -41,7 +41,7 @@ namespace bluebean.Mugen3D.Core
 
         public Vector position {
             get {
-                return new Vector(offset.x * owner.GetFacing(), offset.y) + owner.position;
+                return new Vector(offset.x * owner.GetFacing(), offset.y) + owner.Position;
             }
         }
 

@@ -348,7 +348,7 @@ namespace bluebean.Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
-            var pos = c.position;
+            var pos = c.Position;
             lua.PushNumber(pos.x.AsFloat());
             lua.PushNumber(pos.y.AsFloat());
             return 2;
@@ -359,7 +359,7 @@ namespace bluebean.Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Unit c = (Unit)lua.ToUserData(1);
             Unit enemy = c.world.teamInfo.GetEnemy(c);
-            var dist = enemy.position - c.position;
+            var dist = enemy.Position - c.Position;
             lua.PushNumber(dist.x.AsDouble());
             lua.PushNumber(dist.y.AsDouble());
             return 2;

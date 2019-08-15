@@ -148,15 +148,15 @@ namespace bluebean.Mugen3D.Core
                                }
                                else if (t.value == "$")
                                {
-                                   currentCommandElement.keyModifier += 1 << (int)KeyMode.KeyMode_Detect_As_4Way;
+                                   currentCommandElement.keyModifier += 1 << (int)KeyModifier.KeyMode_Detect_As_4Way;
                                }
                                else if (t.value == "/")
                                {
-                                   currentCommandElement.keyModifier += 1 << (int)KeyMode.KeyMode_Must_Be_Held;
+                                   currentCommandElement.keyModifier += 1 << (int)KeyModifier.KeyMode_Must_Be_Held;
                                }
                                else if (t.value == "~")
                                {
-                                   currentCommandElement.keyModifier += 1 << (int)KeyMode.KeyMode_On_Release;
+                                   currentCommandElement.keyModifier += 1 << (int)KeyModifier.KeyMode_On_Release;
                                }
                            }//while
                            c.mCommand.Add(currentCommandElement);

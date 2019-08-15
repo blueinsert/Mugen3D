@@ -84,9 +84,9 @@ namespace bluebean.Mugen3D.ClientGame
 
         public override void Update()
         {
-            if (lastPosition != m_unit.position)
+            if (lastPosition != m_unit.Position)
             {
-                lastPosition = m_unit.position;
+                lastPosition = m_unit.Position;
                 this.transform.position = new Vector3(lastPosition.x.AsFloat(), lastPosition.y.AsFloat());
             }
             if (!lastScale.Equals(m_unit.scale))

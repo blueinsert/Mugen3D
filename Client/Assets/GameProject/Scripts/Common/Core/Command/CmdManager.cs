@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.Core
 {
@@ -8,6 +9,15 @@ namespace bluebean.Mugen3D.Core
     {
         public Character owner { get; private set; }
         private Dictionary<int, List<CommandState>> m_commandState = new Dictionary<int, List<CommandState>>();
+
+        private readonly static List<ConfigDataCommand> CommandList = new List<ConfigDataCommand>();
+
+        public static void StaticInit(List<ConfigDataCommand> commands)
+        {
+            CommandList.Clear();
+            CommandList.AddRange(commands);
+            CommandList.Sort((a, b) => { return a.Priority - b.Priority; });
+        }
 
         public CmdManager(string cmdDef, Character owner)
         {

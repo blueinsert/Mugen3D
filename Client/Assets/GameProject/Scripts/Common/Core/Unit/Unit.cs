@@ -118,6 +118,7 @@ namespace bluebean.Mugen3D.Core
 
     public class Unit : Entity, IHealth
     {
+        public int Facing { get { return this.status.facing; } }
         public MoveCtrl moveCtr { get; protected set; }
         public AnimationController animCtr { get; protected set; }  
         public FsmManager fsmMgr { get; protected set; }
@@ -129,9 +130,9 @@ namespace bluebean.Mugen3D.Core
         public Unit(UnitConfig config)
         {
             SetConfig(config);
-            moveCtr = new MoveCtrl(this);
-            animCtr = new AnimationController(config.actions, this);
-            fsmMgr = new FsmManager(config.fsm, this);   
+            //moveCtr = new MoveCtrl(this);
+            //animCtr = new AnimationController(config.actions, this);
+            //fsmMgr = new FsmManager(config.fsm, this);   
         }
 
         protected Unit() { }
@@ -157,11 +158,11 @@ namespace bluebean.Mugen3D.Core
         {
             if (this.GetFacing() > 0)
             {
-                return world.cameraController.viewPort.xMax - this.position.x;
+                return world.cameraController.viewPort.xMax - this.Position.x;
             }
             else
             {
-                return this.position.x - world.cameraController.viewPort.xMin;
+                return this.Position.x - world.cameraController.viewPort.xMin;
             }
         }
 
@@ -169,11 +170,11 @@ namespace bluebean.Mugen3D.Core
         {
             if (this.GetFacing() > 0)
             {
-                return this.position.x - world.cameraController.viewPort.xMin;
+                return this.Position.x - world.cameraController.viewPort.xMin;
             }
             else
             {
-                return world.cameraController.viewPort.xMax - this.position.x;
+                return world.cameraController.viewPort.xMax - this.Position.x;
             }
         }
 
@@ -181,11 +182,11 @@ namespace bluebean.Mugen3D.Core
         {
             if (this.GetFacing() > 0)
             {
-                return world.config.stageConfig.borderXMax - this.position.x;
+                return world.config.stageConfig.borderXMax - this.Position.x;
             }
             else
             {
-                return this.position.x - world.config.stageConfig.borderXMin;
+                return this.Position.x - world.config.stageConfig.borderXMin;
             }
         }
 
@@ -193,18 +194,18 @@ namespace bluebean.Mugen3D.Core
         {
             if (this.GetFacing() > 0)
             {
-                return this.position.x - world.config.stageConfig.borderXMin;  
+                return this.Position.x - world.config.stageConfig.borderXMin;  
             }
             else
             {
-                return world.config.stageConfig.borderXMax - this.position.x;
+                return world.config.stageConfig.borderXMax - this.Position.x;
             }
         }
 
         public Vector GetP2Dist()
         {
             Unit enemy = this.world.teamInfo.GetEnemy(this);
-            var dist = enemy.position - this.position;
+            var dist = enemy.Position - this.Position;
             return dist;
         }
 
@@ -445,7 +446,7 @@ namespace bluebean.Mugen3D.Core
             Core.Debug.AddGUIDebugMsg(this.id, "roundNo", this.world.RoundNo.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "matchNo", this.world.BattleNo.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "name", this.config.name);
-            Core.Debug.AddGUIDebugMsg(this.id, "pos", this.position.ToString());
+            Core.Debug.AddGUIDebugMsg(this.id, "pos", this.Position.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "stateNo", this.fsmMgr.stateNo.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "stateTime", this.fsmMgr.stateTime.ToString());
             Core.Debug.AddGUIDebugMsg(this.id, "anim", this.animCtr.anim.ToString());

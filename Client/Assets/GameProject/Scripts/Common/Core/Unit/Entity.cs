@@ -26,15 +26,17 @@ namespace bluebean.Mugen3D.Core
         public object data;
     }
 
-    public class Entity
+    public class Entity : IComponentOwner
     {
         public int id { get; private set; }
-        public Vector position { get; private set; }
+        public Vector Position { get; private set; }
         public Vector scale { get; private set; }
         public BattleWorld world { get; private set; }
         public EntityConfig config { get; private set; }
         public bool isDestroyed { get; private set; }
         public Action<Event> onEvent;
+
+        private readonly Dictionary<string, ComponentBase> m_componentDic = new Dictionary<string, ComponentBase>();
 
         public Entity()
         {
@@ -48,7 +50,7 @@ namespace bluebean.Mugen3D.Core
 
         public virtual void SetPosition(Vector pos)
         {
-            this.position = pos;
+            this.Position = pos;
         }
 
         public void SetScale(Vector scale)
@@ -79,6 +81,23 @@ namespace bluebean.Mugen3D.Core
         public void Destroy()
         {
             isDestroyed = true;
-        }     
+        }
+
+        public T GetComponent<T>() where T : ComponentBase
+        {
+            ComponentBase res;
+            if(m_componentDic.TryGetValue(typeof(T).Name, out res))
+            {
+                return res as T;
+            }
+            return null;
+        }
+
+        public T AddComponent<T>() where T : ComponentBase,new()
+        {
+            var component = new T();
+            m_componentDic.Add(component.GetType().Name, component);
+            return component;
+        }
     }
 }

@@ -284,7 +284,7 @@ namespace bluebean.Mugen3D.Core
                 double x = lua.L_CheckNumber(2);
                 double y = lua.L_CheckNumber(3);
                 double z = lua.L_CheckNumber(4);
-                target.moveCtr.PosSet(c.position.x + x.ToNumber()*c.GetFacing(), c.position.y + y.ToNumber());
+                target.moveCtr.PosSet(c.Position.x + x.ToNumber()*c.GetFacing(), c.Position.y + y.ToNumber());
             }
             return 0;
         }
@@ -299,7 +299,7 @@ namespace bluebean.Mugen3D.Core
                 double x = lua.L_CheckNumber(2);
                 double y = lua.L_CheckNumber(3);
                 double z = lua.L_CheckNumber(4);
-                c.moveCtr.PosSet(target.position.x + x.ToNumber() * target.GetFacing(), target.position.y + y.ToNumber());
+                c.moveCtr.PosSet(target.Position.x + x.ToNumber() * target.GetFacing(), target.Position.y + y.ToNumber());
             }
             return 0;
         }

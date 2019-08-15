@@ -44,11 +44,11 @@ namespace bluebean.Mugen3D.Core
 
         private void Init()
         {
-            Vector pos = owner.position;
+            Vector pos = owner.Position;
             switch (projDef.posType)
             {
                 case "p1":
-                    pos = owner.position + new Vector(projDef.offset.X()*owner.GetFacing(), projDef.offset.Y());
+                    pos = owner.Position + new Vector(projDef.offset.X()*owner.GetFacing(), projDef.offset.Y());
                     break;
                 case "p2":
                     break;

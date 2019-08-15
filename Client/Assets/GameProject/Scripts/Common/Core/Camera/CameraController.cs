@@ -52,7 +52,7 @@ namespace bluebean.Mugen3D.Core
             int count = 0;
             foreach (var pair in targets)
             {
-                sum += pair.Value.position;
+                sum += pair.Value.Position;
                 count++;
             }
             return sum / count;
@@ -65,13 +65,13 @@ namespace bluebean.Mugen3D.Core
             foreach (var pair in targets)
             {
                 var character = pair.Value;
-                if (character.position.x > xMax)
+                if (character.Position.x > xMax)
                 {
-                    xMax = character.position.x;
+                    xMax = character.Position.x;
                 }
-                if (character.position.x < xMin)
+                if (character.Position.x < xMin)
                 {
-                    xMin = character.position.x;
+                    xMin = character.Position.x;
                 }
             }
             return xMax - xMin;

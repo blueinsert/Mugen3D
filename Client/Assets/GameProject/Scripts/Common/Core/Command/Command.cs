@@ -5,30 +5,7 @@ using System.Text;
 namespace bluebean.Mugen3D.Core
 {
 
-    public enum KeyNames
-    {
-        KEY_UP = 0,
-        KEY_DOWN,
-        KEY_LEFT,
-        KEY_RIGHT,
-        KEY_BUTTON_A,
-        KEY_BUTTON_B,
-        KEY_BUTTON_C,
-        KEY_BUTTON_X,
-        KEY_BUTTON_Y,
-        KEY_BUTTON_Z,
-        KEY_BUTTON_START,
-        KEY_BUTTON_PAUSE,
-        KEY_COUNT
-    };
-
-    public enum KeyMode
-    {
-        KeyMode_Must_Be_Held,
-        KeyMode_Detect_As_4Way,
-        KeyMode_Ban_Other_Input,
-        KeyMode_On_Release,
-    }
+    
 
     public class CommandElement
     {

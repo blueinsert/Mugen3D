@@ -4,11 +4,11 @@ using FixPointMath;
 
 namespace bluebean.Mugen3D.Core
 {
-    public class PhysicsEngine : BaseEngine
+    public class PhysicsSystem : SystemBase
     {
         private List<MoveCtrl> m_moveCtrls = new List<MoveCtrl>();
 
-        public PhysicsEngine(BattleWorld world):base(world)
+        public PhysicsSystem(BattleWorld world):base(world)
         {
    
         }

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace bluebean.Mugen3D.Core
 {
-    public class ScriptEngine : BaseEngine
+    public class ScriptSystem : SystemBase
     {
         private List<FsmManager> m_fsms = new List<FsmManager>();
 
-        public ScriptEngine(BattleWorld world) : base(world)
+        public ScriptSystem(BattleWorld world) : base(world)
         {
        
         }

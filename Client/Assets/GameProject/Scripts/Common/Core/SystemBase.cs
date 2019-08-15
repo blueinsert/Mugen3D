@@ -3,11 +3,16 @@ using System.Collections.Generic;
 
 namespace bluebean.Mugen3D.Core
 {
-    public class BaseEngine
+    public class SystemBase
     {
+        protected virtual void ProcessEntity(IComponentOwner componentOwner)
+        {
+
+        }
+
         protected BattleWorld world;
 
-        public BaseEngine(BattleWorld world)
+        public SystemBase(BattleWorld world)
         {
             this.world = world;
             world.onAddEntity += OnAddEntity;

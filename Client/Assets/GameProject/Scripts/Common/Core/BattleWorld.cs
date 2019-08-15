@@ -86,10 +86,10 @@ namespace bluebean.Mugen3D.Core
         public Character m_p1;
         public Character m_p2;
 
-        private PhysicsEngine m_physicsEngine;
-        private ScriptEngine m_scriptEngine;
-        private AnimEngine m_animEngine;
-        private CommandEngine m_commandEngine;
+        private PhysicsSystem m_physicsEngine;
+        private ScriptSystem m_scriptEngine;
+        private AnimSystem m_animEngine;
+        private CommandSystem m_commandEngine;
 
         private ConfigDataStage m_stageConfig;
         private ConfigDataCamera m_cameraConfig;
@@ -124,10 +124,10 @@ namespace bluebean.Mugen3D.Core
         private void InitSubSystem()
         {
             cameraController = new CameraController(m_cameraConfig);
-            m_physicsEngine = new PhysicsEngine(this);
-            m_scriptEngine = new ScriptEngine(this);
-            m_animEngine = new AnimEngine(this);
-            m_commandEngine = new CommandEngine(this);
+            m_physicsEngine = new PhysicsSystem(this);
+            m_scriptEngine = new ScriptSystem(this);
+            m_animEngine = new AnimSystem(this);
+            m_commandEngine = new CommandSystem(this);
         }
 
         public BattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
@@ -139,6 +139,13 @@ namespace bluebean.Mugen3D.Core
             m_cacheInputCodes = new int[2];
             m_listener = listener;
             InitSubSystem();
+        }
+
+        public void CreateCharacters()
+        {
+            //m_p1 = new Character(m_p1Config.Name, m_p1Config, 0, true);
+            m_p1 = new Character(m_p1Config, 0, true, null, "", "", this);
+            m_listener.OnCreateCharacter(m_p1);
         }
 
         #region 改变世界的方法

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace bluebean.Mugen3D.Core
 {
-    public class AnimEngine : BaseEngine
+    public class AnimSystem : SystemBase
     {
         private List<AnimationController> m_animCtls = new List<AnimationController>();
 
-        public AnimEngine(BattleWorld world) : base(world)
+        public AnimSystem(BattleWorld world) : base(world)
         {
     
         }

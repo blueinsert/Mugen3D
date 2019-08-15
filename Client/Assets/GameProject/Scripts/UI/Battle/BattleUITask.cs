@@ -78,6 +78,8 @@ namespace bluebean.Mugen3D.UI
         {
             List<string> resPath = new List<string>();
             resPath.Add(AssetUtility.MakeAssetPath(m_stageConfig.Prefab));
+            resPath.Add(AssetUtility.MakeAssetPath(m_p1Config.Prefab));
+            resPath.Add(AssetUtility.MakeAssetPath(m_p2Config.Prefab));
             return resPath;
         }
 

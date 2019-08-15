@@ -27,6 +27,8 @@ namespace bluebean.Mugen3D.ClientGame
         private float m_gameTimeResidual = 0;
         private float m_gameDeltaTime; //core update period
 
+        private GameObject m_rootPlayers;
+
         private IAssetProvider m_assetProvider;
 
         protected BattleWorld m_battleWorld;
@@ -34,6 +36,8 @@ namespace bluebean.Mugen3D.ClientGame
         private BattleSceneViewController m_battleSceneViewController;
 
         private ConfigDataStage m_stageConfig;
+
+        private readonly Dictionary<int, CharacterActor> m_characterActorDic = new Dictionary<int, CharacterActor>();
 
         public ClientBattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config,IAssetProvider assetProvider) {
             m_battleWorld = new BattleWorld(configDataCommand, stageConfig, cameraConfig, p1Config, p2Config, this);
@@ -46,6 +50,9 @@ namespace bluebean.Mugen3D.ClientGame
         {
             m_battleSceneViewController = battleSceneViewController;
             m_battleSceneViewController.CreateStage(m_stageConfig, this);
+
+            m_rootPlayers = m_battleSceneViewController.PlayerRoot;
+            m_battleWorld.CreateCharacters();
         }
 
         public T GetAsset<T>(string path) where T : UnityEngine.Object
