@@ -14,13 +14,7 @@ namespace bluebean.Mugen3D.Core
         BeingHitted,
     }
 
-    public enum PhysicsType
-    {
-        N = -1,
-        S = 1,
-        C,
-        A,
-    }
+    
 
     public class Status
     {

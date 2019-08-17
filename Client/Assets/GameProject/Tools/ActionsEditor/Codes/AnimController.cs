@@ -16,7 +16,7 @@ namespace Mugen3D.Tools
     {
         public Animation anim { get { return m_anim; } }
         private Animation m_anim;
-        private Action action;
+        private ActionDef action;
         private int animTime;
         private int animElem;
         private int animElemTime;
@@ -71,7 +71,7 @@ namespace Mugen3D.Tools
             m_anim[animName].enabled = false;
         }
 
-        public void Play(Action action)
+        public void Play(ActionDef action)
         {
             this.action = action;
             state = AnimState.Playing;

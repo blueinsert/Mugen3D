@@ -7,15 +7,7 @@ using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.Core
 {
-    /// <summary>
-    /// 输入指令记录
-    /// </summary>
-    public class InputRecord
-    {
-        public int frameNum;
-        public int playerIndex;
-        public int inputCode;
-    }
+    
 
     /// <summary>
     /// 回合状态
@@ -54,22 +46,18 @@ namespace bluebean.Mugen3D.Core
         TeamVS,
     }
 
-    public class BattleWorld
+    public class BattleWorld : WorldBase
     {
         public int BattleNo { get { return m_battleNo; } }
         public BattleState BattleState {get { return m_battleState; } }
         public int RoundNo { get { return m_roundNo; } }
         public RoundState RoundState { get { return m_roundState; } }
 
-        private int m_maxEntityId = 0;
-        private readonly List<Entity> m_addedEntities = new List<Entity>();
-        private readonly List<Entity> m_destroyedEntities = new List<Entity>();
-        private readonly List<Entity> m_entities = new List<Entity>();
+      
         public Dictionary<int, Character> characters = new Dictionary<int, Character>();
 
         public TeamManager teamInfo = new TeamManager();
-        public System.Action<Entity> onAddEntity;
-        public System.Action<Entity> onRemoveEntity;
+      
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
         public CameraController cameraController { get; private set; }
@@ -88,8 +76,9 @@ namespace bluebean.Mugen3D.Core
 
         private PhysicsSystem m_physicsEngine;
         private ScriptSystem m_scriptEngine;
-        private AnimSystem m_animEngine;
+        private AnimSystem m_animSystem = new AnimSystem();
         private CommandSystem m_commandEngine;
+        private readonly List<SystemBase> m_allSystems = new List<SystemBase>();
 
         private ConfigDataStage m_stageConfig;
         private ConfigDataCamera m_cameraConfig;
@@ -126,9 +115,13 @@ namespace bluebean.Mugen3D.Core
             cameraController = new CameraController(m_cameraConfig);
             m_physicsEngine = new PhysicsSystem(this);
             m_scriptEngine = new ScriptSystem(this);
-            m_animEngine = new AnimSystem(this);
+            m_animSystem = new AnimSystem();
             m_commandEngine = new CommandSystem(this);
+            m_allSystems.Clear();
+            m_allSystems.Add(m_animSystem);
         }
+
+        protected override List<SystemBase> AllSystem { get { return m_allSystems; } }
 
         public BattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
         {
@@ -358,12 +351,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public void AddEntity(Entity e)
-        {
-            m_addedEntities.Add(e);
-            e.SetEntityId(m_maxEntityId++);
-            e.SetWorld(this);
-        }
+     
 
         public void AddCharacter(Character c)
         {
@@ -385,56 +373,13 @@ namespace bluebean.Mugen3D.Core
             teamInfo.RemoveCharacter(c);
         }
 
-        private void DoAddEntity(Entity e)
-        {
-            if (onAddEntity != null)
-            {
-                onAddEntity(e);
-            }
-            m_entities.Add(e);
-        }
+     
 
-        private void DoRemoveEntity(Entity e)
-        {
-            if (onRemoveEntity != null)
-                onRemoveEntity(e);
-            m_entities.Remove(e);
-            if (e is Projectile)
-            {
-                var proj = e as Projectile;
-                proj.owner.RemoveProj(proj);
-            }
-            else if (e is Helper)
-            {
-                var h = (e as Helper);
-                h.owner.RemoveHelper(h);
-            }
-            else if (e is Character)
-            {
-                RemoveCharacter(e as Character);
-            }
-        }
+        
 
         private void EntityUpdate()
         {
-            foreach (var e in m_addedEntities)
-            {
-                DoAddEntity(e);
-            }
-            m_addedEntities.Clear();
-            foreach (var e in m_entities)
-            {
-                e.OnUpdate();
-                if (e.isDestroyed)
-                {
-                    m_destroyedEntities.Add(e);
-                }
-            }
-            foreach (var ent in m_destroyedEntities)
-            {
-                DoRemoveEntity(ent);
-            }
-            m_destroyedEntities.Clear();
+           
         }
 
         private Dictionary<Unit, Unit> hitResults = new Dictionary<Unit, Unit>(10);
@@ -459,10 +404,10 @@ namespace bluebean.Mugen3D.Core
                         continue;
                     var collider1 = attacker.moveCtr.collider;
                     var collider2 = target.moveCtr.collider;
-                    for (int i = 0; i < collider1.attackClsnsLength; i++)
+                    for (int i = 0; i < collider1.m_attackClsnsLength; i++)
                     {
                         var attackClsn = collider1.attackClsns[i];
-                        for (int j = 0; j < collider2.defenceClsnsLength; j++)
+                        for (int j = 0; j < collider2.m_defenceClsnsLength; j++)
                         {
                             var defenceClsn = collider2.defenceClsns[j];
                             ContactInfo contactInfo;
@@ -562,7 +507,7 @@ namespace bluebean.Mugen3D.Core
             m_commandEngine.Update();
             m_scriptEngine.PreUpdate();
             EntityUpdate();
-            m_animEngine.Update();
+            m_animSystem.Update();
             m_scriptEngine.Update();     //change state, change anim, so on...  
             m_physicsEngine.Update();
             HitResolve();

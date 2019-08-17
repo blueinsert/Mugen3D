@@ -46,6 +46,8 @@ namespace FixPointMath
         public static readonly Number EN8 = Number.One / 100000000;
         public static readonly Number Epsilon = Number.EN3;
 
+        public static readonly Number D60 = Number.One / 60;
+
         /// <summary>
         /// The value of Pi
         /// </summary>

@@ -53,42 +53,24 @@ namespace bluebean.Mugen3D.Core
     {
         private List<CmdManager> cmdMgrs = new List<CmdManager>();
 
-       public CommandSystem(BattleWorld world):base(world)
+       public CommandSystem()
        {
 
        }
 
-        protected override void OnAddEntity(Entity e)
+        protected override bool Filter(Entity e)
         {
-            if(e is Character)
+            if (e.GetComponent<CommandComponent>() != null)
             {
-                var c = e as Character;
-                this.cmdMgrs.Add(c.cmdMgr);
+                return true;
             }
+            return false;
         }
 
-        protected override void OnRemoveEntity(Entity e)
+        protected override void ProcessEntity(List<Entity> entities)
         {
-            if (e is Character)
-            {
-                var c = e as Character;
-                this.cmdMgrs.Remove(c.cmdMgr);
-            }
+            
         }
 
-        public override void Update()
-        {
-            foreach(var cmdMgr in this.cmdMgrs)
-            {
-                cmdMgr.Update(cmdMgr.owner.input);
-            }
-        }
-
-        protected override void ProcessEntity(IComponentOwner componentOwner)
-        {
-            var commandComponent = componentOwner.GetComponent<CommandComponent>();
-            if (commandComponent == null)
-                return;
-        }
     }
 }

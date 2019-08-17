@@ -26,7 +26,7 @@ namespace bluebean.Mugen3D.Core
         public object data;
     }
 
-    public class Entity : IComponentOwner
+    public class Entity
     {
         public int id { get; private set; }
         public Vector Position { get; private set; }

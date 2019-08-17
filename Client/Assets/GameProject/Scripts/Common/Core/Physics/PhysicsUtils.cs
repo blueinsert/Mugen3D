@@ -137,8 +137,8 @@ namespace bluebean.Mugen3D.Core
             bool intersect = !((rc1.xMin > rc2.xMax || rc2.xMin > rc1.xMax) || (rc1.yMin > rc2.yMax || rc2.yMin > rc1.yMax));
             if (intersect)
             {
-                Vector dir = new Vector(rc1.position.x > rc2.position.x ? 1 : -1, 0);
-                Number depth = (rc1.width + rc2.width) / 2 - Math.Abs(rc1.position.x - rc2.position.x);
+                Vector dir = new Vector(rc1.m_position.x > rc2.m_position.x ? 1 : -1, 0);
+                Number depth = (rc1.m_width + rc2.m_width) / 2 - Math.Abs(rc1.m_position.x - rc2.m_position.x);
                 contactInfo = new ContactInfo() { recoverDir = dir, depth = depth};
                 return true;
             }
@@ -150,10 +150,10 @@ namespace bluebean.Mugen3D.Core
             var cc1 = c1 as ComplexCollider;
             var cc2 = c2 as ComplexCollider;
             contactInfo = null;
-            for (int i = 0; i < cc1.collideClsnsLength; i++)
+            for (int i = 0; i < cc1.m_collideClsnsLength; i++)
             {
                 var rect1 = cc1.collideClsns[i];
-                for (int j = 0; j < cc2.collideClsnsLength; j++)
+                for (int j = 0; j < cc2.m_collideClsnsLength; j++)
                 {
                     var rect2 = cc2.collideClsns[j];
                     if(RectColliderIntersectTest(rect1, rect2, out contactInfo)) {

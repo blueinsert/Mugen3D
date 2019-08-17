@@ -37,54 +37,9 @@ namespace bluebean.Mugen3D.Core
         }
     }
 
-    public class ActionFrame
-    {
-        public Number normalizeTime { get; set; }
-        public int duration { get; set; }
-        public List<Clsn> clsns { get; set; }
-
-        public Number xOffset { get; set; }
-        public Number yOffset { get; set; }
-
-        public ActionFrame()
-        {
-            clsns = new List<Clsn>();
-        }
-    }
-
-    public class Action
-    {
-        public int animNo { get; set; }
-        public string animName { get; set; }
-        public int animLength { get; set; }
-        public List<ActionFrame> frames { get; set; }
-        public int loopStartIndex { get; set; }
-
-        public Action()
-        {
-            frames = new List<ActionFrame>();
-        }
-
-        public Action(int actionNo)
-        {
-            this.animNo = actionNo;
-            frames = new List<ActionFrame>();
-        }
-
-        public void CalculateAnimLength()
-        {
-            int length = 0;
-            foreach (var frame in frames)
-            {
-                length += frame.duration;
-            }
-            this.animLength = length;
-        }
-    }
-
     public class ActionsConfig
     {
-        public List<Core.Action> actions { get; set; }
+        public List<Core.ActionDef> actions { get; set; }
     }
 
     public class EntityConfig
@@ -98,13 +53,13 @@ namespace bluebean.Mugen3D.Core
         public string action { get; set; }
         public string fsm { get; set; }
 
-        public Action[] actions { get; private set; }
+        public ActionDef[] actions { get; private set; }
 
         public UnitConfig()
         {
         }
 
-        public void SetActions(Action[] actions)
+        public void SetActions(ActionDef[] actions)
         {
             this.actions = actions;
         }

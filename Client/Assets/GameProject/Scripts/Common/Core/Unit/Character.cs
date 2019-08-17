@@ -32,7 +32,7 @@ namespace bluebean.Mugen3D.Core
             //cmdMgr = new CmdManager(config.commandContent, this);
         }
 
-        public Character(ConfigDataCharacter config, int slot, bool isLocal, Action[] actions, string commandsDefStr, string luaFsmFileName, BattleWorld battleWorld)
+        public Character(ConfigDataCharacter config, int slot, bool isLocal, ActionDef[] actions, string commandsDefStr, string luaFsmFileName, BattleWorld battleWorld)
         {
             //todo
             m_config = config;

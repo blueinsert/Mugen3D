@@ -7,10 +7,10 @@ namespace Mugen3D.Tools
 {
     public class ActionsEditorModule
     {
-        public List<Action> actions { get; private set; }
+        public List<ActionDef> actions { get; private set; }
         public int curActionIndex { get; private set; }
         public int curActionElemIndex { get; private set; }
-        public Action curAction
+        public ActionDef curAction
         {
             get
             {
@@ -28,7 +28,7 @@ namespace Mugen3D.Tools
 
         public ActionsEditorModule() { }
 
-        public void Init(List<Action> actions)
+        public void Init(List<ActionDef> actions)
         {
             this.actions = actions;
             curActionIndex = 0;
@@ -74,14 +74,14 @@ namespace Mugen3D.Tools
         {       
             if (actions == null)
             {
-                actions = new List<Action>();
+                actions = new List<ActionDef>();
             }
             int id = 0;
             if (actions.Count > 0)
             {
                 id = actions[this.curActionIndex].animNo + 1;
             }
-            Action a = new Action(id);
+            ActionDef a = new ActionDef(id);
             if (actions.Count > 0)
             {
                 actions.Insert(this.curActionIndex + 1, a);

@@ -7,6 +7,6 @@ namespace Mugen3D.Tools
 {
     public class ActionsConfig
     {
-        public List<Action> actions { get; set; }
+        public List<ActionDef> actions { get; set; }
     }
 }

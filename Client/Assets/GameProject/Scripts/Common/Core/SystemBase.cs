@@ -5,33 +5,41 @@ namespace bluebean.Mugen3D.Core
 {
     public class SystemBase
     {
-        protected virtual void ProcessEntity(IComponentOwner componentOwner)
+        /// <summary>
+        /// 该系统所关注的实体列表
+        /// </summary>
+        private readonly List<Entity> m_attentionEnties = new List<Entity>();
+
+        public void Process(WorldBase world)
+        {
+            if (world.IsDirty())
+            {
+                m_attentionEnties.Clear();
+                foreach(var entity in world.GetAllEntities())
+                {
+                    if (Filter(entity))
+                    {
+                        m_attentionEnties.Add(entity);
+                    }
+                }
+            }
+            ProcessEntity(m_attentionEnties);
+        }
+
+        protected virtual void ProcessEntity(List<Entity> entities)
         {
 
         }
 
-        protected BattleWorld world;
-
-        public SystemBase(BattleWorld world)
+        /// <summary>
+        /// 所关注的实体的过滤器
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        protected virtual bool Filter(Entity e)
         {
-            this.world = world;
-            world.onAddEntity += OnAddEntity;
-            world.onRemoveEntity += OnRemoveEntity;
+            return true;
         }
-
-        protected virtual void OnAddEntity(Entity e)
-        {
-       
-        }
-
-        protected virtual void OnRemoveEntity(Entity e)
-        {
-         
-        }
-
-        public virtual void Update()
-        {
-
-        }
+ 
     }
 }
