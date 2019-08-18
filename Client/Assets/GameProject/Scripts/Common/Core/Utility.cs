@@ -7,10 +7,6 @@ namespace bluebean.Mugen3D.Core
 {
     public class Utility
     {
-        public static int GetKeycode(KeyNames key)
-        {
-            return 1 << ((int)key);
-        }
 
         public static void Assert(bool flag, string msg)
         {

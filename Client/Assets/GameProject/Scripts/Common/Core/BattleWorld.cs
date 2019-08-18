@@ -48,6 +48,12 @@ namespace bluebean.Mugen3D.Core
 
     public class BattleWorld : WorldBase
     {
+        #region 单例模式
+        public static BattleWorld Instance { get { return m_instance; } }
+        private static BattleWorld m_instance;
+        //public static BattleWorld CreateInstance() { m_instance = new BattleWorld(); return m_instance; }
+        #endregion
+
         public int BattleNo { get { return m_battleNo; } }
         public BattleState BattleState {get { return m_battleState; } }
         public int RoundNo { get { return m_roundNo; } }
@@ -60,7 +66,6 @@ namespace bluebean.Mugen3D.Core
       
         public Character localPlayer { get; private set; }
         public WorldConfig config { get; private set; }
-        public CameraController cameraController { get; private set; }
         public Action<Event> onEvent;
         private bool isPause = false;
         private int m_pauseTime = 0;
@@ -74,16 +79,60 @@ namespace bluebean.Mugen3D.Core
         public Character m_p1;
         public Character m_p2;
 
-        private PhysicsSystem m_physicsEngine;
-        private ScriptSystem m_scriptEngine;
-        private AnimSystem m_animSystem = new AnimSystem();
-        private CommandSystem m_commandEngine;
+        #region system和单例组件
+        /// <summary>
+        /// 运动系统
+        /// </summary>
+        private MoveSystem m_moveSystem;
+        /// <summary>
+        /// 碰撞系统
+        /// </summary>
+        private CollideSystem m_collideSystem;
+        /// <summary>
+        /// 动画系统
+        /// </summary>
+        private AnimSystem m_animSystem;
+        /// <summary>
+        /// 指令系统
+        /// </summary>
+        private CommandSystem m_commandSystem;
+        /// <summary>
+        /// 摄像机系统
+        /// </summary>
+        private CameraSystem m_cameraSystem;
+        /// <summary>
+        /// 状态机系统
+        /// </summary>
+        private FSMSystem m_fsmSystem;
+        /// <summary>
+        /// 脚本系统
+        /// </summary>
+        private LuaScriptSystem m_luaScriptSystem;
+        /// <summary>
+        /// 系统列表
+        /// </summary>
         private readonly List<SystemBase> m_allSystems = new List<SystemBase>();
+        /// <summary>
+        /// 摄像机单例组件
+        /// </summary>
+        private CameraComponent m_cameraComponent;
+        /// <summary>
+        /// 舞台单例组件
+        /// </summary>
+        private StageComponent m_stageComponent;
+        /// <summary>
+        /// 输入单例组件
+        /// </summary>
+        private InputComponent m_inputComponent;
+
+        protected override List<SystemBase> AllSystem { get { return m_allSystems; } }
+        #endregion
 
         private ConfigDataStage m_stageConfig;
         private ConfigDataCamera m_cameraConfig;
         private ConfigDataCharacter m_p1Config;
         private ConfigDataCharacter m_p2Config;
+        List<ConfigDataCommand> m_commandConfigs;
 
         /// <summary>
         /// 战斗，比赛场次标号
@@ -110,35 +159,52 @@ namespace bluebean.Mugen3D.Core
 
         private IBattleWorldListener m_listener;
 
-        private void InitSubSystem()
+        private void InitSystemAndComponets()
         {
-            cameraController = new CameraController(m_cameraConfig);
-            m_physicsEngine = new PhysicsSystem(this);
-            m_scriptEngine = new ScriptSystem(this);
+            //创建单例组件
+            m_cameraComponent = CameraComponent.CreateInstance();
+            m_cameraComponent.Init(m_cameraConfig);
+            m_stageComponent = StageComponent.CreateInstance();
+            m_stageComponent.Init(m_stageConfig);
+            m_inputComponent = InputComponent.CreateInstance();
+            CommandComponent.StaticInit(m_commandConfigs);
+            //创建所有系统
+            //m_scriptEngine = new ScriptSystem(this);
             m_animSystem = new AnimSystem();
-            m_commandEngine = new CommandSystem(this);
+            m_commandSystem = new CommandSystem();
+            m_moveSystem = new MoveSystem();
+            m_collideSystem = new CollideSystem();
+            m_cameraSystem = new CameraSystem();
+            m_fsmSystem = new FSMSystem();
+            m_luaScriptSystem = new LuaScriptSystem();
+            //加入system list
             m_allSystems.Clear();
             m_allSystems.Add(m_animSystem);
+            m_allSystems.Add(m_commandSystem);
+            m_allSystems.Add(m_moveSystem);
+            m_allSystems.Add(m_collideSystem);
+            m_allSystems.Add(m_cameraSystem);
+            m_allSystems.Add(m_fsmSystem);
+            m_allSystems.Add(m_luaScriptSystem);
         }
 
-        protected override List<SystemBase> AllSystem { get { return m_allSystems; } }
+       
 
         public BattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
         {
+            m_commandConfigs = configDataCommand;
             m_stageConfig = stageConfig;
             m_cameraConfig = cameraConfig;
             m_p1Config = p1Config;
             m_p2Config = p2Config;
             m_cacheInputCodes = new int[2];
             m_listener = listener;
-            InitSubSystem();
+            InitSystemAndComponets();
         }
 
         public void CreateCharacters()
         {
-            //m_p1 = new Character(m_p1Config.Name, m_p1Config, 0, true);
-            m_p1 = new Character(m_p1Config, 0, true, null, "", "", this);
-            m_listener.OnCreateCharacter(m_p1);
+           
         }
 
         #region 改变世界的方法
@@ -355,34 +421,16 @@ namespace bluebean.Mugen3D.Core
 
         public void AddCharacter(Character c)
         {
-            this.characters.Add(c.slot, c);
-            teamInfo.AddCharacter(c);
-            //if (c.isLocal)
-            //{
-            //    this.localPlayer = c;
-            // }
-            cameraController.SetFollowTarget(c.slot, c);
-            AddEntity(c);
+            
         }
 
         private void RemoveCharacter(Character c)
         {
-            characters.Remove(c.slot);
-            //entities.Remove(c);
-            cameraController.RemoveFollowTarget(c.slot);
-            teamInfo.RemoveCharacter(c);
-        }
-
-     
-
-        
-
-        private void EntityUpdate()
-        {
-           
+      
         }
 
         private Dictionary<Unit, Unit> hitResults = new Dictionary<Unit, Unit>(10);
+
         private void GetHitResults()
         {
             hitResults.Clear();
@@ -453,44 +501,6 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        void UpdateView()
-        {
-            foreach (var e in m_entities)
-            {
-                e.SendEvent(new Event() { type = EventType.SampleAnim, data = null });
-            }
-        }
-  
-        void PrepareForNextFrame()
-        {
-            foreach (var e in m_entities)
-            {
-                if (e is Unit)
-                {
-                    var u = e as Unit;
-                    if (u.IsPause())
-                    {
-                        u.AddPauseTime(-1);
-                    }
-                }
-            }
-        }
-
-        void PushTest()
-        {
-
-        }
-
-        void Debug()
-        {
-            foreach (var e in this.m_entities)
-            {
-                if (e is Character || e is Helper)
-                {
-                    (e as Unit).PrintDebugInfo();
-                }
-            }
-        }
 
         public void Step()
         {
@@ -504,7 +514,7 @@ namespace bluebean.Mugen3D.Core
                 //todo
             }
             cameraController.Update();
-            m_commandEngine.Update();
+            m_commandSystem.Update();
             m_scriptEngine.PreUpdate();
             EntityUpdate();
             m_animSystem.Update();
