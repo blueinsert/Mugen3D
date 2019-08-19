@@ -6,13 +6,7 @@ using Math = FixPointMath.Math;
 
 namespace bluebean.Mugen3D.Core
 {
-    public enum MoveType
-    {
-        Attack = 1,
-        Idle,
-        Defence,
-        BeingHitted,
-    }
+    
 
     
 

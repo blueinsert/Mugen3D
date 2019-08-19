@@ -11,9 +11,13 @@ namespace bluebean.Mugen3D.Core
     {
         None = 0,
         /// <summary>
-        /// 地面
+        /// 站立
         /// </summary>
-        Ground,
+        Stand,
+        /// <summary>
+        /// 蹲着
+        /// </summary>
+        Crouch,
         /// <summary>
         /// 空中
         /// </summary>
@@ -25,6 +29,7 @@ namespace bluebean.Mugen3D.Core
         public Vector Positon { get { return m_position; } }
         public int Facing { get { return m_facing; } }
         public Number Mass { get { return m_mass; } }
+        public PhysicsType PhysicsType { get { return m_physicsType; } }
 
         private PhysicsType m_physicsType;
         private Vector m_position;
@@ -38,7 +43,7 @@ namespace bluebean.Mugen3D.Core
         public void Update(Number deltaTime)
         {
             Vector acceleratedVelocity = Vector.zero;
-            if (m_physicsType == PhysicsType.Ground)
+            if (m_physicsType == PhysicsType.Stand || m_physicsType == PhysicsType.Crouch)
             {
                 acceleratedVelocity = (m_gravity.magnitude * m_mass + m_externalForce.y) / m_mass * m_groundFrictionFactor * (-m_velocity.normalized) + m_externalForce / m_mass;
             }
