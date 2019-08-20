@@ -48,6 +48,89 @@ namespace bluebean.Mugen3D.Core
         Low,
     }
 
+    public class HitInfo
+    {
+        public int hitType;
+        public int hitFlag;
+
+        public HitInfo(int hitType, int hitFlag)
+        {
+            this.hitType = hitType;
+            this.hitFlag = hitFlag;
+        }
+    }
+
+    public class HitChecker
+    {
+        protected List<HitInfo> m_infos;
+        protected int m_duration;
+        protected int m_lifeTime;
+
+        public void Update()
+        {
+            m_lifeTime++;
+        }
+
+        public bool IsActive()
+        {
+            return m_lifeTime <= m_duration;
+        }
+
+        public HitChecker(List<HitInfo> infos, int duration)
+        {
+            this.m_infos = infos;
+            this.m_duration = duration;
+            this.m_lifeTime = 0;
+        }
+
+        public virtual bool Check(HitDef hitDef)
+        {
+            return false;
+        }
+    }
+
+    public class HitBy : HitChecker
+    {
+        public HitBy(List<HitInfo> infos, int duration) : base(infos, duration)
+        {
+        }
+
+        //只有指定的Hit能够通过
+        public override bool Check(HitDef hitDef)
+        {
+            if (!IsActive())
+                return true;
+            foreach (var hitInfo in this.m_infos)
+            {
+                if ((hitInfo.hitFlag & hitDef.hitFlag) != 0 && hitInfo.hitType == hitDef.hitType)
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public class NoHitBy : HitChecker
+    {
+        public NoHitBy(List<HitInfo> infos, int duration)
+            : base(infos, duration)
+        {
+
+        }
+
+        //对指定的hit进行拦截
+        public override bool Check(HitDef hitDef)
+        {
+            if (!IsActive())
+                return false;
+            foreach (var hitInfo in this.m_infos)
+            {
+                if ((hitInfo.hitFlag & hitDef.hitFlag) != 0 && hitInfo.hitType == hitDef.hitType)
+                    return true;
+            }
+            return false;
+        }
+    }
+
     /// <summary>
     /// 打击定义数据
     /// </summary>
@@ -105,6 +188,12 @@ namespace bluebean.Mugen3D.Core
         public HitDef HitDef { get { return m_hitDefData; } }
         public HitBy HitBy { get { return m_hitBy; } }
         public NoHitBy NoHitBy { get { return m_noHitBy; } }
+        public int ContinueBeHitCount { get { return m_beHitCount; }]}
+
+        /// <summary>
+        /// 连击计数
+        /// </summary>
+        private int m_beHitCount;
         /// <summary>
         /// 当前的动作类型
         /// </summary>
@@ -132,6 +221,26 @@ namespace bluebean.Mugen3D.Core
                 m_hitBy.Update();
             if (m_noHitBy != null)
                 m_noHitBy.Update();
+        }
+
+        public void SetHitDef(HitDef hitDef)
+        {
+            m_hitDefData = hitDef;
+        }
+
+        public void SetBeHitDef(HitDef hitDef)
+        {
+            m_beHitDefData = hitDef;
+        }
+
+        public void AddBeHitCount()
+        {
+            this.m_beHitCount++;
+        }
+
+        public void ClearBeHitCount()
+        {
+            this.m_beHitCount = 0;
         }
     }
 }

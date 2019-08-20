@@ -19,7 +19,7 @@ namespace bluebean.Mugen3D.Core
                 var animationComponent = entity.GetComponent<AnimationComponent>();
                 var collideComponent = entity.GetComponent<CollideComponent>();
                 var moveComponent = entity.GetComponent<MoveComponent>();
-                collideComponent.Update(animationComponent.CurActionFrame.clsns, moveComponent != null ? moveComponent.Positon : Vector.zero, moveComponent != null ? moveComponent.Facing : -1);
+                collideComponent.Update(animationComponent.CurActionFrame.clsns, moveComponent != null ? moveComponent.Position : Vector.zero, moveComponent != null ? moveComponent.Facing : -1);
             }
             //碰撞求解，得到相互不穿叉的位置
             int loopMax = 1;
@@ -51,7 +51,7 @@ namespace bluebean.Mugen3D.Core
             {
                 var entity1 = entities[i];
                 var moveComponent1 = entity1.GetComponent<MoveComponent>();
-                var pos = moveComponent1.Positon;
+                var pos = moveComponent1.Position;
                 //摄像机视口限制
                 var cameraComponent = CameraComponent.Instance;
                 if (cameraComponent != null)

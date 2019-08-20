@@ -26,7 +26,7 @@ namespace bluebean.Mugen3D.Core
 
     public class MoveComponent : ComponentBase
     {
-        public Vector Positon { get { return m_position; } }
+        public Vector Position { get { return m_position; } }
         public int Facing { get { return m_facing; } }
         public Number Mass { get { return m_mass; } }
         public PhysicsType PhysicsType { get { return m_physicsType; } }

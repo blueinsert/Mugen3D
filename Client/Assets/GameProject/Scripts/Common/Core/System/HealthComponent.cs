@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class HealthComponent : MonoBehaviour
+namespace bluebean.Mugen3D.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    public class HealthComponent : ComponentBase
     {
-        
-    }
+        public int HP { get { return m_hp; } }
+        private int m_hp;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void SetHP(int hp)
+        {
+            m_hp = hp;
+        }
+
+        public void AddHP(int deltaHP)
+        {
+            m_hp += deltaHP;
+        }
     }
 }

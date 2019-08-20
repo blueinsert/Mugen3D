@@ -17,7 +17,7 @@ namespace bluebean.Mugen3D.Core
             foreach(var entity in entities)
             {
                 var moveComponent = entity.GetComponent<MoveComponent>();
-                posArray.Add(moveComponent.Positon);
+                posArray.Add(moveComponent.Position);
             }
             var cameraComponent = CameraComponent.Instance;
             if (cameraComponent != null)
