@@ -8,64 +8,52 @@ namespace bluebean.Mugen3D.Core
     {
         int frameCount = 0;
         private int m_maxEntityId = 0;
-        private readonly List<Entity> m_toAddedEntities = new List<Entity>();
-        private readonly List<Entity> m_toDestroyedEntities = new List<Entity>();
-        private readonly List<Entity> m_entities = new List<Entity>();
 
+        public readonly Dictionary<int, Entity> m_entityDic = new Dictionary<int, Entity>();
         /// <summary>
         /// 获取所有系统
         /// </summary>
         protected virtual List<SystemBase> AllSystem { get; }
 
-        public void AddEntity(Entity e)
+        protected void AddEntity(Entity e)
         {
-            m_toAddedEntities.Add(e);
-            e.SetEntityId(m_maxEntityId++);
-            OnAddEntity(e);
+            m_entityDic.Add(e.ID,e);
         }
 
-        protected virtual void OnAddEntity(Entity e)
+        protected void RemoveEntity(int id)
         {
-
+            m_entityDic.Remove(id);
         }
 
-        protected virtual void OnRemoveEntity(Entity e)
+        protected void RemoveEntity(Entity entity)
         {
-
+            RemoveEntity(entity.ID);
         }
 
-        private void DoAddEntity(Entity e)
+        public Entity GetEntity(int id)
         {
-            m_entities.Add(e);
-            OnAddEntity(e);
+            return m_entityDic[id];
         }
 
-        private void DoRemoveEntity(Entity e)
+        /// <summary>
+        /// 获得所有实体
+        /// </summary>
+        public List<Entity> GetAllEntities()
         {
-            m_entities.Remove(e);
-            OnRemoveEntity(e);
+            return new List<Entity>(m_entityDic.Values);
         }
 
         protected virtual void OnAfterStep()
         {
-            foreach (var e in m_toAddedEntities)
+           
+        }
+
+        protected virtual void OnStep()
+        {
+            foreach (var system in AllSystem)
             {
-                DoAddEntity(e);
+                system.Process(this);
             }
-            m_toAddedEntities.Clear();
-            foreach (var e in m_entities)
-            {
-                e.OnUpdate();
-                if (e.isDestroyed)
-                {
-                    m_toDestroyedEntities.Add(e);
-                }
-            }
-            foreach (var ent in m_toDestroyedEntities)
-            {
-                DoRemoveEntity(ent);
-            }
-            m_toDestroyedEntities.Clear();
         }
 
         public void Step()
@@ -73,14 +61,6 @@ namespace bluebean.Mugen3D.Core
             frameCount++;
             OnStep();
             OnAfterStep();
-        }
-
-        protected virtual void OnStep()
-        {
-            foreach(var system in AllSystem)
-            {
-                system.Process(this);
-            }
         }
 
         /// <summary>
@@ -92,15 +72,5 @@ namespace bluebean.Mugen3D.Core
             return true;
         }
 
-        /// <summary>
-        /// 获得所有实体
-        /// </summary>
-        public List<Entity> GetAllEntities()
-        {
-            return m_entities;
-        }
-
-        
-       
     }
 }

@@ -43,7 +43,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public Number xMin
+        public Number XMin
         {
             get
             {
@@ -51,7 +51,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public Number xMax
+        public Number XMax
         {
             get
             {
@@ -59,7 +59,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public Number yMin
+        public Number YMin
         {
             get
             {
@@ -67,7 +67,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public Number yMax
+        public Number YMax
         {
             get
             {
@@ -104,7 +104,7 @@ namespace bluebean.Mugen3D.Core
         }
 
         public static bool IsOverlap(Rect rect1, Rect rect2){
-            return !((rect1.xMin > rect2.xMax || rect2.xMin > rect1.xMax) || (rect1.yMin > rect2.yMax || rect2.yMin > rect1.yMax));
+            return !((rect1.XMin > rect2.XMax || rect2.XMin > rect1.XMax) || (rect1.YMin > rect2.YMax || rect2.YMin > rect1.YMax));
         }
 
         public bool IsOverlap(Rect rect)

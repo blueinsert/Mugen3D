@@ -8,44 +8,6 @@ using bluebean.UGFramework.ConfigData;
 namespace bluebean.Mugen3D.Core
 {
     
-
-    /// <summary>
-    /// 回合状态
-    /// </summary>
-    public enum RoundState
-    {
-        PreIntro = 0,
-        Intro,//第一回合的出场白
-        RoundDeclare,//回合开始
-        Fight,//开始战斗
-        PreOver,
-        Over,
-        PostOver,
-    }
-
-    /// <summary>
-    /// 战斗、比赛状态
-    /// </summary>
-    public enum BattleState
-    {
-        None,
-        Starting,
-        Running,
-        Stoping,
-        Stoped
-    }
-
-    /// <summary>
-    /// 战斗模式，玩法
-    /// </summary>
-    public enum BattleMode
-    {
-        SinglePlay,
-        SingleVS,
-        TeamPlay,
-        TeamVS,
-    }
-
     public class BattleWorld : WorldBase
     {
         #region 单例模式
@@ -55,18 +17,14 @@ namespace bluebean.Mugen3D.Core
         #endregion
 
         public int BattleNo { get { return m_battleNo; } }
-        public BattleState BattleState {get { return m_battleState; } }
+        public MatchState BattleState {get { return m_battleState; } }
         public int RoundNo { get { return m_roundNo; } }
         public RoundState RoundState { get { return m_roundState; } }
 
       
-        public Dictionary<int, Character> characters = new Dictionary<int, Character>();
 
-        public TeamManager teamInfo = new TeamManager();
       
-        public Character localPlayer { get; private set; }
-        public WorldConfig config { get; private set; }
-        public Action<Event> onEvent;
+
         private bool isPause = false;
         private int m_pauseTime = 0;
 
@@ -76,8 +34,6 @@ namespace bluebean.Mugen3D.Core
         private Dictionary<int, int> winCount = new Dictionary<int, int>();
         private readonly int MAX_WIN_COUNT = 2;
 
-        public Character m_p1;
-        public Character m_p2;
 
         #region system和单例组件
         /// <summary>
@@ -141,11 +97,11 @@ namespace bluebean.Mugen3D.Core
         /// <summary>
         /// 战斗模式
         /// </summary>
-        private BattleMode m_battleMode;
+        private MatchMode m_battleMode;
         /// <summary>
         /// 战斗状态
         /// </summary>
-        private BattleState m_battleState;
+        private MatchState m_battleState;
         /// <summary>
         /// 第几回合
         /// </summary>
@@ -224,7 +180,7 @@ namespace bluebean.Mugen3D.Core
         protected void StartBattle()
         {
             m_roundNo = 1;
-            m_battleState = BattleState.Starting;
+            m_battleState = MatchState.Starting;
             ChangeRoundState(RoundState.PreIntro);
             m_p1 = new Character(m_p1Config,0,true,null, "","", this);
             m_listener.OnCreateCharacter(m_p1);
@@ -239,7 +195,7 @@ namespace bluebean.Mugen3D.Core
 
         protected void StopMatch()
         {
-            m_battleState = BattleState.Stoping;
+            m_battleState = MatchState.Stoping;
             m_listener.OnBattleEnd(m_battleNo);
         }
 
@@ -394,136 +350,15 @@ namespace bluebean.Mugen3D.Core
 
         #endregion
 
-        public bool IsPause()
-        {
-            return m_pauseTime > 0;
-        }
 
-        public void Pause(int time)
-        {
-            m_pauseTime = time;
-        }
-
-        public void Continue()
-        {
-            isPause = false;
-        }
-
-        public void FireEvent(Event evt)
-        {
-            if (onEvent != null)
-            {
-                onEvent(evt);
-            }
-        }
-
-     
-
-        public void AddCharacter(Character c)
+        public void AddCharacter(ConfigDataCharacter configDataCharacter)
         {
             
         }
 
-        private void RemoveCharacter(Character c)
+        protected override void OnStep()
         {
-      
-        }
-
-        private Dictionary<Unit, Unit> hitResults = new Dictionary<Unit, Unit>(10);
-
-        private void GetHitResults()
-        {
-            hitResults.Clear();
-            for (int m = 0; m < m_entities.Count; m++)
-            {
-                var e1 = m_entities[m];
-                for (int n = 0; n < m_entities.Count; n++)
-                {
-                    var e2 = m_entities[n];
-                    if (e1 == e2)
-                        continue;
-                    if (!(e1 is Unit) || !(e2 is Unit))
-                        continue;
-                    var attacker = e1 as Unit;
-                    var target = e2 as Unit;
-                    if (attacker.GetMoveType() != MoveType.Attack || attacker.GetHitDefData() == null || attacker.GetHitDefData().moveContact == true)
-                        continue;
-                    if (attacker is Helper && (attacker as Helper).owner == target)
-                        continue;
-                    var collider1 = attacker.moveCtr.collider;
-                    var collider2 = target.moveCtr.collider;
-                    for (int i = 0; i < collider1.m_attackClsnsLength; i++)
-                    {
-                        var attackClsn = collider1.attackClsns[i];
-                        for (int j = 0; j < collider2.m_defenceClsnsLength; j++)
-                        {
-                            var defenceClsn = collider2.defenceClsns[j];
-                            ContactInfo contactInfo;
-                            if (PhysicsUtils.RectColliderIntersectTest(attackClsn, defenceClsn, out contactInfo))
-                            {
-                                hitResults[target] = attacker;
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-
-        private void HitResolve()
-        {
-            GetHitResults();
-            foreach (var hitResult in hitResults)
-            {
-                var attacker = hitResult.Value;
-                var target = hitResult.Key;
-                var hitDef = attacker.GetHitDefData();
-                if (target.CanBeHit(hitDef))
-                {
-                    bool isBeGuarded = false;
-                    if (target.CanBeGuard(hitDef) && (target.IsGuarding()))
-                    {
-                        isBeGuarded = true;
-                    }
-                    if (isBeGuarded && target.GetHP() - hitDef.guardDamage >= 0)
-                    {
-                        attacker.OnMoveGuarded(target);
-                        target.OnGuardHit(hitDef);
-                    }
-                    else
-                    {
-                        attacker.OnMoveHit(target);
-                        target.OnBeHitted(hitDef);
-                    }
-                    if (!hitResults.ContainsKey(attacker))
-                        attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
-                }
-            }
-        }
-
-
-        public void Step()
-        {
-            if (IsPause())
-            {
-                m_pauseTime--;
-                return;
-            }
-            for(int i = 0; i < m_cacheInputCodes.Length; i++)
-            {
-                //todo
-            }
-            cameraController.Update();
-            m_commandSystem.Update();
-            m_scriptEngine.PreUpdate();
-            EntityUpdate();
-            m_animSystem.Update();
-            m_scriptEngine.Update();     //change state, change anim, so on...  
-            m_physicsEngine.Update();
-            HitResolve();
-            Debug();
-            UpdateView();
-            PrepareForNextFrame();
+            base.OnStep();
         }
 
     }

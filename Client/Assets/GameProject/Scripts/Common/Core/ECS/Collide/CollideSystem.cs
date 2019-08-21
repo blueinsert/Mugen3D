@@ -58,7 +58,7 @@ namespace bluebean.Mugen3D.Core
                 {
                     var viewPort = cameraComponent.ViewPort;
                     Number playerWidth = new Number(5) / new Number(10);
-                    pos.x = Math.Clamp(pos.x, viewPort.xMin + playerWidth, viewPort.xMax - playerWidth);
+                    pos.x = Math.Clamp(pos.x, viewPort.XMin + playerWidth, viewPort.XMax - playerWidth);
                 }
                 //舞台限制
                 var stageComponent = StageComponent.Instance;

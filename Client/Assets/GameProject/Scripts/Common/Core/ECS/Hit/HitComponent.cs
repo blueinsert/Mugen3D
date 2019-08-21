@@ -188,7 +188,7 @@ namespace bluebean.Mugen3D.Core
         public HitDef HitDef { get { return m_hitDefData; } }
         public HitBy HitBy { get { return m_hitBy; } }
         public NoHitBy NoHitBy { get { return m_noHitBy; } }
-        public int ContinueBeHitCount { get { return m_beHitCount; }]}
+        public int ContinueBeHitCount { get { return m_beHitCount; }}
 
         /// <summary>
         /// 连击计数
