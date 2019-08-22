@@ -34,13 +34,13 @@ namespace bluebean.Mugen3D.Core
         /// 创建人物
         /// </summary>
         /// <param name="character"></param>
-        void OnCreateCharacter(Character character);
+        void OnCreateCharacter(Entity character);
 
         /// <summary>
         /// 销毁人物
         /// </summary>
         /// <param name="character"></param>
-        void OnDestroyCharacter(Character character);
+        void OnDestroyCharacter(Entity character);
 
         /// <summary>
         /// 播放声音

@@ -15,12 +15,12 @@ namespace bluebean.Mugen3D.Core
             throw new System.NotImplementedException();
         }
 
-        public void OnCreateCharacter(Character character)
+        public void OnCreateCharacter(Entity character)
         {
             throw new System.NotImplementedException();
         }
 
-        public void OnDestroyCharacter(Character character)
+        public void OnDestroyCharacter(Entity character)
         {
             throw new System.NotImplementedException();
         }

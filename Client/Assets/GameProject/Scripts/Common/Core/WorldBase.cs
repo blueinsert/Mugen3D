@@ -6,10 +6,10 @@ namespace bluebean.Mugen3D.Core
 {
     public class WorldBase
     {
-        int frameCount = 0;
-        private int m_maxEntityId = 0;
+        protected int frameCount = 0;
+        protected int m_maxEntityId = 0;
 
-        public readonly Dictionary<int, Entity> m_entityDic = new Dictionary<int, Entity>();
+        protected readonly Dictionary<int, Entity> m_entityDic = new Dictionary<int, Entity>();
         /// <summary>
         /// 获取所有系统
         /// </summary>

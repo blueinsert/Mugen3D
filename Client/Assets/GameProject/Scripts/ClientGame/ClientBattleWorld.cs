@@ -39,11 +39,40 @@ namespace bluebean.Mugen3D.ClientGame
 
         private readonly Dictionary<int, CharacterActor> m_characterActorDic = new Dictionary<int, CharacterActor>();
 
-        public ClientBattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config,IAssetProvider assetProvider) {
+        /// <summary>
+        /// 玩家输入映射配置，key是玩家id,value是键名到键码的映射表
+        /// </summary>
+        private readonly Dictionary<int, Dictionary<KeyNames, KeyCode>> m_playerInputMapDic = new Dictionary<int, Dictionary<Core.KeyNames, KeyCode>>();
+        private int[] m_playerInputCodes;
+
+        public ClientBattleWorld(List<ConfigDataInputDefault> configDataInputDefaults, List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config,IAssetProvider assetProvider) {
             m_battleWorld = new BattleWorld(configDataCommand, stageConfig, cameraConfig, p1Config, p2Config, this);
             m_assetProvider = assetProvider;
             m_gameDeltaTime = (1000 / 60) / 1000f;
             m_stageConfig = stageConfig;
+        }
+
+        /// <summary>
+        /// 初始化玩家输入映射 todo 使用本地保存的设置进行初始化
+        /// </summary>
+        private void InitPlayerInputMapConfig(List<ConfigDataInputDefault> configs)
+        {
+           foreach(var config in configs)
+            {
+                var mapping = new Dictionary<Core.KeyNames, KeyCode>();
+                mapping.Add(KeyNames.KEY_UP, (KeyCode)config.Up);
+                mapping.Add(KeyNames.KEY_DOWN, (KeyCode)config.Down);
+                mapping.Add(KeyNames.KEY_LEFT, (KeyCode)config.Left);
+                mapping.Add(KeyNames.KEY_RIGHT, (KeyCode)config.Right);
+                mapping.Add(KeyNames.KEY_BUTTON_A, (KeyCode)config.A);
+                mapping.Add(KeyNames.KEY_BUTTON_B, (KeyCode)config.B);
+                mapping.Add(KeyNames.KEY_BUTTON_C, (KeyCode)config.C);
+                mapping.Add(KeyNames.KEY_BUTTON_X, (KeyCode)config.X);
+                mapping.Add(KeyNames.KEY_BUTTON_Y, (KeyCode)config.Y);
+                mapping.Add(KeyNames.KEY_BUTTON_Z, (KeyCode)config.Z);
+                m_playerInputMapDic.Add(config.ID, mapping);
+            }
+            m_playerInputCodes = new int[m_playerInputMapDic.Count];
         }
 
         public void Init(BattleSceneViewController battleSceneViewController)
@@ -52,8 +81,9 @@ namespace bluebean.Mugen3D.ClientGame
             m_battleSceneViewController.CreateStage(m_stageConfig, this);
 
             m_rootPlayers = m_battleSceneViewController.PlayerRoot;
-            m_battleWorld.CreateCharacters();
         }
+
+
 
         public T GetAsset<T>(string path) where T : UnityEngine.Object
         {
@@ -91,6 +121,23 @@ namespace bluebean.Mugen3D.ClientGame
             //Core.SystemConfig.Instance.Init(ResourceLoader.LoadText("Config/System.cfg"));
         }
 
+        private void UpdatePlayerInputCodes()
+        {
+            foreach(var playerPair in m_playerInputMapDic)
+            {
+                var inputMapDic = playerPair.Value;
+                int keycode = 0;
+                foreach (var inputPair in inputMapDic)
+                {
+                    if (Input.GetKey(inputPair.Value))
+                    {
+                        keycode = keycode | Utility.GetKeycode(inputPair.Key);
+                    }
+                }
+                m_playerInputCodes[playerPair.Key] = keycode;
+            }
+        }
+
         public virtual void Tick()
         {
             if (Input.GetKeyDown(KeyCode.P))
@@ -122,6 +169,8 @@ namespace bluebean.Mugen3D.ClientGame
 
         protected void Step()
         {
+            UpdatePlayerInputCodes();
+            m_battleWorld.UpdatePlayerInput(m_playerInputCodes);
             m_battleWorld.Step();
         }
 

@@ -12,6 +12,7 @@ namespace bluebean.Mugen3D.Core
         public static int OpenLib(ILuaState lua)
         {
             var define = new NameFuncPair[] {
+                /*
                 new NameFuncPair("CreateHelper", CreateHelper),
                 new NameFuncPair("CreateProjectile", CreateProjectile),
                 new NameFuncPair("DestroySelf", DestroySelf),
@@ -32,11 +33,13 @@ namespace bluebean.Mugen3D.Core
                 new NameFuncPair("TargetBind", TargetBind),
                 new NameFuncPair("MakeEffect", MakeEffect),
                 new NameFuncPair("PlaySound", PlaySound),
+                */
             };
             lua.L_NewLib(define);
             return 1;
         }
 
+        /*
         public static int CreateProjectile(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
@@ -342,6 +345,6 @@ namespace bluebean.Mugen3D.Core
             c.SendEvent(new Event() { type = EventType.PlaySound, data = def });
             return 0;
         }
-
+        */
     }
 }

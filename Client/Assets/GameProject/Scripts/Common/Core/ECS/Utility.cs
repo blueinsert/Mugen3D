@@ -96,4 +96,6 @@ namespace bluebean.Mugen3D.Core
             return Vector.zero;
         }
     }
+
+    
 }

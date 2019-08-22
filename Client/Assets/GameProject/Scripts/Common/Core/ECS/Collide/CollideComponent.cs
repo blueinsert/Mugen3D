@@ -102,6 +102,8 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
+        public Number Width { get { return m_width; } }
+
         private Vector m_offset;
         private Number m_width;
         private Number m_height;

@@ -12,6 +12,7 @@ namespace bluebean.Mugen3D.Core
         public static int OpenLib(ILuaState lua)
         {
             var define = new NameFuncPair[] {
+                /*
                 new NameFuncPair("NumHelper", NumHelper),
                 new NameFuncPair("NumProj", NumProj),
                 new NameFuncPair("NumProjID", NumProjID),
@@ -50,11 +51,13 @@ namespace bluebean.Mugen3D.Core
                 new NameFuncPair("Alive", IsAlive),
                 new NameFuncPair("MatchNo", MatchNo),
                 new NameFuncPair("RoundNo", RoundNo),
+                */
             };
             lua.L_NewLib(define);
             return 1;
         }
 
+        /*
         public static int NumHelper(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
@@ -528,5 +531,6 @@ namespace bluebean.Mugen3D.Core
             lua.PushInteger(roundNo);
             return 1;
         }
+        */
     }
 }

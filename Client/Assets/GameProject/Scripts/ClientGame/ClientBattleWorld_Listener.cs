@@ -28,16 +28,12 @@ namespace bluebean.Mugen3D.ClientGame
             throw new NotImplementedException();
         }
 
-        public void OnCreateCharacter(Character character)
+        public void OnCreateCharacter(Entity character)
         {
-            var config = character.Config;
-            CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(config.Prefab), m_rootPlayers);
-            characterActor.SetPosition(character.Position.x.AsFloat(), character.Position.y.AsFloat());
-            characterActor.SetFacing(character.Facing);
-            m_characterActorDic.Add(character.slot, characterActor);
+           
         }
 
-        public void OnDestroyCharacter(Character character)
+        public void OnDestroyCharacter(Entity character)
         {
             throw new NotImplementedException();
         }
