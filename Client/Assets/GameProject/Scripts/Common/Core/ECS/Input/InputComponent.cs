@@ -15,11 +15,10 @@ namespace bluebean.Mugen3D.Core
 
     public class InputComponent: ComponentBase
     {
-        #region 单例模式
-        public static InputComponent Instance { get { return m_instance; } }
-        private static InputComponent m_instance;
-        public static InputComponent CreateInstance() { m_instance = new InputComponent(); return m_instance; }
-        #endregion
+        public InputComponent(WorldBase world) : base(world)
+        {
+
+        }
 
         //public Dictionary<int, List<InputRecord>> InputRecords = new Dictionary<int, List<InputRecord>>();
 

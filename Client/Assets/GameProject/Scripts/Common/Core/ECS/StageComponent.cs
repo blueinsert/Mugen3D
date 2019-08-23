@@ -37,6 +37,11 @@ namespace bluebean.Mugen3D.Core
 
         private Vector m_P2InitPos;
 
+        public StageComponent(WorldBase world) : base(world)
+        {
+
+        }
+
         public void Init(ConfigDataStage configDataStage)
         {
             m_BorderXMin = configDataStage.BorderXMin * Number.EN4;

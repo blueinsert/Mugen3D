@@ -113,6 +113,11 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
+        public AnimationComponent(WorldBase world) : base(world)
+        {
+
+        }
+
         /// <summary>
         /// 动画是否存在
         /// </summary>

@@ -59,6 +59,7 @@ namespace bluebean.Mugen3D.Core
 
         protected override void ProcessEntity(List<Entity> entities)
         {
+            Debug.Log("CommandSystem:ProcessEntity");
             foreach(var entity in entities)
             {
                 var playerComponent = entity.GetComponent<PlayerComponent>();

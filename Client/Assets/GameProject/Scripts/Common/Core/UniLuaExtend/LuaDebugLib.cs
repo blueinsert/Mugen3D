@@ -24,7 +24,7 @@ namespace bluebean.Mugen3D.Core
             int slot = lua.L_CheckInteger(1);
             string key = lua.L_CheckString(2);
             string value = lua.L_CheckString(3);
-            Core.Debug.AddGUIDebugMsg(slot, key, value);
+            //Core.Debug.AddGUIDebugMsg(slot, key, value);
             return 0;
         }
     }

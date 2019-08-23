@@ -58,14 +58,6 @@ namespace bluebean.Mugen3D.UI
 
         protected override bool IsNeedUpdateCache()
         {
-            if (m_cameraConfig == null)
-            {
-                m_cameraConfig = ConfigDataLoader.Instance.GetConfigDataCamera(m_stageConfig.CameraConfigID);
-            }
-            if(m_commandsConfig == null)
-            {
-                m_commandsConfig = new List<ConfigDataCommand>(ConfigDataLoader.Instance.GetAllConfigDataCommand().Values);
-            }
             return false;
         }
 
@@ -112,7 +104,7 @@ namespace bluebean.Mugen3D.UI
             PushAllLayer();
             if(m_clientBattleWorld == null)
             {
-                m_clientBattleWorld = new ClientBattleWorld(m_commandsConfig, m_stageConfig, m_cameraConfig, m_p1Config, m_p2Config, this);
+                m_clientBattleWorld = new ClientBattleWorld(m_stageConfig,m_p1Config,m_p2Config, this);
                 m_clientBattleWorld.Init(m_battleSceneViewController);
             }
         }
@@ -135,10 +127,8 @@ namespace bluebean.Mugen3D.UI
         private ClientBattleWorld m_clientBattleWorld;
 
         private ConfigDataStage m_stageConfig;
-        private ConfigDataCamera m_cameraConfig;
         private ConfigDataCharacter m_p1Config;
         private ConfigDataCharacter m_p2Config;
-        private List<ConfigDataCommand> m_commandsConfig;
 
         private BattleUIController m_battleUIController;
         private BattleSceneViewController m_battleSceneViewController;
