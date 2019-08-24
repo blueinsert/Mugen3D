@@ -8,6 +8,8 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     public class FSMSystem : SystemBase
     {
+        public FSMSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<FSMComponent>() != null;

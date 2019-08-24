@@ -113,7 +113,7 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public AnimationComponent(WorldBase world) : base(world)
+        public AnimationComponent()
         {
 
         }

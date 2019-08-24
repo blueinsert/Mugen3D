@@ -6,7 +6,8 @@ namespace bluebean.Mugen3D.Core
 {
     public class MoveSystem : SystemBase
     {
-        
+        public MoveSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<MoveComponent>() != null;

@@ -17,5 +17,15 @@ namespace bluebean.Mugen3D.ClientGame
         {
             m_prefabInstance.transform.localScale = new Vector3(facing > 0 ? 1 : -1, 1, 1);
         }
+
+        public void Tick()
+        {
+            OnTick();
+        }
+
+        protected virtual void OnTick()
+        {
+
+        }
     }
 }

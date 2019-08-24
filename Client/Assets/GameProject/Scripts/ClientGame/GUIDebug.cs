@@ -1,28 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mugen3D;
+using bluebean.UGFramework;
 
-public class GUIDebug : MonoBehaviour
+public class GUIDebug : Singleton<GUIDebug>
 {
-    public static GUIDebug Instance;
-    private Vector2 m_p1ScrollPosition = new Vector2(Screen.width / 2, 0);
-    private Vector2 m_p2ScrollPosition = new Vector2(Screen.width / 2, 0);
+
+    private Vector2[] m_scrollPositions = new Vector2[4];
+    private Vector2[] m_areaStartPos = new Vector2[4] { new Vector2(0, 0), new Vector2(Screen.width / 2, 0), new Vector2(0, Screen.height / 2), new Vector2(Screen.width / 2, Screen.height / 2) };
+    private Vector2 m_areaSize = new Vector2(Screen.width / 2, Screen.height / 2);
 
     private Dictionary<int, Dictionary<string, string>> m_msg = new Dictionary<int, Dictionary<string, string>>();
-    private int m_curIndex = 0;
 
-    void Awake()
-    {
-        Instance = this;
-    }
-
-    public void AddMsg(string key, string value)
-    {
-        AddMsg(0, key, value);
-    }
-
-    public void AddMsg(int index, string key, string value)
+    public void SetMsg(int index, string key, string value)
     {
         if (!m_msg.ContainsKey(index))
         {
@@ -31,32 +21,37 @@ public class GUIDebug : MonoBehaviour
         m_msg[index][key] = value;
     }
 
+    private void ShowMessage(Dictionary<string, string> msgDic, int areaIndex)
+    {
+        GUIStyle fontStyle = new GUIStyle();
+        fontStyle.normal.background = null;    //设置背景填充
+        fontStyle.normal.textColor = new Color(0, 0, 1);   //设置字体颜色
+        fontStyle.fontSize = 15;       //字体大小
+ 
+        var areaStartPos = m_areaStartPos[areaIndex];
+        GUI.color = Color.blue;
+        GUILayout.BeginArea(new UnityEngine.Rect(areaStartPos.x, areaStartPos.y, m_areaSize.x, m_areaSize.y));
+        m_areaStartPos[areaIndex] = GUILayout.BeginScrollView(m_areaStartPos[areaIndex], GUILayout.Width(Screen.width / 2), GUILayout.Height(Screen.height));
+        GUILayout.BeginVertical();
+        foreach (var kv in msgDic)
+        {
+            GUILayout.Label(new GUIContent(kv.Key + ":" + kv.Value), fontStyle);
+        }
+        GUILayout.EndVertical();
+        GUILayout.EndScrollView();
+        GUILayout.EndArea();
+    }
+
     void OnGUI()
     {
-        if (GUI.Button(new Rect(200, 50, 100, 50), "next"))
+        int i = 0;
+        foreach(var pair in m_msg)
         {
-            m_curIndex++;
-            if (m_curIndex >= m_msg.Count)
+            if (i < 4)
             {
-                m_curIndex = 0;
+                ShowMessage(pair.Value, i++);
             }
         }
-        if (m_msg.Count != 0 && m_msg.ContainsKey(m_curIndex))
-        {
-            GUI.color = Color.blue;
-            GUILayout.BeginArea(new UnityEngine.Rect(0, 0, Screen.width / 2, Screen.height));
-            m_p1ScrollPosition = GUILayout.BeginScrollView(m_p1ScrollPosition, GUILayout.Width(Screen.width / 2), GUILayout.Height(Screen.height));
-            GUILayout.BeginVertical();
-            GUILayout.Label(new GUIContent("curIndex:" + m_curIndex));
-            foreach (var kv in m_msg[m_curIndex])
-            {
-                GUILayout.Label(new GUIContent(kv.Key + ":" + kv.Value));
-            }
-            GUILayout.EndVertical();
-            GUILayout.EndArea();
-            GUILayout.EndScrollView();
-        }
-        
     }
 }
 

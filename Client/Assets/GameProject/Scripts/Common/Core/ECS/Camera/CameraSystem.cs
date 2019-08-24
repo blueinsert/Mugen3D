@@ -6,6 +6,8 @@ namespace bluebean.Mugen3D.Core
 {
     public class CameraSystem : SystemBase
     {
+        public CameraSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<PlayerComponent>() != null && e.GetComponent<MoveComponent>() != null;

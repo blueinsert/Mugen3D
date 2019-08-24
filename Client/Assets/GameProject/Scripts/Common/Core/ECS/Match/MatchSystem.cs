@@ -6,6 +6,8 @@ namespace bluebean.Mugen3D.Core
 {
     public class MatchSystem : SystemBase
     {
+        public MatchSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return base.Filter(e);

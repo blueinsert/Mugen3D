@@ -21,8 +21,8 @@ namespace bluebean.Mugen3D.ClientGame
     {
 
         private bool isPuase = false;
-        public int renderFPS = 60;
-        public int logicFPS = 60;
+        private int m_renderFPS = 60;
+        private int m_logicFPS = 60;
 
         private float m_gameTimeResidual = 0;
         private float m_gameDeltaTime; //core update period
@@ -60,9 +60,7 @@ namespace bluebean.Mugen3D.ClientGame
         /// </summary>
         private readonly List<Dictionary<KeyNames, KeyCode>> m_playerInputMapConfigList = new List<Dictionary<Core.KeyNames, KeyCode>>();
 
-        private GameObject m_rootPlayers;
-
-       
+        private GameObject m_playersRoot;
 
         protected BattleWorld m_battleWorld;
 
@@ -119,7 +117,9 @@ namespace bluebean.Mugen3D.ClientGame
             m_playerInputCodes = new int[m_playerInputMapConfigList.Count];
         }
 
-        public ClientBattleWorld(ConfigDataStage stageConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config,IAssetProvider assetProvider,int renderFPS = 60,int logicFPS=60) {
+        public ClientBattleWorld(GameObject playersRoot, ConfigDataStage stageConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config,IAssetProvider assetProvider,int renderFPS = 60,int logicFPS=60) {
+            //初始化GameObject节点
+            m_playersRoot = playersRoot;
             //初始化配置信息
             var configLoader = ConfigDataLoader.Instance;
             m_inputConfigList = new List<ConfigDataInputDefault>(configLoader.GetAllConfigDataInputDefault().Values);
@@ -127,9 +127,14 @@ namespace bluebean.Mugen3D.ClientGame
             m_commandsConfig = new List<ConfigDataCommand>(ConfigDataLoader.Instance.GetAllConfigDataCommand().Values);
             m_stageConfig = stageConfig;
             m_cameraConfig = ConfigDataLoader.Instance.GetConfigDataCamera(m_stageConfig.CameraConfigID);
-            m_assetProvider = assetProvider;
-            m_gameDeltaTime = (1000 / 60) / 1000f;
-            InitPlayerInputMapConfig(m_inputConfigList);
+            m_p1Config = p1Config;
+            m_p2Config = p2Config;
+            m_assetProvider = assetProvider;//资源加载器
+            m_renderFPS = renderFPS;
+            m_logicFPS = logicFPS;
+            Application.targetFrameRate = m_renderFPS;
+            m_gameDeltaTime = (1000 / m_logicFPS) / 1000f;
+            InitPlayerInputMapConfig(m_inputConfigList);//初始化输入配置
             // new BattleWorld
             BattleWorld.StaticInit(LuaLoader, Debug.Log, Debug.LogWarning, Debug.LogError);
             m_battleWorld = new BattleWorld(m_commandsConfig, m_stageConfig, m_cameraConfig, p1Config, p2Config, this);
@@ -141,7 +146,7 @@ namespace bluebean.Mugen3D.ClientGame
             m_battleSceneViewController = battleSceneViewController;
             m_battleSceneViewController.CreateStage(m_stageConfig, this);
 
-            m_rootPlayers = m_battleSceneViewController.PlayerRoot;
+            m_playersRoot = m_battleSceneViewController.PlayerRoot;
         }
 
 
@@ -189,6 +194,15 @@ namespace bluebean.Mugen3D.ClientGame
             {
                 m_gameTimeResidual -= m_gameDeltaTime;
                 Step();
+            }
+            ActorsTick();
+        }
+
+        private void ActorsTick()
+        {
+            foreach(var pair in m_characterActorDic)
+            {
+                pair.Value.Tick();
             }
         }
 

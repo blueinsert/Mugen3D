@@ -6,6 +6,8 @@ namespace bluebean.Mugen3D.Core
     public class AnimSystem : SystemBase
     {
 
+        public AnimSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<AnimationComponent>() != null;

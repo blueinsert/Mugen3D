@@ -5,6 +5,8 @@ namespace bluebean.Mugen3D.Core
 {
     public class LuaScriptSystem : SystemBase
     {
+        public LuaScriptSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<FSMComponent>() != null && e.GetComponent<LuaScriptComponent>() != null;

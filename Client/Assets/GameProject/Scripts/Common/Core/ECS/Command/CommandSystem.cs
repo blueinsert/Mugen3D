@@ -51,6 +51,7 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     public class CommandSystem : SystemBase
     {
+        public CommandSystem(WorldBase world) : base(world) { }
 
         protected override bool Filter(Entity e)
         {
@@ -59,13 +60,15 @@ namespace bluebean.Mugen3D.Core
 
         protected override void ProcessEntity(List<Entity> entities)
         {
-            Debug.Log("CommandSystem:ProcessEntity");
+            //Debug.Log("CommandSystem:ProcessEntity");
+            var inputComponent = World.GetSingletonComponent<InputComponent>();
             foreach(var entity in entities)
             {
                 var playerComponent = entity.GetComponent<PlayerComponent>();
-                int inputCode = InputComponent.Instance.GetInputCode(playerComponent.Slot);
+                int inputCode = inputComponent.GetInputCode(playerComponent.Slot);
                 var commandComponent = entity.GetComponent<CommandComponent>();
                 commandComponent.Update(inputCode);
+                //Debug.Log(string.Format("inputCode:{0} activeCommand:{1}", inputCode, commandComponent.GetActiveCommandName()));
             }
         }
 

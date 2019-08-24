@@ -5,13 +5,21 @@ namespace bluebean.Mugen3D.Core
 {
     public class SystemBase
     {
+        public WorldBase World { get { return m_world; } }
         /// <summary>
         /// 该系统所关注的实体列表
         /// </summary>
         private readonly List<Entity> m_attentionEnties = new List<Entity>();
+        private WorldBase m_world;
 
-        public void Process(WorldBase world)
+        public SystemBase(WorldBase world)
         {
+            m_world = world;
+        }
+
+        public void Process()
+        {
+            var world = m_world;
             if (world.IsDirty())
             {
                 m_attentionEnties.Clear();

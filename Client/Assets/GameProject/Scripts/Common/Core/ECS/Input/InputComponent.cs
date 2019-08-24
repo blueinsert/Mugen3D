@@ -15,7 +15,7 @@ namespace bluebean.Mugen3D.Core
 
     public class InputComponent: ComponentBase
     {
-        public InputComponent(WorldBase world) : base(world)
+        public InputComponent()
         {
 
         }

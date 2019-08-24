@@ -9,6 +9,8 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     public class HitSystem : SystemBase
     {
+        public HitSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<CollideComponent>() != null && e.GetComponent<FSMComponent>() != null && e.GetComponent<HitComponent>() != null;

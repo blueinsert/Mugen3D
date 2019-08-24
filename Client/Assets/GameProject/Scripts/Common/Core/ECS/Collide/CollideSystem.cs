@@ -6,6 +6,8 @@ namespace bluebean.Mugen3D.Core
 {
     public class CollideSystem : SystemBase
     {
+        public CollideSystem(WorldBase world) : base(world) { }
+
         protected override bool Filter(Entity e)
         {
             return e.GetComponent<CollideComponent>() != null && e.GetComponent<AnimationComponent>() != null && e.GetComponent<MoveComponent>() != null;

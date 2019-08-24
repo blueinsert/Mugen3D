@@ -7,17 +7,85 @@ namespace bluebean.Mugen3D.Core
     public class WorldBase
     {
         protected int frameCount = 0;
-        protected int m_maxEntityId = 0;
+        private int m_maxEntityId = 0;
 
-        protected readonly Dictionary<int, Entity> m_entityDic = new Dictionary<int, Entity>();
         /// <summary>
-        /// 获取所有系统
+        /// 实体字典
         /// </summary>
-        protected virtual List<SystemBase> AllSystem { get; }
+        private readonly Dictionary<int, Entity> m_entityDic = new Dictionary<int, Entity>();
+        /// <summary>
+        /// 系统列表
+        /// </summary>
+        private readonly List<SystemBase> m_systemList = new List<SystemBase>();
+        /// <summary>
+        /// 单例组件字典
+        /// </summary>
+        private readonly Dictionary<string, ComponentBase> m_singletonComponentDic = new Dictionary<string, ComponentBase>();
 
-        protected void AddEntity(Entity e)
+        /// <summary>
+        /// 添加System
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void AddSystem<T>() where T : SystemBase
         {
-            m_entityDic.Add(e.ID,e);
+            var ins = System.Activator.CreateInstance(typeof(T),new object[] { this}) as SystemBase;
+            m_systemList.Add(ins);
+        }
+
+        /// <summary>
+        /// 获取系统
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetSystem<T>()where T : SystemBase
+        {
+            foreach(var system in m_systemList)
+            {
+                var res = system as T;
+                if (res != null)
+                {
+                    return res;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 添加单例组件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        protected T AddSingletonComponent<T>() where T : ComponentBase,new()
+        {
+            var component = new T();
+            m_singletonComponentDic.Add(component.GetType().Name, component);
+            return component;
+        }
+        
+        /// <summary>
+        /// 获取单例组件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetSingletonComponent<T>() where T : ComponentBase, new()
+        {
+            ComponentBase res;
+            if (m_singletonComponentDic.TryGetValue(typeof(T).Name, out res))
+            {
+                return res as T;
+            }
+            return null;
+        }
+
+        protected Entity AddEntity()
+        {
+            var entity = new Entity(m_maxEntityId++, this);
+            m_entityDic.Add(entity.ID, entity);
+            return entity;
+        }
+
+        public Entity GetEntity(int id)
+        {
+            return m_entityDic[id];
         }
 
         protected void RemoveEntity(int id)
@@ -28,11 +96,6 @@ namespace bluebean.Mugen3D.Core
         protected void RemoveEntity(Entity entity)
         {
             RemoveEntity(entity.ID);
-        }
-
-        public Entity GetEntity(int id)
-        {
-            return m_entityDic[id];
         }
 
         /// <summary>
@@ -50,9 +113,9 @@ namespace bluebean.Mugen3D.Core
 
         protected virtual void OnStep()
         {
-            foreach (var system in AllSystem)
+            foreach (var system in m_systemList)
             {
-                system.Process(this);
+                system.Process();
             }
         }
 

@@ -12,61 +12,14 @@ namespace bluebean.Mugen3D.Core
     public class BattleWorld : WorldBase
     {
 
-        protected override List<SystemBase> AllSystem { get { return m_allSystems; } }
-
         private List<ConfigDataCommand> m_commandConfigs;
         private ConfigDataStage m_stageConfig;
         private ConfigDataCamera m_cameraConfig;
         private ConfigDataCharacter m_p1Config;
         private ConfigDataCharacter m_p2Config;
 
-        #region system和单例组件
-        /// <summary>
-        /// 运动系统
-        /// </summary>
-        private MoveSystem m_moveSystem;
-        /// <summary>
-        /// 碰撞系统
-        /// </summary>
-        private CollideSystem m_collideSystem;
-        /// <summary>
-        /// 动画系统
-        /// </summary>
-        private AnimSystem m_animSystem;
-        /// <summary>
-        /// 指令系统
-        /// </summary>
-        private CommandSystem m_commandSystem;
-        /// <summary>
-        /// 摄像机系统
-        /// </summary>
-        private CameraSystem m_cameraSystem;
-        /// <summary>
-        /// 状态机系统
-        /// </summary>
-        private FSMSystem m_fsmSystem;
-        /// <summary>
-        /// 脚本系统
-        /// </summary>
-        private LuaScriptSystem m_luaScriptSystem;
-        /// <summary>
-        /// 系统列表
-        /// </summary>
-        private readonly List<SystemBase> m_allSystems = new List<SystemBase>();
-        /// <summary>
-        /// 摄像机单例组件
-        /// </summary>
-        private CameraComponent m_cameraComponent;
-        /// <summary>
-        /// 舞台单例组件
-        /// </summary>
-        private StageComponent m_stageComponent;
-        /// <summary>
-        /// 输入单例组件
-        /// </summary>
         private InputComponent m_inputComponent;
 
-        #endregion
         private static bool m_hasStaticInit = false;
 
         public int[] m_cacheInputCodes;
@@ -75,31 +28,13 @@ namespace bluebean.Mugen3D.Core
 
         private void InitSystemAndComponets()
         {
-            //创建单例组件
-            m_cameraComponent = CameraComponent.CreateInstance();
-            m_cameraComponent.Init(m_cameraConfig);
-            m_stageComponent = StageComponent.CreateInstance();
-            m_stageComponent.Init(m_stageConfig);
-            m_inputComponent = new InputComponent(this);
             CommandComponent.StaticInit(m_commandConfigs);
+            //创建单例组件
+            AddSingletonComponent<StageComponent>().Init(m_stageConfig);
+            AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
+            m_inputComponent = AddSingletonComponent<InputComponent>();
             //创建所有系统
-            m_animSystem = new AnimSystem();
-            m_commandSystem = new CommandSystem();
-            m_moveSystem = new MoveSystem();
-            m_collideSystem = new CollideSystem();
-            m_cameraSystem = new CameraSystem();
-            m_fsmSystem = new FSMSystem();
-            m_luaScriptSystem = new LuaScriptSystem();
-            //加入system list
-            m_allSystems.Clear();
-            m_allSystems.AddRange(new List<SystemBase>(){ m_commandSystem });
-            //m_allSystems.Add(m_animSystem);
-            //m_allSystems.Add(m_commandSystem);
-            //m_allSystems.Add(m_moveSystem);
-           // m_allSystems.Add(m_collideSystem);
-            //m_allSystems.Add(m_cameraSystem);
-            //m_allSystems.Add(m_fsmSystem);
-            //m_allSystems.Add(m_luaScriptSystem);
+            AddSystem<CommandSystem>();
         }
 
         public static void StaticInit(CustomLoader luaFileLoader, LogDelegate logDelegate, LogDelegate logWarn, LogDelegate logError)
@@ -126,14 +61,17 @@ namespace bluebean.Mugen3D.Core
             m_listener = listener;
             InitSystemAndComponets();
             CreateCharacters(m_p1Config);
+           
         }
-
 
         public Entity CreateCharacters(ConfigDataCharacter configDataCharacter)
         {
-            var character = new Entity(m_maxEntityId++);
-            character.AddComponent<MoveComponent>();
-            return character;
+            var entity = AddEntity();
+            entity.AddComponent<MoveComponent>();
+            entity.AddComponent<PlayerComponent>().Init(1);
+            entity.AddComponent<CommandComponent>().Init();
+            m_listener.OnCreateCharacter(entity);
+            return entity;
         }
 
         #region 改变世界的方法
@@ -175,6 +113,7 @@ namespace bluebean.Mugen3D.Core
 
         protected override void OnStep()
         {
+            m_inputComponent.Update(m_cacheInputCodes[0], m_cacheInputCodes[1]);
             base.OnStep();
         }
 
