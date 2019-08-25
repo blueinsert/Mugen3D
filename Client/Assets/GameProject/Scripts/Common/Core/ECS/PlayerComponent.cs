@@ -1,16 +1,22 @@
-﻿namespace bluebean.Mugen3D.Core
+﻿using bluebean.UGFramework.ConfigData;
+
+namespace bluebean.Mugen3D.Core
 {
     /// <summary>
     /// 标识是否是玩家的组件
     /// </summary>
     public class PlayerComponent : ComponentBase
     {
-        public int Slot { get { return m_slot; } }
-        private int m_slot;
+        public int Index { get { return m_index; } }
+        public ConfigDataCharacter Config {get{ return m_config; } }
 
-        public void Init(int slot)
+        private int m_index;
+        private ConfigDataCharacter m_config;
+
+        public void Init(int index, ConfigDataCharacter config)
         {
-            m_slot = slot;
+            m_index = index;
+            m_config = config;
         }
     }
 }

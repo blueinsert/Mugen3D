@@ -8,12 +8,12 @@ namespace bluebean.Mugen3D.ClientGame
 {
     public partial class ClientBattleWorld
     {
-        public void OnBattleStart(int matchNo)
+        public void OnMatchStart(int matchNo)
         {
-            throw new NotImplementedException();
+            //todo
         }
 
-        public void OnBattleEnd(int matchNo)
+        public void OnMatchEnd(int matchNo)
         {
             throw new NotImplementedException();
         }
@@ -31,8 +31,9 @@ namespace bluebean.Mugen3D.ClientGame
 
         public void OnCreateCharacter(Entity character)
         {
-            CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(m_p1Config.Prefab), m_playersRoot, character);
-            m_characterActorDic.Add(1, characterActor);
+            var playerComponent = character.GetComponent<PlayerComponent>();
+            CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(playerComponent.Config.Prefab), m_playersRoot, character);
+            m_characterActorDic.Add(playerComponent.Index, characterActor);
         }
 
         public void OnDestroyCharacter(Entity character)

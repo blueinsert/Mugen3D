@@ -10,13 +10,13 @@ namespace bluebean.Mugen3D.Core
         /// 比赛开始
         /// </summary>
         /// <param name="matchNo"></param>
-        void OnBattleStart(int matchNo);
+        void OnMatchStart(int matchNo);
 
         /// <summary>
         /// 比赛结束
         /// </summary>
         /// <param name="matchNo"></param>
-        void OnBattleEnd(int matchNo);
+        void OnMatchEnd(int matchNo);
 
         /// <summary>
         /// 回合开始

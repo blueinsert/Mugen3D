@@ -28,6 +28,7 @@ namespace bluebean.UGFramework
                         go.name = "__" + typeof(T).Name;
                         mInstance = go.AddComponent(typeof(T)) as T;
                         mInstance.DontDestroySingleton();
+                        mInstance.OnInit();
                     }
                 }
                 return mInstance;
@@ -37,6 +38,11 @@ namespace bluebean.UGFramework
         public static bool IsExist()
         {
             return mInstance != null;
+        }
+
+        protected virtual void OnInit()
+        {
+
         }
 
         protected virtual void OnDestroy()

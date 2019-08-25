@@ -31,7 +31,7 @@ namespace bluebean.Mugen3D.Core
             Env.L_RequireF(LuaDebugLib.LIB_NAME, LuaDebugLib.OpenLib, false);
         }
   
-        public static void AddLoader(CustomLoader loader)
+        public static void AddLoader(CustomFileLoader loader)
         {
             LuaFile.AddLoader(loader);
         }

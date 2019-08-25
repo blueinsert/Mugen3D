@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace UniLua
 {
-    public delegate byte[] CustomLoader(ref string filepath);
+    public delegate byte[] CustomFileLoader(ref string filepath);
 
 	public class LuaFile
 	{
-        private static List<CustomLoader> customLoaders = new List<CustomLoader>();
+        private static List<CustomFileLoader> customLoaders = new List<CustomFileLoader>();
 
-        public static void AddLoader(CustomLoader loader)
+        public static void AddLoader(CustomFileLoader loader)
         {
             customLoaders.Add(loader);
         }

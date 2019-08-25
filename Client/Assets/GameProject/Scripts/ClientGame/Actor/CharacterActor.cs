@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Debug = bluebean.UGFramework.Log.Debug;
 using bluebean.Mugen3D.Core;
+using bluebean.UGFramework.ConfigData;
 
 namespace bluebean.Mugen3D.ClientGame
 {
     public class CharacterActor : ActorBase
     {
+        private PlayerComponent m_playerComponent;
         private CommandComponent m_commandComponent;
         private CharacterAnimController3D m_animCtrl;
 
@@ -23,6 +25,7 @@ namespace bluebean.Mugen3D.ClientGame
                 m_animCtrl.Init(animation);
             }
             m_commandComponent = character.GetComponent<CommandComponent>();
+            m_playerComponent = character.GetComponent<PlayerComponent>();
         }
 
         public void UpdateAnim(string animName, float normalizedTime)
@@ -35,7 +38,7 @@ namespace bluebean.Mugen3D.ClientGame
 
         protected override void OnTick()
         {
-            GUIDebug.Instance.SetMsg(1, "ActiveCommands", m_commandComponent.GetActiveCommandName());
+            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "ActiveCommands", m_commandComponent.GetActiveCommandName());
         }
     }
 }

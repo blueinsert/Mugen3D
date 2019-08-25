@@ -6,11 +6,18 @@ using bluebean.UGFramework;
 public class GUIDebug : Singleton<GUIDebug>
 {
 
-    private Vector2[] m_scrollPositions = new Vector2[4];
-    private Vector2[] m_areaStartPos = new Vector2[4] { new Vector2(0, 0), new Vector2(Screen.width / 2, 0), new Vector2(0, Screen.height / 2), new Vector2(Screen.width / 2, Screen.height / 2) };
-    private Vector2 m_areaSize = new Vector2(Screen.width / 2, Screen.height / 2);
+    private Vector2[] m_scrollPositions;
+    private Vector2[] m_areaStartPos;
+    private Vector2 m_areaSize;
 
     private Dictionary<int, Dictionary<string, string>> m_msg = new Dictionary<int, Dictionary<string, string>>();
+
+    protected override void OnInit()
+    {
+        m_scrollPositions = new Vector2[4];
+        m_areaStartPos = new Vector2[4] { new Vector2(0, 0), new Vector2(Screen.width / 2, 0), new Vector2(0, Screen.height / 2), new Vector2(Screen.width / 2, Screen.height / 2) };
+        m_areaSize = new Vector2(Screen.width / 2, Screen.height / 2);
+    }
 
     public void SetMsg(int index, string key, string value)
     {
@@ -31,7 +38,7 @@ public class GUIDebug : Singleton<GUIDebug>
         var areaStartPos = m_areaStartPos[areaIndex];
         GUI.color = Color.blue;
         GUILayout.BeginArea(new UnityEngine.Rect(areaStartPos.x, areaStartPos.y, m_areaSize.x, m_areaSize.y));
-        m_areaStartPos[areaIndex] = GUILayout.BeginScrollView(m_areaStartPos[areaIndex], GUILayout.Width(Screen.width / 2), GUILayout.Height(Screen.height));
+        m_scrollPositions[areaIndex] = GUILayout.BeginScrollView(m_scrollPositions[areaIndex], GUILayout.Width(Screen.width / 2), GUILayout.Height(Screen.height));
         GUILayout.BeginVertical();
         foreach (var kv in msgDic)
         {
@@ -49,8 +56,9 @@ public class GUIDebug : Singleton<GUIDebug>
         {
             if (i < 4)
             {
-                ShowMessage(pair.Value, i++);
+                ShowMessage(pair.Value, i);
             }
+            i++;
         }
     }
 }

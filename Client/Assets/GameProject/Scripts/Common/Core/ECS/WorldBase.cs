@@ -56,9 +56,17 @@ namespace bluebean.Mugen3D.Core
         /// <typeparam name="T"></typeparam>
         protected T AddSingletonComponent<T>() where T : ComponentBase,new()
         {
-            var component = new T();
-            m_singletonComponentDic.Add(component.GetType().Name, component);
-            return component;
+            T res = GetSingletonComponent<T>();
+            if (res != null)
+            {
+                return res;
+            }
+            else
+            {
+                var component = new T();
+                m_singletonComponentDic.Add(component.GetType().Name, component);
+                return component;
+            }
         }
         
         /// <summary>

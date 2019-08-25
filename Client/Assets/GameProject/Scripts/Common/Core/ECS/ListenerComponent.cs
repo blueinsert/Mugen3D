@@ -5,12 +5,12 @@ namespace bluebean.Mugen3D.Core
 {
     public class ListenerComponent : ComponentBase, IBattleWorldListener
     {
-        public void OnBattleEnd(int matchNo)
+        public void OnMatchEnd(int matchNo)
         {
             throw new System.NotImplementedException();
         }
 
-        public void OnBattleStart(int matchNo)
+        public void OnMatchStart(int matchNo)
         {
             throw new System.NotImplementedException();
         }

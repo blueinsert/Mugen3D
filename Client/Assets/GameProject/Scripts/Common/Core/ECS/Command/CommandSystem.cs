@@ -65,7 +65,7 @@ namespace bluebean.Mugen3D.Core
             foreach(var entity in entities)
             {
                 var playerComponent = entity.GetComponent<PlayerComponent>();
-                int inputCode = inputComponent.GetInputCode(playerComponent.Slot);
+                int inputCode = inputComponent.GetInputCode(playerComponent.Index);
                 var commandComponent = entity.GetComponent<CommandComponent>();
                 commandComponent.Update(inputCode);
                 //Debug.Log(string.Format("inputCode:{0} activeCommand:{1}", inputCode, commandComponent.GetActiveCommandName()));

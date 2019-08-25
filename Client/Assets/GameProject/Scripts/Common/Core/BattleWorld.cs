@@ -9,70 +9,28 @@ using UniLua;
 namespace bluebean.Mugen3D.Core
 {
     
-    public class BattleWorld : WorldBase
+    public partial class BattleWorld : WorldBase
     {
 
         private List<ConfigDataCommand> m_commandConfigs;
         private ConfigDataStage m_stageConfig;
         private ConfigDataCamera m_cameraConfig;
-        private ConfigDataCharacter m_p1Config;
-        private ConfigDataCharacter m_p2Config;
+        private ConfigDataCharacter[] m_characterConfigs;
 
+        private MatchComponent m_matchComponent;
         private InputComponent m_inputComponent;
-
-        private static bool m_hasStaticInit = false;
 
         public int[] m_cacheInputCodes;
 
         private IBattleWorldListener m_listener;
 
-        private void InitSystemAndComponets()
-        {
-            CommandComponent.StaticInit(m_commandConfigs);
-            //创建单例组件
-            AddSingletonComponent<StageComponent>().Init(m_stageConfig);
-            AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
-            m_inputComponent = AddSingletonComponent<InputComponent>();
-            //创建所有系统
-            AddSystem<CommandSystem>();
-        }
-
-        public static void StaticInit(CustomLoader luaFileLoader, LogDelegate logDelegate, LogDelegate logWarn, LogDelegate logError)
-        {
-            if (m_hasStaticInit)
-                return;
-            Debug.m_Log = logDelegate;
-            Debug.m_LogWarn = logWarn;
-            Debug.m_LogError = logError;
-            //Core.Debug.Assert = Debug.Assert;
-            Core.LuaMgr.AddLoader(luaFileLoader);
-            //Core.FileReader.AddReader(FileRead);
-            m_hasStaticInit = true;
-        }
-
-        public BattleWorld(List<ConfigDataCommand> configDataCommand, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter p1Config, ConfigDataCharacter p2Config, IBattleWorldListener listener)
+        public BattleWorld(List<ConfigDataCommand> configDataCommand,  IBattleWorldListener listener)
         {
             m_commandConfigs = configDataCommand;
-            m_stageConfig = stageConfig;
-            m_cameraConfig = cameraConfig;
-            m_p1Config = p1Config;
-            m_p2Config = p2Config;
-            m_cacheInputCodes = new int[2];
             m_listener = listener;
-            InitSystemAndComponets();
-            CreateCharacters(m_p1Config);
-           
+            InitNecessarySystemAndComponets();
         }
-
-        public Entity CreateCharacters(ConfigDataCharacter configDataCharacter)
-        {
-            var entity = AddEntity();
-            entity.AddComponent<MoveComponent>();
-            entity.AddComponent<PlayerComponent>().Init(1);
-            entity.AddComponent<CommandComponent>().Init();
-            m_listener.OnCreateCharacter(entity);
-            return entity;
-        }
+       
 
         #region 改变世界的方法
        
@@ -94,9 +52,24 @@ namespace bluebean.Mugen3D.Core
         /// <summary>
         /// 开始战斗
         /// </summary>
-        protected void StartBattle()
+        public void StartSingleVSMatch(ConfigDataCharacter p1CharacterConfig, ConfigDataCharacter p2CharacterConfig, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig)
         {
-           
+            //更新配置
+            m_characterConfigs = new ConfigDataCharacter[2] { p1CharacterConfig, p2CharacterConfig };
+            m_stageConfig = stageConfig;
+            m_cameraConfig = cameraConfig;
+            m_cacheInputCodes = new int[2];
+            //创建单例组件
+            AddSingletonComponent<StageComponent>().Init(m_stageConfig);
+            AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
+            var character1 = AddCharacter(m_characterConfigs[0], 0);
+            var character2 = AddCharacter(m_characterConfigs[1], 1);
+            m_matchComponent.SetMatchMode(MatchMode.SingleVS);
+            m_matchComponent.SetMatchState(MatchState.None);
+            m_matchComponent.SetRoundState(RoundState.PreIntro);
+            m_listener.OnCreateCharacter(character1);
+            m_listener.OnCreateCharacter(character2);
+            m_listener.OnMatchStart(0);
         }
 
         protected void StopMatch()
@@ -106,15 +79,10 @@ namespace bluebean.Mugen3D.Core
 
         #endregion
 
-        public void AddCharacter(ConfigDataCharacter configDataCharacter)
-        {
-            
-        }
-
         protected override void OnStep()
         {
             m_inputComponent.Update(m_cacheInputCodes[0], m_cacheInputCodes[1]);
-            base.OnStep();
+            base.OnStep();//变量所有系统更新组件状态
         }
 
     }

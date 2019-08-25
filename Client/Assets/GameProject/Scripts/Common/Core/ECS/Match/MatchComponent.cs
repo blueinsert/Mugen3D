@@ -43,13 +43,7 @@ namespace bluebean.Mugen3D.Core
 
     public class MatchComponent:ComponentBase
     {
-        #region 单例模式
-        public static MatchComponent Instance { get { return m_instance; } }
-        private static MatchComponent m_instance;
-        public static MatchComponent CreateInstance() { m_instance = new MatchComponent(); return m_instance; }
-        #endregion
-
-
+       
         //todo 写入配置表
         private readonly Number FADE_IN_TIME = new Number(1);
         private readonly Number FADE_OUT_TIME = new Number(1);
@@ -60,7 +54,13 @@ namespace bluebean.Mugen3D.Core
         public int MatchNo { get { return m_matchNo; } }
         public int RoundNo { get { return m_roundNo; } }
         public RoundState RoundState { get { return m_roundState; } }
-       
+        public MatchState MatchState { get { return m_matchState; } }
+        public MatchMode MatchMode { get { return m_matchMode; } }
+
+        /// <summary>
+        /// 玩法
+        /// </summary>
+        private MatchMode m_matchMode;
         /// <summary>
         /// 比赛状态
         /// </summary>
@@ -85,6 +85,16 @@ namespace bluebean.Mugen3D.Core
         /// </summary>
         private Dictionary<int, int> winCount = new Dictionary<int, int>();
         private readonly int MAX_WIN_COUNT = 2;
+
+        public void SetMatchMode(MatchMode matchMode)
+        {
+            m_matchMode = matchMode;
+        }
+
+        public void SetMatchState(MatchState matchState)
+        {
+            m_matchState = matchState;
+        }
 
         public void SetRoundState(RoundState roundState)
         {
