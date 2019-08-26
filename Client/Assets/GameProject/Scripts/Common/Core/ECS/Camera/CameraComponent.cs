@@ -59,7 +59,7 @@ namespace bluebean.Mugen3D.Core
         private Number m_dumpRatio;
         #endregion
 
-        public void Init(ConfigDataCamera config)
+        public CameraComponent Init(ConfigDataCamera config)
         {
             //初始化配置
             m_yOffset = config.Yoffset * Number.EN4;
@@ -74,6 +74,8 @@ namespace bluebean.Mugen3D.Core
             m_fieldOfView = m_maxFieldOfView;
 
             CalcViewportRect();
+
+            return this;
         }
 
       

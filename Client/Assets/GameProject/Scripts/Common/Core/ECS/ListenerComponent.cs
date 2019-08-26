@@ -39,5 +39,10 @@ namespace bluebean.Mugen3D.Core
         {
             throw new System.NotImplementedException();
         }
+
+        public void OnCameraCreate(CameraComponent cameraComponent)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

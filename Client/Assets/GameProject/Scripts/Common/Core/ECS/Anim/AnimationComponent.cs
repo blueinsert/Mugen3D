@@ -128,13 +128,14 @@ namespace bluebean.Mugen3D.Core
             return m_actions.ContainsKey(anim);
         }
 
-        private void Init(ActionDef[] actions)
+        public AnimationComponent Init(ActionDef[] actions)
         {
             this.m_actions.Clear();
             foreach (var action in actions)
             {
                 m_actions.Add(action.animNo, action);
             }
+            return this;
         }
 
         public void UpdateSample()

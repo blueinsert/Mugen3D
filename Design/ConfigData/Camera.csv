@@ -1,3 +1,3 @@
 Camera:DataTable,,,,,,
 ID:int,Depth:int,Yoffset:int,Aspect:int,MinFieldOfView:int,MaxFieldOfView:int,DumpRatio:int
-1,-6,1,1.78,29,32,4
+1,-60000,10000,17800,290000,320000,40000

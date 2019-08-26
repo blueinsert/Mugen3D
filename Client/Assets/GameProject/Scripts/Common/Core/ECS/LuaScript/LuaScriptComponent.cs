@@ -69,9 +69,9 @@ namespace bluebean.Mugen3D.Core
             }
         }
 
-        public void Update(int stateNo, int stateTime)
+        public void Update()
         {
-            CallScript(stateNo, stateTime);
+            CallScript();
         }
     }
 }

@@ -6,15 +6,15 @@ using bluebean.Mugen3D.Core;
 
 namespace bluebean.Mugen3D.ClientGame
 {
-    [RequireComponent(typeof(Camera))]
-    public class CameraController : MonoBehaviour
+    public class CameraController
     {
         private Camera m_camera;
         private CameraComponent m_cameraComponent;
 
-        public void Init(CameraComponent cameraComponent)
+        public void Init(CameraComponent cameraComponent, Camera camera)
         {
             m_cameraComponent = cameraComponent;
+            m_camera = camera;
         }
 
         public void Update()

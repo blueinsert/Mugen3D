@@ -31,9 +31,7 @@ namespace bluebean.Mugen3D.ClientGame
 
         public void OnCreateCharacter(Entity character)
         {
-            var playerComponent = character.GetComponent<PlayerComponent>();
-            CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(playerComponent.Config.Prefab), m_playersRoot, character);
-            m_characterActorDic.Add(playerComponent.Index, characterActor);
+            CreateCharacterActor(character);
         }
 
         public void OnDestroyCharacter(Entity character)
@@ -44,6 +42,11 @@ namespace bluebean.Mugen3D.ClientGame
         public void OnPlaySound(string soundName)
         {
             throw new NotImplementedException();
+        }
+
+        public void OnCameraCreate(CameraComponent cameraComponent)
+        {
+            CreateCameraController(cameraComponent);
         }
     }
 }

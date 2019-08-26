@@ -43,6 +43,12 @@ namespace bluebean.Mugen3D.Core
         void OnDestroyCharacter(Entity character);
 
         /// <summary>
+        /// 创建摄像机
+        /// </summary>
+        /// <param name="cameraComponent"></param>
+        void OnCameraCreate(CameraComponent cameraComponent);
+
+        /// <summary>
         /// 播放声音
         /// </summary>
         /// <param name="soundName"></param>

@@ -61,7 +61,8 @@ namespace bluebean.Mugen3D.Core
             m_cacheInputCodes = new int[2];
             //创建单例组件
             AddSingletonComponent<StageComponent>().Init(m_stageConfig);
-            AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
+            var cameraComponent = AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
+            m_listener.OnCameraCreate(cameraComponent);
             var character1 = AddCharacter(m_characterConfigs[0], 0);
             var character2 = AddCharacter(m_characterConfigs[1], 1);
             m_matchComponent.SetMatchMode(MatchMode.SingleVS);

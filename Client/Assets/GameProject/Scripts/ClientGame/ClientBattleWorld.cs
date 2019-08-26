@@ -51,11 +51,22 @@ namespace bluebean.Mugen3D.ClientGame
         /// </summary>
         private IAssetProvider m_assetProvider;
 
-        private GameObject m_playersRoot;
+        /// <summary>
+        /// 3D场景树根节点
+        /// </summary>
+        private GameObject m_sceneRoot;
+
+        /// <summary>
+        /// 角色演员字典
+        /// </summary>
+        private readonly Dictionary<int, CharacterActor> m_characterActorDic = new Dictionary<int, CharacterActor>();
+        /// <summary>
+        /// 摄像机控制
+        /// </summary>
+        private CameraController m_cameraController;
 
         protected BattleWorld m_battleWorld;
 
-        private readonly Dictionary<int, CharacterActor> m_characterActorDic = new Dictionary<int, CharacterActor>();
 
         private int[] m_playerInputCodes;
 
@@ -105,9 +116,9 @@ namespace bluebean.Mugen3D.ClientGame
             m_playerInputCodes = new int[m_playerInputMapConfigList.Count];
         }
 
-        public ClientBattleWorld(GameObject playersRoot, IAssetProvider assetProvider,int renderFPS = 60,int logicFPS=60) {
+        public ClientBattleWorld(GameObject sceneRoot, IAssetProvider assetProvider,int renderFPS = 60,int logicFPS=60) {
             //初始化GameObject节点
-            m_playersRoot = playersRoot;
+            m_sceneRoot = sceneRoot;
             //初始化配置信息
             var configLoader = ConfigDataLoader.Instance;
             m_inputConfigList = new List<ConfigDataInputDefault>(configLoader.GetAllConfigDataInputDefault().Values);
@@ -180,14 +191,24 @@ namespace bluebean.Mugen3D.ClientGame
             ActorsTick();
         }
 
+        /// <summary>
+        /// 驱动表现层
+        /// </summary>
         private void ActorsTick()
         {
             foreach(var pair in m_characterActorDic)
             {
                 pair.Value.Tick();
             }
+            if (m_cameraController != null)
+            {
+                m_cameraController.Update();
+            }
         }
 
+        /// <summary>
+        /// 驱动内核数据层
+        /// </summary>
         protected void Step()
         { 
             m_battleWorld.UpdatePlayerInput(m_playerInputCodes);

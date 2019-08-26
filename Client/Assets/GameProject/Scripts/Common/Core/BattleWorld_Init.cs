@@ -34,6 +34,7 @@ namespace bluebean.Mugen3D.Core
             m_inputComponent = AddSingletonComponent<InputComponent>();
             //创建所有系统
             AddSystem<CommandSystem>();
+            AddSystem<LuaScriptSystem>();
         }
     }
 }

@@ -18,6 +18,8 @@ namespace bluebean.Mugen3D.Core
             entity.AddComponent<MoveComponent>();
             entity.AddComponent<PlayerComponent>().Init(index, configDataCharacter);
             entity.AddComponent<CommandComponent>().Init();
+            entity.AddComponent<LuaScriptComponent>().Init();
+            //entity.AddComponent<AnimationComponent>().Init(); todo
             return entity;
         }
     }
