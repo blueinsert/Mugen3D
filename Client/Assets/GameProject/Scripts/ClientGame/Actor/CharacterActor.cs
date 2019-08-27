@@ -17,6 +17,7 @@ namespace bluebean.Mugen3D.ClientGame
         private PlayerComponent m_playerComponent;
         private CommandComponent m_commandComponent;
         private MoveComponent m_moveComponent;
+        private FSMComponent m_fsmComponent;
 
        public CharacterActor(GameObject prefab, GameObject parent, Entity character)
         {
@@ -26,6 +27,7 @@ namespace bluebean.Mugen3D.ClientGame
             m_commandComponent = character.GetComponent<CommandComponent>();
             m_playerComponent = character.GetComponent<PlayerComponent>();
             m_moveComponent = character.GetComponent<MoveComponent>();
+            m_fsmComponent = character.GetComponent<FSMComponent>();
         }
 
         public void UpdateAnimSample(string animName, float normalizedTime)
@@ -50,6 +52,8 @@ namespace bluebean.Mugen3D.ClientGame
 
         protected  void OnTick()
         {
+            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "StateNo", m_fsmComponent.StateNo.ToString());
+            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "StateTime", m_fsmComponent.StateTime.ToString());
             GUIDebug.Instance.SetMsg(m_playerComponent.Index, "ActiveCommands", m_commandComponent.GetActiveCommandName());
             GUIDebug.Instance.SetMsg(m_playerComponent.Index, "Pos", m_moveComponent.Position.ToString());
             GUIDebug.Instance.SetMsg(m_playerComponent.Index, "Vel", m_moveComponent.Velocity.ToString());

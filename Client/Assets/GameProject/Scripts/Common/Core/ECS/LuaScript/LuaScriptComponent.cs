@@ -19,10 +19,10 @@ namespace bluebean.Mugen3D.Core
             return env.L_Ref(LuaDef.LUA_REGISTRYINDEX);
         }
 
-        private void AttachLuaScript(string luaScriptFileName)
+        public void Init(string luaScriptFileName,Entity owner)
         {
-            var env = LuaMgr.Instance.Env;
-            var status = env.L_DoString("return (require('System/FsmManager'))");
+            var env = LuaMgr.Instance.LuaState;
+            var status = env.L_DoString("return (require('Lua_ABS/FsmManager'))");
             if (status != ThreadStatus.LUA_OK)
             {
                 throw new Exception(env.ToString(-1));
@@ -36,8 +36,8 @@ namespace bluebean.Mugen3D.Core
             {
                 throw new Exception(string.Format("method {0} not found!", env));
             }
-            //env.PushString((m_owner.config as UnitConfig).fsm);//todo
-            //env.PushLightUserData(m_owner);
+            env.PushString(luaScriptFileName);
+            env.PushLightUserData(owner);
             status = env.PCall(2, 1, 0);
             if (status != ThreadStatus.LUA_OK)
             {
@@ -50,22 +50,14 @@ namespace bluebean.Mugen3D.Core
             refUpdate = StoreMethod(env, "update");
         }
 
-        public void Init(string luaScriptFileName)
+        private void CallScript()
         {
-            AttachLuaScript(luaScriptFileName);
-        }
-
-        private void CallScript(int stateNo, int stateTime)
-        {
-            var env = LuaMgr.Instance.Env;
+            var env = LuaMgr.Instance.LuaState;
             env.RawGetI(LuaDef.LUA_REGISTRYINDEX, this.refUpdate);
-            env.PushInteger(stateNo);
-            env.PushInteger(stateTime);
-            var status = env.PCall(2, 0, 0);
+            var status = env.PCall(0, 0, 0);
             if (status != ThreadStatus.LUA_OK)
             {
                 Debug.LogError(env.ToString(-1));
-                Debug.LogError("update luaScript error StateNo:" + stateNo + " stateTime:" + stateTime);
             }
         }
 

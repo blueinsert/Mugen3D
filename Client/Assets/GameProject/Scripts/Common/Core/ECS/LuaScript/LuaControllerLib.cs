@@ -5,6 +5,9 @@ using UniLua;
 
 namespace bluebean.Mugen3D.Core
 {
+    /// <summary>
+    /// 提供给lua脚本修改游戏状态的Library
+    /// </summary>
     public static class LuaControllerLib 
     {
         public const string LIB_NAME = "controller.cs";

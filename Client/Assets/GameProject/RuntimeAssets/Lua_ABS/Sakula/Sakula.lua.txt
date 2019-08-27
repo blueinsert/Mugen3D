@@ -1,4 +1,4 @@
-local Enums = require "System/Enums"
+--local Enums = require "System/Enums"
 
 local FSMS = {
     "System/Common",
@@ -8,6 +8,7 @@ local FSMS = {
 
 local M = {}
 
+--[[
 function __loadall()
     for _, name in pairs(FSMS) do
         local t = require(name)
@@ -148,5 +149,14 @@ M[-2] = {
     end
 } 
 
+--]]
+M[0] = {
+  onEnter = function()
+      
+  end,
+  onUpdate = function(_ENV)
+      print("state",StateNo(),"onUpdate")
+  end,
+}
 return M
 

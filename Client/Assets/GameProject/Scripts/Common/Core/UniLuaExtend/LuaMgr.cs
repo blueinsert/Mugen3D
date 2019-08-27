@@ -7,34 +7,42 @@ namespace bluebean.Mugen3D.Core
 {
     public class LuaMgr
     {
-        private static LuaMgr mInstance;
 
+        #region 单例模式
         public static LuaMgr Instance
         {
             get
             {
-                if (mInstance == null)
+                if (m_instance == null)
                 {
-                    mInstance = new LuaMgr();
+                    m_instance = new LuaMgr();
                 }
-                return mInstance;
+                return m_instance;
             }
         }
 
-        public UniLua.ILuaState Env { get; private set; }
+        private static LuaMgr m_instance;
 
-        private LuaMgr() {
-            Env = LuaAPI.NewState();
-            Env.L_OpenLibs();
-            Env.L_RequireF(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
-            Env.L_RequireF(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
-            Env.L_RequireF(LuaDebugLib.LIB_NAME, LuaDebugLib.OpenLib, false);
+        private LuaMgr()
+        {
+            m_luaState = LuaAPI.NewState();
+            m_luaState.L_OpenLibs();
         }
-  
-        public static void AddLoader(CustomFileLoader loader)
+
+        #endregion
+
+        public ILuaState LuaState { get { return m_luaState; } }
+
+        private ILuaState m_luaState;
+
+        public static void AddFileLoader(CustomFileLoader loader)
         {
             LuaFile.AddLoader(loader);
         }
  
+        public void OpenLibrary(string moduleName, CSharpFunctionDelegate openFunc, bool global)
+        {
+            m_luaState.L_RequireF(moduleName, openFunc, global);
+        }
     }
 }

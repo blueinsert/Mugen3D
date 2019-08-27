@@ -28,7 +28,7 @@ namespace bluebean.Mugen3D.Core
         {
             m_commandConfigs = configDataCommand;
             m_listener = listener;
-            InitNecessarySystemAndComponets();
+            Initialize();
         }
        
 

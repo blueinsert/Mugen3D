@@ -567,7 +567,7 @@ namespace UniLua
 				new NameFuncPair( LuaBitLib.LIB_NAME, 	LuaBitLib.OpenLib   ),
 				new NameFuncPair( LuaMathLib.LIB_NAME, 	LuaMathLib.OpenLib  ),
 				new NameFuncPair( LuaDebugLib.LIB_NAME, LuaDebugLib.OpenLib ),
-				new NameFuncPair( LuaFFILib.LIB_NAME,	LuaFFILib.OpenLib	),
+				//new NameFuncPair( LuaFFILib.LIB_NAME,	LuaFFILib.OpenLib	),
 				new NameFuncPair( LuaEncLib.LIB_NAME,	LuaEncLib.OpenLib	),
 			};
 

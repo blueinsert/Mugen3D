@@ -19,14 +19,14 @@ namespace bluebean.Mugen3D.Core
             Debug.m_LogWarn = logWarn;
             Debug.m_LogError = logError;
             //Core.Debug.Assert = Debug.Assert;
-            Core.LuaMgr.AddLoader(luaFileLoader);
+            Core.LuaMgr.AddFileLoader(luaFileLoader);
             //Core.FileReader.AddReader(FileRead);
         }
 
         /// <summary>
         /// 初始化必要的组件和系统
         /// </summary>
-        private void InitNecessarySystemAndComponets()
+        private void Initialize()
         {
             CommandComponent.StaticInit(m_commandConfigs);
             //创建单例组件
@@ -35,6 +35,10 @@ namespace bluebean.Mugen3D.Core
             //创建所有系统
             AddSystem<CommandSystem>();
             AddSystem<LuaScriptSystem>();
+            AddSystem<FSMSystem>();
+            //初始化LuaState
+            LuaMgr.Instance.OpenLibrary(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
+            LuaMgr.Instance.OpenLibrary(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
         }
     }
 }

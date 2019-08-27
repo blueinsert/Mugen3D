@@ -56,6 +56,18 @@ namespace bluebean.UGFramework.ConfigData
             return s;
         }
 
+        [ColumnDataType(typeof(string[]), "string[]")]
+        public static string[] ParseStringArray(string s)
+        {
+            string[] splits = s.Split(new char[] { ',' });
+            string[] result = new string[splits.Length];
+            for (int i = 0; i < splits.Length; i++)
+            {
+                result[i] = ParseString(splits[i]);
+            }
+            return result;
+        }
+
         [ColumnDataType(typeof(bool), "bool")]
         public static bool ParseBool(string s)
         {

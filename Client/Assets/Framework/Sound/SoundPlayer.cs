@@ -81,7 +81,7 @@ namespace bluebean.UGFramework.Sound
         private Dictionary<string, AudioClip> m_cache = new Dictionary<string, AudioClip>();
         private Dictionary<SoundChannel.SoundChannelType, SoundChannel> m_soundChannelDic = new Dictionary<SoundChannel.SoundChannelType, SoundChannel>();
 
-        private AssetProvider m_assetProvider;
+        private IAssetProvider m_assetProvider;
 
         private void Awake()
         {
@@ -92,7 +92,7 @@ namespace bluebean.UGFramework.Sound
             }    
         }
 
-        public void SetAssetProvider(AssetProvider assetProvider)
+        public void SetAssetProvider(IAssetProvider assetProvider)
         {
             m_assetProvider = assetProvider;
         }

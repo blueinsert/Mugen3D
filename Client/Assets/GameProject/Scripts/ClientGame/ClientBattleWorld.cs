@@ -78,6 +78,10 @@ namespace bluebean.Mugen3D.ClientGame
 
         private byte[] LuaLoader(ref string fileName)
         {
+            if (!fileName.EndsWith(".txt"))
+            {
+                fileName = fileName + ".txt";
+            }
             var code = m_assetProvider.GetAsset<TextAsset>(fileName);
             if (code != null)
             {

@@ -1,0 +1,52 @@
+local controller = require "controller.cs"
+local trigger = require "trigger.cs"
+
+local function setCommonENVVars(env)
+	env.print = print
+	env.pairs = pairs
+	env.math = math
+end
+
+local function createENV(entity)
+	local warp = function(func)
+		return function( ... )
+		    return func(entity, ...)
+		end
+	end
+	local env = {}
+	setCommonENVVars(env)
+	for name, func in pairs(controller) do
+		env[name] = warp(func)
+	end
+	for name, func in pairs(trigger) do
+		env[name] = warp(func)
+	end
+	return env
+end
+
+local function createFSM(scriptName, entity)
+	local fsm = require(scriptName)
+	local env = createENV(entity)
+	local updateFunc = function(_ENV)
+	    local stateNo = StateNo()
+	    if fsm == nil then
+		        return
+	        end
+            for i = -3, -1 do
+    	        if fsm[i] and fsm[i].onUpdate then
+		            fsm[i].onUpdate(_ENV)
+	            end
+            end
+	        if fsm[stateNo] and fsm[stateNo].onUpdate then
+	            fsm[stateNo].onUpdate(_ENV)
+            end
+    end 
+	local res = {
+        update = function()
+            updateFunc(env)
+        end
+    }
+    return res
+end
+
+return {create = createFSM}
