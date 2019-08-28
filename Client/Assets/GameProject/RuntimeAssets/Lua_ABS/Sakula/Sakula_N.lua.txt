@@ -1,3 +1,4 @@
+--[[
 local Enums = require "System/Enums"
 
 local M = {}
@@ -634,7 +635,7 @@ M[800] = {
             ChangeState(0)
         end
         if AnimElem() == 0 and AnimElemTime() == 0 then
-            ----[[
+            
             HitDefSet({
                 hitFlag = Enums.HitFlag.HL,
                 guardFlag = Enums.GuardFlag.HL,
@@ -642,7 +643,7 @@ M[800] = {
                 p1StateNo = 801,
                 p2StateNo = 802,   
             })  
-            ----]]   
+           
         end 
     end
 }
@@ -706,3 +707,23 @@ M[803] = {
 }
 
 return M
+--]]
+
+local FSM = {}
+
+local _ENV = {}
+
+FSM.setEnv = function(env)
+  _ENV = env
+end
+
+FSM[0] = {
+  onEnter = function()
+      
+  end,
+  onUpdate = function()
+      print("state",StateNo(),"onUpdate")
+  end,
+}
+
+return FSM

@@ -22,14 +22,14 @@ namespace bluebean.Mugen3D.Core
         public void Init(string luaScriptFileName,Entity owner)
         {
             var env = LuaMgr.Instance.LuaState;
-            var status = env.L_DoString("return (require('Lua_ABS/FsmManager'))");
+            var status = env.L_DoString("return (require('Lua_ABS/FsmScriptLoader'))");
             if (status != ThreadStatus.LUA_OK)
             {
                 throw new Exception(env.ToString(-1));
             }
             if (!env.IsTable(-1))
             {
-                throw new Exception("FsmManager's return value is not a table");
+                throw new Exception("FsmScriptLoader's return value is not a table");
             }
             env.GetField(-1, "create");
             if (!env.IsFunction(-1))

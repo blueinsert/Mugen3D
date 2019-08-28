@@ -1,12 +1,7 @@
 local controller = require "controller.cs"
 local trigger = require "trigger.cs"
 
-local function setCommonENVVars(env)
-	env.print = print
-	env.pairs = pairs
-	env.math = math
-end
-
+--创建脚本执行环境
 local function createENV(entity)
 	local warp = function(func)
 		return function( ... )
@@ -14,39 +9,44 @@ local function createENV(entity)
 		end
 	end
 	local env = {}
-	setCommonENVVars(env)
+	--将控制函数加入环境中
 	for name, func in pairs(controller) do
 		env[name] = warp(func)
 	end
+	--将触发检测函数加入环境中
 	for name, func in pairs(trigger) do
 		env[name] = warp(func)
 	end
+	--一些常用方法
+	env.print = print
+	env.pairs = pairs
+	env.math = math
 	return env
 end
 
 local function createFSM(scriptName, entity)
 	local fsm = require(scriptName)
 	local env = createENV(entity)
+	fsm.setEnv(env)
 	local updateFunc = function(_ENV)
 	    local stateNo = StateNo()
 	    if fsm == nil then
-		        return
+		    return
+	    end
+        for i = -3, -1 do
+    	    if fsm[i] and fsm[i].onUpdate then
+		        fsm[i].onUpdate(_ENV)
 	        end
-            for i = -3, -1 do
-    	        if fsm[i] and fsm[i].onUpdate then
-		            fsm[i].onUpdate(_ENV)
-	            end
-            end
-	        if fsm[stateNo] and fsm[stateNo].onUpdate then
-	            fsm[stateNo].onUpdate(_ENV)
-            end
+        end
+	    if fsm[stateNo] and fsm[stateNo].onUpdate then
+	        fsm[stateNo].onUpdate(_ENV)
+        end
     end 
-	local res = {
+	return {
         update = function()
             updateFunc(env)
         end
     }
-    return res
 end
 
 return {create = createFSM}

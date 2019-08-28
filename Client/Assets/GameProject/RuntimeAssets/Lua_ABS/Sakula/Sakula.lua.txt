@@ -1,12 +1,12 @@
 --local Enums = require "System/Enums"
 
 local FSMS = {
-    "System/Common",
-    "Chars/Sakula/Scripts/Sakula_N",
-    "Chars/Sakula/Scripts/Sakula_H",
+   -- "System/Common",
+    --"Chars/Sakula/Scripts/Sakula_N",
+    "Lua_ABS/Sakula/Sakula_N",
 }
 
-local M = {}
+--local M = {}
 
 --[[
 function __loadall()
@@ -150,13 +150,39 @@ M[-2] = {
 } 
 
 --]]
-M[0] = {
-  onEnter = function()
-      
-  end,
-  onUpdate = function(_ENV)
-      print("state",StateNo(),"onUpdate")
-  end,
+
+
+local FSM = {}
+
+FSM.setEnvFuncs = {}
+
+local FSMModules = {
+   -- "System/Common",
+    --"Chars/Sakula/Scripts/Sakula_N",
+    "Lua_ABS/Sakula/Sakula_N",
 }
-return M
+
+function __loadall()
+    for _, name in pairs(FSMModules) do
+        local t = require(name)
+        for k, v in pairs(t) do
+          if k == "setEnv" then
+            table.insert(FSM.setEnvFuncs, v)
+          else
+            FSM[k] = v
+          end
+        end
+    end
+end
+
+__loadall()
+
+
+FSM.setEnv = function(env)
+  for _, setEnvFunc in pairs(FSM.setEnvFuncs) do
+    setEnvFunc(env)
+  end
+end
+
+return FSM
 

@@ -80,7 +80,7 @@ namespace bluebean.Mugen3D.UI
             {
                 resPath.Add(AssetUtility.MakeAssetPath(luaScript));
             }
-            resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/FsmManager.lua.txt"));
+            resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/FsmScriptLoader.lua.txt"));
             resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/Common.lua.txt"));
             resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/Enums.lua.txt"));
             return resPath;
