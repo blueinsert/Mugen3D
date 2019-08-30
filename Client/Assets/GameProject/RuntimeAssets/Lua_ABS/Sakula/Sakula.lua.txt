@@ -1,7 +1,7 @@
 --local Enums = require "System/Enums"
 
 local FSMS = {
-   -- "System/Common",
+    "Lua_ABS/Common",
     --"Chars/Sakula/Scripts/Sakula_N",
     "Lua_ABS/Sakula/Sakula_N",
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UniLua;
+using FixPointMath;
 
 namespace bluebean.Mugen3D.Core
 {
@@ -353,190 +354,168 @@ namespace bluebean.Mugen3D.Core
         //    return 2;
         //}
 
-        //public static int GetPos(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    var pos = c.Position;
-        //    lua.PushNumber(pos.x.AsFloat());
-        //    lua.PushNumber(pos.y.AsFloat());
-        //    return 2;
-        //}
+        public static int GetPos(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            MoveComponent moveComponent = c.GetComponent<MoveComponent>();
+            Number x = 0;
+            Number y = 0;
+            if (moveComponent != null)
+            {
+                var pos = moveComponent.Position;
+                x = pos.x;
+                y = pos.y;
+            }
+            lua.PushInteger(x.AsInt());
+            lua.PushInteger(y.AsInt());
+            return 2;
+        }
 
-        //public static int P2Dist(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    Unit enemy = c.world.teamInfo.GetEnemy(c);
-        //    var dist = enemy.Position - c.Position;
-        //    lua.PushNumber(dist.x.AsDouble());
-        //    lua.PushNumber(dist.y.AsDouble());
-        //    return 2;
-        //}
+        /// <summary>
+        /// 获取距离对手的相对位置
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int P2Dist(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushNumber(0);
+            lua.PushNumber(0);
+            return 2;
+        }
 
-        //public static int GetHitVar(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    string type = lua.L_CheckString(2);
-        //    int resNum = 0;
-        //    switch (type)
-        //    {
-        //        case "hitType":
-        //            var hitType = c.GetBeHitDefData().hitType;
-        //            lua.PushInteger(hitType); resNum = 1;
-        //            break;
-        //        case "forceLevel":
-        //            var forceLevel = c.GetBeHitDefData().forceLevel;
-        //            lua.PushInteger(forceLevel); resNum = 1;
-        //            break;
-        //        case "groundType":
-        //            var groundType = c.GetBeHitDefData().groundType;
-        //            lua.PushInteger(groundType); resNum = 1;
-        //            break;
-        //        case "knockAwayType":
-        //            var knockAwayType = c.GetBeHitDefData().knockAwayType;
-        //            lua.PushInteger(knockAwayType); resNum = 1;
-        //            break;
-        //        case "hitSlideTime":
-        //            var hitSlideTime = c.GetBeHitDefData().hitSlideTime;
-        //            lua.PushInteger(hitSlideTime); resNum = 1;
-        //            break;
-        //        case "hitShakeTime":
-        //            var hitShakeTime = c.GetBeHitDefData().hitPauseTime[1];
-        //            lua.PushInteger(hitShakeTime); resNum = 1;
-        //            break;
-        //        case "groundVel":
-        //            var vel = c.GetBeHitDefData().groundVel;
-        //            lua.PushNumber(vel.X().AsDouble());
-        //            lua.PushNumber(vel.Y().AsInt());
-        //            resNum = 2;
-        //            break;
-        //        case "airVel":
-        //            var airVel = c.GetBeHitDefData().airVel;
-        //            lua.PushNumber(airVel.X().AsDouble());
-        //            lua.PushNumber(airVel.Y().AsDouble());
-        //            resNum = 2;
-        //            break;
-        //        case "guardShakeTime":
-        //            var guardShakeTime = c.GetBeHitDefData().guardPauseTime[1];
-        //            lua.PushInteger(guardShakeTime); resNum = 1;
-        //            break;
-        //        case "guardSlideTime":
-        //            var guardSlideTime = c.GetBeHitDefData().guardSlideTime;
-        //            lua.PushInteger(guardSlideTime); resNum = 1;
-        //            break;
-        //        case "guardVel":
-        //            var guardVel = c.GetBeHitDefData().guardVel;
-        //            lua.PushNumber(guardVel.X().AsInt());
-        //            lua.PushNumber(guardVel.Y().AsInt());
-        //            resNum = 2;
-        //            break;
-        //        default:
-        //            Debug.LogError("get hitvar undefined type:" + type);
-        //            break;
-        //    }
-        //    return resNum;
-        //}
+        /// <summary>
+        /// 获取打击参数
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int GetHitVar(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            string type = lua.L_CheckString(2);
+            //todo
+            int resNum = 0;
+            return resNum;
+        }
 
-        //public static int HitPauseTime(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int pauseTime = c.GetHitDefData().hitPauseTime[0];
-        //    lua.PushInteger(pauseTime);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 获取打击暂停时间
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int HitPauseTime(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushInteger(0);
+            return 1;
+        }
 
-        //public static int MoveContact(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    bool res = false;
-        //    if (c.GetHitDefData() == null)
-        //        res = false;
-        //    else
-        //    {
-        //        res = c.GetHitDefData().moveContact;
-        //    }
-        //    lua.PushBoolean(res);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 判断攻击是否对对手发生接触：攻击成功或被防御
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int MoveContact(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushBoolean(false);
+            return 1;
+        }
 
-        //public static int MoveGuarded(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    bool res = false;
-        //    if (c.GetHitDefData() == null)
-        //        res = false;
-        //    else
-        //    {
-        //        res = c.GetHitDefData().moveGuarded;
-        //    }
-        //    lua.PushBoolean(res);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 判断攻击是否被对手防御
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int MoveGuarded(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushBoolean(false);
+            return 1;
+        }
 
-        //public static int MoveHit(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    bool res = false;
-        //    if (c.GetHitDefData() == null)
-        //        res = false;
-        //    else
-        //    {
-        //        res = c.GetHitDefData().moveHit;
-        //    }
-        //    lua.PushBoolean(res);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 判断攻击是否击中了对手
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int MoveHit(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushBoolean(false);
+            return 1;
+        }
 
-        //public static int GetHP(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    var hp = c.GetHP();
-        //    lua.PushNumber(hp);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 获取当前生命值
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int GetHP(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            lua.PushNumber(100);
+            return 1;
+        }
 
-        //public static int GetMaxHP(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    var hp = c.GetMaxHP();
-        //    lua.PushNumber(hp);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 获取最大生命值
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int GetMaxHP(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushNumber(100);
+            return 1;
+        }
 
-        //public static int IsAlive(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    var isAlive = c.IsAlive();
-        //    lua.PushBoolean(isAlive);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 返回是否存活
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int IsAlive(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushBoolean(true);
+            return 1;
+        }
 
-        //public static int MatchNo(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    var matchNo = c.world.BattleNo;
-        //    lua.PushInteger(matchNo);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 返回比赛编号
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int MatchNo(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushInteger(0);
+            return 1;
+        }
 
-        //public static int RoundNo(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    var roundNo = c.world.RoundNo;
-        //    lua.PushInteger(roundNo);
-        //    return 1;
-        //}
+        /// <summary>
+        /// 返回第几回合
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int RoundNo(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            lua.PushInteger(0);
+            return 1;
+        }
 
     }
 }

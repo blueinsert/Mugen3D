@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniLua;
+using FixPointMath;
 
 namespace bluebean.Mugen3D.Core
 {
@@ -16,21 +17,26 @@ namespace bluebean.Mugen3D.Core
         {
             var define = new NameFuncPair[] {
                 new NameFuncPair("ChangeState", ChangeState),
+                new NameFuncPair("ChangeFacing", ChangeFacing),
+                new NameFuncPair("ChangeAnim", ChangeAnim),
+                new NameFuncPair("VelSet", VelSet),
+                new NameFuncPair("VelAdd", VelAdd),
+                new NameFuncPair("PosSet", PosSet),
+                new NameFuncPair("PosAdd", PosAdd),
+
                 //new NameFuncPair("CreateHelper", CreateHelper),
                 //new NameFuncPair("CreateProjectile", CreateProjectile),
                 //new NameFuncPair("DestroySelf", DestroySelf),
-                //new NameFuncPair("ChangeAnim", ChangeAnim),
-                //new NameFuncPair("ChangeFacing", ChangeFacing),
+                
+                
                 //new NameFuncPair("HitBy", HitBy),
                 //new NameFuncPair("NoHitBy", NoHitBy),
                 //new NameFuncPair("HitDefSet", HitDefSet),
                 //new NameFuncPair("PhysicsSet", PhysicsSet),
                 //new NameFuncPair("MoveTypeSet", MoveTypeSet),
-                //new NameFuncPair("VelSet", VelSet),
-                //new NameFuncPair("VelAdd", VelAdd),
+                
                 //new NameFuncPair("CtrlSet", CtrlSet),
-                //new NameFuncPair("PosSet", PosSet),
-                //new NameFuncPair("PosAdd", PosAdd),
+             
                 //new NameFuncPair("Pause", Pause),
                 //new NameFuncPair("TargetBind", TargetBind),
                 //new NameFuncPair("MakeEffect", MakeEffect),
@@ -103,23 +109,31 @@ namespace bluebean.Mugen3D.Core
             return 0;
         }
 
-        //public static int ChangeFacing(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int facing = lua.L_CheckInteger(2);
-        //    c.ChangeFacing(facing);
-        //    return 0;
-        //}
+        public static int ChangeFacing(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            int facing = lua.L_CheckInteger(2);
+            DelayImpactComponent delayImpact = c.GetComponent<DelayImpactComponent>();
+            if (delayImpact != null)
+            {
+                delayImpact.ChangeFacing(facing);
+            }
+            return 0;
+        }
 
-        //public static int ChangeAnim(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int anim = lua.L_CheckInteger(2);
-        //    c.animCtr.ChangeAnim(anim);
-        //    return 0;
-        //}
+        public static int ChangeAnim(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            int anim = lua.L_CheckInteger(2);
+            DelayImpactComponent delayImpact = c.GetComponent<DelayImpactComponent>();
+            if (delayImpact != null)
+            {
+                delayImpact.ChangeAnim(anim);
+            }
+            return 0;
+        }
 
         //static HitDef GetHitDef(ILuaState lua)
         //{
@@ -224,46 +238,61 @@ namespace bluebean.Mugen3D.Core
         //    return 0;
         //}
 
-        //public static int VelSet(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    double velX = lua.L_CheckNumber(2);
-        //    double velY = lua.L_CheckNumber(3);
-        //    c.moveCtr.VelSet(velX.ToNumber(), velY.ToNumber());
-        //    return 0;
-        //}
+        public static int VelSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            DelayImpactComponent delayImpact = c.GetComponent<DelayImpactComponent>();
+            if (delayImpact != null)
+            {
+                int velX = lua.L_CheckInteger(2);
+                int velY = lua.L_CheckInteger(3);
+                delayImpact.VelSet(new Vector(Number.EN4 * velX, Number.EN4 * velY));
+            }
+            return 0;
+        }
 
-        //public static int VelAdd(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    double velX = lua.L_CheckNumber(2);
-        //    double velY = lua.L_CheckNumber(3);
-        //    c.moveCtr.VelAdd(velX.ToNumber(), velY.ToNumber());
-        //    return 0;
-        //}
+        public static int VelAdd(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            DelayImpactComponent delayImpact = c.GetComponent<DelayImpactComponent>();
+            if (delayImpact != null)
+            {
+                int velX = lua.L_CheckInteger(2);
+                int velY = lua.L_CheckInteger(3);
+                delayImpact.VelAdd(new Vector(Number.EN4 * velX, Number.EN4 * velY));
+            }
+            return 0;
+        }
 
-        //public static int PosSet(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    double x = lua.L_CheckNumber(2);
-        //    double y = lua.L_CheckNumber(3);
-        //    c.moveCtr.PosSet(x.ToNumber(), y.ToNumber());
-        //    return 0;
-        //}
+        public static int PosSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            DelayImpactComponent delayImpact = c.GetComponent<DelayImpactComponent>();
+            if (delayImpact != null)
+            {
+                int x = lua.L_CheckInteger(2);
+                int y = lua.L_CheckInteger(3);
+                delayImpact.PosSet(new Vector(Number.EN4 * x, Number.EN4 * y));
+            }
+            return 0;
+        }
 
-        //public static int PosAdd(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    double x = lua.L_CheckNumber(2);
-        //    double y = lua.L_CheckNumber(3);
-        //    double z = lua.L_CheckNumber(4);
-        //    c.moveCtr.PosAdd(x.ToNumber(), y.ToNumber());
-        //    return 0;
-        //}
+        public static int PosAdd(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            Entity c = (Entity)lua.ToUserData(1);
+            DelayImpactComponent delayImpact = c.GetComponent<DelayImpactComponent>();
+            if (delayImpact != null)
+            {
+                int x = lua.L_CheckInteger(2);
+                int y = lua.L_CheckInteger(3);
+                delayImpact.PosAdd(new Vector(Number.EN4 * x, Number.EN4 * y));
+            }
+            return 0;
+        }
 
         //public static int CtrlSet(ILuaState lua)
         //{

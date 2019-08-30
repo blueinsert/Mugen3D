@@ -66,10 +66,21 @@ namespace bluebean.Mugen3D.Core
             this.m_velocity = new Vector(velx * m_facing, vely);
         }
 
+        public void VelSet(Vector vel)
+        {
+            this.m_velocity = vel;
+        }
+
         public void VelAdd(Number deltaX, Number deltaY)
         {
             this.m_velocity.x += deltaX * m_facing;
             this.m_velocity.y += deltaY;
+        }
+
+        public void VelAdd(Vector velDelta)
+        {
+            this.m_velocity.x += velDelta.x * m_facing;
+            this.m_velocity.y += velDelta.y;
         }
 
         public void SetGravity(Number x, Number y)
