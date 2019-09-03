@@ -12,10 +12,12 @@ local function createENV(entity)
 	--将控制函数加入环境中
 	for name, func in pairs(controller) do
 		env[name] = warp(func)
+		print("add controller",name,func)
 	end
 	--将触发检测函数加入环境中
 	for name, func in pairs(trigger) do
 		env[name] = warp(func)
+		print("add trigger",name,func)
 	end
 	--一些常用方法
 	env.print = print
@@ -27,7 +29,6 @@ end
 local function createFSM(scriptName, entity)
 	local fsm = require(scriptName)
 	local env = createENV(entity)
-	fsm.setEnv(env)
 	local updateFunc = function(_ENV)
 	    local stateNo = StateNo()
 	    if fsm == nil then
@@ -37,6 +38,12 @@ local function createFSM(scriptName, entity)
     	    if fsm[i] and fsm[i].onUpdate then
 		        fsm[i].onUpdate(_ENV)
 	        end
+        end
+        local stateTime = StateTime()
+        if stateTime == 0 then
+        	 if fsm[stateNo] and fsm[stateNo].onEnter then
+        	 	fsm[stateNo].onEnter(_ENV)
+        	 end
         end
 	    if fsm[stateNo] and fsm[stateNo].onUpdate then
 	        fsm[stateNo].onUpdate(_ENV)

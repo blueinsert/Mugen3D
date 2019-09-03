@@ -67,19 +67,24 @@ namespace bluebean.Mugen3D.Core
         /// <summary>
         /// 当前的动画编号
         /// </summary>
-        public int m_anim;
+        private int m_anim;
         /// <summary>
         /// 当前的动画的持续时间
         /// </summary>
-        public int m_animTime;
+        private int m_animTime;
         /// <summary>
         /// 当前位于动画第几帧
         /// </summary>
-        public int m_animElem;
+        private int m_animElem;
         /// <summary>
         /// 该帧的已持续事件
         /// </summary>
-        public int m_animElemTime;
+        private int m_animElemTime;
+
+        public int Anim { get { return m_anim; } }
+        public int AnimTime { get { return m_animTime; } }
+        public int AnimElem { get { return m_animElem; } }
+        public int AnimElemTime { get { return m_animElemTime; } }
 
         public int AnimLength
         {

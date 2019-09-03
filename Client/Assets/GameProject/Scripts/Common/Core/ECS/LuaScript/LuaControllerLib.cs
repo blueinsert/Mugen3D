@@ -24,77 +24,50 @@ namespace bluebean.Mugen3D.Core
                 new NameFuncPair("PosSet", PosSet),
                 new NameFuncPair("PosAdd", PosAdd),
 
-                //new NameFuncPair("CreateHelper", CreateHelper),
-                //new NameFuncPair("CreateProjectile", CreateProjectile),
-                //new NameFuncPair("DestroySelf", DestroySelf),
-                
-                
-                //new NameFuncPair("HitBy", HitBy),
-                //new NameFuncPair("NoHitBy", NoHitBy),
-                //new NameFuncPair("HitDefSet", HitDefSet),
-                //new NameFuncPair("PhysicsSet", PhysicsSet),
-                //new NameFuncPair("MoveTypeSet", MoveTypeSet),
-                
-                //new NameFuncPair("CtrlSet", CtrlSet),
-             
-                //new NameFuncPair("Pause", Pause),
-                //new NameFuncPair("TargetBind", TargetBind),
-                //new NameFuncPair("MakeEffect", MakeEffect),
-                //new NameFuncPair("PlaySound", PlaySound),
-               
+                new NameFuncPair("CreateHelper", CreateHelper),
+                new NameFuncPair("CreateProjectile", CreateProjectile),
+                new NameFuncPair("DestroySelf", DestroySelf),
+
+
+                new NameFuncPair("HitBy", HitBy),
+                new NameFuncPair("NoHitBy", NoHitBy),
+                new NameFuncPair("HitDefSet", HitDefSet),
+                new NameFuncPair("PhysicsSet", PhysicsSet),
+                new NameFuncPair("MoveTypeSet", MoveTypeSet),
+
+                new NameFuncPair("CtrlSet", CtrlSet),
+
+                new NameFuncPair("Pause", Pause),
+                new NameFuncPair("TargetBind", TargetBind),
+                new NameFuncPair("MakeEffect", MakeEffect),
+                new NameFuncPair("PlaySound", PlaySound),
+
             };
             lua.L_NewLib(define);
             return 1;
         }
 
 
-        //public static int CreateProjectile(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit u = (Unit)lua.ToUserData(1);
-        //    if (u is Character)
-        //    {
-        //        var c = u as Character;
-        //        var projectileName = lua.L_CheckString(2);
-        //        ProjectileDef def = new ProjectileDef();
-        //        using (var t = new LuaTable(lua)) {
-        //            def.offset = t.GetNumberArray("offset", 2);
-        //            def.posType = t.GetString("posType");
-        //            def.projPriority = t.GetInt("projPriority");
-        //            def.projEdgeBound = t.GetNumber("projEdgeBound", 0);
-        //            def.projStageBound = t.GetNumber("projStageBound", 0);
-        //            def.facing = t.GetInt("facing", 1);
-        //            def.vel = t.GetNumberArray("vel", 2);
-        //            def.id = t.GetInt("id");
-        //        }
-        //        c.CreateProjectile(projectileName, def);
-        //    }
-        //    return 0;
-        //}
+        public static int CreateProjectile(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int CreateHelper(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit u = (Unit)lua.ToUserData(1);
-        //    if (u is Character)
-        //    {
-        //        var c = u as Character;
-        //        var helperName = lua.L_CheckString(2);
-        //        c.CreateHelper(helperName);
-        //    }
-        //    return 0;
-        //}
+        public static int CreateHelper(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int DestroySelf(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit u = (Unit)lua.ToUserData(1);
-        //    if (u is Helper)
-        //    {
-        //        u.Destroy();
-        //    }
-        //    return 0;
-        //}
+        public static int DestroySelf(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
         public static int ChangeState(ILuaState lua)
         {
@@ -173,70 +146,40 @@ namespace bluebean.Mugen3D.Core
         //    return hitDef;
         //}
 
-        //public static int HitDefSet(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    if (c.IsPause())
-        //        return 0;
-        //    HitDef hitDef = GetHitDef(lua);
-        //    c.SetHitDefData(hitDef);
-        //    return 0;
-        //}
+        public static int HitDefSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int HitBy(ILuaState lua) {
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int duration = lua.L_CheckInteger(2);
-        //    int num = lua.L_CheckInteger(3);
-        //    List<HitInfo> hitInfos = new List<HitInfo>();
-        //    int index = 4;
-        //    for (int i = 0; i < num; i++)
-        //    {
-        //        int hitFlag = lua.L_CheckInteger(index++);
-        //        int hitType = lua.L_CheckInteger(index++);
-        //        HitInfo hitInfo = new HitInfo(hitType, hitFlag);
-        //        hitInfos.Add(hitInfo);
-        //    }
-        //    c.SetHitBy(hitInfos, duration);
-        //    return 0;
-        //}
+        public static int HitBy(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int NoHitBy(ILuaState lua) {
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int duration = lua.L_CheckInteger(2);
-        //    int num = lua.L_CheckInteger(3);
-        //    List<HitInfo> hitInfos = new List<HitInfo>();
-        //    int index = 4;
-        //    for (int i = 0; i < num; i++)
-        //    {
-        //        int hitFlag = lua.L_CheckInteger(index++);
-        //        int hitType = lua.L_CheckInteger(index++);
-        //        HitInfo hitInfo = new HitInfo(hitType, hitFlag);
-        //        hitInfos.Add(hitInfo);
-        //    }
-        //    c.SetNoHitBy(hitInfos, duration);
-        //    return 0;
-        //}
+        public static int NoHitBy(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int PhysicsSet(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int physics = lua.L_CheckInteger(2);
-        //    c.SetPhysicsType((PhysicsType)physics);
-        //    return 0;
-        //}
+        public static int PhysicsSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int MoveTypeSet(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int moveType = lua.L_CheckInteger(2);
-        //    c.SetMoveType((MoveType)moveType);
-        //    return 0;
-        //}
+        public static int MoveTypeSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
         public static int VelSet(ILuaState lua)
         {
@@ -294,92 +237,57 @@ namespace bluebean.Mugen3D.Core
             return 0;
         }
 
-        //public static int CtrlSet(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    bool ctrl = lua.ToBoolean(2);
-        //    c.SetCtrl(ctrl);
-        //    return 0;
-        //}
+        public static int CtrlSet(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int Pause(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    int duration = lua.L_CheckInteger(2);
-        //    c.Pause(duration);
-        //    return 0;
-        //}
+        public static int Pause(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int TargetBind(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    Unit target = c.GetHitDefData().target;
-        //    if (target != null)
-        //    {
-        //        double x = lua.L_CheckNumber(2);
-        //        double y = lua.L_CheckNumber(3);
-        //        double z = lua.L_CheckNumber(4);
-        //        target.moveCtr.PosSet(c.Position.x + x.ToNumber()*c.GetFacing(), c.Position.y + y.ToNumber());
-        //    }
-        //    return 0;
-        //}
+        public static int TargetBind(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int BindToTarget(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    Unit target = c.GetHitDefData().target;
-        //    if (target != null)
-        //    {
-        //        double x = lua.L_CheckNumber(2);
-        //        double y = lua.L_CheckNumber(3);
-        //        double z = lua.L_CheckNumber(4);
-        //        c.moveCtr.PosSet(target.Position.x + x.ToNumber() * target.GetFacing(), target.Position.y + y.ToNumber());
-        //    }
-        //    return 0;
-        //}
+        public static int BindToTarget(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int MakeEffect(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    string effectName = lua.L_CheckString(2);
-        //    EffectDef def = new EffectDef();
-        //    using(var t = new LuaTable(lua))
-        //    {
-        //        def.posType = t.GetString("posType");
-        //        def.pos = t.GetNumberArray("pos", 2);
-        //        def.facing = t.GetInt("facing", 1);
-        //        def.bindTime = t.GetInt("bindTime");
-        //        def.vel = t.GetNumberArray("vel", 2);
-        //        def.accel = t.GetNumberArray("accel", 2);
-        //        def.removeTime = t.GetInt("removeTime");
-        //        def.pauseMoveTime = t.GetInt("pauseMoveTime");
-        //        def.superPauseMoveTime = t.GetInt("superPauseMoveTime");
-        //    }
-        //    def.name = effectName;
-        //    c.SendEvent(new Event { type = EventType.PlayEffect, data = def });
-        //    return 0;
-        //}
+        /// <summary>
+        /// 播放特效
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int MakeEffect(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
-        //public static int PlaySound(ILuaState lua)
-        //{
-        //    lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-        //    Unit c = (Unit)lua.ToUserData(1);
-        //    string soundName = lua.L_CheckString(2);
-        //    SoundDef def = new SoundDef();
-        //    using(var t = new LuaTable(lua))
-        //    {
-        //        def.delay = t.GetNumber("delay", 0);
-        //        def.volume = t.GetNumber("volume", 1);
-        //    }
-        //    def.name = soundName;
-        //    c.SendEvent(new Event() { type = EventType.PlaySound, data = def });
-        //    return 0;
-        //}
+        /// <summary>
+        /// 播放声音
+        /// </summary>
+        /// <param name="lua"></param>
+        /// <returns></returns>
+        public static int PlaySound(ILuaState lua)
+        {
+            lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
+            //todo
+            return 0;
+        }
 
     }
 }

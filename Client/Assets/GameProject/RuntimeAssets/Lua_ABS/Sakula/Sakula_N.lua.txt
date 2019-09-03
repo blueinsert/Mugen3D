@@ -1,5 +1,5 @@
---[[
-local Enums = require "System/Enums"
+
+local Enums = require "Lua_ABS/Enums"
 
 local M = {}
 
@@ -707,23 +707,3 @@ M[803] = {
 }
 
 return M
---]]
-
-local FSM = {}
-
-local _ENV = {}
-
-FSM.setEnv = function(env)
-  _ENV = env
-end
-
-FSM[0] = {
-  onEnter = function()
-      
-  end,
-  onUpdate = function()
-      print("state",StateNo(),"onUpdate")
-  end,
-}
-
-return FSM
