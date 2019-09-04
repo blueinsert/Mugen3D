@@ -12,12 +12,17 @@ local function createENV(entity)
 	--将控制函数加入环境中
 	for name, func in pairs(controller) do
 		env[name] = warp(func)
-		print("add controller",name,func)
 	end
 	--将触发检测函数加入环境中
 	for name, func in pairs(trigger) do
-		env[name] = warp(func)
-		print("add trigger",name,func)
+		local newFunc = func
+		if name == "Vel" or name == "Pos" or name == "P2Dist" or name == "FrontEdgeDist" or name == "BackEdgeDist" or name == "FrontStageDist" or name == "BackStageDist" then
+            newFunc = function( ... )
+            	local x,y = func(...)
+            	return {x=x,y=y}
+            end
+		end 
+		env[name] = warp(newFunc)
 	end
 	--一些常用方法
 	env.print = print

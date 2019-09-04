@@ -71,9 +71,9 @@ M[-2] = {
                                    (StateNo() == 440 and MoveContact() and AnimElem() <= 3)) then
         	ChangeState(1000)
         end
-        if CommandTest("throw") and CanAttack() and Ctrl() and PhysicsType() == Enums.PhysicsType.S then
-            ChangeState(800)
-        end
+        --if CommandTest("throw") and CanAttack() and Ctrl() and PhysicsType() == Enums.PhysicsType.S then
+        --    ChangeState(800)
+        --end
         if (CanAttack() and CommandTest("a") and not CommandTest("holddown") and math.abs(P2Dist().x) > 0.8) and ((Ctrl() and PhysicsType() == Enums.PhysicsType.S) or
                                    (StateNo() == 200 and MoveContact() and AnimElem() == 3) or
                                    (StateNo() == 205 and MoveContact() and AnimElem() == 2) or

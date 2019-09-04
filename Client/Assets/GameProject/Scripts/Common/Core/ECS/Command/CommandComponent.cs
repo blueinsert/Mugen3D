@@ -252,7 +252,18 @@ namespace bluebean.Mugen3D.Core
 
         public bool CommandIsActive(string commandName)
         {
-            return CommandIsActive(commandName.GetHashCode());
+            bool result = false;
+            int hashCode = commandName.GetHashCode();
+            if (!m_commandState.ContainsKey(hashCode))
+            {
+                result = false;
+                Debug.Log("cmd def don't contain:" + commandName);
+            }
+            else
+            {
+                result = CommandIsActive(hashCode);
+            }
+            return result;
         }
 
         private bool CommandIsActive(int commandNameHashCode)

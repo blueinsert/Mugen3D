@@ -21,6 +21,7 @@ namespace bluebean.Mugen3D.Core
             entity.AddComponent<LuaScriptComponent>().Init(configDataCharacter.LuaMainModule, entity);
             //entity.AddComponent<AnimationComponent>().Init(); todo
             entity.AddComponent<FSMComponent>();
+            entity.AddComponent<DelayImpactComponent>();
             return entity;
         }
     }

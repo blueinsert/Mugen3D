@@ -36,6 +36,7 @@ namespace bluebean.Mugen3D.Core
             AddSystem<CommandSystem>();
             AddSystem<LuaScriptSystem>();
             AddSystem<FSMSystem>();
+            AddSystem<DelayImpactSystem>();
             //初始化LuaState
             LuaMgr.Instance.OpenLibrary(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
             LuaMgr.Instance.OpenLibrary(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);

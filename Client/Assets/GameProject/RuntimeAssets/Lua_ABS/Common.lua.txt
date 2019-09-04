@@ -14,8 +14,7 @@ M[] = {
 
 local function handleChangeFacing(_ENV)
 	local facing = 1
-	local x,y = P2Dist()
-	if x < 0 then
+	if P2Dist().x < 0 then
 		facing = -1
 	end
 	if Facing() ~= facing and PhysicsType() ~= Enums.PhysicsType.A then
@@ -31,6 +30,7 @@ end
 
 M[-1] = {
 	onUpdate = function(_ENV)
+	    print("State -1 update")
 	    handleChangeFacing(_ENV)
 	    if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("FF") and StateNo() ~= 100 then
 			ChangeState(100)
@@ -44,11 +44,14 @@ M[-1] = {
 	    if Ctrl() and PhysicsType() == Enums.PhysicsType.S and (CommandTest("holdfwd") or CommandTest("holdback")) and StateNo() ~= 100 and StateNo() ~= 20 then
 			ChangeState(20) --walk
 		end
-		if Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown")  then
+		if  Ctrl() and PhysicsType() == Enums.PhysicsType.S and CommandTest("holddown")  then
 			ChangeState(10)
 		end
-		local x,y = P2Dist()
-		if Ctrl() and MoveType() ~= Enums.MoveType.D and P2MoveType() == Enums.MoveType.A and math.abs(x) < 4 and CommandTest("holdback") then
+		if Ctrl() and MoveType() ~= Enums.MoveType.D and P2MoveType() == Enums.MoveType.A and math.abs(P2Dist().x) < 4 and CommandTest("holdback") then
+			ChangeState(120)
+		end
+		--test
+		if CommandTest("holddown") then
 			ChangeState(120)
 		end
 	end,
