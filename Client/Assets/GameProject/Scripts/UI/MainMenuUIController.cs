@@ -17,6 +17,7 @@ namespace bluebean.Mugen3D.UI
             TrainButton.onClick.AddListener(OnTrainButtonClick);
             OptionsButton.onClick.AddListener(OnOptionsButtonClick);
             ExitButton.onClick.AddListener(OnExitButtonClick);
+            ButtonTest.onClick.AddListener(OnTestButtonClick);
         }
 
         public void ShowOpenTween()
@@ -58,10 +59,18 @@ namespace bluebean.Mugen3D.UI
             }
         }
 
+        private void OnTestButtonClick() {
+            if (EventOnTestButtonClick != null)
+            {
+                EventOnTestButtonClick();
+            }
+        }
+
         public event Action EventOnSingleVSButtonClick;
         public event Action EventOnTrainButtonClick;
         public event Action EventOnOptionsButtonClick;
         public event Action EventOnExitButtonClick;
+        public event Action EventOnTestButtonClick;
 
         [AutoBind("./VerticalGroup/SingleVS")]
         public Button SingleVSButton;
@@ -73,5 +82,7 @@ namespace bluebean.Mugen3D.UI
         public Button ExitButton;
         [AutoBind("./")]
         public UIStateController UIStateController;
+        [AutoBind("./ButtonTest")]
+        Button ButtonTest;
     }
 }

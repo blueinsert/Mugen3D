@@ -21,6 +21,9 @@ namespace bluebean.Mugen3D
             uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "MainMenuUITask", TypeFullName = "bluebean.Mugen3D.UI.MainMenuUITask" });
             uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "CharacterSelectUITask", TypeFullName = "bluebean.Mugen3D.UI.CharacterSelectUITask" });
             uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "BattleUITask", TypeFullName = "bluebean.Mugen3D.UI.BattleUITask" });
+#if UNITY_EDITOR
+            uiManager.RegisterUITask(new UITaskRegisterItem() { Name = "ActionsEditorUITask", TypeFullName = "bluebean.Mugen3D.UI.ActionsEditorUITask" });
+#endif
             return true;
         }
     }

@@ -13,6 +13,10 @@ namespace bluebean.UGFramework
         {
             GameObject target = FindChild(root, path);
             Type type = ClassLoader.GetType(typeFullName);
+            if(type == null)
+            {
+                Debug.LogError(string.Format("ClassLoader.GetType \"{0}\" is null", typeFullName));
+            }
             MonoViewController viewController = null;
             if((viewController = target.GetComponent(type) as MonoViewController) != null)
             {

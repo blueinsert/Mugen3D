@@ -146,7 +146,11 @@ namespace bluebean.Mugen3D.UI
 
         #region 资源描述
 
-        protected override LayerDesc[] LayerDescArray { get => m_layerDescs; }
+        protected override LayerDesc[] LayerDescArray {
+            get {
+                return m_layerDescs;
+            }
+        }
 
         private LayerDesc[] m_layerDescs = new LayerDesc[] {
             new LayerDesc(){
@@ -160,7 +164,9 @@ namespace bluebean.Mugen3D.UI
             }
         };
 
-        protected override ViewControllerDesc[] ViewControllerDescArray { get => m_viewControllerDescs; }
+        protected override ViewControllerDesc[] ViewControllerDescArray {
+            get { return m_viewControllerDescs; }
+        }
 
         private ViewControllerDesc[] m_viewControllerDescs = new ViewControllerDesc[]{
             new ViewControllerDesc()
