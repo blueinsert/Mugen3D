@@ -67,9 +67,23 @@ namespace bluebean.Mugen3D.UI
         protected override void OnCreateAllUIViewController()
         {
             base.OnCreateAllUIViewController();
-            
+            if (m_viewControllerArray.Length > 0) {
+                m_actionEditUIController = m_viewControllerArray[0] as ActionsEditorUIController;
+                if (m_actionEditUIController != null) {
+                    m_actionEditUIController.EventOnCloseButtonClick += OnCloseButtonClick;
+                }
+            }
         }
 
+        protected override void OnClearAllLayerAndAssets()
+        {
+            base.OnClearAllLayerAndAssets();
+            if (m_actionEditUIController != null)
+            {
+                m_actionEditUIController.EventOnCloseButtonClick -= OnCloseButtonClick;
+                m_actionEditUIController = null;
+            }
+        }
         protected override void UpdateView()
         {
             
@@ -83,9 +97,16 @@ namespace bluebean.Mugen3D.UI
         #endregion
 
         #region UI回调
+
+        private void OnCloseButtonClick() {
+            ReturnToPrevUITask();
+        }
+
         #endregion
 
         #region 变量
+
+        private ActionsEditorUIController m_actionEditUIController;
 
         #region 资源描述
 
@@ -114,7 +135,7 @@ namespace bluebean.Mugen3D.UI
             {
                 AtachLayerName = "ActionEditorUI",
                 AtachPath = "./",
-                TypeFullName = "bluebean.Mugen3D.UI.ActionEditUIController",
+                TypeFullName = "bluebean.Mugen3D.UI.ActionsEditorUIController",
             },
         };
         #endregion

@@ -4,24 +4,20 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Mugen3D.Tools
+namespace bluebean.Mugen3D.UI
 {
-    public class DragableWidget : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    public class Dragable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         public System.Action<Vector3> onDrag;
-
-        // Use this for initialization
-        void Start()
-        {
-
+        private Canvas m_canvas;
+        public Canvas Canvas {
+            get {
+                if (m_canvas == null) {
+                    m_canvas = GetComponentInParent<Canvas>();
+                }
+                return m_canvas;
+            }
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void OnBeginDrag(PointerEventData eventData)
         {
             
@@ -29,8 +25,7 @@ namespace Mugen3D.Tools
 
         public void OnDrag(PointerEventData eventData)
         {
-
-            this.transform.position = ActionsEditor.Instance.view.uiCamera.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 100));
+            this.transform.position = Canvas.worldCamera.ScreenToWorldPoint(new Vector3(eventData.position.x, eventData.position.y, 100));
             if (onDrag != null)
                 onDrag(this.transform.position);
         }

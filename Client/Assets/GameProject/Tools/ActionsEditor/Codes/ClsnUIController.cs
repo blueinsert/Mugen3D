@@ -4,19 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using bluebean.Mugen3D.Core;
 using bluebean.UGFramework.UI;
-using bluebean.Mugen3D.UI;
 
-namespace Mugen3D.Tools
+namespace bluebean.Mugen3D.UI
 {
     [RequireComponent(typeof(UnityEngine.UI.Toggle))]
-    public class WidgetCLSN : UIViewController
-    {
-        
+    public class ClsnUIController : UIViewController
+    {   
+        public Toggle m_toggle;
+        public Dragable m_leftDownCorner;
+        public Dragable m_rightUpCorner;
+        /*
         public Toggle toggle;
         public Image img;
         public Clsn m_clsn;
-        public Dragable leftDown;
-        public Dragable rightUp;
+        public DragableWidget leftDown;
+        public DragableWidget rightUp;
        
         private bool isInited = false;
 
@@ -86,6 +88,6 @@ namespace Mugen3D.Tools
             this.leftDown.GetComponent<RectTransform>().sizeDelta = size;
             this.rightUp.GetComponent<RectTransform>().sizeDelta = size;
         }
-        
+        */
     }
 }
