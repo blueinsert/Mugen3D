@@ -33,12 +33,15 @@ namespace bluebean.UGFramework
 
         private static GameObject FindChild(GameObject root, string path)
         {
-            GameObject target = root;
+            GameObject target = null;
             int index = path.IndexOf("/");
             if (index != -1)
             {
                 string subPath = path.Substring(index + 1);
                 target = root.transform.Find(subPath).gameObject;
+                if (target == null) {
+                    Debug.LogError(string.Format("can't find subpath {0} in {1}",path, root.name));
+                }
             }
             return target;
         }

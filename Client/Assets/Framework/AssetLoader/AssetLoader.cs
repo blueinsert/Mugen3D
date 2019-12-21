@@ -48,7 +48,7 @@ namespace bluebean.UGFramework
             }
             else
             {
-                Debug.Log("Load Asset Fail by AssetDataBase AssetPath:" + path);
+                Debug.LogError("Load Asset Fail by AssetDataBase AssetPath:" + path);
             }
             onEnd(path, assets);
         }

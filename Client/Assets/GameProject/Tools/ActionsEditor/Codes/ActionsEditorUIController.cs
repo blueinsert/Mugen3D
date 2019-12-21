@@ -5,15 +5,23 @@ using UnityEngine;
 using UnityEngine.UI;
 using bluebean.UGFramework;
 using bluebean.UGFramework.UI;
+using UnityEngine.EventSystems;
 
 namespace bluebean.Mugen3D.UI
 {
-    public class ActionsEditorUIController : UIViewController
+    public class ActionsEditorUIController : UIViewController, IPointerDownHandler, IDragHandler, IPointerUpHandler
     {
         protected override void OnBindFieldsComplete()
         {
             base.OnBindFieldsComplete();
             m_closeButton.onClick.AddListener(OnCloseButtonClick);
+            m_loadDropDown.onValueChanged.AddListener(OnLoadDropDownValueChanged);
+            GameObjectUtility.AttachUIController<ClsnUIController>(m_prefabClsn);
+        }
+
+        public void SetCharsDropDown(List<string> names) {
+            m_loadDropDown.ClearOptions();
+            m_loadDropDown.AddOptions(names);
         }
 
         private void OnCloseButtonClick() {
@@ -23,12 +31,45 @@ namespace bluebean.Mugen3D.UI
             }
         }
 
+        private void OnLoadDropDownValueChanged(int index) {
+            if (EventOnLoadDropDownValueChanged != null) {
+                EventOnLoadDropDownValueChanged(index);
+            }
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (EventOnPointerDown != null) {
+                EventOnPointerDown(eventData);
+            }
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (EventOnDrag != null)
+            {
+                EventOnDrag(eventData);
+            }
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (EventOnPointerUp != null)
+            {
+                EventOnPointerUp(eventData);
+            }
+        }
+
+        public Action<PointerEventData> EventOnPointerDown;
+        public Action<PointerEventData> EventOnPointerUp;
+        public Action<PointerEventData> EventOnDrag;
+        public Action<int> EventOnLoadDropDownValueChanged;
         public Action EventOnCloseButtonClick;
 
         [AutoBind("./CloseButton")]
         public Button m_closeButton;
-        [AutoBind("./Left/Menu/ButtonLoad")]
-        public Button m_loadButton;
+        [AutoBind("./Left/Menu/Load")]
+        public Dropdown m_loadDropDown;
         [AutoBind("./Left/Menu/ButtonSave")]
         public Button m_saveButton;
         [AutoBind("./Left/Menu/ButtonPlay")]
@@ -85,5 +126,10 @@ namespace bluebean.Mugen3D.UI
         public Button btnDeleteClsn;
         [AutoBind("./Left/ClsnOperate/ButtonUseLastClsn")]
         public Button btnUseLastClsn;
+
+        [AutoBind("./Right/CharacterArea/ToggleGroup")]
+        public GameObject m_clsnContent;
+        [AutoBind("./Prefabs/ToggleCLSN")]
+        public GameObject m_prefabClsn;
     }
 }

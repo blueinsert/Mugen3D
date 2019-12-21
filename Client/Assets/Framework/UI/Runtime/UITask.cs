@@ -293,7 +293,7 @@ namespace bluebean.UGFramework.UI
                         isLoadUILayerComplete = true;
                         if (isLoadUILayerComplete && isLoadAssetsComplete)
                         {
-                            OnLoadUILayersAndAssetsComplete();
+                            OnLoadLayersAndAssetsComplete();
                         }
                     });
                 }
@@ -304,7 +304,7 @@ namespace bluebean.UGFramework.UI
                         isLoadAssetsComplete = true;
                         if (isLoadUILayerComplete && isLoadAssetsComplete)
                         {
-                            OnLoadUILayersAndAssetsComplete();
+                            OnLoadLayersAndAssetsComplete();
                         }
                     });
                 }
@@ -463,7 +463,7 @@ namespace bluebean.UGFramework.UI
         /// <summary>
         /// 加载所有资源完成
         /// </summary>
-        private void OnLoadUILayersAndAssetsComplete()
+        private void OnLoadLayersAndAssetsComplete()
         {
             if (m_viewControllerArray == null)
             {
@@ -471,8 +471,8 @@ namespace bluebean.UGFramework.UI
             }
             if (m_updateCtx.m_isInit)
             {
-                if (MainLayer != null)
-                    SceneTree.Instance.PushLayer(MainLayer);
+                foreach(var layer in m_layerDic.Values)
+                    SceneTree.Instance.PushLayer(layer);
             }
             if (m_updateCtx.m_redirctOnLoadAllAssetComplete != null)
             {

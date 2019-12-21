@@ -113,7 +113,7 @@ namespace bluebean.UGFramework.ConfigData
             comPara.OutputAssembly = "";
             var assemblies = AppDomain.CurrentDomain
                             .GetAssemblies()
-                            //.Where(a => !a.IsDynamic)
+                            .Where(a => !a.IsDynamic)
                             .Select(a => a.Location);
 
             comPara.ReferencedAssemblies.AddRange(assemblies.ToArray());

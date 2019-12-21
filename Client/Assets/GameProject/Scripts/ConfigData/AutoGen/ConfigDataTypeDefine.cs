@@ -111,6 +111,8 @@ namespace bluebean.UGFramework.ConfigData {
         
         private string m_LuaMainModule;
         
+        private string m_ActionDef;
+        
         public int ID {
             get {
                 return this.m_ID;
@@ -180,6 +182,15 @@ namespace bluebean.UGFramework.ConfigData {
             }
             set {
                 this.m_LuaMainModule = value;
+            }
+        }
+        
+        public string ActionDef {
+            get {
+                return this.m_ActionDef;
+            }
+            set {
+                this.m_ActionDef = value;
             }
         }
     }

@@ -1,18 +1,76 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using bluebean.Mugen3D.Core;
 using bluebean.UGFramework.UI;
+using bluebean.UGFramework;
 
 namespace bluebean.Mugen3D.UI
 {
-    [RequireComponent(typeof(UnityEngine.UI.Toggle))]
     public class ClsnUIController : UIViewController
-    {   
+    {
+        public event Action<Vector3, Vector3> EventOnClsnChanged;
+
+        [AutoBind("./Background")]
+        public Image m_bgImage;
+        [AutoBind("./")]
         public Toggle m_toggle;
+        [AutoBind("./LeftDownCorner")]
         public Dragable m_leftDownCorner;
+        [AutoBind("./RightUpCorner")]
         public Dragable m_rightUpCorner;
+
+        protected override void OnBindFieldsComplete()
+        {
+            base.OnBindFieldsComplete();
+            m_leftDownCorner.onDrag += OnLeftDownCornerDrag;
+            m_rightUpCorner.onDrag += OnRightUpCornerDrag;
+        }
+
+        public void SetClsn(Clsn clsn) {
+            Color color = Color.black;
+            switch (clsn.type) {
+                case 1:
+                    color = Color.blue;
+                    break;
+                case 2:
+                    color = Color.red;
+                    break;
+                case 3:
+                    color = Color.black;
+                    break;
+            }
+            this.m_bgImage.color = Color.black;
+
+        }
+
+        private void UpdateTransform() {
+            UGFramework.Log.Debug.Log("ClsnControler.UpdateTransform");
+            this.m_bgImage.transform.position = (m_leftDownCorner.transform.position + m_rightUpCorner.transform.position) / 2;
+            this.m_bgImage.GetComponent<RectTransform>().sizeDelta = (m_rightUpCorner.GetComponent<RectTransform>().anchoredPosition - m_leftDownCorner.GetComponent<RectTransform>().anchoredPosition);
+            m_leftDownCorner.GetComponent<RectTransform>().sizeDelta = new Vector2(this.m_bgImage.GetComponent<RectTransform>().sizeDelta.x / 10.0f, this.m_bgImage.GetComponent<RectTransform>().sizeDelta.y / 10.0f);
+            m_rightUpCorner.GetComponent<RectTransform>().sizeDelta = new Vector2(this.m_bgImage.GetComponent<RectTransform>().sizeDelta.x / 10.0f, this.m_bgImage.GetComponent<RectTransform>().sizeDelta.y / 10.0f);
+        }
+
+        private void OnLeftDownCornerDrag(Vector3 pos) {
+            UpdateTransform();
+            if (EventOnClsnChanged != null) {
+                EventOnClsnChanged(m_leftDownCorner.transform.position, m_rightUpCorner.transform.position);
+            }
+        }
+
+        private void OnRightUpCornerDrag(Vector3 pos)
+        {
+            UpdateTransform();
+            if (EventOnClsnChanged != null)
+            {
+                EventOnClsnChanged(m_leftDownCorner.transform.position, m_rightUpCorner.transform.position);
+            }
+        }
+
+
         /*
         public Toggle toggle;
         public Image img;
@@ -43,8 +101,8 @@ namespace bluebean.Mugen3D.UI
                 this.img.color = Color.black;
             }
             //var leftDown = new Vector3(this.m_clsn.x1, this.m_clsn.y1, 0);
-            //var rightUp = new Vector3(this.m_clsn.x2, this.m_clsn.y2, 0);
-            //this.leftDown.GetComponent<RectTransform>().position = ActionsEditorController.Instance.ScenePosToUIPos(leftDown);
+             //var rightUp = new Vector3(this.m_clsn.x2, this.m_clsn.y2, 0);
+           //this.leftDown.GetComponent<RectTransform>().position = ActionsEditorController.Instance.ScenePosToUIPos(leftDown);
            // this.rightUp.GetComponent<RectTransform>().position = ActionsEditorController.Instance.ScenePosToUIPos(rightUp);
             this.leftDown.onDrag += (uipos) =>{
                 var leftDownPos = ActionsEditor.Instance.view.UIPosToScenePos(uipos);
