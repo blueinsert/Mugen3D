@@ -22,7 +22,7 @@ namespace Mugen3D.Tools
         private int animElemTime;
         private AnimState state = AnimState.Stop;
 
-        void Awake()
+        public void Init()
         {
             m_anim = this.GetComponent<Animation>();
             foreach (AnimationState state in this.m_anim)

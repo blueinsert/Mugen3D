@@ -271,6 +271,10 @@ namespace Mugen3D.Tools
                 {
                     this.controller.module.curAction.loopStartIndex = this.controller.module.curActionElemIndex;
                 }
+                else
+                {
+                    this.controller.module.curAction.loopStartIndex = -1;
+                }
             });
             btnAddClsn1.onClick.AddListener(() => {
                 print("click addclsn1");

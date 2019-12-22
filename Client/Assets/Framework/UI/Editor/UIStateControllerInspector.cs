@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace bluebean.UGFramework
+namespace bluebean.UGFramework.UI
 {
     [CustomEditor(typeof(UIStateController))]
     public class UIStateControllerInspector : Editor
@@ -24,6 +24,8 @@ namespace bluebean.UGFramework
             if (GUILayout.Button("SwichToNextState"))
             {
                 m_uiStateController.SwichToNextState();
+                m_uiStateController.gameObject.SetActive(false);
+                m_uiStateController.gameObject.SetActive(true);
             }
             if (GUILayout.Button("Save"))
             {

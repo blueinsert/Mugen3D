@@ -1224,7 +1224,7 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 33
     m_FontStyle: 2
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 0
@@ -1403,6 +1403,7 @@ GameObject:
   - component: {fileID: 222360226301069664}
   - component: {fileID: 114836010080428676}
   - component: {fileID: 114123482691796722}
+  - component: {fileID: 80391092475800505}
   m_Layer: 5
   m_Name: ButtonPlay
   m_TagString: Untagged
@@ -1509,6 +1510,31 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &80391092475800505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138919124999558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b4b17f74f94874ba8694f8594f4e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_uiStateDescs:
+  - m_stateName: Playing
+    m_activeObjects: []
+    m_uiColorDescs:
+    - m_gameObject: {fileID: 1138919124999558}
+      m_color: {r: 0.3962264, g: 0.072890714, b: 0.072890714, a: 1}
+    m_tweeners: []
+  - m_stateName: Stopped
+    m_activeObjects: []
+    m_uiColorDescs:
+    - m_gameObject: {fileID: 1138919124999558}
+      m_color: {r: 1, g: 1, b: 1, a: 1}
+    m_tweeners: []
 --- !u!1 &1155013294068578
 GameObject:
   m_ObjectHideFlags: 0
@@ -4350,7 +4376,7 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 33
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 3
@@ -6127,7 +6153,7 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 33
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 0
@@ -6986,7 +7012,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248479920306300216}
   m_Layer: 0
-  m_Name: ActionsEditor
+  m_Name: ActionsEditorUIPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8799,12 +8825,12 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 61
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 40
-    m_Alignment: 3
+    m_BestFit: 1
+    m_MinSize: 0
+    m_MaxSize: 61
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -9042,8 +9068,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_AnchoredPosition: {x: -15, y: 3}
+  m_SizeDelta: {x: 20, y: 53.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3965329979166062601
 CanvasRenderer:

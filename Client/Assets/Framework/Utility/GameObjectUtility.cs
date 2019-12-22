@@ -16,7 +16,7 @@ namespace bluebean.UGFramework
             if (go.transform.childCount == 0)
                 return;
             for (int i = 0; i < go.transform.childCount; i++) {
-                GameObject.Destroy(go.transform.GetChild(i));
+                GameObject.Destroy(go.transform.GetChild(i).gameObject);
             }
         }
     }

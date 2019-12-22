@@ -16,15 +16,30 @@ namespace bluebean.Mugen3D.UI
 
         private Vector2 m_dragStartPos;
 
+        private AnimController m_animController;
+
+        public AnimController AnimController {
+            get {
+                return m_animController;
+            }
+        }
+
         public void SetCharacter(GameObject prefab) {
             GameObjectUtility.DestroyChildren(m_characterRoot);
             GameObject go = GameObject.Instantiate(prefab, m_characterRoot.transform, false) as GameObject;
-            go.AddComponent<AnimController>();
+            m_animController = go.AddComponent<AnimController>();
+            m_animController.Init();
             go.transform.position = Vector3.zero;
+        }
+
+        public void SampleCharacterAnim(string animName, float normalizedTime) {
+            m_animController.Sample(animName, normalizedTime);
         }
 
         public void Update()
         {
+            //缩放摄像机
+            //zoom out
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
                 m_camera.orthographicSize += 0.1f;
@@ -45,6 +60,10 @@ namespace bluebean.Mugen3D.UI
             m_dragStartPos = eventData.position;
         }
 
+        /// <summary>
+        /// 平移摄像机
+        /// </summary>
+        /// <param name="eventData"></param>
         public void OnDrag(PointerEventData eventData)
         {
             var pos = eventData.position;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace bluebean.UGFramework
+namespace bluebean.UGFramework.UI
 {
     /// <summary>
     /// 设置颜色信息
