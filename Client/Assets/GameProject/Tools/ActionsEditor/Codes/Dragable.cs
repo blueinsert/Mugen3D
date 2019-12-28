@@ -18,6 +18,7 @@ namespace bluebean.Mugen3D.UI
                 return m_canvas;
             }
         }
+
         public void OnBeginDrag(PointerEventData eventData)
         {
             

@@ -465,14 +465,14 @@ namespace bluebean.UGFramework.UI
         /// </summary>
         private void OnLoadLayersAndAssetsComplete()
         {
-            if (m_viewControllerArray == null)
-            {
-                CreateAllViewController();
-            }
             if (m_updateCtx.m_isInit)
             {
                 foreach(var layer in m_layerDic.Values)
                     SceneTree.Instance.PushLayer(layer);
+            }
+            if (m_viewControllerArray == null)
+            {
+                CreateAllViewController();
             }
             if (m_updateCtx.m_redirctOnLoadAllAssetComplete != null)
             {

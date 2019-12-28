@@ -17,6 +17,7 @@ namespace bluebean.Mugen3D.UI
             base.OnBindFieldsComplete();
             m_closeButton.onClick.AddListener(OnCloseButtonClick);
             m_loadDropDown.onValueChanged.AddListener(OnLoadDropDownValueChanged);
+            m_saveButton.onClick.AddListener(OnSaveButtonClick);
             m_playButton.onClick.AddListener(OnPlayButtonClick);
             m_pauseButton.onClick.AddListener(OnPauseButtonClick);
             btnGoLeftAction.onClick.AddListener(OnBtnGoLeftActionClick);
@@ -36,29 +37,66 @@ namespace bluebean.Mugen3D.UI
             btnAddClsn3.onClick.AddListener(OnBtnAddClsn3Clcik);
             btnDeleteClsn.onClick.AddListener(OnBtnDeleteClsnClick);
             btnUseLastClsn.onClick.AddListener(OnBtnUseLastClsnClick);
-
-            GameObjectUtility.AttachUIController<ClsnUIController>(m_prefabClsn);
+            m_clsnPool.Setup(m_prefabClsn, m_clsnContent);
         }
 
+        /// <summary>
+        /// 设置播放按钮状态
+        /// </summary>
+        /// <param name="isPlaying"></param>
         public void SetPlayButtonState(bool isPlaying) {
             m_playButtonStateCtrl.SetUIState(isPlaying ? "Playing" : "Stopped");
         }
 
+        /// <summary>
+        /// 设置下拉角色列表
+        /// </summary>
+        /// <param name="names"></param>
         public void SetCharsDropDown(List<string> names) {
             m_loadDropDown.ClearOptions();
             m_loadDropDown.AddOptions(names);
         }
 
+        /// <summary>
+        /// 设置动画数据
+        /// </summary>
+        /// <param name="actionDefList"></param>
         public void SetActionDefList(List<ActionDef> actionDefList) {
             m_cacheActionDefList = actionDefList;
         }
 
+        /// <summary>
+        /// 设置下拉动画列表
+        /// </summary>
+        /// <param name="animNameList"></param>
         public void SetDropdownAnimName(List<string> animNameList)
         {
             m_allAnimName = animNameList;
             dropdownAnimName.AddOptions(m_allAnimName);
         }
 
+        /// <summary>
+        /// 设置当前动作帧的判断框
+        /// </summary>
+        /// <param name="frame"></param>
+        void SetClsns(ActionFrame frame)
+        {
+            m_clsnPool.Deactive();
+            foreach (var clsn in frame.clsns) {
+                bool isNew = false;
+                var clsnUICtrl = m_clsnPool.Allocate(out isNew);
+                if (isNew) {
+                    //clsnUICtrl.EventOnClsnChanged
+                }
+                clsnUICtrl.SetClsn(clsn);
+            }
+        }
+
+        /// <summary>
+        /// 更新所有ui内容
+        /// </summary>
+        /// <param name="curActionIndex"></param>
+        /// <param name="curActionElemIndex"></param>
         public void UpdateUI(int curActionIndex, int curActionElemIndex) {
             m_invokeUIListener = false;
             if (m_cacheActionDefList != null && m_cacheActionDefList.Count != 0)
@@ -89,8 +127,7 @@ namespace bluebean.Mugen3D.UI
                     this.labelXOffset.text = curActionElem.xOffset.ToString();
                     this.labelYOffset.text = curActionElem.yOffset.ToString();
                     this.toggleLoopStart.isOn = curActionElemIndex == curAction.loopStartIndex;
-                    //this.animController.Sample(curAction.animName, curActionElem.normalizeTime.AsFloat());
-                    //UpdateClsns(curActionElem);
+                    SetClsns(curActionElem);
                 }
                 else
                 {
@@ -263,6 +300,13 @@ namespace bluebean.Mugen3D.UI
             }
         }
 
+        public void OnSaveButtonClick() {
+            if (EventOnSaveButtonClick != null && m_invokeUIListener)
+            {
+                EventOnSaveButtonClick();
+            }
+        }
+
         public void OnPlayButtonClick() {
             if (EventOnPlayButtonClick != null && m_invokeUIListener)
             {
@@ -297,6 +341,7 @@ namespace bluebean.Mugen3D.UI
         public Action<PointerEventData> EventOnPointerUp;
         public Action<PointerEventData> EventOnDrag;
         public Action<int> EventOnLoadDropDownValueChanged;
+        public Action EventOnSaveButtonClick;
         public Action EventOnPlayButtonClick;
         public Action EventOnPauseButtonClick;
         public Action EventOnCloseButtonClick;
@@ -304,7 +349,7 @@ namespace bluebean.Mugen3D.UI
         List<string> m_allAnimName = new List<string>();
         List<ActionDef> m_cacheActionDefList;
         private bool m_invokeUIListener = true;
-
+        private EasyGameObjectPool<ClsnUIController> m_clsnPool = new EasyGameObjectPool<ClsnUIController>();
         #region AutoBind
         [AutoBind("./CloseButton")]
         public Button m_closeButton;

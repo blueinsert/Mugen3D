@@ -99,6 +99,30 @@ namespace bluebean.UGFramework.UI
             return true;
         }
 
+        public T FindUITask<T>() where T : UITask {
+            if (m_uiTaskDic.ContainsKey(typeof(T).Name)) {
+                var uitaskList = m_uiTaskDic[typeof(T).Name];
+                if (uitaskList.Count != 0) {
+                    return uitaskList[0] as T;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        public List<T> FindUITasks<T>() where T : UITask
+        {
+            if (m_uiTaskDic.ContainsKey(typeof(T).Name))
+            {
+                var uitaskList = m_uiTaskDic[typeof(T).Name];
+                return uitaskList as List<T>;
+            }
+            return null;
+        }
+
         #endregion
 
         #region 内部方法

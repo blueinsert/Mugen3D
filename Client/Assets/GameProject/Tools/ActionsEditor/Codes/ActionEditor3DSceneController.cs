@@ -16,9 +16,9 @@ namespace bluebean.Mugen3D.UI
 
         private Vector2 m_dragStartPos;
 
-        private AnimController m_animController;
+        private AnimationController m_animController;
 
-        public AnimController AnimController {
+        public AnimationController AnimController {
             get {
                 return m_animController;
             }
@@ -27,7 +27,7 @@ namespace bluebean.Mugen3D.UI
         public void SetCharacter(GameObject prefab) {
             GameObjectUtility.DestroyChildren(m_characterRoot);
             GameObject go = GameObject.Instantiate(prefab, m_characterRoot.transform, false) as GameObject;
-            m_animController = go.AddComponent<AnimController>();
+            m_animController = go.AddComponent<AnimationController>();
             m_animController.Init();
             go.transform.position = Vector3.zero;
         }

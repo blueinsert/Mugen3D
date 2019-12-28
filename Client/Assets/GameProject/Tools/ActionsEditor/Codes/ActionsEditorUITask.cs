@@ -101,7 +101,11 @@ namespace bluebean.Mugen3D.UI
             if (m_curCharacterConfig != null)
             {
                 resPath.Add("Assets/GameProject/RuntimeAssets/" + m_curCharacterConfig.Prefab);
-                resPath.Add("Assets/GameProject/RuntimeAssets/" + m_curCharacterConfig.ActionDef);
+                //反序列画动画配置信息
+                var deserializer = new Deserializer();
+                TextReader reader = File.OpenText(Application.dataPath + "/GameProject/RuntimeAssets/"+ m_curCharacterConfig.ActionDef);
+                m_actionDefList = deserializer.Deserialize<List<Core.ActionDef>>(reader.ReadToEnd());
+                UGFramework.Log.Debug.Log(string.Format("serialize {0}'s acitons def", m_curCharacterConfig.Name));
             }
             return resPath;
         }
@@ -113,8 +117,12 @@ namespace bluebean.Mugen3D.UI
             m_actionEditUIController = m_viewControllerArray[0] as ActionsEditorUIController;
             m_actionEdit3DScenneController = m_viewControllerArray[1] as ActionEditor3DSceneController;
 
+            m_canvas = m_actionEditUIController.GetComponentInParent<Canvas>();
+            m_sceneCamera = m_actionEdit3DScenneController.GetComponentInParent<ThreeDSceneLayer>().LayerCamera;
+
             m_actionEditUIController.EventOnCloseButtonClick += OnCloseButtonClick;
 
+            m_actionEditUIController.EventOnSaveButtonClick += OnSaveButtonClick;
             m_actionEditUIController.EventOnLoadDropDownValueChanged += OnLoadDropDownValueChanged;
             m_actionEditUIController.EventOnPlayButtonClick += OnPlayButtonClick;
             m_actionEditUIController.EventOnPauseButtonClick += OnPauseButtonClick;
@@ -142,10 +150,13 @@ namespace bluebean.Mugen3D.UI
         protected override void OnClearAllLayerAndAssets()
         {
             base.OnClearAllLayerAndAssets();
+            m_canvas = null;
+            m_sceneCamera = null;
             if (m_actionEditUIController != null)
             {
                 m_actionEditUIController.EventOnCloseButtonClick -= OnCloseButtonClick;
 
+                m_actionEditUIController.EventOnSaveButtonClick -= OnSaveButtonClick;
                 m_actionEditUIController.EventOnLoadDropDownValueChanged += OnLoadDropDownValueChanged;
                 m_actionEditUIController.EventOnPlayButtonClick -= OnPlayButtonClick;
                 m_actionEditUIController.EventOnPauseButtonClick -= OnPauseButtonClick;
@@ -196,10 +207,7 @@ namespace bluebean.Mugen3D.UI
                     //初始动画名列表
                     InitAnimNameList(m_actionEdit3DScenneController.AnimController.anim);
                     m_actionEditUIController.SetDropdownAnimName(m_animNameList);
-                    //反序列画动画配置信息
-                    var deserializer = new Deserializer();
-                    m_actionDefList = deserializer.Deserialize<ActionsConfig>(GetAsset<TextAsset>(m_curCharacterConfig.ActionDef).text).actions;
-                    UGFramework.Log.Debug.Log(string.Format("serialize {0}'s acitons def", m_curCharacterConfig.Name));
+                   
                     m_actionEditUIController.SetActionDefList(m_actionDefList);
                 }
             }
@@ -220,6 +228,21 @@ namespace bluebean.Mugen3D.UI
         #endregion
 
         #region 内部函数
+
+        public Vector3 ScenePosToUIPos(Vector3 wPos)
+        {
+            Vector3 screenPos = m_sceneCamera.WorldToScreenPoint(wPos);
+            screenPos.z = m_canvas.planeDistance;
+            var uiPos = m_canvas.worldCamera.ScreenToWorldPoint(screenPos);
+            return uiPos;
+        }
+
+        public Vector3 UIPosToScenePos(Vector3 uiPos)
+        {
+            var screenPos = m_canvas.worldCamera.WorldToScreenPoint(uiPos);
+            var wPos = m_sceneCamera.ScreenToWorldPoint(screenPos);
+            return wPos;
+        }
 
         private void InitAnimNameList(Animation anim) {
             m_animNameList.Clear();
@@ -389,6 +412,19 @@ namespace bluebean.Mugen3D.UI
             StartUpdateUITask();
         }
 
+        private void OnSaveButtonClick() {
+            if (m_curCharacterConfig == null)
+                return;
+            YamlDotNet.Serialization.Serializer serializer = new Serializer();
+            StringWriter strWriter = new StringWriter();
+            serializer.Serialize(strWriter, m_actionDefList);
+            using (var writer = File.CreateText(Application.dataPath + "/GameProject/RuntimeAssets/" + m_curCharacterConfig.ActionDef))
+            {
+                writer.Write(strWriter.ToString());
+            }
+            UGFramework.Log.Debug.Log("save success");
+        }
+
         IEnumerator Coro_PlayAnim() {
             while (m_isPlaying) {
                 if (m_actionDefList != null && m_actionDefList.Count != 0 && m_actionDefList[m_curActionIndex].frames != null && m_actionDefList[m_curActionIndex].frames.Count != 0)
@@ -434,6 +470,10 @@ namespace bluebean.Mugen3D.UI
         #endregion
 
         #region 变量
+
+        private Camera m_sceneCamera;
+        private Canvas m_canvas;
+
         private bool m_isPlaying = false;
         private CoroutineScheduler m_coroutineScheduler;
 

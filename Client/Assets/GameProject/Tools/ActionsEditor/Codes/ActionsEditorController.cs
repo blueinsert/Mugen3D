@@ -32,7 +32,7 @@ namespace Mugen3D.Tools
                 {
                     UnityEngine.Object prefab = null;//todo bluebean.Mugen3D.ClientGame.ResourceLoader.Load(m_characterConfig.prefab);
                     GameObject go = GameObject.Instantiate(prefab, this.transform.Find("Scene/Player")) as GameObject;
-                    go.AddComponent<AnimController>();
+                    go.AddComponent<AnimationController>();
                     go.transform.position = Vector3.zero;
                     ActionsConfig actionsConfig = null;//todo ConfigReader.Parse<ActionsConfig>(bluebean.Mugen3D.ClientGame.ResourceLoader.LoadText(m_characterConfig.action));
                     if (actionsConfig == null)
