@@ -133,10 +133,14 @@ namespace bluebean.Mugen3D.UI
             m_actionEditUIController.EventOnBtnGoLeftActionClick += OnGoLeftActionButtonClick;
             m_actionEditUIController.EventOnBtnGoRightActionClick += OnGoRightActionButtonClick;
             m_actionEditUIController.EventOnScrollActionListValueChange += OnScrollActionListValueChange;
+            m_actionEditUIController.EventOnBtnCreateActionClick += OnBtnCreateActionClick;
+            m_actionEditUIController.EventOnBtnDeleteActionClick += OnBtnDeleteActionClick;
             m_actionEditUIController.EventOnDropdownAnimNameChanged += OnDropdownAnimNameChanged;
             m_actionEditUIController.EventOnAnimNoChanged += OnAnimNoChanged;
             m_actionEditUIController.EventOnBtnGoLeftActionElemClick += OnBtnGoLeftActionElemClick;
             m_actionEditUIController.EventOnBtnGoRightActionElemClick += OnBtnGoRightActionElemClick;
+            m_actionEditUIController.EventOnBtnCreateActionElemClick += OnBtnCreateActionElemClick;
+            m_actionEditUIController.EventOnBtnDeleteActionElemClick += OnBtnDeleteActionElemClick;
             m_actionEditUIController.EventOnScrollActionElemListValueChanged += OnScrollActionElemListValueChanged;
             m_actionEditUIController.EventOnSliderNormalizedTimeValueChanged += OnSliderNormalizedTimeValueChanged;
             m_actionEditUIController.EventOnLabelNormalizedTimeEndEdit += OnLabelNormalizedTimeEndEdit;
@@ -167,11 +171,15 @@ namespace bluebean.Mugen3D.UI
                 m_actionEditUIController.EventOnBtnGoLeftActionClick -= OnGoLeftActionButtonClick;
                 m_actionEditUIController.EventOnBtnGoRightActionClick -= OnGoRightActionButtonClick;
                 m_actionEditUIController.EventOnScrollActionListValueChange -= OnScrollActionListValueChange;
+                m_actionEditUIController.EventOnBtnCreateActionClick -= OnBtnCreateActionClick;
+                m_actionEditUIController.EventOnBtnDeleteActionClick -= OnBtnDeleteActionClick;
                 m_actionEditUIController.EventOnDropdownAnimNameChanged -= OnDropdownAnimNameChanged;
                 m_actionEditUIController.EventOnAnimNoChanged -= OnAnimNoChanged;
                 m_actionEditUIController.EventOnBtnGoLeftActionElemClick -= OnBtnGoLeftActionElemClick;
                 m_actionEditUIController.EventOnBtnGoRightActionElemClick -= OnBtnGoRightActionElemClick;
                 m_actionEditUIController.EventOnScrollActionElemListValueChanged -= OnScrollActionElemListValueChanged;
+                m_actionEditUIController.EventOnBtnCreateActionElemClick -= OnBtnCreateActionElemClick;
+                m_actionEditUIController.EventOnBtnDeleteActionElemClick -= OnBtnDeleteActionElemClick;
                 m_actionEditUIController.EventOnSliderNormalizedTimeValueChanged -= OnSliderNormalizedTimeValueChanged;
                 m_actionEditUIController.EventOnLabelNormalizedTimeEndEdit -= OnLabelNormalizedTimeEndEdit;
                 m_actionEditUIController.EventOnLabelDurationTimeValueChanged -= OnLabelDurationTimeValueChanged;
@@ -295,6 +303,41 @@ namespace bluebean.Mugen3D.UI
             StartUpdateView();
         }
 
+        private void OnBtnCreateActionClick() {
+            int id = 0;
+            if (m_actionDefList.Count > 0)
+            {
+                id = m_actionDefList[m_actionDefList.Count-1].animNo + 1;
+            }
+            ActionDef a = new ActionDef(id);
+            m_actionDefList.Add(a);
+            m_curActionIndex = m_actionDefList.Count - 1;
+            m_curActionElemIndex = 0;
+            StartUpdateView();
+        }
+
+        private void OnBtnDeleteActionClick()
+        {
+            if (m_actionDefList.Count == 0)
+                return;
+            int newIndex = m_curActionIndex;
+            if (m_curActionIndex == 0)
+            {//delete in the start
+                newIndex = 0;
+            }
+            else if (m_curActionIndex == m_actionDefList.Count - 1)
+            {//in end
+                newIndex = m_actionDefList.Count - 2;
+            }
+            else
+            {
+                newIndex = m_curActionIndex;
+            }
+            m_actionDefList.RemoveAt(m_curActionIndex);
+            m_curActionIndex = newIndex;
+            StartUpdateView();
+        }
+
         public void OnDropdownAnimNameChanged(int index)
         {
             m_actionDefList[m_curActionIndex].animName = m_animNameList[index];
@@ -340,6 +383,51 @@ namespace bluebean.Mugen3D.UI
                 var step = m_actionDefList[m_curActionIndex].frames.Count;
                 int index = (int)(value * (step - 1));
                 m_curActionElemIndex = index;
+                StartUpdateView();
+            }
+        }
+
+        private void OnBtnCreateActionElemClick()
+        {
+            if (m_actionDefList != null && m_actionDefList.Count != 0 && m_actionDefList[m_curActionIndex].frames != null)
+            {
+                ActionFrame frame = new ActionFrame();
+                int newIndex = 0;
+                if (m_actionDefList[m_curActionIndex].frames.Count == 0)
+                {
+                    m_actionDefList[m_curActionIndex].frames.Add(frame);
+                    newIndex = 0;
+                }
+                else
+                {
+                    frame.normalizeTime = m_actionDefList[m_curActionIndex].frames[m_curActionElemIndex].normalizeTime;
+                    m_actionDefList[m_curActionIndex].frames.Insert(m_curActionElemIndex + 1, frame);
+                    newIndex = m_curActionElemIndex + 1;
+                }
+                m_curActionElemIndex = newIndex;
+                StartUpdateView();
+            }
+        }
+
+        private void OnBtnDeleteActionElemClick()
+        {
+            if (m_actionDefList != null && m_actionDefList.Count != 0 && m_actionDefList[m_curActionIndex].frames != null && m_actionDefList[m_curActionIndex].frames.Count!=0)
+            {
+                int newIndex = m_curActionElemIndex;
+                if (m_curActionElemIndex == 0)
+                {//delete in the start
+                    newIndex = 0;
+                }
+                else if (m_curActionElemIndex == m_actionDefList[m_curActionIndex].frames.Count - 1)
+                {//in end
+                    newIndex = m_actionDefList[m_curActionIndex].frames.Count - 2;
+                }
+                else
+                {//in middle
+                    newIndex = m_curActionElemIndex;
+                }
+                m_actionDefList[m_curActionIndex].frames.RemoveAt(m_curActionElemIndex);
+                m_curActionElemIndex = newIndex;
                 StartUpdateView();
             }
         }
@@ -390,16 +478,43 @@ namespace bluebean.Mugen3D.UI
         public void OnBtnAddClsnClcik(int type)
         {
             UGFramework.Log.Debug.Log(string.Format("OnBtnAddClsnClcik type:{0}", type));
+            if (m_actionDefList != null && m_actionDefList.Count != 0 && m_actionDefList[m_curActionIndex].frames != null && m_actionDefList[m_curActionIndex].frames.Count != 0)
+            {
+                Clsn clsn = new Clsn();
+                clsn.type = type;
+                clsn.x1 = -1;
+                clsn.y1 = -1;
+                clsn.x2 = 1;
+                clsn.y2 = 1;
+                m_actionDefList[m_curActionIndex].frames[m_curActionElemIndex].clsns.Add(clsn);
+            }
+            StartUpdateView();
         }
 
-        public void OnBtnDeleteClsnClick()
+        public void OnBtnDeleteClsnClick(Clsn clsn)
         {
             UGFramework.Log.Debug.Log("OnBtnDeleteClsnClick");
+            if (m_actionDefList != null && m_actionDefList.Count != 0 && m_actionDefList[m_curActionIndex].frames != null && m_actionDefList[m_curActionIndex].frames.Count != 0)
+            {
+                m_actionDefList[m_curActionIndex].frames[m_curActionElemIndex].clsns.Remove(clsn);
+            }
+            StartUpdateView();
         }
 
         public void OnBtnUseLastClsnClick()
         {
             UGFramework.Log.Debug.Log("OnBtnUseLastClsnClick");
+            if (m_actionDefList != null && m_actionDefList.Count != 0 && m_actionDefList[m_curActionIndex].frames != null && m_actionDefList[m_curActionIndex].frames.Count >= 2 && m_curActionElemIndex >= 1)
+            {
+                m_actionDefList[m_curActionIndex].frames[m_curActionElemIndex].clsns = new List<Clsn>();
+                var lastElem = m_actionDefList[m_curActionIndex].frames[m_curActionElemIndex - 1];
+                foreach (var clsn in lastElem.clsns)
+                {
+                    Clsn newClsn = new Clsn(clsn);
+                    m_actionDefList[m_curActionIndex].frames[m_curActionElemIndex].clsns.Add(newClsn);
+                }
+                StartUpdateView();
+            }
         }
 
        

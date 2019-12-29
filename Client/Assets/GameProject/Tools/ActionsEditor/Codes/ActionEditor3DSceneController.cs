@@ -53,6 +53,10 @@ namespace bluebean.Mugen3D.UI
                     m_camera.orthographicSize = 0.2f;
                 }
             }
+            if (Input.GetKeyDown(KeyCode.KeypadPeriod)) {
+                m_camera.transform.position = new Vector3(-0.27f, 1.09f, -2);
+                m_camera.orthographicSize = 1.3f;
+            }
         }
 
         public void OnPointerDown(PointerEventData eventData)

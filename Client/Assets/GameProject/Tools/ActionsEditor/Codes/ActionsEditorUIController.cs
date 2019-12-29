@@ -23,11 +23,15 @@ namespace bluebean.Mugen3D.UI
             btnGoLeftAction.onClick.AddListener(OnBtnGoLeftActionClick);
             btnGoRightAction.onClick.AddListener(OnBtnGoRightActionClick);
             scrollActionList.onValueChanged.AddListener(OnScrollActionListValueChange);
+            btnCreateAction.onClick.AddListener(OnBtnCreateActionClick);
+            btnDeleAction.onClick.AddListener(OnBtnDeleteActionClick);
             dropdownAnimName.onValueChanged.AddListener(OnDropdownAnimNameChanged);
             labelAnimNo.onValueChanged.AddListener(OnAnimNoChanged);
             btnGoLeftActionElem.onClick.AddListener(OnBtnGoLeftActionElemClick);
             btnGoRightActionElem.onClick.AddListener(OnBtnGoRightActionElemClick);
             scrollActionElemList.onValueChanged.AddListener(OnScrollActionElemListValueChanged);
+            btnCreateActionElem.onClick.AddListener(OnBtnCreateActionElemClick);
+            btnDeleActionElem.onClick.AddListener(OnBtnDeleteActionElemClick);
             sliderNormalizedTime.onValueChanged.AddListener(OnSliderNormalizedTimeValueChanged);
             labelNormalizedTime.onEndEdit.AddListener(OnLabelNormalizedTimeEndEdit);
             labelDurationTime.onEndEdit.AddListener(OnLabelDurationTimeValueChanged);
@@ -86,7 +90,7 @@ namespace bluebean.Mugen3D.UI
                 bool isNew = false;
                 var clsnUICtrl = m_clsnPool.Allocate(out isNew);
                 if (isNew) {
-                    //clsnUICtrl.EventOnClsnChanged
+                    clsnUICtrl.EventOnToggleValueChanged += OnClsnToggleValueChanged;
                 }
                 clsnUICtrl.SetClsn(clsn);
             }
@@ -199,7 +203,22 @@ namespace bluebean.Mugen3D.UI
             }
         }
 
-        public void OnDropdownAnimNameChanged(int index) {
+        private void OnBtnCreateActionClick() {
+            if (EventOnBtnCreateActionClick != null && m_invokeUIListener)
+            {
+                EventOnBtnCreateActionClick();
+            }
+        }
+
+        private void OnBtnDeleteActionClick()
+        {
+            if (EventOnBtnDeleteActionClick != null && m_invokeUIListener)
+            {
+                EventOnBtnDeleteActionClick();
+            }
+        }
+
+        private void OnDropdownAnimNameChanged(int index) {
             if (EventOnDropdownAnimNameChanged != null && m_invokeUIListener) {
                 EventOnDropdownAnimNameChanged(index);
             }
@@ -223,6 +242,22 @@ namespace bluebean.Mugen3D.UI
             if (EventOnBtnGoRightActionElemClick != null && m_invokeUIListener)
             {
                 EventOnBtnGoRightActionElemClick();
+            }
+        }
+
+        private void OnBtnCreateActionElemClick()
+        {
+            if (EventOnBtnCreateActionElemClick != null && m_invokeUIListener)
+            {
+                EventOnBtnCreateActionElemClick();
+            }
+        }
+
+        private void OnBtnDeleteActionElemClick()
+        {
+            if (EventOnBtnDeleteActionElemClick != null && m_invokeUIListener)
+            {
+                EventOnBtnDeleteActionElemClick();
             }
         }
 
@@ -288,7 +323,8 @@ namespace bluebean.Mugen3D.UI
         {
             if (EventOnBtnDeleteClsnClick != null && m_invokeUIListener)
             {
-                EventOnBtnDeleteClsnClick();
+                if(m_curSelectClsn!=null)
+                    EventOnBtnDeleteClsnClick(m_curSelectClsn);
             }
         }
 
@@ -322,19 +358,31 @@ namespace bluebean.Mugen3D.UI
             }
         }
 
+        private void OnClsnToggleValueChanged(Clsn clsn,bool value) {
+            if (value)
+                m_curSelectClsn = clsn;
+            else
+                m_curSelectClsn = null;
+        }
+
         public Action EventOnBtnUseLastClsnClick;
-        public Action EventOnBtnDeleteClsnClick;
+        public Action<Clsn> EventOnBtnDeleteClsnClick;
         public Action<int> EventOnBtnAddClsnClcik;
         public Action<bool> EventOnToggleLoopStartValueChanged;
         public Action<string> EventOnLabelDurationTimeValueChanged;
         public Action<float> EventOnSliderNormalizedTimeValueChanged;
         public Action<string> EventOnLabelNormalizedTimeEndEdit;
         public Action<float> EventOnScrollActionElemListValueChanged;
+        public Action EventOnBtnDeleteActionElemClick;
+        public Action EventOnBtnCreateActionElemClick;
         public Action EventOnBtnGoRightActionElemClick;
         public Action EventOnBtnGoLeftActionElemClick;
+       
         public Action<string> EventOnAnimNoChanged;
         public Action<int> EventOnDropdownAnimNameChanged;
         public Action<float> EventOnScrollActionListValueChange;
+        public Action EventOnBtnDeleteActionClick;
+        public Action EventOnBtnCreateActionClick;
         public Action EventOnBtnGoLeftActionClick;
         public Action EventOnBtnGoRightActionClick;
         public Action<PointerEventData> EventOnPointerDown;
@@ -345,11 +393,14 @@ namespace bluebean.Mugen3D.UI
         public Action EventOnPlayButtonClick;
         public Action EventOnPauseButtonClick;
         public Action EventOnCloseButtonClick;
+        public Action<Clsn> EventOnClsnToggleValueChanged;
 
         List<string> m_allAnimName = new List<string>();
         List<ActionDef> m_cacheActionDefList;
         private bool m_invokeUIListener = true;
         private EasyGameObjectPool<ClsnUIController> m_clsnPool = new EasyGameObjectPool<ClsnUIController>();
+        private Clsn m_curSelectClsn;
+
         #region AutoBind
         [AutoBind("./CloseButton")]
         public Button m_closeButton;

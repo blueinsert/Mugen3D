@@ -15,6 +15,7 @@ namespace bluebean.Mugen3D.UI
     public class ClsnUIController : UIViewController
     {
         public event Action<Clsn> EventOnClsnChanged;
+        public event Action<Clsn,bool> EventOnToggleValueChanged;
 
         [AutoBind("./Background")]
         public Image m_bgImage;
@@ -32,9 +33,12 @@ namespace bluebean.Mugen3D.UI
             base.OnBindFieldsComplete();
             m_leftDownCorner.onDrag += OnLeftDownCornerDrag;
             m_rightUpCorner.onDrag += OnRightUpCornerDrag;
+
+            m_toggle.onValueChanged.AddListener(OnToggleValueChanged);
         }
 
         public void SetClsn(Clsn clsn) {
+            m_toggle.group = this.transform.GetComponentInParent<ToggleGroup>();
             Color color = Color.black;
             switch (clsn.type) {
                 case 1:
@@ -106,6 +110,12 @@ namespace bluebean.Mugen3D.UI
             if (EventOnClsnChanged != null)
             {
                 EventOnClsnChanged(m_clsn);
+            }
+        }
+
+        private void OnToggleValueChanged(bool value) {
+            if (value) {
+                EventOnToggleValueChanged(m_clsn,value);
             }
         }
 
