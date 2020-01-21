@@ -34,11 +34,6 @@ namespace bluebean.Mugen3D.Core
         public ILuaState LuaState { get { return m_luaState; } }
 
         private ILuaState m_luaState;
-
-        public static void AddFileLoader(CustomFileLoader loader)
-        {
-            LuaFile.AddLoader(loader);
-        }
  
         public void OpenLibrary(string moduleName, CSharpFunctionDelegate openFunc, bool global)
         {

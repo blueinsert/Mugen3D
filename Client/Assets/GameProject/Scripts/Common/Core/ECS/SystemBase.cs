@@ -10,7 +10,7 @@ namespace bluebean.Mugen3D.Core
         /// 该系统所关注的实体列表
         /// </summary>
         private readonly List<Entity> m_attentionEnties = new List<Entity>();
-        private WorldBase m_world;
+        protected WorldBase m_world;
 
         public SystemBase(WorldBase world)
         {

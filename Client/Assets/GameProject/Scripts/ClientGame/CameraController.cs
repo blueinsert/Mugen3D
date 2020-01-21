@@ -17,16 +17,11 @@ namespace bluebean.Mugen3D.ClientGame
             m_camera = camera;
         }
 
-        public void Update()
+        public void Tick()
         {
             m_camera.transform.position = new Vector3(m_cameraComponent.Position.x.AsFloat(), m_cameraComponent.Position.y.AsFloat(), m_cameraComponent.ZValue.AsFloat());
             m_camera.fieldOfView = m_cameraComponent.FieldOfView.AsFloat();
             m_camera.aspect = m_cameraComponent.Aspect.AsFloat();
-
-            //m_camera.transform.rotation = Quaternion.EulerAngles(-logicCameraController.m_rotationX.AsFloat(), 0, 0);
-            //var center = logicCameraController.targetCenter.ToVector3();
-            //center.y += logicCameraController.config.Yoffset;
-            //m_camera.transform.LookAt(center);
         }
 
     }

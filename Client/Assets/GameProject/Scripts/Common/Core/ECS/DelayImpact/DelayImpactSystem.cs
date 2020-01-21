@@ -33,7 +33,7 @@ namespace bluebean.Mugen3D.Core
                 {
                     if (moveComponent != null)
                     {
-                        moveComponent.ChangeFacing(delayImpactComponent.NewFacing);
+                        //moveComponent.ChangeFacing(delayImpactComponent.NewFacing);
                     }
                 }
                 if (delayImpactComponent.NewAnimNo != -1)

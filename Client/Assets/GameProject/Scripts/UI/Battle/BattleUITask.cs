@@ -115,8 +115,8 @@ namespace bluebean.Mugen3D.UI
             PushAllLayer();
             if(m_clientBattleWorld == null)
             {
-                m_clientBattleWorld = new ClientBattleWorld(m_battleSceneViewController.gameObject, this);
-                m_clientBattleWorld.StartSingleVSMatch(m_p1Config, m_p2Config, m_stageConfig);
+                m_clientBattleWorld = new ClientBattleWorld(m_battleSceneViewController.gameObject, m_stageConfig, new ConfigDataCharacter[] { m_p1Config, m_p2Config }, Core.PlayMode.SingleVS, this);
+                //m_clientBattleWorld.StartSingleVSMatch(m_p1Config, m_p2Config, m_stageConfig);
             }
         }
 

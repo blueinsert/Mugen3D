@@ -27,38 +27,22 @@ namespace bluebean.Mugen3D.ClientGame
             m_commandComponent = character.GetComponent<CommandComponent>();
             m_playerComponent = character.GetComponent<PlayerComponent>();
             m_moveComponent = character.GetComponent<MoveComponent>();
-            m_fsmComponent = character.GetComponent<FSMComponent>();
+            //m_fsmComponent = character.GetComponent<FSMComponent>();
         }
 
-        public void UpdateAnimSample(string animName, float normalizedTime)
+        public void TickGraphic(float deltaTime)
         {
-            m_graphic.UpdateAnimSample(animName, normalizedTime);
+            m_graphic.SetPosition(m_moveComponent.Position.x.AsFloat(),m_moveComponent.Position.y.AsFloat());
+            TickDebug();
         }
 
-        public void SetPosition(float x, float y)
+        protected  void TickDebug()
         {
-            m_graphic.SetPosition(x, y);
-        }
-
-        public void SetFacing(int facing)
-        {
-            m_graphic.SetFacing(facing);
-        }
-
-        public void Tick()
-        {
-            OnTick();
-        }
-
-        protected  void OnTick()
-        {
-            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "StateNo", m_fsmComponent.StateNo.ToString());
-            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "StateTime", m_fsmComponent.StateTime.ToString());
-            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "Physics", m_moveComponent.PhysicsType.ToString());
+            //GUIDebug.Instance.SetMsg(m_playerComponent.Index, "StateNo", m_fsmComponent.StateNo.ToString());
+            //GUIDebug.Instance.SetMsg(m_playerComponent.Index, "StateTime", m_fsmComponent.StateTime.ToString());
             GUIDebug.Instance.SetMsg(m_playerComponent.Index, "ActiveCommands", m_commandComponent.GetActiveCommandName());
             GUIDebug.Instance.SetMsg(m_playerComponent.Index, "Pos", m_moveComponent.Position.ToString());
             GUIDebug.Instance.SetMsg(m_playerComponent.Index, "Vel", m_moveComponent.Velocity.ToString());
-            GUIDebug.Instance.SetMsg(m_playerComponent.Index, "Facing", m_moveComponent.Facing.ToString());
         }
     }
 }

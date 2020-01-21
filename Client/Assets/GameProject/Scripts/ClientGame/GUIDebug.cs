@@ -33,7 +33,7 @@ public class GUIDebug : Singleton<GUIDebug>
         GUIStyle fontStyle = new GUIStyle();
         fontStyle.normal.background = null;    //设置背景填充
         fontStyle.normal.textColor = new Color(0, 0, 1);   //设置字体颜色
-        fontStyle.fontSize = 15;       //字体大小
+        fontStyle.fontSize = 35;       //字体大小
  
         var areaStartPos = m_areaStartPos[areaIndex];
         GUI.color = Color.blue;

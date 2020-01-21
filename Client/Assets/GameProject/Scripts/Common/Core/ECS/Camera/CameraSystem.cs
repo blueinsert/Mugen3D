@@ -21,7 +21,7 @@ namespace bluebean.Mugen3D.Core
                 var moveComponent = entity.GetComponent<MoveComponent>();
                 posArray.Add(moveComponent.Position);
             }
-            var cameraComponent = CameraComponent.Instance;
+            var cameraComponent = m_world.GetSingletonComponent<CameraComponent>();
             if (cameraComponent != null)
             {
                 cameraComponent.Update(posArray.ToArray());

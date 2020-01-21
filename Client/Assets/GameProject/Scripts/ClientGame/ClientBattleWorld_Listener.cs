@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace bluebean.Mugen3D.ClientGame
 {
-    public partial class ClientBattleWorld
+    public partial class ClientBattleWorld : IBattleWorldListener
     {
         public void OnMatchStart(int matchNo)
         {
@@ -46,7 +46,7 @@ namespace bluebean.Mugen3D.ClientGame
 
         public void OnCameraCreate(CameraComponent cameraComponent)
         {
-            CreateCameraController(cameraComponent);
+            CreateCameraController(cameraComponent,m_battleCamera);
         }
     }
 }

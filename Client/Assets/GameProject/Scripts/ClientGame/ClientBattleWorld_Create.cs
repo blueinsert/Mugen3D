@@ -8,18 +8,18 @@ namespace bluebean.Mugen3D.ClientGame
 {
     public partial class ClientBattleWorld
     {
-        public void CreateCameraController(CameraComponent cameraComponent)
+        public void CreateCameraController(CameraComponent cameraComponent, Camera camera)
         {
             Debug.Log("ClientBattleWorld:CreateCameraController");
             m_cameraController = new CameraController();
-            m_cameraController.Init(cameraComponent, m_sceneRoot.transform.Find("BattleCamera").GetComponent<Camera>());
+            m_cameraController.Init(cameraComponent, camera);
         }
 
         public void CreateCharacterActor(Entity character)
         {
             var playerComponent = character.GetComponent<PlayerComponent>();
-            CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(playerComponent.Config.Prefab), m_sceneRoot.transform.Find("PlayerRoot").gameObject, character);
-            m_characterActorDic.Add(playerComponent.Index, characterActor);
+            CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(playerComponent.Config.Prefab), m_playerRoot, character);
+            m_characterActorList.Add(characterActor);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace bluebean.Mugen3D.Core
 
         protected override void ProcessEntity(List<Entity> entities)
         {
+            /*
             //更新collideComponent
             foreach (var entity in entities)
             {
@@ -71,6 +72,7 @@ namespace bluebean.Mugen3D.Core
                 }
                 moveComponent1.PosSet(pos.x, pos.y);
             }
+            */
         }
     }
 }

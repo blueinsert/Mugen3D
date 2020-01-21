@@ -103,6 +103,7 @@ namespace bluebean.Mugen3D.Core
         /// <param name="target"></param>
         private static void ProcessCornerPush(Entity attacker, Entity target)
         {
+            /*
             var hitDef = attacker.GetComponent<HitComponent>().HitDef;
             if (UtilityFuncs.GetFrontStageDist(attacker) < new Number(5) / new Number(10) && hitDef.moveContact)
             {
@@ -125,10 +126,12 @@ namespace bluebean.Mugen3D.Core
                 else
                     moveComponent.VelAdd(-Number.Abs(velX) * hitDef.groundCornerPush, 0);
             }
+            */
         }
 
         private static void ProcessHitSuccess(Entity attacker,Entity target)
         {
+            /*
             //处理攻击者
             var hitComponent1 = attacker.GetComponent<HitComponent>();
             var hitDef1 = hitComponent1.HitDef;
@@ -185,10 +188,12 @@ namespace bluebean.Mugen3D.Core
             }
             //处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
             ProcessCornerPush(attacker, target);
+            */
         }
 
         private static void ProcessHitBeGuard(Entity attacker,Entity target)
         {
+            /*
             //处理攻击者
             var hitComponent1 = attacker.GetComponent<HitComponent>();
             var hitDef1 = hitComponent1.HitDef;
@@ -205,10 +210,12 @@ namespace bluebean.Mugen3D.Core
             healthComponent2.AddHP(-hitDef1.guardDamage);
             //处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
             ProcessCornerPush(attacker, target);
+            */
         }
 
         protected override void ProcessEntity(List<Entity> entities)
         {
+            /*
             //获取成功产生打击的实体字典
             Dictionary<Entity, Entity> hitResults = new Dictionary<Entity, Entity>(10);
             for (int m = 0; m < entities.Count; m++)
@@ -261,6 +268,7 @@ namespace bluebean.Mugen3D.Core
                     //    attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
                 }
             }
+            */
         }
     }
 }

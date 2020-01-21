@@ -22,13 +22,26 @@ namespace bluebean.Mugen3D.Core
 
         public int[] m_cacheInputCodes;
 
+        private PlayMode m_playMode;
+
         private IBattleWorldListener m_listener;
 
-        public BattleWorld(List<ConfigDataCommand> configDataCommand,  IBattleWorldListener listener)
+        public BattleWorld(ConfigDataStage stageConfig, ConfigDataCamera cameraConfig, ConfigDataCharacter[] characterConfigs, 
+            List<ConfigDataCommand> configDataCommand, PlayMode playMode, IBattleWorldListener listener)
         {
+            m_playMode = playMode;
+            //更新配置
+            m_characterConfigs = characterConfigs;
+            m_stageConfig = stageConfig;
+            m_cameraConfig = cameraConfig;
+            m_cacheInputCodes = new int[m_characterConfigs.Length];
             m_commandConfigs = configDataCommand;
             m_listener = listener;
-            Initialize();
+            InitializeBattleWorld();
+            for(int i = 0; i < m_characterConfigs.Length; i++)
+            {
+                AddCharacter(m_characterConfigs[i], i);
+            }  
         }
        
 
@@ -52,24 +65,8 @@ namespace bluebean.Mugen3D.Core
         /// <summary>
         /// 开始战斗
         /// </summary>
-        public void StartSingleVSMatch(ConfigDataCharacter p1CharacterConfig, ConfigDataCharacter p2CharacterConfig, ConfigDataStage stageConfig, ConfigDataCamera cameraConfig)
+        public void StartMatch()
         {
-            //更新配置
-            m_characterConfigs = new ConfigDataCharacter[2] { p1CharacterConfig, p2CharacterConfig };
-            m_stageConfig = stageConfig;
-            m_cameraConfig = cameraConfig;
-            m_cacheInputCodes = new int[2];
-            //创建单例组件
-            AddSingletonComponent<StageComponent>().Init(m_stageConfig);
-            var cameraComponent = AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
-            m_listener.OnCameraCreate(cameraComponent);
-            var character1 = AddCharacter(m_characterConfigs[0], 0);
-            var character2 = AddCharacter(m_characterConfigs[1], 1);
-            m_matchComponent.SetMatchMode(MatchMode.SingleVS);
-            m_matchComponent.SetMatchState(MatchState.None);
-            m_matchComponent.SetRoundState(RoundState.PreIntro);
-            m_listener.OnCreateCharacter(character1);
-            m_listener.OnCreateCharacter(character2);
             m_listener.OnMatchStart(0);
         }
 

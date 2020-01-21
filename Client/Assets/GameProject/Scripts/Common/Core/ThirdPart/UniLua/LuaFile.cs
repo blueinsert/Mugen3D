@@ -10,6 +10,11 @@ namespace UniLua
 	{
         private static List<CustomFileLoader> customLoaders = new List<CustomFileLoader>();
 
+        public static void ClearLoaders()
+        {
+            customLoaders.Clear();
+        }
+
         public static void AddLoader(CustomFileLoader loader)
         {
             customLoaders.Add(loader);
