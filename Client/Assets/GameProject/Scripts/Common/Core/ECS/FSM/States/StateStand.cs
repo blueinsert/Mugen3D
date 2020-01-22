@@ -18,6 +18,8 @@ namespace bluebean.Mugen3D.Core
             anim.ChangeAnim(0);
             var move = e.GetComponent<MoveComponent>();
             move.VelSet(0, 0);
+            var basic = e.GetComponent<BasicInfoComponent>();
+            basic.SetCtrl(true);
         }
 
         public override void OnExit(Entity e)

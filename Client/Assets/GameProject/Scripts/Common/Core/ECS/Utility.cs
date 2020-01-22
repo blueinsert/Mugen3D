@@ -15,7 +15,7 @@ namespace bluebean.Mugen3D.Core
         public static Number GetBackStageDist(Entity target)
         {
             var stateComponet = StageComponent.Instance;
-            var playerComponent = target.GetComponent<PlayerComponent>();
+            var playerComponent = target.GetComponent<BasicInfoComponent>();
             var moveComponent = target.GetComponent<MoveComponent>();
             if (playerComponent.Facing > 0)//向右
             {
@@ -35,7 +35,7 @@ namespace bluebean.Mugen3D.Core
         public static Number GetFrontStageDist(Entity target)
         {
             var stateComponet = StageComponent.Instance;
-            var playerComponent = target.GetComponent<PlayerComponent>();
+            var playerComponent = target.GetComponent<BasicInfoComponent>();
             var moveComponent = target.GetComponent<MoveComponent>();
             if (playerComponent.Facing > 0)//向右
             {
@@ -57,7 +57,7 @@ namespace bluebean.Mugen3D.Core
             var moveComponent = target.GetComponent<MoveComponent>();
             var cameraComponet = CameraComponent.Instance;
             var viewPort = cameraComponet.ViewPort;
-            var playerComponent = target.GetComponent<PlayerComponent>();
+            var playerComponent = target.GetComponent<BasicInfoComponent>();
             if (playerComponent.Facing > 0)
             {
                 return viewPort.XMax - moveComponent.Position.x;
@@ -78,7 +78,7 @@ namespace bluebean.Mugen3D.Core
             var moveComponent = target.GetComponent<MoveComponent>();
             var cameraComponet = CameraComponent.Instance;
             var viewPort = cameraComponet.ViewPort;
-            var playerComponent = target.GetComponent<PlayerComponent>();
+            var playerComponent = target.GetComponent<BasicInfoComponent>();
             if (playerComponent.Facing > 0)
             {
                 return moveComponent.Position.x - viewPort.XMin;

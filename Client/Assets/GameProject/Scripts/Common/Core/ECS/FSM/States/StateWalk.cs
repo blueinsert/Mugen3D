@@ -12,6 +12,8 @@ namespace bluebean.Mugen3D.Core
         public override void OnEnter(Entity e)
         {
             base.OnEnter(e);
+            var basic = e.GetComponent<BasicInfoComponent>();
+            basic.SetCtrl(true);
         }
 
         public override void OnExit(Entity e)

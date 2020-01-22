@@ -28,6 +28,8 @@ namespace bluebean.Mugen3D.Core
             {
                 m_moveDir = 0;
             }
+            var basic = e.GetComponent<BasicInfoComponent>();
+            basic.SetCtrl(false);
         }
 
         public override void OnExit(Entity e)

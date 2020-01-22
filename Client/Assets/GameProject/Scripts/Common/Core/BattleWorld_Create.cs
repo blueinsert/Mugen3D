@@ -16,7 +16,7 @@ namespace bluebean.Mugen3D.Core
         {
             var entity = AddEntity();
             entity.AddComponent<MoveComponent>();
-            entity.AddComponent<PlayerComponent>().Init(index, configDataCharacter);
+            entity.AddComponent<BasicInfoComponent>().Init(index, configDataCharacter);
             entity.AddComponent<CommandComponent>().Init();
             var actionDefStr = sFileReader(configDataCharacter.ActionDef);
             var acttionDefs = ConfigReader.Parse<List<ActionDef>>(actionDefStr);

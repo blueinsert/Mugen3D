@@ -173,7 +173,7 @@ namespace bluebean.Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Entity c = (Entity)lua.ToUserData(1);
-            var moveComponent = c.GetComponent<PlayerComponent>();
+            var moveComponent = c.GetComponent<BasicInfoComponent>();
             int facing = moveComponent.Facing;
             lua.PushInteger(facing);
             return 1;

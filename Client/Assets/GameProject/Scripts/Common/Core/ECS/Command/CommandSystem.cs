@@ -55,7 +55,7 @@ namespace bluebean.Mugen3D.Core
 
         protected override bool Filter(Entity e)
         {
-            return e.GetComponent<CommandComponent>() != null && e.GetComponent<PlayerComponent>()!=null;
+            return e.GetComponent<CommandComponent>() != null && e.GetComponent<BasicInfoComponent>()!=null;
         }
 
         protected override void ProcessEntity(List<Entity> entities)
@@ -64,7 +64,7 @@ namespace bluebean.Mugen3D.Core
             var inputComponent = World.GetSingletonComponent<InputComponent>();
             foreach(var entity in entities)
             {
-                var playerComponent = entity.GetComponent<PlayerComponent>();
+                var playerComponent = entity.GetComponent<BasicInfoComponent>();
                 int inputCode = inputComponent.GetInputCode(playerComponent.Index);
                 var commandComponent = entity.GetComponent<CommandComponent>();
                 commandComponent.Update(inputCode);

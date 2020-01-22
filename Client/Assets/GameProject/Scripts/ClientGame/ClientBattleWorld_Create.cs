@@ -17,7 +17,7 @@ namespace bluebean.Mugen3D.ClientGame
 
         public void CreateCharacterActor(Entity character)
         {
-            var playerComponent = character.GetComponent<PlayerComponent>();
+            var playerComponent = character.GetComponent<BasicInfoComponent>();
             CharacterActor characterActor = new CharacterActor(GetAsset<GameObject>(playerComponent.Config.Prefab), m_playerRoot, character);
             m_characterActorList.Add(characterActor);
         }

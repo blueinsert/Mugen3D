@@ -10,7 +10,7 @@ namespace bluebean.Mugen3D.Core
 
         protected override bool Filter(Entity e)
         {
-            return e.GetComponent<PlayerComponent>() != null && e.GetComponent<MoveComponent>() != null;
+            return e.GetComponent<BasicInfoComponent>() != null && e.GetComponent<MoveComponent>() != null;
         }
 
         protected override void ProcessEntity(List<Entity> entities)

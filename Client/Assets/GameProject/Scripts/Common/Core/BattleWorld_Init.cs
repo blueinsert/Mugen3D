@@ -45,7 +45,7 @@ namespace bluebean.Mugen3D.Core
             AddSystem<MoveSystem>();
             AddSystem<AnimSystem>();       
             AddSystem<FSMSystem>();
-
+            AddSystem<AutoTurnSystem>();
             //AddSystem<LuaScriptSystem>();
             //
             //AddSystem<DelayImpactSystem>();

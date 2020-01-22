@@ -8,6 +8,8 @@ namespace bluebean.Mugen3D.ClientGame
     /// </summary>
     public class CharacterGraphic
     {
+        public int Facing { get { return m_prefabInstance.transform.localScale.x > 0 ? 1 : -1; } }
+
         private GameObject m_parent;
         private GameObject m_prefabInstance;
         private Animation m_animation;
