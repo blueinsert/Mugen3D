@@ -8,9 +8,14 @@ using UniLua;
 
 namespace bluebean.Mugen3D.Core
 {
-    
+    public delegate string CustomFileReader(string filepath);
+
     public partial class BattleWorld : WorldBase
     {
+        /// <summary>
+        /// 文件内容读取，用于读取动画定义等自定义数据内容（不适合表格化的数据），在客户端和服务器具有不同的设置
+        /// </summary>
+        private static CustomFileReader sFileReader;
 
         private List<ConfigDataCommand> m_commandConfigs;
         private ConfigDataStage m_stageConfig;
@@ -79,6 +84,7 @@ namespace bluebean.Mugen3D.Core
 
         protected override void OnStep()
         {
+            Time.Update(Number.D60);
             m_inputComponent.Update(m_cacheInputCodes[0], m_cacheInputCodes[1]);
             base.OnStep();//变量所有系统更新组件状态
         }

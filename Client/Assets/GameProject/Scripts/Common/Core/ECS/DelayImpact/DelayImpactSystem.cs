@@ -25,7 +25,7 @@ namespace bluebean.Mugen3D.Core
                     var fsmComponent = entity.GetComponent<FSMComponent>();
                     if (fsmComponent != null)
                     {
-                        fsmComponent.ChangeState(delayImpactComponent.NewStateNo);
+                       // fsmComponent.ChangeState(delayImpactComponent.NewStateNo);
                     }
                 }
                 var moveComponent = entity.GetComponent<MoveComponent>();

@@ -51,6 +51,7 @@ namespace bluebean.Mugen3D.ClientGame
         /// </summary>
         private GameObject m_sceneRoot;
         private GameObject m_playerRoot;
+        private GameObject m_stageRoot;
         private Camera m_battleCamera;
 
         /// <summary>
@@ -98,6 +99,11 @@ namespace bluebean.Mugen3D.ClientGame
             return null;
         }
 
+        private string FileReader(string fileName)
+        {
+            var content = GetAsset<TextAsset>(fileName).text;
+            return content;
+        }
         /// <summary>
         /// 初始化玩家输入映射 todo 使用本地保存的设置进行初始化
         /// </summary>
@@ -126,9 +132,11 @@ namespace bluebean.Mugen3D.ClientGame
             m_sceneRoot = sceneRoot;
             m_battleCamera = m_sceneRoot.transform.Find("BattleCamera").GetComponent<Camera>();
             m_playerRoot = m_sceneRoot.transform.Find("PlayerRoot").gameObject;
+            m_stageRoot = m_sceneRoot.transform.Find("StageRoot").gameObject;
             //初始化BattleWorld静态环境
             BattleWorld.SetLogDelegate(Debug.Log, Debug.LogWarning, Debug.LogError);
             BattleWorld.SetLuaFileLoader(LuaLoader);
+            BattleWorld.SetFileReader(FileReader);
             //初始化配置信息
             var configLoader = ConfigDataLoader.Instance;
             m_inputConfigList = new List<ConfigDataInputDefault>(configLoader.GetAllConfigDataInputDefault().Values);

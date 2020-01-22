@@ -20,7 +20,7 @@ namespace bluebean.Mugen3D.Core
             foreach(var entity in entities)
             {
                 var fsmComponent = entity.GetComponent<FSMComponent>();
-                fsmComponent.Update();
+                fsmComponent.Update(entity);
             }
         }
     }

@@ -31,39 +31,31 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     class PhysicsComponent: ComponentBase
     {
+        /// <summary>
+        /// 重力常量
+        /// </summary>
+        public static readonly Number G = new Number(-16);
+        /// <summary>
+        /// 摩擦系数
+        /// </summary>
+        public static readonly Number Friction = 3;
+
+        public Vector ExternalForce { get { return m_externalForce; } }
         public PhysicsType PhysicsType { get { return m_physicsType; } }
         public Number Mass { get { return m_mass; } }
 
-        private PhysicsType m_physicsType;
-        private Vector m_gravity = new Vector(0, -16);
-        private Number m_mass;
+        private PhysicsType m_physicsType = PhysicsType.None;
+        private Number m_mass = new Number(70);
         private Vector m_externalForce = Vector.zero;
-        private Number m_groundFrictionFactor = 3;
 
-
-        public void Update(Number deltaTime)
+        public void SetPhysicsType(PhysicsType physicsType)
         {
-            Vector acceleratedVelocity = Vector.zero;
-            if (m_physicsType == PhysicsType.Stand || m_physicsType == PhysicsType.Crouch)
-            {
-                //acceleratedVelocity = (m_gravity.magnitude * m_mass + m_externalForce.y) / m_mass * m_groundFrictionFactor * (-m_velocity.normalized) + m_externalForce / m_mass;
-            }
-            else if (m_physicsType == PhysicsType.Air)
-            {
-                acceleratedVelocity = m_gravity + m_externalForce / m_mass;
-            }
-            else
-            {
-                acceleratedVelocity = Vector.zero;
-            }
-            //m_velocity += Time.deltaTime * acceleratedVelocity;
-            //var deltaPos = m_velocity * deltaTime;
-            //m_position += deltaPos;
+            m_physicsType = physicsType;
         }
-
-        public void SetGravity(Number x, Number y)
+       
+        public void SetMass(Number mass)
         {
-            m_gravity = new Vector(x, y);
+            m_mass = mass;
         }
 
         public void SetForce(Vector force)

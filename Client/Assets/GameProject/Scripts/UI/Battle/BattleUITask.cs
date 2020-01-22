@@ -72,6 +72,8 @@ namespace bluebean.Mugen3D.UI
             resPath.Add(AssetUtility.MakeAssetPath(m_stageConfig.Prefab));
             resPath.Add(AssetUtility.MakeAssetPath(m_p1Config.Prefab));
             resPath.Add(AssetUtility.MakeAssetPath(m_p2Config.Prefab));
+            resPath.Add(AssetUtility.MakeAssetPath(m_p1Config.ActionDef));
+            resPath.Add(AssetUtility.MakeAssetPath(m_p2Config.ActionDef));
             foreach(var luaScript in m_p1Config.LuaScripts)
             {
                 resPath.Add(AssetUtility.MakeAssetPath(luaScript));

@@ -4,6 +4,47 @@ using FixPointMath;
 
 namespace bluebean.Mugen3D.Core
 {
+    /// <summary>
+    /// 判定框(Collision),与动画数据绑定
+    /// </summary>
+    public class Clsn
+    {
+        public int type { get; set; }
+        /// <summary>
+        /// 左下角
+        /// </summary>
+        public Number x1 { get; set; }
+        public Number y1 { get; set; }
+        /// <summary>
+        /// 右上角
+        /// </summary>
+        public Number x2 { get; set; }
+        public Number y2 { get; set; }
+
+        public Clsn(int type, Number x1, Number y1, Number x2, Number y2)
+        {
+            this.type = type;
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+        }
+
+        public Clsn(Clsn clsn)
+        {
+            this.type = clsn.type;
+            this.x1 = clsn.x1;
+            this.y1 = clsn.y1;
+            this.x2 = clsn.x2;
+            this.y2 = clsn.y2;
+        }
+
+        public Clsn()
+        {
+
+        }
+    }
+
     public class ContactInfo
     {
         public Vector recoverDir;
@@ -28,6 +69,9 @@ namespace bluebean.Mugen3D.Core
 
     }
 
+    /// <summary>
+    /// 矩形碰撞器
+    /// </summary>
     public class RectCollider : Collider
     {
         public Vector Position
@@ -121,11 +165,14 @@ namespace bluebean.Mugen3D.Core
             m_facing = facing;
             m_offset = offset;
             m_width = width;
-            height = m_height;
+            m_height = height;
         }
         
     }
 
+    /// <summary>
+    /// 复合碰撞器：含有多个矩形碰撞器
+    /// </summary>
     public class ComplexCollider : Collider
     {
         public RectCollider[] AttackClsns
@@ -222,6 +269,12 @@ namespace bluebean.Mugen3D.Core
         public ComplexCollider Collider { get { return m_collider; } set { m_collider = value; } }
         private ComplexCollider m_collider = new ComplexCollider();
 
+        /// <summary>
+        /// 从动画数据的当前帧的clsns更新碰撞体
+        /// </summary>
+        /// <param name="clsns"></param>
+        /// <param name="position"></param>
+        /// <param name="facing"></param>
         public void Update(List<Clsn> clsns, Vector position, int facing)
         {
             m_collider.Update(clsns, position, facing);

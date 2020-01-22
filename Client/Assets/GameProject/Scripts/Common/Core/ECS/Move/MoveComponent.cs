@@ -11,6 +11,7 @@ namespace bluebean.Mugen3D.Core
     {
         public Vector Position { get { return m_position; } }
         public Vector Velocity { get { return m_velocity; } }
+        public Vector Acceler { get { return m_acceleratedVelocity; } }
         //public int Facing { get { return m_facing; } }
 
         private Vector m_acceleratedVelocity = Vector.zero;

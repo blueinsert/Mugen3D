@@ -48,5 +48,10 @@ namespace bluebean.Mugen3D.ClientGame
         {
             CreateCameraController(cameraComponent,m_battleCamera);
         }
+
+        public void OnCreateStage(string prefab)
+        {
+            CreateStage(prefab);
+        }
     }
 }

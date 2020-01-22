@@ -7,6 +7,11 @@ namespace bluebean.Mugen3D.Core
     public partial class BattleWorld : WorldBase
     {
 
+        public static void SetFileReader(CustomFileReader reader)
+        {
+            sFileReader = reader;
+        }
+
         public static void SetLogDelegate(LogDelegate logDelegate, LogDelegate logWarn, LogDelegate logError) {
             Debug.m_Log = logDelegate;
             Debug.m_LogWarn = logWarn;
@@ -29,15 +34,20 @@ namespace bluebean.Mugen3D.Core
             //创建单例组件
             //m_matchComponent = AddSingletonComponent<MatchComponent>();
             AddSingletonComponent<StageComponent>().Init(m_stageConfig);
+            m_listener.OnCreateStage(m_stageConfig.Prefab);
             var cameraComponent = AddSingletonComponent<CameraComponent>().Init(m_cameraConfig);
             m_listener.OnCameraCreate(cameraComponent);
             m_inputComponent = AddSingletonComponent<InputComponent>();
             //创建所有系统
             AddSystem<CameraSystem>();
             AddSystem<CommandSystem>();
+            AddSystem<PhysicsSystem>();
             AddSystem<MoveSystem>();
+            AddSystem<AnimSystem>();       
+            AddSystem<FSMSystem>();
+
             //AddSystem<LuaScriptSystem>();
-            //AddSystem<FSMSystem>();
+            //
             //AddSystem<DelayImpactSystem>();
             //初始化LuaState
             //LuaMgr.Instance.OpenLibrary(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);

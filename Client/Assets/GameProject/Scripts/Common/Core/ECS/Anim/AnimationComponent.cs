@@ -10,7 +10,13 @@ namespace bluebean.Mugen3D.Core
     public class ActionFrame
     {
         public Number normalizeTime { get; set; }
+        /// <summary>
+        /// 持续帧数
+        /// </summary>
         public int duration { get; set; }
+        /// <summary>
+        /// 判定框数据
+        /// </summary>
         public List<Clsn> clsns { get; set; }
 
         public Number xOffset { get; set; }

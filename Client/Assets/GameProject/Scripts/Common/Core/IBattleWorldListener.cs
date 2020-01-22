@@ -54,6 +54,7 @@ namespace bluebean.Mugen3D.Core
         /// <param name="soundName"></param>
         void OnPlaySound(string soundName);
 
+        void OnCreateStage(string prefab);
         //void OnUpdateAnim()
     }
 }
