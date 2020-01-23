@@ -19,7 +19,7 @@ namespace bluebean.Mugen3D.Core
         protected override void ProcessEntity(List<Entity> entities)
         {
             //更新物体加速度
-            foreach(var entity in entities)
+            foreach (var entity in entities)
             {
                 var physics = entity.GetComponent<PhysicsComponent>();
                 var move = entity.GetComponent<MoveComponent>();
@@ -29,18 +29,18 @@ namespace bluebean.Mugen3D.Core
                 switch (physics.PhysicsType)
                 {
                     case PhysicsType.Air:
-                        acceler = new Vector(0,PhysicsComponent.G) + physics.ExternalForce / physics.Mass;
+                        acceler = new Vector(0, PhysicsComponent.G) + physics.ExternalForce / physics.Mass;
                         break;
                     case PhysicsType.Stand:
                     case PhysicsType.Crouch:
-                        acceler = ( Number.Abs(PhysicsComponent.G) * physics.Mass + physics.ExternalForce.y) / physics.Mass * PhysicsComponent.Friction * (-curVel.normalized) + physics.ExternalForce / physics.Mass;
+                        acceler = (Number.Abs(PhysicsComponent.G) * physics.Mass + physics.ExternalForce.y) / physics.Mass * PhysicsComponent.Friction * (-curVel.normalized) + physics.ExternalForce / physics.Mass;
                         break;
                     case PhysicsType.None:
                         break;
                 }
                 move.AccelerateSet(acceler);
             }
-            //碰撞检测和决议
+  
         }
     }
 }

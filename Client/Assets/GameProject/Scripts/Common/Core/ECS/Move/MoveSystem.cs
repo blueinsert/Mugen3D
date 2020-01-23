@@ -10,15 +10,20 @@ namespace bluebean.Mugen3D.Core
 
         protected override bool Filter(Entity e)
         {
-            return e.GetComponent<MoveComponent>() != null && e.GetComponent<CommandComponent>()!=null;
+            return e.GetComponent<MoveComponent>() != null && e.GetComponent<TransformComponent>()!=null;
         }
 
         protected override void ProcessEntity(List<Entity> entities)
         {
             foreach(var e in entities)
             {
-                var moveComponent = e.GetComponent<MoveComponent>();
-                moveComponent.Update(Number.D60);
+                var move = e.GetComponent<MoveComponent>();
+                var transform = e.GetComponent<TransformComponent>();
+                var velocity = move.Velocity + Number.D60 * move.Acceler;
+                var deltaPos = velocity * Number.D60;
+                deltaPos.x *= transform.Facing;
+                transform.PosAdd(deltaPos);
+                move.VelSet(velocity);
             }
         }
     }

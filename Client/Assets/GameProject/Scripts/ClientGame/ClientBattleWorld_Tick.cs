@@ -73,6 +73,24 @@ namespace bluebean.Mugen3D.ClientGame
             {
                 m_cameraController.Tick();
             }
+            DebugDraw();
+        }
+
+        private void DebugDraw()
+        {
+            var stage = m_battleWorld.GetSingletonComponent<StageComponent>();
+            UGFramework.Log.Debug.DrawRect(new Vector2(stage.BorderXMin.AsFloat(), stage.BorderYMin.AsFloat()),
+                new Vector2(stage.BorderXMin.AsFloat(), stage.BorderYMax.AsFloat()),
+                new Vector2(stage.BorderXMax.AsFloat(), stage.BorderYMax.AsFloat()),
+                new Vector2(stage.BorderXMax.AsFloat(), stage.BorderYMin.AsFloat()),
+                Color.green);
+            var camera = m_battleWorld.GetSingletonComponent<CameraComponent>();
+            var viewport = camera.ViewPort;
+            UGFramework.Log.Debug.DrawRect(viewport.LeftDown.ToVector2(),
+                viewport.LeftUp.ToVector2(),
+                viewport.RightUp.ToVector2(),
+                viewport.RightDown.ToVector2(),
+                Color.cyan);
         }
 
         /// <summary>

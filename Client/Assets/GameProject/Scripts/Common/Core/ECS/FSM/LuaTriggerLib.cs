@@ -174,7 +174,8 @@ namespace bluebean.Mugen3D.Core
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Entity c = (Entity)lua.ToUserData(1);
             var moveComponent = c.GetComponent<BasicInfoComponent>();
-            int facing = moveComponent.Facing;
+            var transform = c.GetComponent<TransformComponent>();
+            int facing = transform.Facing;
             lua.PushInteger(facing);
             return 1;
         }
@@ -400,12 +401,12 @@ namespace bluebean.Mugen3D.Core
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
             Entity c = (Entity)lua.ToUserData(1);
-            MoveComponent moveComponent = c.GetComponent<MoveComponent>();
+            var transform = c.GetComponent<TransformComponent>();
             Number x = 0;
             Number y = 0;
-            if (moveComponent != null)
+            if (transform != null)
             {
-                var pos = moveComponent.Position;
+                var pos = transform.Position;
                 x = pos.x;
                 y = pos.y;
             }

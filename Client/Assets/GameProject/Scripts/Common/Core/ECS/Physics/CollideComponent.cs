@@ -45,34 +45,10 @@ namespace bluebean.Mugen3D.Core
         }
     }
 
-    public class ContactInfo
-    {
-        public Vector recoverDir;
-        public Number depth;
-    }
-
-    public enum ColliderType
-    {
-        RectCollider = 1,
-        ComplexCollider,
-    }
-
-    public class Collider
-    {
-        public ColliderType type { get; protected set; }
-
-        public virtual bool IsIntersect(Collider c, out ContactInfo contactInfo)
-        {
-            contactInfo = null;
-            return PhysicsUtils.IsIntersect(this, c, out contactInfo);
-        }
-
-    }
-
     /// <summary>
     /// 矩形碰撞器
     /// </summary>
-    public class RectCollider : Collider
+    public class RectCollider
     {
         public Vector Position
         {
@@ -86,7 +62,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position.x - m_width / 2;
+                return Position.x - m_width / 2;
             }
         }
 
@@ -94,7 +70,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position.x + m_width / 2;
+                return Position.x + m_width / 2;
             }
         }
 
@@ -102,7 +78,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position.y - m_height / 2;
+                return Position.y - m_height / 2;
             }
         }
 
@@ -110,7 +86,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position.y + m_height / 2;
+                return Position.y + m_height / 2;
             }
         }
 
@@ -118,7 +94,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position + new Vector(-m_width / 2, m_height / 2);
+                return Position + new Vector(-m_width / 2, m_height / 2);
             }
         }
 
@@ -126,7 +102,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position + new Vector(m_width / 2, m_height / 2);
+                return Position + new Vector(m_width / 2, m_height / 2);
             }
         }
 
@@ -134,7 +110,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position + new Vector(m_width / 2, -m_height / 2);
+                return Position + new Vector(m_width / 2, -m_height / 2);
             }
         }
 
@@ -142,7 +118,7 @@ namespace bluebean.Mugen3D.Core
         {
             get
             {
-                return m_position + new Vector(-m_width / 2, -m_height / 2);
+                return Position + new Vector(-m_width / 2, -m_height / 2);
             }
         }
 
@@ -153,11 +129,6 @@ namespace bluebean.Mugen3D.Core
         private Number m_height;
         private Vector m_position;
         private int m_facing;
-
-        public RectCollider()
-        {
-            this.type = ColliderType.RectCollider;
-        }
 
         public void Update(Vector position, int facing, Vector offset, Number width, Number height)
         {
@@ -173,7 +144,7 @@ namespace bluebean.Mugen3D.Core
     /// <summary>
     /// 复合碰撞器：含有多个矩形碰撞器
     /// </summary>
-    public class ComplexCollider : Collider
+    public class ComplexCollider
     {
         public RectCollider[] AttackClsns
         {
@@ -213,7 +184,6 @@ namespace bluebean.Mugen3D.Core
 
         public ComplexCollider()
         {
-            this.type = ColliderType.ComplexCollider;
             m_attackClsnArray = new RectCollider[MAX_ATTACK_CLSN_NUM];
             m_defenceClsnArray = new RectCollider[MAX_DEFENCE_CLSN_NUM];
             m_collideClsnArray = new RectCollider[MAX_COLLIDE_CLSN_NUM];
@@ -236,6 +206,8 @@ namespace bluebean.Mugen3D.Core
             m_attackClsnsLength = 0;
             m_defenceClsnsLength = 0;
             m_collideClsnsLength = 0;
+            if (clsns == null || clsns.Count == 0)
+                return;
             foreach (var clsn in clsns)
             {
                 Vector clsnCenter = new Vector((clsn.x1 + clsn.x2) / 2, (clsn.y1 + clsn.y2) / 2);

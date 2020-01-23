@@ -23,19 +23,19 @@ namespace bluebean.Mugen3D.Core
             Vector center = Vector.zero;
             foreach(var e in entities)
             {
-                var move = e.GetComponent<MoveComponent>();
-                center += move.Position;
+                var transform = e.GetComponent<TransformComponent>();
+                center += transform.Position;
             }
             center /= entities.Count;
 
             foreach (var e in entities)
             {
-                var move = e.GetComponent<MoveComponent>();
+                var transform = e.GetComponent<TransformComponent>();
                 var basic = e.GetComponent<BasicInfoComponent>();
-                int facing = move.Position.x < center.x ? 1 : -1;
-                if (basic.Facing != facing&&basic.Ctrl)
+                int facing = transform.Position.x < center.x ? 1 : -1;
+                if (transform.Facing != facing&&basic.Ctrl)
                 {
-                    basic.SetFacing(facing);
+                    transform.SetFacing(facing);
                 }
             }
         }

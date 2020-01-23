@@ -36,6 +36,7 @@ local function createFSM(scriptName, entity)
 	local env = createENV(entity)
 	local updateFunc = function(_ENV)
 	    local stateNo = StateNo()
+		print("stateNo:",stateNo)
 	    if fsm == nil then
 		    return
 	    end

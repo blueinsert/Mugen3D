@@ -8,12 +8,10 @@ namespace bluebean.Mugen3D.Core
     public class BasicInfoComponent : ComponentBase
     {
         public bool Ctrl { get { return m_ctrl; } }
-        public int Facing { get { return m_facing; } }
         public int Index { get { return m_index; } }
         public ConfigDataCharacter Config {get{ return m_config; } }
 
 
-        private int m_facing;
         private int m_index;
         private ConfigDataCharacter m_config;
         /// <summary>
@@ -25,11 +23,6 @@ namespace bluebean.Mugen3D.Core
         {
             m_index = index;
             m_config = config;
-        }
-
-        public void SetFacing(int facing)
-        {
-            m_facing = facing;
         }
 
         public void SetCtrl(bool ctrl)

@@ -14,9 +14,10 @@ namespace bluebean.Mugen3D.Core
             base.OnEnter(e);
             var physice = e.GetComponent<PhysicsComponent>();
             physice.SetPhysicsType(PhysicsType.Stand);
+            var transform = e.GetComponent<TransformComponent>();
             var move = e.GetComponent<MoveComponent>();
             move.VelSet(move.Velocity.x, 0);
-            move.PosSet(move.Position.x, 0);
+            transform.PosSet(transform.Position.x, 0);
             var anim = e.GetComponent<AnimationComponent>();
             anim.ChangeAnim(47);
             var basic = e.GetComponent<BasicInfoComponent>();

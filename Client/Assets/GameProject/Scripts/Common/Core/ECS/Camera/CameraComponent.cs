@@ -7,13 +7,6 @@ namespace bluebean.Mugen3D.Core
 {
     public class CameraComponent : ComponentBase
     {
-
-        #region 单例模式
-        public static CameraComponent Instance { get { return m_instance; } }
-        private static CameraComponent m_instance;
-        public static CameraComponent CreateInstance() { m_instance = new CameraComponent(); return m_instance; }
-        #endregion
-
         public Vector Position { get { return m_position; } }
         public Number FieldOfView { get { return m_fieldOfView; } }
         public Number Aspect { get { return m_aspect; } }

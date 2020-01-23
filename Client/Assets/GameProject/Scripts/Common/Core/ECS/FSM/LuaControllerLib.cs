@@ -240,7 +240,10 @@ namespace bluebean.Mugen3D.Core
         public static int CtrlSet(ILuaState lua)
         {
             lua.L_CheckType(1, LuaType.LUA_TLIGHTUSERDATA);
-            //todo
+            Entity e = (Entity)lua.ToUserData(1);
+            var basic = e.GetComponent<BasicInfoComponent>();
+            var ctrl = lua.ToBoolean(2);
+            basic.SetCtrl(ctrl);
             return 0;
         }
 

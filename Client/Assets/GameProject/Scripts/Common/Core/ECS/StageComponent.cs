@@ -7,11 +7,6 @@ namespace bluebean.Mugen3D.Core
 {
     public class StageComponent : ComponentBase
     {
-        #region 单例模式
-        public static StageComponent Instance { get { return m_instance; } }
-        private static StageComponent m_instance;
-        public static StageComponent CreateInstance() { m_instance = new StageComponent(); return m_instance; }
-        #endregion
 
         public Number BorderXMin { get { return m_BorderXMin; } }
 

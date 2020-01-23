@@ -49,9 +49,6 @@ namespace bluebean.Mugen3D.Core
             }  
         }
        
-
-        #region 改变世界的方法
-       
         /// <summary>
         /// 更新玩家输入
         /// </summary>
@@ -79,8 +76,6 @@ namespace bluebean.Mugen3D.Core
         {
            
         }
-
-        #endregion
 
         protected override void OnStep()
         {

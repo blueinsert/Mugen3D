@@ -8,7 +8,10 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     public class FSMSystem : SystemBase
     {
-        public FSMSystem(WorldBase world) : base(world) { }
+        public FSMSystem(WorldBase world) : base(world) {
+            LuaMgr.Instance.OpenLibrary(LuaTriggerLib.LIB_NAME, LuaTriggerLib.OpenLib, false);
+            LuaMgr.Instance.OpenLibrary(LuaControllerLib.LIB_NAME, LuaControllerLib.OpenLib, false);
+        }
 
         protected override bool Filter(Entity e)
         {

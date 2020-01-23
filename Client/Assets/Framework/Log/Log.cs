@@ -6,12 +6,13 @@ namespace bluebean.UGFramework.Log
 {
     public class Debug
     {
-        public static void DrawRect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color c, float duration)
+        public static void DrawRect(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, Color c)
         {
-            UnityEngine.Debug.DrawLine(p1, p2, c, duration);
-            UnityEngine.Debug.DrawLine(p2, p3, c, duration);
-            UnityEngine.Debug.DrawLine(p3, p4, c, duration);
-            UnityEngine.Debug.DrawLine(p4, p1, c, duration);
+           
+            UnityEngine.Debug.DrawLine(p1, p2, c);
+            UnityEngine.Debug.DrawLine(p2, p3, c);
+            UnityEngine.Debug.DrawLine(p3, p4, c);
+            UnityEngine.Debug.DrawLine(p4, p1, c);
         }
 
         public static void Log(string message)

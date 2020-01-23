@@ -1,4 +1,4 @@
-local Enums = require "Lua_ABS/Enums"
+--local Enums = require "Lua_ABS/Enums"
 
 local FSMS = {
     "Lua_ABS/Common",
@@ -17,8 +17,9 @@ function __loadall()
     end
 end
 
-__loadall()
+--__loadall()
 
+--[[
 M[-2] = {
     onUpdate = function(_ENV)
         if (CommandTest("623A") and CanAttack()) and ((Ctrl() and (PhysicsType() == Enums.PhysicsType.S or PhysicsType() == Enums.PhysicsType.C)) or 
@@ -147,6 +148,15 @@ M[-2] = {
         end
     end
 } 
-
+--]]
+M[0] = {
+	onEnter = function(_ENV)
+	  ChangeAnim(0)
+      CtrlSet(true)
+	end,
+	onUpdate = function(_ENV)	
+	  print("state0update")
+	end,
+}
 return M
 

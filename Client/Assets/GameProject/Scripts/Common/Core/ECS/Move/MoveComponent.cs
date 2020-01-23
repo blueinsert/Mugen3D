@@ -9,23 +9,12 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     public class MoveComponent : ComponentBase
     {
-        public Vector Position { get { return m_position; } }
         public Vector Velocity { get { return m_velocity; } }
         public Vector Acceler { get { return m_acceleratedVelocity; } }
         //public int Facing { get { return m_facing; } }
 
         private Vector m_acceleratedVelocity = Vector.zero;
-        private Vector m_position;
         private Vector m_velocity;
-        //private int m_facing;
-
-
-        public void Update(Number deltaTime)
-        {
-            m_velocity += deltaTime * m_acceleratedVelocity;
-            var deltaPos = m_velocity * deltaTime;
-            m_position += deltaPos;
-        }
 
         public void AccelerateSet(Number x, Number y)
         {
@@ -62,28 +51,5 @@ namespace bluebean.Mugen3D.Core
             this.m_velocity.y += velDelta.y;
         }
 
-        public void PosSet(Number x, Number y)
-        {
-            m_position.x = x;
-            m_position.y = y;
-        }
-
-        public void PosAdd(Number deltaX, Number deltaY)
-        {
-            m_position.x += deltaX;
-            m_position.y += deltaY;
-        }
-
-        public void PosAdd(Vector deltaPos)
-        {
-            m_position += deltaPos;
-        }
-
-        /*
-        public void ChangeFacing(int facing)
-        {
-            m_facing = facing;
-        }
-        */
     }
 }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FPS : MonoBehaviour {
+    GUIStyle m_style;
 
     // Use this for initialization  
     void Start()
     {
-
+        m_style = new GUIStyle();
+        m_style.fontSize = 40;       //字体大小
     }
 
     // Update is called once per frame  
@@ -18,6 +20,7 @@ public class FPS : MonoBehaviour {
 
     void OnGUI()
     {
+        
         DrawFps();
     }
 
@@ -35,8 +38,8 @@ public class FPS : MonoBehaviour {
         {
             GUI.color = new Color(1.0f, 0, 0);
         }
-
-        GUI.Label(new Rect(Screen.width/2, 32, 64, 24), "fps: " + mLastFps);
+        
+        GUI.Label(new Rect(Screen.width-128, 32, 64, 24), "fps: " + mLastFps,m_style);
 
     }
 

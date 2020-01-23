@@ -66,6 +66,22 @@ namespace bluebean.Mugen3D.Core
             {
                 var playerComponent = entity.GetComponent<BasicInfoComponent>();
                 int inputCode = inputComponent.GetInputCode(playerComponent.Index);
+                var transform = entity.GetComponent<TransformComponent>();
+                //左右调换一下
+                if(transform.Facing == -1)
+                {
+                    if ((Utility.GetKeycode(KeyNames.KEY_LEFT) & inputCode) != 0)
+                    {
+                        inputCode = inputCode & ~Utility.GetKeycode(KeyNames.KEY_LEFT);
+                        inputCode = inputCode | Utility.GetKeycode(KeyNames.KEY_RIGHT);
+                    }
+                    else if((Utility.GetKeycode(KeyNames.KEY_RIGHT) & inputCode) != 0)
+                    {
+                        inputCode = inputCode & ~Utility.GetKeycode(KeyNames.KEY_RIGHT);
+                        inputCode = inputCode | Utility.GetKeycode(KeyNames.KEY_LEFT);
+                    }
+                }
+                
                 var commandComponent = entity.GetComponent<CommandComponent>();
                 commandComponent.Update(inputCode);
                 //Debug.Log(string.Format("inputCode:{0} activeCommand:{1}", inputCode, commandComponent.GetActiveCommandName()));

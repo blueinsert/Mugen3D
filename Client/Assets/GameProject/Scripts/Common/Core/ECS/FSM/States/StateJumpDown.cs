@@ -27,7 +27,8 @@ namespace bluebean.Mugen3D.Core
         {
             base.OnUpdate(e);
             var move = e.GetComponent<MoveComponent>();
-            if(move.Position.y + move.Velocity.y*Time.deltaTime <= 0)
+            var transform = e.GetComponent<TransformComponent>();
+            if (transform.Position.y + move.Velocity.y*Time.deltaTime <= 0)
             {
                 var fsm = e.GetComponent<FSMComponent>();
                 fsm.ChangeState(e, StateBase.StateNo_JumpLand);

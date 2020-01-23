@@ -18,8 +18,8 @@ namespace bluebean.Mugen3D.Core
             List<Vector> posArray = new List<Vector>();
             foreach(var entity in entities)
             {
-                var moveComponent = entity.GetComponent<MoveComponent>();
-                posArray.Add(moveComponent.Position);
+                var transform = entity.GetComponent<TransformComponent>();
+                posArray.Add(transform.Position);
             }
             var cameraComponent = m_world.GetSingletonComponent<CameraComponent>();
             if (cameraComponent != null)
