@@ -11,13 +11,6 @@ namespace bluebean.Mugen3D.Core {
     /// </summary>
     public class StateBase
     {
-        public const int StateNo_Stand = 0;
-        public const int StateNo_Walk = 1;
-        public const int StateNo_JumpStart = 2;
-        public const int StateNo_JumpUp = 3;
-        public const int StateNo_JumpDown = 4;
-        public const int StateNo_JumpLand = 5;
-
         protected Entity m_entity;
 
         public StateBase(Entity e)
@@ -70,6 +63,21 @@ namespace bluebean.Mugen3D.Core {
                 physics.SetPhysicsType(physicsType);
             }
         }
+
+        protected  void SetHitDefData()
+        {
+
+        }
+
+        protected void MoveTypeSet(MoveType moveType)
+        {
+            var basic = m_entity.GetComponent<BasicInfoComponent>();
+            if (basic != null)
+            {
+                basic.MoveTypeSet(moveType);
+            }
+        }
+
         #endregion
 
         #region triggers
@@ -90,6 +98,17 @@ namespace bluebean.Mugen3D.Core {
                     return fsm.StateNo;
                 return 0;
             } 
+        }
+
+        protected int StateTime
+        {
+            get
+            {
+                var fsm = m_entity.GetComponent<FSMComponent>();
+                if (fsm != null)
+                    return fsm.StateTime;
+                return 0;
+            }
         }
 
         protected int Anim
@@ -146,6 +165,88 @@ namespace bluebean.Mugen3D.Core {
                 if (move != null)
                     return move.Acceler;
                 return Vector.zero;
+            }
+        }
+
+        protected HitDefData HitData
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                {
+                    if (hit.HitDef != null)
+                    {
+                        return hit.HitDef;
+                    }
+                }
+                return null;
+            }
+        }
+
+        protected HitDefData BeHitData
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                {
+                    if (hit.BeHitData != null)
+                    {
+                        return hit.BeHitData;
+                    }
+                }
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 打击震动时间
+        /// </summary>
+        /// <returns></returns>
+        protected int HitShakeTime
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                {
+                    if (hit.BeHitData != null)
+                    {
+                        return hit.BeHitData.hitPauseTime[1];
+                    }
+                }
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 打击滑行时间
+        /// </summary>
+        protected int HitSlideTime
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                {
+                    if (hit.BeHitData != null)
+                    {
+                        return hit.BeHitData.hitSlideTime;
+                    }
+                }
+                return 0;
+            }
+        }
+
+        protected MoveType MoveType
+        {
+            get
+            {
+                var basic = m_entity.GetComponent<BasicInfoComponent>();
+                if (basic != null)
+                    return basic.MoveType;
+                return MoveType.Idle;
             }
         }
 

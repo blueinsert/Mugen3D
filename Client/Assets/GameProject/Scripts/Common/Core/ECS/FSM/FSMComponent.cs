@@ -17,20 +17,18 @@ namespace bluebean.Mugen3D.Core
 
         private Dictionary<int, StateBase> m_stateDic = new Dictionary<int, StateBase>();
 
-        /// <summary>
-        /// lua中的update函数的索引
-        /// </summary>
-        private int m_refUpdate;
-
         public void Initialize(Entity owner)
         {
-            m_stateDic.Add(StateBase.StateNo_Stand, new StateStand(owner));
-            m_stateDic.Add(StateBase.StateNo_Walk, new StateWalk(owner));
-            m_stateDic.Add(StateBase.StateNo_JumpStart, new StateJumpStart(owner));
-            m_stateDic.Add(StateBase.StateNo_JumpUp, new StateJumpUp(owner));
-            m_stateDic.Add(StateBase.StateNo_JumpDown, new StateJumpDown(owner));
-            m_stateDic.Add(StateBase.StateNo_JumpLand, new StateJumpLand(owner));
-
+            m_stateDic.Clear();
+            m_stateDic.Add(StateConst.StateNo_Stand, new StateStand(owner));
+            m_stateDic.Add(StateConst.StateNo_Walk, new StateWalk(owner));
+            m_stateDic.Add(StateConst.StateNo_JumpStart, new StateJumpStart(owner));
+            m_stateDic.Add(StateConst.StateNo_JumpUp, new StateJumpUp(owner));
+            m_stateDic.Add(StateConst.StateNo_JumpDown, new StateJumpDown(owner));
+            m_stateDic.Add(StateConst.StateNo_JumpLand, new StateJumpLand(owner));
+            m_stateDic.Add(StateConst.StateNo_StandLightPunch, new StateStandLightPunch(owner));
+            m_stateDic.Add(StateConst.StateNo_GetHitStandShake, new StateGetHitStandShake(owner));
+            m_stateDic.Add(StateConst.StateNo_GetHitStandSlide, new StateGetHitStandSlide(owner));
         }
 
         public void Update(Entity owner)

@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace bluebean.Mugen3D.Core
 {
-    class StateJumpDown : StateBase
+    class StateJumpUp : StateBase
     {
-        public StateJumpDown(Entity e) : base(e)
-        {
-
-        }
+        public StateJumpUp(Entity e) : base(e) { }
 
         public override void OnEnter()
-        {
-            ChangeAnim(44);
+        { 
+            ChangeAnim(41);
             CtrlSet(false);
         }
 
@@ -25,9 +22,10 @@ namespace bluebean.Mugen3D.Core
 
         public override void OnUpdate()
         {
-            if (Pos.y + Vel.y*Time.deltaTime <= 0)
+            var vel = Vel;
+            if(vel.y + Acceler.y*Time.deltaTime <= 0)
             {
-                ChangeState(StateBase.StateNo_JumpLand);
+                ChangeState(StateConst.StateNo_JumpDown);
             }
         }
     }

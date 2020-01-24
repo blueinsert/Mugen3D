@@ -22,7 +22,7 @@ namespace bluebean.Mugen3D.Core
         /// <param name="attacker"></param>
         /// <param name="defender"></param>
         /// <returns></returns>
-        private static bool IsHitSuccess(ComplexCollider attacker,ComplexCollider defender)
+        private static bool IsIntersect(ComplexCollider attacker,ComplexCollider defender)
         {
             for (int i = 0; i < attacker.AttackClsnsLength; i++)
             {
@@ -40,7 +40,7 @@ namespace bluebean.Mugen3D.Core
             return false;
         }
 
-        private static bool CanBeHit(HitDef hitDef, HitBy hitBy, NoHitBy noHitBy, PhysicsType defenderPhysicsType)
+        private static bool CanBeHit(HitDefData hitDef, HitBy hitBy, NoHitBy noHitBy, PhysicsType defenderPhysicsType)
         {
             if (hitBy != null && !hitBy.Check(hitDef))
                 return false;
@@ -75,7 +75,7 @@ namespace bluebean.Mugen3D.Core
             return false;
         }
 
-        private static bool CanBeGuard(HitDef hitDef, PhysicsType defenderPhysicsType)
+        private static bool CanBeGuard(HitDefData hitDef, PhysicsType defenderPhysicsType)
         {
             int guardFlag = hitDef.guardFlag;
             if ((guardFlag & (int)GuardFlag.H) != 0)
@@ -103,7 +103,7 @@ namespace bluebean.Mugen3D.Core
         /// <param name="target"></param>
         private static void ProcessCornerPush(Entity attacker, Entity target)
         {
-            /*
+            
             var hitDef = attacker.GetComponent<HitComponent>().HitDef;
             if (UtilityFuncs.GetFrontStageDist(attacker) < new Number(5) / new Number(10) && hitDef.moveContact)
             {
@@ -113,25 +113,25 @@ namespace bluebean.Mugen3D.Core
                     velX = hitDef.guardVel.X();
                 }else if (hitDef.moveHit)
                 {
-                    var targetMoveComponent = target.GetComponent<MoveComponent>();
-                    if (targetMoveComponent.PhysicsType == PhysicsType.Air)
+                    var targetPhysics = target.GetComponent<PhysicsComponent>();
+                    if (targetPhysics.PhysicsType == PhysicsType.Air)
                         velX = hitDef.airVel.X();
                     else
                         velX = hitDef.groundVel.X();
                 }
-
+                var physics = attacker.GetComponent<PhysicsComponent>();
                 var moveComponent = attacker.GetComponent<MoveComponent>();
-                if (moveComponent.PhysicsType == PhysicsType.Air)
+                if (physics.PhysicsType == PhysicsType.Air)
                     moveComponent.VelAdd(-Number.Abs(velX) * hitDef.airCornerPush, 0);
                 else
                     moveComponent.VelAdd(-Number.Abs(velX) * hitDef.groundCornerPush, 0);
             }
-            */
+            
         }
 
         private static void ProcessHitSuccess(Entity attacker,Entity target)
         {
-            /*
+            
             //处理攻击者
             var hitComponent1 = attacker.GetComponent<HitComponent>();
             var hitDef1 = hitComponent1.HitDef;
@@ -188,12 +188,12 @@ namespace bluebean.Mugen3D.Core
             }
             //处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
             ProcessCornerPush(attacker, target);
-            */
+            
         }
 
         private static void ProcessHitBeGuard(Entity attacker,Entity target)
         {
-            /*
+            
             //处理攻击者
             var hitComponent1 = attacker.GetComponent<HitComponent>();
             var hitDef1 = hitComponent1.HitDef;
@@ -210,35 +210,33 @@ namespace bluebean.Mugen3D.Core
             healthComponent2.AddHP(-hitDef1.guardDamage);
             //处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
             ProcessCornerPush(attacker, target);
-            */
+            
         }
 
         protected override void ProcessEntity(List<Entity> entities)
         {
-            /*
-            //获取成功产生打击的实体字典
+            //遍历查找hit的产生
+            //key:打击者 value:承受者
             Dictionary<Entity, Entity> hitResults = new Dictionary<Entity, Entity>(10);
             for (int m = 0; m < entities.Count; m++)
             {
                 var e1 = entities[m];
                 var collideComponent1 = e1.GetComponent<CollideComponent>();
-                var fsmComponent1 = e1.GetComponent<FSMComponent>();
                 var hitComponent1 = e1.GetComponent<HitComponent>();
+                var basic = e1.GetComponent<BasicInfoComponent>();
                 for (int n = 0; n < entities.Count; n++)
                 {
                     var e2 = entities[n];
                     if (e1 == e2)
                         continue;
                     var collideComponent2 = e2.GetComponent<CollideComponent>();
-                    var fsmComponent2 = e2.GetComponent<FSMComponent>();
-                    var hitComponent2 = e2.GetComponent<HitComponent>();
-                    if (hitComponent1.MoveType != MoveType.Attack 
+                    if (basic.MoveType != MoveType.Attack 
                         || hitComponent1.HitDef == null 
                         || hitComponent1.HitDef.moveContact == true//已经接触了的话这个hitdef已生效，不重复使用
                         )
                         continue;
                     //检查攻击框与受击框是否重合
-                    if (IsHitSuccess(collideComponent1.Collider, collideComponent2.Collider))
+                    if (IsIntersect(collideComponent1.Collider, collideComponent2.Collider))
                     {
                         hitResults[e1] = e2;
                     }
@@ -252,6 +250,11 @@ namespace bluebean.Mugen3D.Core
                 var hitDef = attackHitComponent.HitDef;
                 var targetMoveComponet = hitResult.Value.GetComponent<MoveComponent>();
                 var targetHitComponent = hitResult.Value.GetComponent<HitComponent>();
+
+                targetHitComponent.SetBeHitDef(hitDef);
+                var fsm2 = hitResult.Value.GetComponent<FSMComponent>();
+                fsm2.ChangeState(StateConst.StateNo_GetHitStandShake);
+                /*
                 if (CanBeHit(hitDef, targetHitComponent.HitBy, targetHitComponent.NoHitBy, targetMoveComponet.PhysicsType))
                 {
                     if (CanBeGuard(hitDef, targetMoveComponet.PhysicsType) && (targetHitComponent.MoveType == MoveType.Defence))
@@ -267,8 +270,9 @@ namespace bluebean.Mugen3D.Core
                     //if (!hitResults.ContainsKey(attacker))
                     //    attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
                 }
+                */
             }
-            */
+            
         }
     }
 }

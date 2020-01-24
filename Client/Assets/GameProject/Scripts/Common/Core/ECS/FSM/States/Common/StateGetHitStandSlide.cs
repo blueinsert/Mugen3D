@@ -6,30 +6,33 @@ using System.Threading.Tasks;
 
 namespace bluebean.Mugen3D.Core
 {
-    class StateJumpLand:StateBase
+    class StateGetHitStandSlide:StateBase
     {
-        public StateJumpLand(Entity e) : base(e)
-        {
-
-        }
+        public StateGetHitStandSlide(Entity e) : base(e) { }
 
         public override void OnEnter()
         {
             PhysicsSet(PhysicsType.Stand);
-            VelSet(Vel.x, 0);
-            ChangeAnim(47);
             CtrlSet(false);
+            ChangeAnim(5000);
+            var beHitData = BeHitData;
+            VelSet(beHitData.groundVel[0], beHitData.groundVel[1]);
         }
 
         public override void OnExit()
         {
+            base.OnExit();
         }
 
         public override void OnUpdate()
         {
             if (LeftAnimTime <= 0)
             {
-                ChangeState(StateBase.StateNo_Stand);
+                ChangeAnim(5005);
+            }
+            if (StateTime >= HitSlideTime)
+            {
+                ChangeState(0);
             }
         }
     }

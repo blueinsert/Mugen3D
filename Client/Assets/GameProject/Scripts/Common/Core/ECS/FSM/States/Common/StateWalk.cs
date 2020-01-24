@@ -23,7 +23,7 @@ namespace bluebean.Mugen3D.Core
         {
             if (CommandIsActive("holdup"))
             {
-                ChangeState(StateBase.StateNo_JumpStart);
+                ChangeState(StateConst.StateNo_JumpStart);
             }else if (CommandIsActive("holdfwd"))
             {
                 VelSet(3, 0);
@@ -37,7 +37,7 @@ namespace bluebean.Mugen3D.Core
                     ChangeAnim(21);
             }else
             {
-                ChangeState(StateBase.StateNo_Stand);
+                ChangeState(StateConst.StateNo_Stand);
             }
         }
     }

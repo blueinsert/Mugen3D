@@ -42,7 +42,7 @@ namespace bluebean.Mugen3D.Core
         {
             if (LeftAnimTime <= 0)
             {
-                ChangeState(StateBase.StateNo_JumpUp);
+                ChangeState(StateConst.StateNo_JumpUp);
             }
         }
     }

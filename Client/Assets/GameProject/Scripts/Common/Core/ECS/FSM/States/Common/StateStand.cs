@@ -29,13 +29,16 @@ namespace bluebean.Mugen3D.Core
         {
             if (CommandIsActive("holdfwd"))
             {
-                ChangeState(StateBase.StateNo_Walk);
+                ChangeState(StateConst.StateNo_Walk);
             }else if (CommandIsActive("holdback"))
             {
-                ChangeState(StateBase.StateNo_Walk);
+                ChangeState(StateConst.StateNo_Walk);
             }else if (CommandIsActive("holdup"))
             {
-                ChangeState(StateBase.StateNo_JumpStart);
+                ChangeState(StateConst.StateNo_JumpStart);
+            }else if (CommandIsActive("a"))
+            {
+                ChangeState(StateConst.StateNo_StandLightPunch);
             }
         }
     }
