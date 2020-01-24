@@ -74,17 +74,6 @@ namespace bluebean.Mugen3D.UI
             resPath.Add(AssetUtility.MakeAssetPath(m_p2Config.Prefab));
             resPath.Add(AssetUtility.MakeAssetPath(m_p1Config.ActionDef));
             resPath.Add(AssetUtility.MakeAssetPath(m_p2Config.ActionDef));
-            foreach(var luaScript in m_p1Config.LuaScripts)
-            {
-                resPath.Add(AssetUtility.MakeAssetPath(luaScript));
-            }
-            foreach (var luaScript in m_p2Config.LuaScripts)
-            {
-                resPath.Add(AssetUtility.MakeAssetPath(luaScript));
-            }
-            resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/FsmScriptLoader.lua.txt"));
-            resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/Common.lua.txt"));
-            resPath.Add(AssetUtility.MakeAssetPath("Lua_ABS/Enums.lua.txt"));
             return resPath;
         }
 

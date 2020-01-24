@@ -8,39 +8,34 @@ namespace bluebean.Mugen3D.Core
 {
     class StateStand : StateBase
     {
-
-        public override void OnEnter(Entity e)
+        public StateStand(Entity e) : base(e)
         {
-            base.OnEnter(e);
-            var physice = e.GetComponent<PhysicsComponent>();
-            physice.SetPhysicsType(PhysicsType.Stand);
-            var anim = e.GetComponent<AnimationComponent>();
-            anim.ChangeAnim(0);
-            var move = e.GetComponent<MoveComponent>();
-            move.VelSet(0, 0);
-            var basic = e.GetComponent<BasicInfoComponent>();
-            basic.SetCtrl(true);
+
         }
 
-        public override void OnExit(Entity e)
+        public override void OnEnter()
         {
-            base.OnExit(e);
+            PhysicsSet(PhysicsType.Stand);
+            ChangeAnim(0);
+            VelSet(0, 0);
+            CtrlSet(true);
         }
 
-        public override void OnUpdate(Entity e)
+        public override void OnExit()
         {
-            base.OnUpdate(e);
-            var fsm = e.GetComponent<FSMComponent>();
-            var command = e.GetComponent<CommandComponent>();
-            if (command.CommandIsActive("holdfwd"))
+        }
+
+        public override void OnUpdate()
+        {
+            if (CommandIsActive("holdfwd"))
             {
-                fsm.ChangeState(e, StateBase.StateNo_Walk);
-            }else if (command.CommandIsActive("holdback"))
+                ChangeState(StateBase.StateNo_Walk);
+            }else if (CommandIsActive("holdback"))
             {
-                fsm.ChangeState(e, StateBase.StateNo_Walk);
-            }else if (command.CommandIsActive("holdup"))
+                ChangeState(StateBase.StateNo_Walk);
+            }else if (CommandIsActive("holdup"))
             {
-                fsm.ChangeState(e, StateBase.StateNo_JumpStart);
+                ChangeState(StateBase.StateNo_JumpStart);
             }
         }
     }

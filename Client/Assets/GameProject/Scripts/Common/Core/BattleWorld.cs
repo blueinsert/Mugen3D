@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Mugen3D;
 using FixPointMath;
 using bluebean.UGFramework.ConfigData;
-using UniLua;
 
 namespace bluebean.Mugen3D.Core
 {

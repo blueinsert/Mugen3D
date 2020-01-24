@@ -8,35 +8,28 @@ namespace bluebean.Mugen3D.Core
 {
     class StateJumpLand:StateBase
     {
-
-        public override void OnEnter(Entity e)
+        public StateJumpLand(Entity e) : base(e)
         {
-            base.OnEnter(e);
-            var physice = e.GetComponent<PhysicsComponent>();
-            physice.SetPhysicsType(PhysicsType.Stand);
-            var transform = e.GetComponent<TransformComponent>();
-            var move = e.GetComponent<MoveComponent>();
-            move.VelSet(move.Velocity.x, 0);
-            transform.PosSet(transform.Position.x, 0);
-            var anim = e.GetComponent<AnimationComponent>();
-            anim.ChangeAnim(47);
-            var basic = e.GetComponent<BasicInfoComponent>();
-            basic.SetCtrl(false);
+
         }
 
-        public override void OnExit(Entity e)
+        public override void OnEnter()
         {
-            base.OnExit(e);
+            PhysicsSet(PhysicsType.Stand);
+            VelSet(Vel.x, 0);
+            ChangeAnim(47);
+            CtrlSet(false);
         }
 
-        public override void OnUpdate(Entity e)
+        public override void OnExit()
         {
-            base.OnUpdate(e);
-            var anim = e.GetComponent<AnimationComponent>();
-            if (anim.LeftAnimTime <= 0)
+        }
+
+        public override void OnUpdate()
+        {
+            if (LeftAnimTime <= 0)
             {
-                var fsm = e.GetComponent<FSMComponent>();
-                fsm.ChangeState(e,StateBase.StateNo_Stand);
+                ChangeState(StateBase.StateNo_Stand);
             }
         }
     }

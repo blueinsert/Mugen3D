@@ -8,30 +8,26 @@ namespace bluebean.Mugen3D.Core
 {
     class StateJumpDown : StateBase
     {
-
-        public override void OnEnter(Entity e)
+        public StateJumpDown(Entity e) : base(e)
         {
-            base.OnEnter(e);
-            var anim = e.GetComponent<AnimationComponent>();
-            anim.ChangeAnim(44);
-            var basic = e.GetComponent<BasicInfoComponent>();
-            basic.SetCtrl(false);
+
         }
 
-        public override void OnExit(Entity e)
+        public override void OnEnter()
         {
-            base.OnExit(e);
+            ChangeAnim(44);
+            CtrlSet(false);
         }
 
-        public override void OnUpdate(Entity e)
+        public override void OnExit()
         {
-            base.OnUpdate(e);
-            var move = e.GetComponent<MoveComponent>();
-            var transform = e.GetComponent<TransformComponent>();
-            if (transform.Position.y + move.Velocity.y*Time.deltaTime <= 0)
+        }
+
+        public override void OnUpdate()
+        {
+            if (Pos.y + Vel.y*Time.deltaTime <= 0)
             {
-                var fsm = e.GetComponent<FSMComponent>();
-                fsm.ChangeState(e, StateBase.StateNo_JumpLand);
+                ChangeState(StateBase.StateNo_JumpLand);
             }
         }
     }

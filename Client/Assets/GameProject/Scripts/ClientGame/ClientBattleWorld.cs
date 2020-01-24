@@ -85,20 +85,6 @@ namespace bluebean.Mugen3D.ClientGame
             return m_assetProvider.GetAsset<T>(path);
         }
 
-        private byte[] LuaLoader(ref string fileName)
-        {
-            if (!fileName.EndsWith(".txt"))
-            {
-                fileName = fileName + ".txt";
-            }
-            var code = m_assetProvider.GetAsset<TextAsset>(fileName);
-            if (code != null)
-            {
-                return code.bytes;
-            }
-            return null;
-        }
-
         private string FileReader(string fileName)
         {
             var content = GetAsset<TextAsset>(fileName).text;
@@ -135,7 +121,6 @@ namespace bluebean.Mugen3D.ClientGame
             m_stageRoot = m_sceneRoot.transform.Find("StageRoot").gameObject;
             //初始化BattleWorld静态环境
             BattleWorld.SetLogDelegate(Debug.Log, Debug.LogWarning, Debug.LogError);
-            BattleWorld.SetLuaFileLoader(LuaLoader);
             BattleWorld.SetFileReader(FileReader);
             //初始化配置信息
             var configLoader = ConfigDataLoader.Instance;

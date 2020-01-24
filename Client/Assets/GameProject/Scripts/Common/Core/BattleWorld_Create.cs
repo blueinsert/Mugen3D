@@ -22,11 +22,10 @@ namespace bluebean.Mugen3D.Core
             var actionDefStr = sFileReader(configDataCharacter.ActionDef);
             var acttionDefs = ConfigReader.Parse<List<ActionDef>>(actionDefStr);
             entity.AddComponent<AnimationComponent>().Init(acttionDefs.ToArray());
-            entity.AddComponent<FSMComponent>().Initialize(configDataCharacter.LuaMainModule,entity);
+            entity.AddComponent<FSMComponent>().Initialize(entity);
             entity.AddComponent<PhysicsComponent>();
             entity.AddComponent<CollideComponent>();
-            //暂时注释脚本系统，待最小可行模型验证通过后再逐步加入
-            //entity.AddComponent<LuaScriptComponent>().Init(configDataCharacter.LuaMainModule, entity);
+           
             //entity.AddComponent<DelayImpactComponent>();
             m_listener.OnCreateCharacter(entity);
             return entity;

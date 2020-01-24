@@ -10,17 +10,18 @@ namespace bluebean.Mugen3D.Core
     {
         int m_moveDir = 0;
 
-        public override void OnEnter(Entity e)
+        public StateJumpStart(Entity e):base(e)
         {
-            base.OnEnter(e);
-           
-            var anim = e.GetComponent<AnimationComponent>();
-            anim.ChangeAnim(40);
-            var command = e.GetComponent<CommandComponent>();
-            if (command.CommandIsActive("holdfwd"))
+            
+        }
+
+        public override void OnEnter()
+        {
+            ChangeAnim(40);
+            if (CommandIsActive("holdfwd"))
             {
                 m_moveDir = 1;
-            }else if (command.CommandIsActive("holdback"))
+            }else if (CommandIsActive("holdback"))
             {
                 m_moveDir = -1;
             }
@@ -28,27 +29,20 @@ namespace bluebean.Mugen3D.Core
             {
                 m_moveDir = 0;
             }
-            var basic = e.GetComponent<BasicInfoComponent>();
-            basic.SetCtrl(false);
+            CtrlSet(false);
         }
 
-        public override void OnExit(Entity e)
-        {
-            base.OnExit(e);
-            var physics = e.GetComponent<PhysicsComponent>();
-            physics.SetPhysicsType(PhysicsType.Air);
-            var move = e.GetComponent<MoveComponent>();
-            move.VelSet(m_moveDir*3, 8);
+        public override void OnExit()
+        {  
+            PhysicsSet(PhysicsType.Air);
+            VelSet(m_moveDir*3, 8);
         }
 
-        public override void OnUpdate(Entity e)
+        public override void OnUpdate()
         {
-            base.OnUpdate(e);
-            var anim = e.GetComponent<AnimationComponent>();
-            if (anim.LeftAnimTime <= 0)
+            if (LeftAnimTime <= 0)
             {
-                var fsm = e.GetComponent<FSMComponent>();
-                fsm.ChangeState(e, StateBase.StateNo_JumpUp);
+                ChangeState(StateBase.StateNo_JumpUp);
             }
         }
     }

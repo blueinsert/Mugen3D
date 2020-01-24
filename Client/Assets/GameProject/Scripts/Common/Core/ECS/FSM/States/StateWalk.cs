@@ -8,43 +8,36 @@ namespace bluebean.Mugen3D.Core
 {
     class StateWalk:StateBase
     {
+        public StateWalk(Entity e) : base(e) { }
 
-        public override void OnEnter(Entity e)
-        {
-            base.OnEnter(e);
-            var basic = e.GetComponent<BasicInfoComponent>();
-            basic.SetCtrl(true);
+        public override void OnEnter()
+        { 
+            CtrlSet(true);
         }
 
-        public override void OnExit(Entity e)
+        public override void OnExit()
         {
-            base.OnExit(e);
         }
 
-        public override void OnUpdate(Entity e)
+        public override void OnUpdate()
         {
-            base.OnUpdate(e);
-            var fsm = e.GetComponent<FSMComponent>();
-            var command = e.GetComponent<CommandComponent>();
-            var move = e.GetComponent<MoveComponent>();
-            var anim = e.GetComponent<AnimationComponent>();
-            if (command.CommandIsActive("holdup"))
+            if (CommandIsActive("holdup"))
             {
-                fsm.ChangeState(e, StateBase.StateNo_JumpStart);
-            }else if (command.CommandIsActive("holdfwd"))
+                ChangeState(StateBase.StateNo_JumpStart);
+            }else if (CommandIsActive("holdfwd"))
             {
-                move.VelSet(3, 0);
-                if(anim.Anim!=20)
-                    anim.ChangeAnim(20);
+                VelSet(3, 0);
+                if(Anim!=20)
+                    ChangeAnim(20);
             }
-            else if (command.CommandIsActive("holdback"))
+            else if (CommandIsActive("holdback"))
             {
-                move.VelSet(-3, 0);
-                if(anim.Anim!=21)
-                    anim.ChangeAnim(21);
+                VelSet(-3, 0);
+                if(Anim!=21)
+                    ChangeAnim(21);
             }else
             {
-                fsm.ChangeState(e, StateBase.StateNo_Stand);
+                ChangeState(StateBase.StateNo_Stand);
             }
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UniLua;
 
 namespace bluebean.Mugen3D.Core
 {
@@ -16,13 +15,6 @@ namespace bluebean.Mugen3D.Core
             Debug.m_Log = logDelegate;
             Debug.m_LogWarn = logWarn;
             Debug.m_LogError = logError;
-        }
-
-        
-        public static void SetLuaFileLoader(CustomFileLoader luaFileLoader)
-        {
-            UniLua.LuaFile.ClearLoaders();
-            UniLua.LuaFile.AddLoader(luaFileLoader);
         }
 
         /// <summary>

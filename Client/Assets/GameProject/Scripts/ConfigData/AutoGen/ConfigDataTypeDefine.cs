@@ -107,10 +107,6 @@ namespace bluebean.UGFramework.ConfigData {
         
         private string m_Prefab;
         
-        private string[] m_LuaScripts;
-        
-        private string m_LuaMainModule;
-        
         private string m_ActionDef;
         
         public int ID {
@@ -164,24 +160,6 @@ namespace bluebean.UGFramework.ConfigData {
             }
             set {
                 this.m_Prefab = value;
-            }
-        }
-        
-        public string[] LuaScripts {
-            get {
-                return this.m_LuaScripts;
-            }
-            set {
-                this.m_LuaScripts = value;
-            }
-        }
-        
-        public string LuaMainModule {
-            get {
-                return this.m_LuaMainModule;
-            }
-            set {
-                this.m_LuaMainModule = value;
             }
         }
         
