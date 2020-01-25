@@ -64,7 +64,7 @@ namespace bluebean.Mugen3D.Core
     /// <summary>
     /// 打击定义数据
     /// </summary>
-    public struct HitDefData
+    public class HitDefData
     {
         /// <summary>
         /// 打击类型：打击和抓取
@@ -142,7 +142,9 @@ namespace bluebean.Mugen3D.Core
     /// </summary>
     public class HitComponent : ComponentBase
     {
-       
+       public bool MoveContact { get { return m_moveContact; } }
+        public bool MoveHit { get { return m_moveHit; } }
+        public bool MoveGuarded { get { return m_moveGuarded; } }
         public HitDefData HitDef { get { return m_hitDefData; } }
         public HitDefData BeHitData { get { return m_beHitDefData; } }
         public int ContinueBeHitCount { get { return m_beHitCount; }}
@@ -171,7 +173,7 @@ namespace bluebean.Mugen3D.Core
         
         public bool IsActive()
         {
-            return m_timer > 0;
+            return m_timer > 0 && !m_moveContact;
         }
 
         public void Update()
@@ -182,9 +184,13 @@ namespace bluebean.Mugen3D.Core
             }  
         }
 
-        public void SetHitDef(HitDefData hitDef)
+        public void SetHitDef(HitDefData hitDef,int duration)
         {
             m_hitDefData = hitDef;
+            m_timer = duration;
+            m_moveContact = false;
+            m_moveGuarded = false;
+            m_moveHit = false;
         }
 
         public void SetBeHitDef(HitDefData hitDef)
@@ -200,6 +206,20 @@ namespace bluebean.Mugen3D.Core
         public void ClearBeHitCount()
         {
             this.m_beHitCount = 0;
+        }
+
+        public void OnMoveHit()
+        {
+            m_moveContact = true;
+            m_moveGuarded = false;
+            m_moveHit = true;
+        }
+
+        public void OnMoveGuarded()
+        {
+            m_moveContact = true;
+            m_moveGuarded = true;
+            m_moveHit = false;
         }
     }
 }

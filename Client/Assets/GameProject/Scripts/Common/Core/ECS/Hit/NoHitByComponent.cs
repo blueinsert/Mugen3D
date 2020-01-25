@@ -42,7 +42,7 @@ namespace bluebean.Mugen3D.Core
                 return false;
             foreach (var hitInfo in this.m_infos)
             {
-                if ((hitInfo.hitFlags & hitDef.hitFlag) != 0 && hitInfo.hitType == hitDef.hitType)
+                if ((hitInfo.hitFlags & hitDef.hitFlags) != 0 && hitInfo.hitType == hitDef.hitType)
                     return true;
             }
             return false;

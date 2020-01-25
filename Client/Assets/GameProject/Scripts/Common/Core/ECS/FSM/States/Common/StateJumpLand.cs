@@ -15,6 +15,7 @@ namespace bluebean.Mugen3D.Core
 
         public override void OnEnter()
         {
+            MoveTypeSet(MoveType.Idle);
             PhysicsSet(PhysicsType.Stand);
             VelSet(Vel.x, 0);
             ChangeAnim(47);

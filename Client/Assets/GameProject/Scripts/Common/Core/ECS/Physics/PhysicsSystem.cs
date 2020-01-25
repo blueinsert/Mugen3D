@@ -33,7 +33,7 @@ namespace bluebean.Mugen3D.Core
                         break;
                     case PhysicsType.Stand:
                     case PhysicsType.Crouch:
-                        acceler = (Number.Abs(PhysicsComponent.G) * physics.Mass + physics.ExternalForce.y) / physics.Mass * PhysicsComponent.Friction * (-curVel.normalized) + physics.ExternalForce / physics.Mass;
+                        acceler = (Number.Abs(PhysicsComponent.G) * physics.Mass + physics.ExternalForce.y) / physics.Mass * PhysicsComponent.Friction * (-curVel.normalized) * curVel.magnitude * Number.One / 5 + physics.ExternalForce / physics.Mass;
                         break;
                     case PhysicsType.None:
                         break;

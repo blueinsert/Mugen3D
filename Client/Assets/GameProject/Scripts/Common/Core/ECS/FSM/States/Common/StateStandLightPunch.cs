@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FixPointMath;
 
 namespace bluebean.Mugen3D.Core
 {
@@ -16,6 +17,18 @@ namespace bluebean.Mugen3D.Core
             CtrlSet(false);
             ChangeAnim(200);
             MoveTypeSet(MoveType.Attack);
+
+            HitDefData hitData = new HitDefData();
+            hitData.hitPauseTime = new int[] { 9, 18 };
+            hitData.hitSlideTime = 16;
+            hitData.groundVel = new FixPointMath.Vector(-5, 0);
+            hitData.guardPauseTime = new int[] { 9, 18 };
+            hitData.guardSlideTime = 16;
+            hitData.guardVel = new FixPointMath.Vector(-5, 0); 
+            hitData.guardFlag = GuardFlag.Normal;
+            hitData.groundCornerPush =  Number.One/ 2;
+            hitData.airCornerPush = Number.One / 2;
+            SetHitDefData(hitData, 100);
         }
 
         public override void OnExit()
@@ -30,10 +43,10 @@ namespace bluebean.Mugen3D.Core
             {
                 ChangeState(StateConst.StateNo_Stand);
             }
-            var hitData = HitData;
-            hitData.hitPauseTime = new int[] { 9, 18 };
-            hitData.hitSlideTime = 16;
-            HitData.groundVel = new FixPointMath.Number[] { -4, 0 };
+            if(StateTime == 0)
+            {
+                
+            }  
         }
     }
 }

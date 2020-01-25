@@ -40,6 +40,7 @@ namespace bluebean.Mugen3D.Core
             AddSystem<AutoTurnSystem>();
             AddSystem<CollideSystem>();
             AddSystem<HitSystem>();
+            AddSystem<GuardSystem>();
             //
             //AddSystem<DelayImpactSystem>();
             //初始化LuaState

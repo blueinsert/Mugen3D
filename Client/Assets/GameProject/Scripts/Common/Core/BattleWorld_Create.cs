@@ -26,7 +26,7 @@ namespace bluebean.Mugen3D.Core
             entity.AddComponent<PhysicsComponent>();
             entity.AddComponent<CollideComponent>();
             entity.AddComponent<HitComponent>();
-
+            m_characterArray[index] = entity;
             //entity.AddComponent<DelayImpactComponent>();
             m_listener.OnCreateCharacter(entity);
             return entity;

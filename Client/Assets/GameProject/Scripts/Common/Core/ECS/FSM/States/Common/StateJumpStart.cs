@@ -17,6 +17,7 @@ namespace bluebean.Mugen3D.Core
 
         public override void OnEnter()
         {
+            MoveTypeSet(MoveType.Idle);
             ChangeAnim(40);
             if (CommandIsActive("holdfwd"))
             {

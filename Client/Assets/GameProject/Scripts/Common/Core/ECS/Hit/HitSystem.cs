@@ -22,7 +22,7 @@ namespace bluebean.Mugen3D.Core
         /// <param name="attacker"></param>
         /// <param name="defender"></param>
         /// <returns></returns>
-        private static bool IsIntersect(ComplexCollider attacker,ComplexCollider defender)
+        private static bool IsIntersect(ComplexCollider attacker, ComplexCollider defender)
         {
             for (int i = 0; i < attacker.AttackClsnsLength; i++)
             {
@@ -40,6 +40,7 @@ namespace bluebean.Mugen3D.Core
             return false;
         }
 
+        /*
         private static bool CanBeHit(HitDefData hitDef, HitBy hitBy, NoHitBy noHitBy, PhysicsType defenderPhysicsType)
         {
             if (hitBy != null && !hitBy.Check(hitDef))
@@ -57,7 +58,7 @@ namespace bluebean.Mugen3D.Core
                 if (defenderPhysicsType == PhysicsType.Crouch)
                     return true;
             }
-            /*
+            
             if ((hitFlag & (int)HitFlag.A) != 0)
             {
                 if (defenderPhysicsType == PhysicsType.Air && (this.fsmMgr.stateNo != 5050))
@@ -71,10 +72,12 @@ namespace bluebean.Mugen3D.Core
             if ((hitFlag & (int)HitFlag.D) != 0)
             {
             }
-            */
+            
             return false;
         }
+   */
 
+            /*
         private static bool CanBeGuard(HitDefData hitDef, PhysicsType defenderPhysicsType)
         {
             int guardFlag = hitDef.guardFlag;
@@ -94,74 +97,82 @@ namespace bluebean.Mugen3D.Core
             }
             return false;
         }
-
+        */
 
         /// <summary>
         /// 处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
         /// </summary>
         /// <param name="attacker"></param>
         /// <param name="target"></param>
-        private static void ProcessCornerPush(Entity attacker, Entity target)
+        public static void ProcessCornerPush(Entity attacker)
         {
-            
+            var physics = attacker.GetComponent<PhysicsComponent>();
+            var hit = attacker.GetComponent<HitComponent>();
             var hitDef = attacker.GetComponent<HitComponent>().HitDef;
-            if (UtilityFuncs.GetFrontStageDist(attacker) < new Number(5) / new Number(10) && hitDef.moveContact)
+            //只要敌人靠墙站着，每次打击都会产生对于自身的反作用，拉开距离避免无限连
+            if (UtilityFuncs.GetP2BackStageDist(attacker)< new Number(1)/2 && hit.MoveContact)
             {
                 Number velX = 0;
-                if (hitDef.moveGuarded)
+                if (hit.MoveGuarded)
                 {
-                    velX = hitDef.guardVel.X();
-                }else if (hitDef.moveHit)
-                {
-                    var targetPhysics = target.GetComponent<PhysicsComponent>();
-                    if (targetPhysics.PhysicsType == PhysicsType.Air)
-                        velX = hitDef.airVel.X();
-                    else
-                        velX = hitDef.groundVel.X();
+                    velX = hitDef.guardVel.x;
                 }
-                var physics = attacker.GetComponent<PhysicsComponent>();
+                else if (hit.MoveHit)
+                {
+                    if (physics.PhysicsType == PhysicsType.Air)
+                        velX = hitDef.airVel.x;
+                    else
+                        velX = hitDef.groundVel.x;
+                }
                 var moveComponent = attacker.GetComponent<MoveComponent>();
                 if (physics.PhysicsType == PhysicsType.Air)
-                    moveComponent.VelAdd(-Number.Abs(velX) * hitDef.airCornerPush, 0);
+                    moveComponent.VelAdd(velX* hitDef.airCornerPush, 0);
                 else
-                    moveComponent.VelAdd(-Number.Abs(velX) * hitDef.groundCornerPush, 0);
+                    moveComponent.VelAdd(velX * hitDef.groundCornerPush, 0);
             }
-            
+
         }
 
-        private static void ProcessHitSuccess(Entity attacker,Entity target)
+        private static void OnHitSuccessForAttacker(Entity attacker)
         {
-            
-            //处理攻击者
-            var hitComponent1 = attacker.GetComponent<HitComponent>();
-            var hitDef1 = hitComponent1.HitDef;
-            hitDef1.moveContact = true;
-            hitDef1.moveGuarded = false;
-            hitDef1.moveHit = true;
-            if (hitDef1.hitType == (int)HitType.Throw)
-            {
-                var fsmComponent = attacker.GetComponent<FSMComponent>();
-                fsmComponent.ChangeState(hitDef1.p1StateNo);
+            var hit = attacker.GetComponent<HitComponent>();
+            hit.OnMoveHit();
+            var hitDef = hit.HitDef;
+            var fsm = attacker.GetComponent<FSMComponent>();
+            if (hitDef.hitType == HitType.Throw)
+            {  
+                fsm.ChangeState(hitDef.p1StateNo);
             }
-            //处理被攻击者
-            var fsmComponent2 = target.GetComponent<FSMComponent>();
-            var moveComponent2 = target.GetComponent<MoveComponent>();
-            var hitComponent2 = target.GetComponent<HitComponent>();
-            hitComponent2.SetBeHitDef(hitDef1);
-            if (hitDef1.hitType == (int)HitType.Attack)
+            else
             {
-                var healthComponent = target.GetComponent<HealthComponent>();
-                healthComponent.AddHP(-hitDef1.hitDamage);
-                
-                if (hitComponent2.MoveType == MoveType.BeingHitted)
+                fsm.PushLayer(StateConst.StateNO_HitPause);
+            }
+        }
+
+        private static void OnHitSuccessForTarget(Entity target)
+        {
+            //处理被攻击者
+            var fsm = target.GetComponent<FSMComponent>();
+            var move = target.GetComponent<MoveComponent>();
+            var hit = target.GetComponent<HitComponent>();
+            var basic = target.GetComponent<BasicInfoComponent>();
+            var hitDef = hit.BeHitData;
+            if (hitDef.hitType == (int)HitType.Attack)
+            {
+                //var healthComponent = target.GetComponent<HealthComponent>();
+                //healthComponent.AddHP(-hitDef.hitDamage);
+                //设置被连击计数
+                if (basic.MoveType == MoveType.BeingHitted)
                 {
-                    hitComponent2.AddBeHitCount();
+                    hit.AddBeHitCount();
                 }
                 else
                 {
-                    hitComponent2.ClearBeHitCount();
-                    hitComponent2.AddBeHitCount();
+                    hit.ClearBeHitCount();
+                    hit.AddBeHitCount();
                 }
+                fsm.ChangeState(5000);
+                /*
                 if (hitDef1.knockAwayType == -1)
                 {
                     if (moveComponent2.PhysicsType == PhysicsType.Stand)
@@ -181,40 +192,40 @@ namespace bluebean.Mugen3D.Core
                 {
                     fsmComponent2.ChangeState(5030);
                 }
+                */
             }
-            else if (hitDef1.hitType == (int)HitType.Throw)
+            else if (hitDef.hitType == HitType.Throw)
             {
-                fsmComponent2.ChangeState(hitDef1.p2StateNo);
+                fsm.ChangeState(hitDef.p2StateNo);
             }
-            //处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
-            ProcessCornerPush(attacker, target);
-            
         }
 
-        private static void ProcessHitBeGuard(Entity attacker,Entity target)
+       
+         private static void OnHitGuardedForAttacker(Entity attacker)
         {
-            
-            //处理攻击者
-            var hitComponent1 = attacker.GetComponent<HitComponent>();
-            var hitDef1 = hitComponent1.HitDef;
-            hitDef1.moveContact = true;
-            hitDef1.moveGuarded = true;
-            hitDef1.moveHit = false;
-            //处理防御者
-            var fsmComponent2 = target.GetComponent<FSMComponent>();
-            var moveComponent2 = target.GetComponent<MoveComponent>();
-            var hitComponent2 = target.GetComponent<HitComponent>();
-            var healthComponent2 = target.GetComponent<HealthComponent>();
-            hitComponent2.SetBeHitDef(hitDef1);
-            fsmComponent2.ChangeState(moveComponent2.PhysicsType == PhysicsType.Stand ? 150 : 156);
-            healthComponent2.AddHP(-hitDef1.guardDamage);
-            //处理角落的力反馈：攻击角落的敌人，攻击者向远离方向运动
-            ProcessCornerPush(attacker, target);
-            
+            var hit = attacker.GetComponent<HitComponent>();
+            hit.OnMoveGuarded();
+            var fsm = attacker.GetComponent<FSMComponent>();
+            fsm.PushLayer(StateConst.StateNO_HitPause);
+        }   
+       
+        private static void OnHitGuardedForTarget(Entity target)
+        {
+            var fsm = target.GetComponent<FSMComponent>();
+            var hit = target.GetComponent<HitComponent>();
+            var hitdef = hit.BeHitData;
+            //var health = target.GetComponent<HealthComponent>();
+            fsm.ChangeState(StateConst.StateNo_GuardingShake);
+            //health.AddHP(-hitdef.guardDamage);
         }
 
         protected override void ProcessEntity(List<Entity> entities)
         {
+            foreach(var e in entities)
+            {
+                var hit = e.GetComponent<HitComponent>();
+                hit.Update();
+            }
             //遍历查找hit的产生
             //key:打击者 value:承受者
             Dictionary<Entity, Entity> hitResults = new Dictionary<Entity, Entity>(10);
@@ -230,9 +241,8 @@ namespace bluebean.Mugen3D.Core
                     if (e1 == e2)
                         continue;
                     var collideComponent2 = e2.GetComponent<CollideComponent>();
-                    if (basic.MoveType != MoveType.Attack 
-                        || hitComponent1.HitDef == null 
-                        || hitComponent1.HitDef.moveContact == true//已经接触了的话这个hitdef已生效，不重复使用
+                    if (basic.MoveType != MoveType.Attack
+                        || !hitComponent1.IsActive()
                         )
                         continue;
                     //检查攻击框与受击框是否重合
@@ -246,33 +256,30 @@ namespace bluebean.Mugen3D.Core
             {
                 var attacker = hitResult.Key;
                 var target = hitResult.Value;
-                var attackHitComponent = hitResult.Key.GetComponent<HitComponent>();
-                var hitDef = attackHitComponent.HitDef;
-                var targetMoveComponet = hitResult.Value.GetComponent<MoveComponent>();
-                var targetHitComponent = hitResult.Value.GetComponent<HitComponent>();
+                var hit1 = attacker.GetComponent<HitComponent>();
+                var hitDef = hit1.HitDef;
+                var hit2 = target.GetComponent<HitComponent>();
+                var basic2 = target.GetComponent<BasicInfoComponent>();
 
-                targetHitComponent.SetBeHitDef(hitDef);
-                var fsm2 = hitResult.Value.GetComponent<FSMComponent>();
-                fsm2.ChangeState(StateConst.StateNo_GetHitStandShake);
-                /*
-                if (CanBeHit(hitDef, targetHitComponent.HitBy, targetHitComponent.NoHitBy, targetMoveComponet.PhysicsType))
+                if (true)
                 {
-                    if (CanBeGuard(hitDef, targetMoveComponet.PhysicsType) && (targetHitComponent.MoveType == MoveType.Defence))
+                    if (hitDef.guardFlag == GuardFlag.Normal && (basic2.MoveType == MoveType.Defence))
                     {
-                        //防御成功
-                        ProcessHitBeGuard(attacker, target);
+                        OnHitGuardedForAttacker(attacker);
+                        hit2.SetBeHitDef(hitDef);
+                        OnHitGuardedForTarget(target);
                     }
                     else
                     {
-                        ProcessHitSuccess(attacker, target);
+                        OnHitSuccessForAttacker(attacker);
+                        hit2.SetBeHitDef(hitDef);
+                        OnHitSuccessForTarget(target);
                     }
-                    //todo
-                    //if (!hitResults.ContainsKey(attacker))
-                    //    attacker.Pause(isBeGuarded ? hitDef.guardPauseTime[0] : hitDef.hitPauseTime[0]);
+                    //ProcessCornerPush(attacker);
                 }
-                */
+                
             }
-            
+
         }
     }
 }

@@ -19,11 +19,11 @@ namespace bluebean.Mugen3D.Core {
         }
 
         #region controllers
-        protected void ChangeAnim(int animNo)
+        protected void ChangeAnim(int animNo,int animElem = 0)
         {
             var anim = m_entity.GetComponent<AnimationComponent>();
             if(anim!=null)
-                anim.ChangeAnim(animNo);
+                anim.ChangeAnim(animNo, animElem);
         }
 
         protected void PosSet(Number x, Number y)
@@ -48,6 +48,20 @@ namespace bluebean.Mugen3D.Core {
             basic.SetCtrl(ctrl);
         }
 
+        protected void PushStateLayer(int stateNo)
+        {
+            var fsm = m_entity.GetComponent<FSMComponent>();
+            if (fsm != null)
+                fsm.PushLayer(stateNo);
+        }
+
+        protected void PopStateLayer()
+        {
+            var fsm = m_entity.GetComponent<FSMComponent>();
+            if (fsm != null)
+                fsm.PopLayer();
+        }
+
         protected void ChangeState(int stateNo)
         {
             var fsm = m_entity.GetComponent<FSMComponent>();
@@ -64,9 +78,13 @@ namespace bluebean.Mugen3D.Core {
             }
         }
 
-        protected  void SetHitDefData()
+        protected  void SetHitDefData(HitDefData hitdef, int duration)
         {
-
+            var hit = m_entity.GetComponent<HitComponent>();
+            if (hit != null)
+            {
+                hit.SetHitDef(hitdef, duration);
+            }
         }
 
         protected void MoveTypeSet(MoveType moveType)
@@ -122,6 +140,17 @@ namespace bluebean.Mugen3D.Core {
             }
         }
 
+        protected int AnimElem
+        {
+            get
+            {
+                var anim = m_entity.GetComponent<AnimationComponent>();
+                if (anim != null)
+                    return anim.AnimElem;
+                return 0;
+            }
+        }
+
         protected int LeftAnimTime
         {
             get
@@ -173,14 +202,40 @@ namespace bluebean.Mugen3D.Core {
             get
             {
                 var hit = m_entity.GetComponent<HitComponent>();
+                return hit.HitDef;   
+            }
+        }
+
+        protected bool MoveContact
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
                 if (hit != null)
-                {
-                    if (hit.HitDef != null)
-                    {
-                        return hit.HitDef;
-                    }
-                }
-                return null;
+                    return hit.MoveContact;
+                return false;
+            }
+        }
+
+        protected bool MoveHit
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                    return hit.MoveHit;
+                return false;
+            }
+        }
+
+        protected bool MoveGuarded
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                    return hit.MoveGuarded;
+                return false;
             }
         }
 
@@ -189,14 +244,7 @@ namespace bluebean.Mugen3D.Core {
             get
             {
                 var hit = m_entity.GetComponent<HitComponent>();
-                if (hit != null)
-                {
-                    if (hit.BeHitData != null)
-                    {
-                        return hit.BeHitData;
-                    }
-                }
-                return null;
+                return hit.BeHitData;
             }
         }
 
@@ -211,10 +259,7 @@ namespace bluebean.Mugen3D.Core {
                 var hit = m_entity.GetComponent<HitComponent>();
                 if (hit != null)
                 {
-                    if (hit.BeHitData != null)
-                    {
-                        return hit.BeHitData.hitPauseTime[1];
-                    }
+                    return hit.BeHitData.hitPauseTime[1];
                 }
                 return 0;
             }
@@ -229,11 +274,41 @@ namespace bluebean.Mugen3D.Core {
             {
                 var hit = m_entity.GetComponent<HitComponent>();
                 if (hit != null)
+                {  
+                    return hit.BeHitData.hitSlideTime;   
+                }
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 打击震动时间
+        /// </summary>
+        /// <returns></returns>
+        protected int GuardShakeTime
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
                 {
-                    if (hit.BeHitData != null)
-                    {
-                        return hit.BeHitData.hitSlideTime;
-                    }
+                    return hit.BeHitData.guardPauseTime[1];
+                }
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 打击滑行时间
+        /// </summary>
+        protected int GuardSlideTime
+        {
+            get
+            {
+                var hit = m_entity.GetComponent<HitComponent>();
+                if (hit != null)
+                {
+                    return hit.BeHitData.guardSlideTime;
                 }
                 return 0;
             }
@@ -247,6 +322,30 @@ namespace bluebean.Mugen3D.Core {
                 if (basic != null)
                     return basic.MoveType;
                 return MoveType.Idle;
+            }
+        }
+
+        protected int P2StateNo
+        {
+            get
+            {
+                return UtilityFuncs.GetP2StateNo(m_entity);
+            }
+        }
+
+        protected MoveType P2MoveType
+        {
+            get
+            {
+                return UtilityFuncs.GetP2MoveType(m_entity);
+            }
+        }
+
+        protected Vector P2Dist
+        {
+            get
+            {
+                return UtilityFuncs.GetP2Dist(m_entity);
             }
         }
 

@@ -16,7 +16,7 @@ namespace bluebean.Mugen3D.Core
             CtrlSet(false);
             ChangeAnim(5000);
             var beHitData = BeHitData;
-            VelSet(beHitData.groundVel[0], beHitData.groundVel[1]);
+            VelSet(beHitData.groundVel.x,beHitData.groundVel.y);
         }
 
         public override void OnExit()

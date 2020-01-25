@@ -11,7 +11,8 @@ namespace bluebean.Mugen3D.Core
         public StateWalk(Entity e) : base(e) { }
 
         public override void OnEnter()
-        { 
+        {
+            MoveTypeSet(MoveType.Idle);
             CtrlSet(true);
         }
 

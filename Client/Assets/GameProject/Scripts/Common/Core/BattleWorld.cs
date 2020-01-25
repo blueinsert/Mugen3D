@@ -24,6 +24,8 @@ namespace bluebean.Mugen3D.Core
         private MatchComponent m_matchComponent;
         private InputComponent m_inputComponent;
 
+        private Entity[] m_characterArray = new Entity[2];
+
         public int[] m_cacheInputCodes;
 
         private PlayMode m_playMode;
@@ -48,6 +50,11 @@ namespace bluebean.Mugen3D.Core
             }  
         }
        
+        public Entity GetEnemy(Entity e)
+        {
+            var basic = e.GetComponent<BasicInfoComponent>();
+            return m_characterArray[1 - basic.Index];
+        }
         /// <summary>
         /// 更新玩家输入
         /// </summary>
