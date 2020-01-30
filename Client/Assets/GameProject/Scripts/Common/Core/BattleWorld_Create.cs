@@ -20,6 +20,7 @@ namespace bluebean.Mugen3D.Core
             entity.AddComponent<MoveComponent>();
             entity.AddComponent<CommandComponent>().Init();
             var actionDefStr = sFileReader(configDataCharacter.ActionDef);
+            //todo 反序列化速度有点慢；和configDataLoader统一
             var acttionDefs = ConfigReader.Parse<List<ActionDef>>(actionDefStr);
             entity.AddComponent<AnimationComponent>().Init(acttionDefs.ToArray());
             entity.AddComponent<FSMComponent>().Initialize(entity);
