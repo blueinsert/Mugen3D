@@ -12,7 +12,7 @@ namespace bluebean.CSVParser
 {
     public class ConfigDataCodeGenerator
     {
-        private Dictionary<string, ConfigData> m_configDataTableInfoDic;
+        private Dictionary<string, CodeTypeDeclaration> m_typeDeclarationDic;
 
         private CodeCompileUnit m_codeUnit;
 
@@ -20,9 +20,8 @@ namespace bluebean.CSVParser
         private string m_outPath;
         private string m_namespace; 
 
-        public ConfigDataCodeGenerator(Dictionary<string, ConfigData> configDataTableInfoDic)
+        public ConfigDataCodeGenerator()
         {
-            m_configDataTableInfoDic = configDataTableInfoDic;
         }
 
         public void SetNamespace(string namespaceStr)
@@ -68,14 +67,15 @@ namespace bluebean.CSVParser
         /// <summary>
         /// Step 1: ConstructCompileUnit
         /// </summary>
-        public void ConstructCompileUnit()
+        public void ConstructCompileUnit(Dictionary<string, CodeTypeDeclaration> typeDeclarationDic)
         {
+            m_typeDeclarationDic = typeDeclarationDic;
             m_codeUnit = new CodeCompileUnit();
             CodeNamespace nameSpace = new CodeNamespace(m_namespace);
             m_codeUnit.Namespaces.Add(nameSpace);
-            foreach (var pair in m_configDataTableInfoDic)
+            foreach (var pair in m_typeDeclarationDic)
             {
-                nameSpace.Types.Add(pair.Value.BuildCodeTypeDeclaration());
+                nameSpace.Types.Add(pair.Value);
             }
         }
 

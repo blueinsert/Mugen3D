@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using System.CodeDom;
 
 namespace bluebean.CSVParser
 {
@@ -23,26 +24,36 @@ namespace bluebean.CSVParser
             m_instance = new ConfigDataManager();
         }
 
+        public const string NameSpace = "bluebean.ConfigData";
+
         private Dictionary<string, CsvReader> m_csvDic = new Dictionary<string, CsvReader>();
 
         private Dictionary<string, ConfigData> m_configDataDic = new Dictionary<string, ConfigData>();
 
-        public Dictionary<string, Type> m_typeDic = new Dictionary<string, Type>();
+        private Dictionary<string, Type> m_basicTypeDic = new Dictionary<string, Type>();
 
-        public Dictionary<string, GetValueByStr> m_valueParserDic = new Dictionary<string, GetValueByStr>();
+        private Dictionary<string, GetValueByStr> m_valueParserDic = new Dictionary<string, GetValueByStr>();
+
+        private Dictionary<string, CodeTypeDeclaration> m_subTypeDeclarationDic = new Dictionary<string, CodeTypeDeclaration>();
+
+        private Dictionary<string, Type> m_subTypeDic = new Dictionary<string, Type>();
+
+        private Dictionary<string, CodeTypeDeclaration> m_configDataTypeDeclarationDic = new Dictionary<string, CodeTypeDeclaration>();
+
+        private Dictionary<string, Type> m_configDataTypeDic = new Dictionary<string, Type>();
 
         private void CollectTypeStrToTypeDic()
         {
-            m_typeDic.Add("int16", typeof(Int16));
-            m_typeDic.Add("int32", typeof(Int32));
-            m_typeDic.Add("int64", typeof(Int64));
-            m_typeDic.Add("uint16", typeof(UInt16));
-            m_typeDic.Add("uint32", typeof(UInt32));
-            m_typeDic.Add("uint64", typeof(UInt64));
-            m_typeDic.Add("double", typeof(Double));
-            m_typeDic.Add("string", typeof(String));
-            m_typeDic.Add("bool", typeof(Boolean));
-            m_typeDic.Add("float", typeof(float));
+            m_basicTypeDic.Add("int16", typeof(Int16));
+            m_basicTypeDic.Add("int32", typeof(Int32));
+            m_basicTypeDic.Add("int64", typeof(Int64));
+            m_basicTypeDic.Add("uint16", typeof(UInt16));
+            m_basicTypeDic.Add("uint32", typeof(UInt32));
+            m_basicTypeDic.Add("uint64", typeof(UInt64));
+            m_basicTypeDic.Add("double", typeof(Double));
+            m_basicTypeDic.Add("string", typeof(String));
+            m_basicTypeDic.Add("bool", typeof(Boolean));
+            m_basicTypeDic.Add("float", typeof(float));
         }
 
         private void CollectGetValueByStrDic()
@@ -109,16 +120,27 @@ namespace bluebean.CSVParser
             return str;
         }
 
+        /// <summary>
+        /// 根据类型字符串得到类型(基础数据类型)
+        /// </summary>
+        /// <param name="typeStr"></param>
+        /// <returns></returns>
         public Type TypeStr2Type(string typeStr)
         {
             typeStr = typeStr.ToLower();
-            if (m_typeDic.ContainsKey(typeStr))
+            if (m_basicTypeDic.ContainsKey(typeStr))
             {
-                return m_typeDic[typeStr];
+                return m_basicTypeDic[typeStr];
             }
             return null;
         }
 
+        /// <summary>
+        /// 根据类型字符串和字符串表示的值获得该值(基本类型)
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public object GetValueByStr(string type, string value)
         {
             type = type.ToLower();
@@ -134,6 +156,135 @@ namespace bluebean.CSVParser
             CollectTypeStrToTypeDic();
             CollectGetValueByStrDic();
         }
+
+        #region 类型收集
+
+        #region SubType
+        private string GetSubTypeName(ConfigData configData, ConfigDataColumnInfo columnInfo)
+        {
+            var subTypeName = columnInfo.GetSubTypeName();
+            if (string.IsNullOrEmpty(subTypeName))
+            {
+                subTypeName = configData.Name + columnInfo.m_name;
+            }
+            return subTypeName;
+        }
+
+        private void CollectSubTypeDeclaration(ConfigData configData)
+        {
+            foreach(var pair in configData.ColumnInfoDic)
+            {
+                var columnInfo = pair.Value;
+                //收集子类型
+                if(columnInfo.IsListType() && columnInfo.m_subTypeParamTypes.Length > 1)
+                {
+                    var subTypeName = GetSubTypeName(configData, columnInfo);
+                    if (!m_subTypeDeclarationDic.ContainsKey(subTypeName))
+                    {
+                        var subType = columnInfo.BuildSubTypeDeclaration(subTypeName);
+                        m_subTypeDeclarationDic.Add(subTypeName, subType);
+                    }
+                }
+            }
+        }
+
+        private void CollectSubTypes()
+        {
+            var codeGenerater = new ConfigDataCodeGenerator();
+            codeGenerater.SetNamespace(NameSpace);
+            codeGenerater.ConstructCompileUnit(m_subTypeDeclarationDic);
+            Assembly assembly;
+            codeGenerater.GetAeeembly(out assembly);
+            m_subTypeDic.Clear();
+            foreach(var pair in m_subTypeDeclarationDic)
+            {
+                var subTypeName = pair.Key;
+                var type = assembly.GetType(NameSpace + ".SubType" + subTypeName);
+                m_subTypeDic.Add(subTypeName, type);
+            }
+        }
+
+        public Type GetSubType(string subTypeName)
+        {
+            if (m_subTypeDic.ContainsKey(subTypeName))
+            {
+                return m_subTypeDic[subTypeName];
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region ConfigDataType
+
+        public Type GetColumnType(ConfigData configData, ConfigDataColumnInfo columnInfo)
+        {
+            Type type;
+            if (columnInfo.IsListType())
+            {
+                Type subType;
+                if (columnInfo.m_subTypeParamTypes.Length > 1)
+                {
+                    string subTypeName = GetSubTypeName(configData, columnInfo);
+                    subType = GetSubType(subTypeName);
+                }
+                else
+                {
+                    subType = TypeStr2Type(columnInfo.m_subTypeParamTypes[0]);
+                }
+                var listType = typeof(List<>).MakeGenericType(subType);
+                type = listType;
+            }
+            else
+            {
+                type = TypeStr2Type(columnInfo.m_type);
+            }
+            return type;
+        }
+
+        private void CollectConfigDataTypeDeclaration(ConfigData configData)
+        {
+            var typeDeclaration = configData.BuildCodeTypeDeclaration();
+            m_configDataTypeDeclarationDic.Add(configData.Name, typeDeclaration);
+        }
+
+        private void CollectConfigDataTypes()
+        {
+            var typeDeclarationDic = new Dictionary<string, CodeTypeDeclaration>();
+            foreach (var pair in m_subTypeDeclarationDic)
+            {
+                typeDeclarationDic.Add(pair.Key, pair.Value);
+            }
+            foreach (var pair in m_configDataTypeDeclarationDic)
+            {
+                typeDeclarationDic.Add(pair.Key, pair.Value);
+            }
+            var codeGenerater = new ConfigDataCodeGenerator();
+            codeGenerater.SetNamespace(NameSpace);
+            codeGenerater.ConstructCompileUnit(typeDeclarationDic);
+            Assembly assembly;
+            codeGenerater.GetAeeembly(out assembly);
+            m_configDataTypeDic.Clear();
+            foreach (var pair in m_configDataTypeDeclarationDic)
+            {
+                var configDataTypeName = pair.Key;
+                var type = assembly.GetType(NameSpace + ".ConfigData" + configDataTypeName);
+                m_configDataTypeDic.Add(configDataTypeName, type);
+            }
+        }
+
+        public Type GetConfigDataType(string name)
+        {
+            if (m_configDataTypeDic.ContainsKey(name))
+            {
+                return m_configDataTypeDic[name];
+            }
+            return null;
+        }
+
+        #endregion
+
+        #endregion
 
         private CsvReader LoadCSV(string filePath)
         {
@@ -152,24 +303,103 @@ namespace bluebean.CSVParser
             return csv;
         }
 
-        private ConfigData LoadConfigData(string filePath)
+        private ConfigData LoadConfigDataAtPath(string filePath)
         {
             if (!File.Exists(filePath))
             {
                 return null;
             }
-
-            if (m_configDataDic.ContainsKey(filePath))
-            {
-                return m_configDataDic[filePath];
-            }
             ConfigData configData = new ConfigData(filePath);
             CsvReader csv = LoadCSV(filePath);
             configData.Load(csv);
-            m_configDataDic.Add(filePath, configData);
+            m_configDataDic.Add(configData.Name, configData);
             return configData;
         }
 
+        private void LoadAllConfigDataAtPath(string path)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+            var fileInfos = directoryInfo.GetFiles("*.csv", SearchOption.AllDirectories);
+            foreach(var file in fileInfos)
+            {
+                LoadConfigDataAtPath(file.FullName);
+            }
+        }
+
+        private ConfigData GetConfigDataByName(string name)
+        {
+            if (m_configDataDic.ContainsKey(name))
+            {
+                return m_configDataDic[name];
+            }
+            return null;
+        }
+
+        /*
+        /// <summary>
+        /// 检查外键约束合法性
+        /// </summary>
+        /// <param name="configData"></param>
+        private bool CheckForeignKey(ConfigData configData,out string error)
+        {
+            error = "";
+            foreach(var pair in configData.ColumnInfoDic)
+            {
+                if (!(string.IsNullOrEmpty(pair.Value.m_foreignKey) || pair.Value.m_foreignKey.ToLower()=="null"))
+                {
+                    var columnInfo = pair.Value;
+                    string[] splits = pair.Value.m_foreignKey.Split(new char[] { '.' });
+                    if (splits.Length != 2)
+                    {
+                        error = string.Format("外键定义格式错误:{0}，在{1}.{2}",columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
+                        return false;
+                    }
+                    var tableName = splits[0];
+                    var columnName = splits[1];
+                    var fConfigData = GetConfigDataByName(tableName);
+                    if (fConfigData == null)
+                    {
+                        error = string.Format("不能找到外键对应的主表：{0},在{1}.{2}", columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
+                        return false;
+                    }
+                    if (!fConfigData.ContainColumn(columnName))
+                    {
+                        error = string.Format("不能找到外键对应的主表的列：{0},在{1}.{2}", columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
+                        return false;
+                    }
+                    var fColumnInfo = fConfigData.GetColumnInfo(columnName);
+                    if (fColumnInfo.m_type != columnInfo.m_type)
+                    {
+                        error = string.Format("外键列类型与主表列不一致：{0},在{1}.{2}", columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
+                        return false;
+                    }
+                    //检查值是否在主表中存在
+                    int startIndex = 12;
+                    var csv = LoadCSV(configData.FilePath);
+                    var fcsv = LoadCSV(fConfigData.FilePath);
+                    for(int i = startIndex; i < csv.Row;i++)
+                    {
+                        var value = csv.ReadCell(i, pair.Key);
+                        bool isFind = false;
+                        for(int j = startIndex; j < fcsv.Row; j++)
+                        {
+                            if(fcsv.ReadCell(j,fColumnInfo.m_index) == value)
+                            {
+                                isFind = true;
+                                break;
+                            }
+                        }
+                        if (!isFind)
+                        {
+                            error = string.Format("外键列{0} 行:{1} 值:{2} 在主表中找不到", columnInfo.m_foreignKey, i, value);
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        */
 
         /// <summary>
         /// 使用反射产生对应表的List数据
@@ -246,17 +476,61 @@ namespace bluebean.CSVParser
 
         public void ProcessSingleFile(string filePath, string outPath, string format)
         {
-            var configData = LoadConfigData(filePath);
-            ConfigDataCodeGenerator codeGenerator = new ConfigDataCodeGenerator(m_configDataDic);
+            
+        }
+
+        public void ProcessFolder(string inPath, string outPath, string format)
+        {
+            //加载ConfigData
+            LoadAllConfigDataAtPath(inPath);
+            //检查外键约束
+            /*
+            foreach (var pair in m_configDataDic)
+            {
+                string error;
+                if(!CheckForeignKey(pair.Value, out error))
+                {
+                    Console.WriteLine(error);
+                }
+                return;
+            }
+            */
+            //收集类型
+            foreach(var pair in m_configDataDic)
+            {
+                CollectSubTypeDeclaration(pair.Value);
+            }
+            CollectSubTypes();
+            foreach (var pair in m_configDataDic)
+            {
+                CollectConfigDataTypeDeclaration(pair.Value);
+            }
+            CollectConfigDataTypes();
+            ConfigDataCodeGenerator codeGenerator = new ConfigDataCodeGenerator();
             codeGenerator.SetCodeFileName("ConfigDataTypeDefine.cs");
-            codeGenerator.SetNamespace("bluebean");
-            codeGenerator.SetOutPath(outPath);
-            codeGenerator.ConstructCompileUnit();
+            codeGenerator.SetNamespace("bluebean.ConfigData");
+            codeGenerator.SetOutPath(outPath + "/Code");
+            var typeDeclarationDic = new Dictionary<string, CodeTypeDeclaration>();
+            foreach(var pair in m_subTypeDeclarationDic)
+            {
+                typeDeclarationDic.Add(pair.Key, pair.Value);
+            }
+            foreach (var pair in m_configDataTypeDeclarationDic)
+            {
+                typeDeclarationDic.Add(pair.Key, pair.Value);
+            }
+            codeGenerator.ConstructCompileUnit(typeDeclarationDic);
+            //序列化表格资源
+            /*
             Assembly assembly;
             codeGenerator.GetAeeembly(out assembly);
-            SerializeConfigData(assembly, configData, outPath, format);
+            foreach(var pair in m_configDataDic)
+            {
+                SerializeConfigData(assembly, pair.Value, outPath + "/Data", format);
+            }
+            */
+            //输出代码文件
             codeGenerator.GenerateCode();
-
         }
     }
 }

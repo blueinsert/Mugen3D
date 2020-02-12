@@ -5,6 +5,24 @@ namespace bluebean.CSVParser
 {
     class Program
     {
+        private static void PrepareOutputFolder(string outPath)
+        {
+            if (!Directory.Exists(outPath))
+            {
+                Directory.CreateDirectory(outPath);
+            }
+            var dataFolder = outPath + "/" + "Data";
+            if (!Directory.Exists(dataFolder))
+            {
+                Directory.CreateDirectory(dataFolder);
+            }
+            var codeFolder = outPath + "/" + "Code";
+            if (!Directory.Exists(codeFolder))
+            {
+                Directory.CreateDirectory(codeFolder);
+            }
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
@@ -41,16 +59,15 @@ namespace bluebean.CSVParser
                     return;
                 }
             }
-            if (!Directory.Exists(outPath))
-            {
-                Directory.CreateDirectory(outPath);
-            }
+            PrepareOutputFolder(outPath);
             ConfigDataManager.CreateInstance();
             if (!inputIsFolder)
             {
                 //ConfigDataManager.Instance.ProcessSingleFile(inputPath, outPath, format);
             }
-            ConfigDataManager.Instance.ProcessSingleFile("Character.csv", "./Output", "json");
+            //test
+            PrepareOutputFolder("./Output");
+            ConfigDataManager.Instance.ProcessFolder("./Input", "./Output", "json");
         }
     }
 }

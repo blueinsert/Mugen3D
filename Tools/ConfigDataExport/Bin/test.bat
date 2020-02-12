@@ -1,2 +1,2 @@
-CSVResourceParse.exe -i Character.csv -o ./Output -f json
+ConfigDataExport.exe -i ./Input -o ./Output -f json
 pause

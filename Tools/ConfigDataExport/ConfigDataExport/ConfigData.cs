@@ -25,11 +25,71 @@ namespace bluebean.CSVParser
     /// </summary>
     public class ConfigDataColumnInfo
     {
-        public string m_exportType;
-        public string m_name;
-        public string m_desc;
-        public string m_type;
-        public string m_foreignKey;
+        public int m_index;
+        public string m_exportType;//line 3
+        public string m_name;//line 4
+        public string m_desc;//line 5
+        public string m_type;//line 6
+        #region list类型有关
+        public string[] m_subTypeParamNames;//line 7
+        public string[] m_subTypeParamDescs;//line 8
+        public string[] m_subTypeParamTypes;//line 9
+        public string[] m_subTypeParamDefaultValues;//line 10
+        #endregion
+        public string[] m_foreignKeys;//line 11
+        public string m_multiplyLanguage;
+
+        public bool IsListType()
+        {
+            return m_type.StartsWith("LIST");
+        }
+
+        public string GetSubTypeName()
+        {
+            if (!IsListType())
+                return "";
+            var splits = m_type.Split(new char[] { ':' });
+            if (splits.Length == 2)
+            {
+                return splits[1];
+            }
+            return "";
+        }
+
+        public CodeTypeDeclaration BuildSubTypeDeclaration(string typeName)
+        {
+            if (!(IsListType() && m_subTypeParamTypes.Length > 1))
+            {
+                return null;
+            }
+            CodeTypeDeclaration typeDefineClass = new CodeTypeDeclaration("SubType"+typeName);
+
+            typeDefineClass.CustomAttributes.Add(new CodeAttributeDeclaration(
+                new CodeTypeReference(typeof(SerializableAttribute))));
+            typeDefineClass.IsClass = true;
+            typeDefineClass.TypeAttributes = System.Reflection.TypeAttributes.Public;
+            for (int i = 0; i < m_subTypeParamTypes.Length; i++)
+            {
+                string paramName = m_subTypeParamNames[i];
+                string paramTypeStr = m_subTypeParamTypes[i];
+                string fieldName = "m_" + paramName;
+                Type paramType = ConfigDataManager.Instance.TypeStr2Type(paramTypeStr);
+                CodeMemberField field = new CodeMemberField(paramType, fieldName);
+                field.Attributes = MemberAttributes.Private;
+                typeDefineClass.Members.Add(field);
+                CodeMemberProperty property = new CodeMemberProperty();
+                property.Attributes = MemberAttributes.Public | MemberAttributes.Final;
+                property.Name = paramName;
+                property.Type = new CodeTypeReference(paramType);
+                property.HasGet = true;
+                property.HasSet = true;
+                property.GetStatements.Add(new CodeMethodReturnStatement(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), fieldName)));
+                property.SetStatements.Add(new CodeAssignStatement(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), fieldName), new CodePropertySetValueReferenceExpression()));
+                typeDefineClass.Members.Add(property);
+            }
+            return typeDefineClass;
+        }
+
     }
 
     public class ConfigData
@@ -42,10 +102,12 @@ namespace bluebean.CSVParser
             }
         }
 
-        public ConfigDataType Type { get
+        public ConfigDataType Type
+        {
+            get
             {
                 return m_type;
-            } 
+            }
         }
         public Dictionary<int, ConfigDataColumnInfo> ColumnInfoDic
         {
@@ -54,10 +116,12 @@ namespace bluebean.CSVParser
                 return m_columnInfoDic;
             }
         }
-        public string Name { get
+        public string Name
+        {
+            get
             {
                 return m_name;
-            } 
+            }
         }
 
         private string m_filePath;
@@ -89,7 +153,8 @@ namespace bluebean.CSVParser
         {
             m_desc = csv.ReadCell(0, 0);
             string typeStr = csv.ReadCell(1, 0);
-            if (!Enum.TryParse<ConfigDataType>(typeStr, out m_type)) { 
+            if (!Enum.TryParse<ConfigDataType>(typeStr, out m_type))
+            {
                 //todo
             }
             m_name = csv.ReadCell(1, 1);
@@ -107,17 +172,23 @@ namespace bluebean.CSVParser
                     }
                     ConfigDataColumnInfo columnInfo = new ConfigDataColumnInfo()
                     {
+                        m_index = i,
                         m_exportType = csv.ReadCell(2, i),
                         m_name = csv.ReadCell(3, i),
                         m_desc = csv.ReadCell(4, i),
                         m_type = csv.ReadCell(5, i),
-                        m_foreignKey = csv.ReadCell(10, i),
+                        m_subTypeParamNames = csv.ReadCell(6, i).Split(new char[] { ',' }),
+                        m_subTypeParamDescs = csv.ReadCell(7, i).Split(new char[] { ',' }),
+                        m_subTypeParamTypes = csv.ReadCell(8, i).Split(new char[] { ',' }),
+                        m_subTypeParamDefaultValues = csv.ReadCell(9, i).Split(new char[] { ',' }),
+                        m_foreignKeys = csv.ReadCell(10, i).Split(new char[] { ',' }),
                     };
                     m_columnInfoDic.Add(i, columnInfo);
                 }
-            }else if(m_type == ConfigDataType.ENUM)
+            }
+            else if (m_type == ConfigDataType.ENUM)
             {
-                for(int i = 5; i < csv.Row; i++)
+                for (int i = 5; i < csv.Row; i++)
                 {
                     m_enumDic.Add(csv.ReadCell(i, 1), int.Parse(csv.ReadCell(i, 0)));
                 }
@@ -126,14 +197,26 @@ namespace bluebean.CSVParser
 
         public bool ContainColumn(string name)
         {
-            foreach(var pair in m_columnInfoDic)
+            foreach (var pair in m_columnInfoDic)
             {
-                if(pair.Value.m_name == name)
+                if (pair.Value.m_name == name)
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public ConfigDataColumnInfo GetColumnInfo(string name)
+        {
+            foreach (var pair in m_columnInfoDic)
+            {
+                if (pair.Value.m_name == name)
+                {
+                    return pair.Value;
+                }
+            }
+            return null;
         }
 
         public string GetColumnType(string name)
@@ -166,7 +249,7 @@ namespace bluebean.CSVParser
                 {
                     var columnInfo = pair.Value;
                     string fieldName = "m_" + columnInfo.m_name;
-                    Type columnType = ConfigDataManager.Instance.TypeStr2Type(columnInfo.m_type);
+                    Type columnType = ConfigDataManager.Instance.GetColumnType(this, columnInfo);
                     CodeMemberField field = new CodeMemberField(columnType, fieldName);
                     field.Attributes = MemberAttributes.Private;
                     typeDefineClass.Members.Add(field);
