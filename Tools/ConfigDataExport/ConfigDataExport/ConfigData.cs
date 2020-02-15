@@ -25,6 +25,7 @@ namespace bluebean.CSVParser
     /// </summary>
     public class ConfigDataColumnInfo
     {
+        public ConfigData m_configData;
         public int m_index;
         public string m_exportType;//line 3
         public string m_name;//line 4
@@ -124,6 +125,11 @@ namespace bluebean.CSVParser
             }
         }
 
+        public const int DataStartRow = 12;
+        public const int EnumStartRow = 5;
+        public const char ListElemSplit = '/';
+        public const char ListElemParamSplit = ',';
+
         private string m_filePath;
 
         /// <summary>
@@ -172,6 +178,7 @@ namespace bluebean.CSVParser
                     }
                     ConfigDataColumnInfo columnInfo = new ConfigDataColumnInfo()
                     {
+                        m_configData = this,
                         m_index = i,
                         m_exportType = csv.ReadCell(2, i),
                         m_name = csv.ReadCell(3, i),

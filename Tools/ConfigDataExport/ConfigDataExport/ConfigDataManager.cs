@@ -9,6 +9,16 @@ namespace bluebean.CSVParser
 {
     public delegate object GetValueByStr(string valeuStr);
 
+    public class ForeignKeyCheckInfo
+    {
+        public ConfigDataColumnInfo m_columnInfo;
+        public int m_row;
+        public string m_value;
+        public int m_indexInList;
+        public ConfigDataColumnInfo m_mainColumnInfo;
+        //todo
+    }
+
     class ConfigDataManager
     {
         private static ConfigDataManager m_instance;
@@ -41,6 +51,8 @@ namespace bluebean.CSVParser
         private Dictionary<string, CodeTypeDeclaration> m_configDataTypeDeclarationDic = new Dictionary<string, CodeTypeDeclaration>();
 
         private Dictionary<string, Type> m_configDataTypeDic = new Dictionary<string, Type>();
+
+        private ForeignKeyCheckInfo m_checking = new ForeignKeyCheckInfo();
 
         private void CollectTypeStrToTypeDic()
         {
@@ -172,11 +184,11 @@ namespace bluebean.CSVParser
 
         private void CollectSubTypeDeclaration(ConfigData configData)
         {
-            foreach(var pair in configData.ColumnInfoDic)
+            foreach (var pair in configData.ColumnInfoDic)
             {
                 var columnInfo = pair.Value;
                 //收集子类型
-                if(columnInfo.IsListType() && columnInfo.m_subTypeParamTypes.Length > 1)
+                if (columnInfo.IsListType() && columnInfo.m_subTypeParamTypes.Length > 1)
                 {
                     var subTypeName = GetSubTypeName(configData, columnInfo);
                     if (!m_subTypeDeclarationDic.ContainsKey(subTypeName))
@@ -196,7 +208,7 @@ namespace bluebean.CSVParser
             Assembly assembly;
             codeGenerater.GetAeeembly(out assembly);
             m_subTypeDic.Clear();
-            foreach(var pair in m_subTypeDeclarationDic)
+            foreach (var pair in m_subTypeDeclarationDic)
             {
                 var subTypeName = pair.Key;
                 var type = assembly.GetType(NameSpace + ".SubType" + subTypeName);
@@ -320,7 +332,7 @@ namespace bluebean.CSVParser
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(path);
             var fileInfos = directoryInfo.GetFiles("*.csv", SearchOption.AllDirectories);
-            foreach(var file in fileInfos)
+            foreach (var file in fileInfos)
             {
                 LoadConfigDataAtPath(file.FullName);
             }
@@ -335,71 +347,133 @@ namespace bluebean.CSVParser
             return null;
         }
 
-        /*
+        #region 检查外键约束
+
         /// <summary>
-        /// 检查外键约束合法性
+        /// 外键值是否在主表对应列存在
         /// </summary>
         /// <param name="configData"></param>
-        private bool CheckForeignKey(ConfigData configData,out string error)
+        /// <param name="mainColumnInfo"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool IsContainValueInMainConfigData(ConfigDataColumnInfo mainColumnInfo, string value)
+        {
+            var configData = mainColumnInfo.m_configData;
+            int startRow = configData.Type == ConfigDataType.DATA ? ConfigData.DataStartRow : ConfigData.EnumStartRow;
+            var csv = LoadCSV(configData.FilePath);
+            for (int i = startRow; i < csv.Row; i++)
+            {
+                if (csv.ReadCell(i, mainColumnInfo.m_index) == value)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsContainValueInMainConfigData(string foreignKey, string value, out string error)
+        {
+            m_checking.m_value = value;
+            error = "";
+            string[] splits = foreignKey.Split(new char[] { '.' });
+            if (splits.Length != 2)
+            {
+                error = string.Format("外键定义格式错误:{0}，在{1}.{2}", foreignKey, m_checking.m_columnInfo.m_configData.Name, m_checking.m_columnInfo.m_name);
+                return false;
+            }
+            var mainTableName = splits[0];
+            var mainColumnName = splits[1];
+            var mainConfigData = GetConfigDataByName(mainTableName);
+            if (mainConfigData == null)
+            {
+                error = string.Format("不能找到外键对应的主表：{0},在{1}.{2}", foreignKey, m_checking.m_columnInfo.m_configData.Name, m_checking.m_columnInfo.m_name);
+                return false;
+            }
+            if (!mainConfigData.ContainColumn(mainColumnName))
+            {
+                error = string.Format("不能找到外键对应的主表的列：{0},在{1}.{2}", foreignKey, m_checking.m_columnInfo.m_configData.Name, m_checking.m_columnInfo.m_name);
+                return false;
+            }
+            var mainColumnInfo = mainConfigData.GetColumnInfo(mainColumnName);
+            if (mainColumnInfo.m_type != m_checking.m_columnInfo.m_type)
+            {
+                error = string.Format("外键列类型与主表列不一致：{0},在{1}.{2}", foreignKey, m_checking.m_columnInfo.m_configData.Name, m_checking.m_columnInfo.m_name);
+                return false;
+            }
+            m_checking.m_mainColumnInfo = mainColumnInfo;
+            if (!IsContainValueInMainConfigData(mainColumnInfo, value))
+            {
+                error = string.Format("无法找到值{0}在主表{1}.{2},来源{3}.{4} 行号:{5}", value, mainConfigData.Name, mainColumnInfo.m_name, m_checking.m_columnInfo.m_configData.Name, m_checking.m_columnInfo.m_name,m_checking.m_row); ;
+                return false;
+            }
+            return true;
+        }
+
+        private bool CheckForeignKey(ConfigDataColumnInfo columnInfo, out string error)
         {
             error = "";
-            foreach(var pair in configData.ColumnInfoDic)
+            if (columnInfo.m_foreignKeys == null || columnInfo.m_foreignKeys.Length == 0)
+                return true;
+            if (columnInfo.m_foreignKeys.Length == 1 && columnInfo.m_foreignKeys[0] == "NULL")
             {
-                if (!(string.IsNullOrEmpty(pair.Value.m_foreignKey) || pair.Value.m_foreignKey.ToLower()=="null"))
+                return true;
+            }
+            var configData = columnInfo.m_configData;
+            var csv = LoadCSV(configData.FilePath);
+            int startRow = configData.Type == ConfigDataType.DATA ? ConfigData.DataStartRow : ConfigData.EnumStartRow;
+            for (int i = startRow; i < csv.Row; i++)
+            {
+                m_checking.m_row = i;
+                string value = csv.ReadCell(i, columnInfo.m_index);
+                if (!columnInfo.IsListType())
                 {
-                    var columnInfo = pair.Value;
-                    string[] splits = pair.Value.m_foreignKey.Split(new char[] { '.' });
-                    if (splits.Length != 2)
+
+                    return IsContainValueInMainConfigData(columnInfo.m_foreignKeys[0], value, out error);
+                }
+                else
+                {
+                    string[] listElemArray = value.Split(new char[] { ConfigData.ListElemSplit });
+                    int paramCount = columnInfo.m_subTypeParamTypes.Length;
+                    for (int k=0;k< listElemArray.Length;k++)
                     {
-                        error = string.Format("外键定义格式错误:{0}，在{1}.{2}",columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
-                        return false;
-                    }
-                    var tableName = splits[0];
-                    var columnName = splits[1];
-                    var fConfigData = GetConfigDataByName(tableName);
-                    if (fConfigData == null)
-                    {
-                        error = string.Format("不能找到外键对应的主表：{0},在{1}.{2}", columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
-                        return false;
-                    }
-                    if (!fConfigData.ContainColumn(columnName))
-                    {
-                        error = string.Format("不能找到外键对应的主表的列：{0},在{1}.{2}", columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
-                        return false;
-                    }
-                    var fColumnInfo = fConfigData.GetColumnInfo(columnName);
-                    if (fColumnInfo.m_type != columnInfo.m_type)
-                    {
-                        error = string.Format("外键列类型与主表列不一致：{0},在{1}.{2}", columnInfo.m_foreignKey, configData.Name, columnInfo.m_name);
-                        return false;
-                    }
-                    //检查值是否在主表中存在
-                    int startIndex = 12;
-                    var csv = LoadCSV(configData.FilePath);
-                    var fcsv = LoadCSV(fConfigData.FilePath);
-                    for(int i = startIndex; i < csv.Row;i++)
-                    {
-                        var value = csv.ReadCell(i, pair.Key);
-                        bool isFind = false;
-                        for(int j = startIndex; j < fcsv.Row; j++)
+                        var listElemValueStr = listElemArray[k];
+                        string[] paramList = listElemValueStr.Split(new char[] { ConfigData.ListElemParamSplit });
+                        if (paramList.Length != paramCount)
                         {
-                            if(fcsv.ReadCell(j,fColumnInfo.m_index) == value)
-                            {
-                                isFind = true;
-                                break;
-                            }
-                        }
-                        if (!isFind)
-                        {
-                            error = string.Format("外键列{0} 行:{1} 值:{2} 在主表中找不到", columnInfo.m_foreignKey, i, value);
+                            error = string.Format("{0}与参数定义中个数不相符 在{1}.{2}",listElemValueStr,configData.Name,columnInfo.m_name);
                             return false;
+                        }
+                        for (int j = 0; j < paramCount; j++)
+                        {
+                            string paramValue = paramList[j];
+                            string foreignKey = columnInfo.m_foreignKeys[j];
+                            m_checking.m_indexInList = k;
+                            return IsContainValueInMainConfigData(foreignKey, paramValue, out error);
                         }
                     }
                 }
             }
             return true;
         }
-        */
+        /// <summary>
+        /// 检查外键约束合法性
+        /// </summary>
+        /// <param name="configData"></param>
+        private bool CheckForeignKey(ConfigData configData, out string error)
+        {
+            error = "";
+            foreach (var pair in configData.ColumnInfoDic)
+            {
+                m_checking.m_columnInfo = pair.Value;
+                if (!CheckForeignKey(pair.Value, out error))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        #endregion
 
         /// <summary>
         /// 使用反射产生对应表的List数据
@@ -469,14 +543,14 @@ namespace bluebean.CSVParser
                     suffix = ".bin";
                     break;
             }
-            FileStream fs = new FileStream(outPath + "/" + configData.Name + suffix,FileMode.Create);
+            FileStream fs = new FileStream(outPath + "/" + configData.Name + suffix, FileMode.Create);
             fs.Write(data, 0, data.Length);
             fs.Close();
         }
 
         public void ProcessSingleFile(string filePath, string outPath, string format)
         {
-            
+
         }
 
         public void ProcessFolder(string inPath, string outPath, string format)
@@ -484,19 +558,18 @@ namespace bluebean.CSVParser
             //加载ConfigData
             LoadAllConfigDataAtPath(inPath);
             //检查外键约束
-            /*
             foreach (var pair in m_configDataDic)
             {
                 string error;
-                if(!CheckForeignKey(pair.Value, out error))
+                if (!CheckForeignKey(pair.Value, out error))
                 {
                     Console.WriteLine(error);
+                    Console.WriteLine("Check ForeignKey Failed!");
+                    return;
                 }
-                return;
             }
-            */
             //收集类型
-            foreach(var pair in m_configDataDic)
+            foreach (var pair in m_configDataDic)
             {
                 CollectSubTypeDeclaration(pair.Value);
             }
@@ -511,7 +584,7 @@ namespace bluebean.CSVParser
             codeGenerator.SetNamespace("bluebean.ConfigData");
             codeGenerator.SetOutPath(outPath + "/Code");
             var typeDeclarationDic = new Dictionary<string, CodeTypeDeclaration>();
-            foreach(var pair in m_subTypeDeclarationDic)
+            foreach (var pair in m_subTypeDeclarationDic)
             {
                 typeDeclarationDic.Add(pair.Key, pair.Value);
             }
