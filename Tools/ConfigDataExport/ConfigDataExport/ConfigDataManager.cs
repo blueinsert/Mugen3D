@@ -147,22 +147,6 @@ namespace bluebean.CSVParser
             return null;
         }
 
-        /// <summary>
-        /// 根据类型字符串和字符串表示的值获得该值(基本类型)
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public object GetValueByStr(string type, string value)
-        {
-            type = type.ToLower();
-            if (m_valueParserDic.ContainsKey(type))
-            {
-                return m_valueParserDic[type](value);
-            }
-            return null;
-        }
-
         private ConfigDataManager()
         {
             CollectTypeStrToTypeDic();
@@ -475,32 +459,120 @@ namespace bluebean.CSVParser
 
         #endregion
 
+        #region 序列化表数据
+        /// <summary>
+        /// 根据类型字符串和字符串表示的值获得该值(基本类型)
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public object GetValueByStr(string type, string value)
+        {
+            type = type.ToLower();
+            if (m_valueParserDic.ContainsKey(type))
+            {
+                return m_valueParserDic[type](value);
+            }
+            return null;
+        }
+
+        public void SetObjectField(object obj,string fieldTypeStr, string fieldName,string valueStr)
+        {
+            var type = obj.GetType();
+            var filedInfo = type.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            var value = GetValueByStr(fieldTypeStr, valueStr);
+            filedInfo.SetValue(obj, value);
+        }
+
+        public object GetListValueByStr(ConfigDataColumnInfo columnInfo, string value)
+        {
+            if (columnInfo.m_subTypeParamTypes.Length > 1)
+            {
+                var subTypeName = GetSubTypeName(columnInfo.m_configData, columnInfo);
+                Type subType = GetSubType(subTypeName);
+                var listType = typeof(List<>).MakeGenericType(subType);
+                var list = Activator.CreateInstance(listType);
+                var addMethod = listType.GetMethod("Add");
+                string[] listElemArray = value.Split(new char[] { ConfigData.ListElemSplit });
+                int paramCount = columnInfo.m_subTypeParamTypes.Length;
+                for (int i = 0; i < listElemArray.Length; i++)
+                {
+                    var listElemValueStr = listElemArray[i];
+                    string[] paramList = listElemValueStr.Split(new char[] { ConfigData.ListElemParamSplit });
+                    var listElem = Activator.CreateInstance(subType);
+                    for (int j = 0; j < paramCount; j++)
+                    {
+                        string paramValue = paramList[j];
+                        string typeStr = columnInfo.m_subTypeParamTypes[j];
+                        string typeName = columnInfo.m_subTypeParamNames[j];
+                        SetObjectField(listElem, typeStr, typeName, paramValue);
+                    }
+                    addMethod.Invoke((object)list, new object[] { listElem });
+                }
+                return list;
+            }
+            else
+            {
+                Type type = TypeStr2Type(columnInfo.m_subTypeParamTypes[0]);
+                var listType = typeof(List<>).MakeGenericType(type);
+                var list = Activator.CreateInstance(listType);
+                var addMethod = listType.GetMethod("Add");
+                string[] listElemArray = value.Split(new char[] { ConfigData.ListElemSplit });
+                int paramCount = columnInfo.m_subTypeParamTypes.Length;
+                //assert(paramCount == 1);
+                for (int i = 0; i < listElemArray.Length; i++)
+                {
+                    var listElemValueStr = listElemArray[i];
+                    string[] paramList = listElemValueStr.Split(new char[] { ConfigData.ListElemParamSplit });
+                    //assert(paramList.Length == 1);
+                    string typeStr = columnInfo.m_subTypeParamTypes[0];
+                    string paramValue = paramList[0];
+                    var listElem = GetValueByStr(typeStr, paramValue);
+                    addMethod.Invoke((object)list, new object[] { listElem });
+                }
+                return list;
+            }
+        }
+
+        public object GetValueByStrForColumn(ConfigDataColumnInfo columnInfo,string value)
+        {
+            if (!columnInfo.IsListType())
+            {
+                return GetValueByStr(columnInfo.m_type, value);
+            }
+            else
+            {
+                return GetListValueByStr(columnInfo, value);
+            }
+        }
+
         /// <summary>
         /// 使用反射产生对应表的List数据
         /// </summary>
         /// <param name="configTableDataTypeDefine"></param>
         /// <param name="configData"></param>
         /// <returns></returns>
-        private System.Object FillDynamicListWithConfigData(Type type, ConfigData configData)
+        private System.Object GetValueForConfigData(ConfigData configData)
         {
-            var listType = typeof(List<>).MakeGenericType(type);
+            var configDataType = GetConfigDataType(configData.Name);
+            var listType = typeof(List<>).MakeGenericType(configDataType);
             var list = Activator.CreateInstance(listType);
             var addMethod = listType.GetMethod("Add");
             var csv = LoadCSV(configData.FilePath);
-            if (csv.Row > 12)
+            if (csv.Row > ConfigData.DataStartRow)
             {
-                for (int i = 12; i < csv.Row; i++)
+                for (int i = ConfigData.DataStartRow; i < csv.Row; i++)
                 {
-                    var data = Activator.CreateInstance(type);
+                    var data = Activator.CreateInstance(configDataType);
                     foreach (var pair in configData.ColumnInfoDic)
                     {
                         var columnIndex = pair.Key;
                         var columnInfo = pair.Value;
                         try
                         {
-                            var filedInfo = type.GetField("m_" + columnInfo.m_name, BindingFlags.NonPublic | BindingFlags.Instance);
+                            var filedInfo = configDataType.GetField("m_" + columnInfo.m_name, BindingFlags.NonPublic | BindingFlags.Instance);
                             string valueStr = csv.ReadCell(i, columnIndex);
-                            var value = GetValueByStr(columnInfo.m_type, valueStr);
+                            var value = GetValueByStrForColumn(columnInfo, valueStr);
                             filedInfo.SetValue(data, value);
                         }
                         catch (Exception e)
@@ -518,14 +590,13 @@ namespace bluebean.CSVParser
         /// 序列化配置表数据
         /// </summary>
         /// <returns></returns>
-        public void SerializeConfigData(Assembly assembly, ConfigData configData, string outPath, string format)
+        public void SerializeConfigData(ConfigData configData, string outPath, string format)
         {
             if (configData.Type == ConfigDataType.ENUM)
             {
                 return;
             }
-            Type type = assembly.GetType("bluebean" + ".ConfigData" + configData.Name); ;
-            var listObj = FillDynamicListWithConfigData(type, configData);
+            var listObj = GetValueForConfigData(configData);
             byte[] data;
             string suffix;
             switch (format)
@@ -538,6 +609,10 @@ namespace bluebean.CSVParser
                     data = SerializationHelper.SerializeToJson(listObj);
                     suffix = ".json";
                     break;
+                case "xml":
+                    data = SerializationHelper.SerializeToXml(listObj);
+                    suffix = ".xml";
+                    break;
                 default:
                     data = SerializationHelper.SerializeToBinary(listObj);
                     suffix = ".bin";
@@ -547,6 +622,8 @@ namespace bluebean.CSVParser
             fs.Write(data, 0, data.Length);
             fs.Close();
         }
+
+        #endregion
 
         public void ProcessSingleFile(string filePath, string outPath, string format)
         {
@@ -579,6 +656,14 @@ namespace bluebean.CSVParser
                 CollectConfigDataTypeDeclaration(pair.Value);
             }
             CollectConfigDataTypes();
+            
+            //序列化表格资源
+            foreach(var pair in m_configDataDic)
+            {
+                SerializeConfigData(pair.Value, outPath + "/Data", format);
+            }
+
+            //输出代码文件
             ConfigDataCodeGenerator codeGenerator = new ConfigDataCodeGenerator();
             codeGenerator.SetCodeFileName("ConfigDataTypeDefine.cs");
             codeGenerator.SetNamespace("bluebean.ConfigData");
@@ -593,16 +678,6 @@ namespace bluebean.CSVParser
                 typeDeclarationDic.Add(pair.Key, pair.Value);
             }
             codeGenerator.ConstructCompileUnit(typeDeclarationDic);
-            //序列化表格资源
-            /*
-            Assembly assembly;
-            codeGenerator.GetAeeembly(out assembly);
-            foreach(var pair in m_configDataDic)
-            {
-                SerializeConfigData(assembly, pair.Value, outPath + "/Data", format);
-            }
-            */
-            //输出代码文件
             codeGenerator.GenerateCode();
         }
     }
